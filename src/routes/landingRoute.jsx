@@ -1,4 +1,4 @@
-import LandingLayout from "../layouts";
+import LandingLayout from "../layouts/landing";
 import LandingHomepage from "../modules/Home";
 
 export const landingRooutes = [
