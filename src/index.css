@@ -76,3 +76,7 @@ a {
   background-color: rgba(5, 193, 104, 0.2);
   color: rgba(20, 202, 116, 1);
 }
+
+.carouix span.block {
+  display: none !important;
+}

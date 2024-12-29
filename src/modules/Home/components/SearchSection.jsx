@@ -8,6 +8,7 @@ export default function SearchSection() {
             <Imgix
                 src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426602/kudu_mart/shoppingBag_xu9ked.png"
                 alt="Background image"
+                sizes="100vw"
                 className="opacity-70 w-full h-[230px] md:h-[400px] object-cover"
             />
             {/* Overlay */}

@@ -34,7 +34,12 @@ module.exports = withMT({
         kuduLightGray: "rgba(246, 247, 251, 1)",
         kuduTableGrey: "rgba(246, 247, 251, 1)",
         kuduRomanSilver: "rgba(114, 112, 112, 1)",
-        kuduDarkFade: "rgba(210, 210, 210, 1)"
+        kuduDarkFade: "rgba(210, 210, 210, 1)",
+        kuduPink: "rgba(255, 184, 211, 1)",
+        kuduStrayBlue: "rgba(165, 179, 255, 1)",
+        kuduOrangeLight: "rgba(255, 222, 193, 1)",
+        kuduPurple: "rgba(233, 198, 255, 1)",
+        kuduLightGreen: "rgba(193, 255, 165, 1)",
       },
       backgroundImage: {
         'custom-bg': "url('/images/signInBg.png')",
