@@ -44,6 +44,7 @@ module.exports = withMT({
       backgroundImage: {
         'custom-bg': "url('/images/signInBg.png')",
         'signUp-bg': "url('/images/signUpBg.png')",
+        'senseTv': "url('https://res.cloudinary.com/do2kojulq/image/upload/v1735507193/kudu_mart/Group_48097070_f7dizd.jpg')"
       },
     },
   },

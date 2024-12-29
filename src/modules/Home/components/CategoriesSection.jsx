@@ -107,8 +107,11 @@ export default function CategoriesSection() {
                                             :
                                             <></>
                                         }
-                                        <div className={`w-[80px] h-[80px] rounded-full md:p-6 p-4 flex justify-center ${category.color}`}>
-                                            <Imgix src={category.img} width={100} height={100} sizes="100vw" />
+                                        <div className={`w-[80px] h-[80px] rounded-full p-4 flex justify-center ${category.color}`}>
+                                            <Imgix src={category.img} width={50} // Reduced size
+                                                height={50} // Reduced size
+                                                sizes="(max-width: 768px) 50px, 80px"
+                                                className="max-w-[50px] max-h-[50px] md:max-w-[80px] md:max-h-[80px] object-contain" />
                                         </div>
                                         <span className={`w-full flex font-[500] md:text-sm text-xs justify-center ${category.active ? 'text-kuduOrange' : 'text-black'}`}>
                                             {category.name}

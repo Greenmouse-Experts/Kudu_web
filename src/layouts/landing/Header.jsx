@@ -1,17 +1,9 @@
-import { useState } from 'react';
 import 'animate.css';
-import { Drawer, Menu, MenuHandler, MenuList } from "@material-tailwind/react";
+import { Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import Imgix from 'react-imgix';
-import Sidebar from './SideBar';
 
-export default function Header() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
-
+export default function Header({openMenu}) {
     const arrOptions = [
         {
             value: 'My Profile',
@@ -26,6 +18,10 @@ export default function Header() {
             slug: 'logout'
         }
     ]
+
+    const toggleMenu = () => {
+        openMenu()
+    }
 
     return (
         <div className="bg-white shadow-md fixed w-full z-[90] py-2 lg:py-0 md:py-0">
@@ -55,7 +51,7 @@ export default function Header() {
                         className="text-black focus:outline-none"
                         aria-label="Open Menu"
                         id="mobile-menu-button"
-                        onClick={toggleMenu}
+                        onClick={() => toggleMenu()}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
@@ -122,10 +118,6 @@ export default function Header() {
                         <span className="mr-1 text-sm font-[500]">Sell on Kudu</span>
                     </Link>
                 </div>
-
-                <Drawer open={isMenuOpen} onClose={toggleMenu} placement="left">
-                    < Sidebar />
-                </Drawer>
             </div>
         </div>
     );
