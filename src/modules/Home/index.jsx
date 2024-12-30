@@ -6,6 +6,8 @@ import PostSection from "./components/PostSection";
 import ProductConditions from "./components/ProductConditions";
 import ProductsSection from "./components/ProductsSection";
 import SearchSection from "./components/SearchSection";
+import ShoppingExperience from "./components/ShoppingExperience";
+import GetApp from "./components/GetApp";
 
 export default function LandingHomepage() {
     const productsArr = [
@@ -54,14 +56,21 @@ export default function LandingHomepage() {
                 <div className="w-full flex mt-3">
                     <ProductsSection />
                 </div>
-                <div className="w-full flex flex-col gap-2 mt-3">
+            </div>
+            <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-black h-full">
+                <div className="w-full flex flex-col gap-5 mt-3">
                     <ProductConditions />
                     <ProductListing productsArr={productsArr} />
-                </div>
-                <div className="w-full flex mt-3">
                     <PhonesBanner />
+                    <ProductListing productsArr={productsArr} />
                 </div>
             </div>
-        </div>
+            <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
+                <div className="w-full flex mt-3">
+                    <ShoppingExperience />
+                </div>
+            </div>
+            <GetApp />
+        </div >
     )
 };

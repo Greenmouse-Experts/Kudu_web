@@ -31,11 +31,8 @@ export default function ProductConditions() {
         <>
             <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2">
                 <div className="flex w-full">
-                    <p className="lg:text-lg md:text-lg text-xs lg:text-left md:text-left text-center text-black font-semibold flex flex-grow">
-                        SORT BY PRODUCT CONDITION
-                    </p>
-                    <p className="md:text-sm text-xs cursor-pointer font-semibold underline text-kuduOrange flex">
-                        View all Categories
+                    <p className="lg:text-lg md:text-lg text-xs lg:text-left md:text-left text-center text-white font-semibold flex flex-grow">
+                        Explore by Product Condition
                     </p>
                 </div>
                 <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
@@ -46,7 +43,7 @@ export default function ProductConditions() {
                             key={index}
                         >
                             <Imgix
-                                className="max-w-[30px] max-h-[30px] md:max-w-[30px] md:max-h-[30px] object-contain"
+                                className="max-w-[30px] max-h-[30px] md:max-w-[40px] md:max-h-[40px] object-contain"
                                 src={condition.img} />
                             <p className="lg:text-sm md:text-sm text-[12px] font-[500]">
                                 {condition.name}
