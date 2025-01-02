@@ -15,7 +15,7 @@ const ProfileSideBar = () => {
                     className="rounded-full border-4 border-white shadow-md"
                 />
                 <h2 className="mt-2 text-lg font-semibold">Victor Dwaelo</h2>
-                <p className="text-sm">See Profile</p>
+                <Link to={'/victor-dwaelo'}><p className="text-sm">See Profile</p></Link>
             </div>
 
             {/* Alerts Section */}
