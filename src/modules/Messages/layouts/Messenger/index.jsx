@@ -1,8 +1,14 @@
 import { Button } from "@material-tailwind/react";
 import ChatSideBar from "./sideBar";
 import ChatInterface from "./chatBody";
+import { useState } from "react";
 
 export default function Messenger() {
+    const [selectedInterface, setSelectedInterface] = useState(null);
+
+    const openInterface = (data) => {
+        setSelectedInterface(data)
+    }
     return (
         <>
             <div className="w-full flex justify-between md:shadow-lg md:py-5 py-3 bg-white px-6 gap-10 rounded-t-md">
@@ -14,7 +20,7 @@ export default function Messenger() {
                         </svg>
                     </span>
                 </div>
-                
+
                 <div className="md:w-[68%] h-full md:flex hidden justify-between items-center">
                     <span className="text-xs font-semibold flex flex-grow">JPH Footwears</span>
                     <span className="flex">
@@ -23,9 +29,22 @@ export default function Messenger() {
                 </div>
             </div>
 
-            <div className="w-full flex md:flex-row flex-col md:gap-0 gap-4 rounded-md md:max-h-[72vh] h-full">
-                <ChatSideBar />
-                <ChatInterface />
+            <div className="w-full md:flex hidden md:gap-0 gap-4 rounded-md md:max-h-[72vh] h-full">
+                <ChatSideBar setOpenedMessage={openInterface} />
+                {selectedInterface ?
+                    <ChatInterface interfaceData={selectedInterface} />
+                    :
+                    <></>
+                }
+            </div>
+
+            {/** MOBILE DEVICES */}
+            <div className="w-full flex md:hidden md:gap-0 gap-4 rounded-md md:max-h-[72vh] h-full">
+                {selectedInterface ?
+                    <ChatInterface interfaceData={selectedInterface} closeInterface={() => setSelectedInterface(null)} />
+                    :
+                    <ChatSideBar setOpenedMessage={openInterface} />
+                }
             </div>
         </>
     )

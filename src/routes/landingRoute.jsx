@@ -16,10 +16,10 @@ export const landingRooutes = [
             path: 'cart',
             element: <Cart />
           },
+          {
+            path: 'messages',
+            element: <Messages />
+          }      
         ],
     },
-    {
-      path: '/messages',
-      element: <Messages />
-    }
 ];

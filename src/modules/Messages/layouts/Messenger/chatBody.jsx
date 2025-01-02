@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import Imgix from "react-imgix";
 
-const ChatInterface = () => {
+const ChatInterface = ({ interfaceData, closeInterface }) => {
     const [messages, setMessages] = useState([
         { id: 1, type: "incoming", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", date: "Sept 22" },
         { id: 2, type: "outgoing", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", date: "Sept 22" },
         { id: 3, type: "incoming", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", date: "Sept 22" },
         { id: 4, type: "outgoing", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", date: "Sept 22" },
+        { id: 5, type: "incoming", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", date: "Sept 22" },
     ]);
     const [inputValue, setInputValue] = useState("");
     const chatContainerRef = useRef(null);
@@ -33,10 +34,29 @@ const ChatInterface = () => {
         }
     }, [messages]);
 
+    const initiatecloseInterface = () =>  {
+        closeInterface()
+    }
+
     return (
         <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-[1px] bg-white relative border-l-2 overflow-auto">
-            {/* Header */}
             <div className="flex items-center justify-between p-4 border-b-2">
+                <span className="md:hidden flex" onClick={() => initiatecloseInterface()}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <path d="M19 12H5" />
+                        <path d="M12 19l-7-7 7-7" />
+                    </svg>
+                </span>
                 <div className="flex items-center gap-3">
                     <Imgix
                         src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426608/kudu_mart/sneakers-boot_jyrebo.jpg"
@@ -53,13 +73,13 @@ const ChatInterface = () => {
                 </div>
                 <button className="bg-white px-2 flex gap-1 rounded-md py-3 shadow-md">
                     <svg width="3" height="3" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2.1761 3.24116C2.77387 3.24116 3.25846 2.75657 3.25846 2.15881C3.25846 1.56104 2.77387 1.07645 2.1761 1.07645C1.57834 1.07645 1.09375 1.56104 1.09375 2.15881C1.09375 2.75657 1.57834 3.24116 2.1761 3.24116Z" stroke="black" stroke-width="2.16471" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M2.1761 3.24116C2.77387 3.24116 3.25846 2.75657 3.25846 2.15881C3.25846 1.56104 2.77387 1.07645 2.1761 1.07645C1.57834 1.07645 1.09375 1.56104 1.09375 2.15881C1.09375 2.75657 1.57834 3.24116 2.1761 3.24116Z" stroke="black" strokeWidth="2.16471" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <svg width="3" height="3" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2.1761 3.24116C2.77387 3.24116 3.25846 2.75657 3.25846 2.15881C3.25846 1.56104 2.77387 1.07645 2.1761 1.07645C1.57834 1.07645 1.09375 1.56104 1.09375 2.15881C1.09375 2.75657 1.57834 3.24116 2.1761 3.24116Z" stroke="black" stroke-width="2.16471" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M2.1761 3.24116C2.77387 3.24116 3.25846 2.75657 3.25846 2.15881C3.25846 1.56104 2.77387 1.07645 2.1761 1.07645C1.57834 1.07645 1.09375 1.56104 1.09375 2.15881C1.09375 2.75657 1.57834 3.24116 2.1761 3.24116Z" stroke="black" strokeWidth="2.16471" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     <svg width="3" height="3" viewBox="0 0 5 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2.1761 3.24116C2.77387 3.24116 3.25846 2.75657 3.25846 2.15881C3.25846 1.56104 2.77387 1.07645 2.1761 1.07645C1.57834 1.07645 1.09375 1.56104 1.09375 2.15881C1.09375 2.75657 1.57834 3.24116 2.1761 3.24116Z" stroke="black" stroke-width="2.16471" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M2.1761 3.24116C2.77387 3.24116 3.25846 2.75657 3.25846 2.15881C3.25846 1.56104 2.77387 1.07645 2.1761 1.07645C1.57834 1.07645 1.09375 1.56104 1.09375 2.15881C1.09375 2.75657 1.57834 3.24116 2.1761 3.24116Z" stroke="black" strokeWidth="2.16471" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                 </button>
             </div>
