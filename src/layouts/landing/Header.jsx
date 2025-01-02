@@ -154,7 +154,7 @@ export default function Header({ openMenu }) {
                         <span className="mr-1 text-sm font-[500]">Auction</span>
                     </Link>
 
-                    <Link to={'/post-product'} className="bg-kuduOrange text-white py-2 px-6 rounded-lg">
+                    <Link to={'/sell-product'} className="bg-kuduOrange text-white py-2 px-6 rounded-lg">
                         <span className="mr-1 text-sm font-[500]">Sell on Kudu</span>
                     </Link>
                 </div>

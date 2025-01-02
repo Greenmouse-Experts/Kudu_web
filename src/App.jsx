@@ -2,12 +2,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import { landingRooutes } from "./routes/landingRoute";
 import { authRoutes } from "./routes/authRoutes";
 import { userRoutes } from "./routes/userRoutes";
+import { productRoutes } from "./routes/productRoutes";
 
 function App() {
   const router = createBrowserRouter([
     ...landingRooutes,
     ...authRoutes,
-    ...userRoutes
+    ...userRoutes,
+    ...productRoutes
   ]);
 
   return (

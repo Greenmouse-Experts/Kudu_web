@@ -19,7 +19,7 @@ export const landingRooutes = [
           {
             path: 'messages',
             element: <Messages />
-          }      
+          },
         ],
     },
 ];
