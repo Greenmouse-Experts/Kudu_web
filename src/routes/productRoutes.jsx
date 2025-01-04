@@ -1,7 +1,7 @@
 import LandingLayout from "../layouts/landing";
 import ViewProduct from "../modules/Products/viewProduct";
-import PostProduct from "../modules/SellProduct";
-import ProductDetails from "../modules/SellProduct/productDetails";
+import PostProduct from "../modules/Products/SellProduct";
+import ProductDetails from "../modules/Products/SellProduct/productDetails"
 
 export const productRoutes = [
     {

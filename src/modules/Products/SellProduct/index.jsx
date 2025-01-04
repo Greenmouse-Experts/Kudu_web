@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { City, Country, State } from "country-state-city";
-import SelectInput from "../../components/SelectInput";
-import Dropzone from "../../components/DropZone";
+import SelectInput from "../../../components/SelectInput";
+import Dropzone from "../../../components/DropZone";
 import { Link } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 

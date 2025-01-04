@@ -1,6 +1,6 @@
 import { Button } from "@material-tailwind/react";
-import Input from "../../components/Input";
-import SelectInput from "../../components/SelectInput";
+import Input from "../../../components/Input";
+import SelectInput from "../../../components/SelectInput";
 
 export default function ProductDetails() {
     const options = [
