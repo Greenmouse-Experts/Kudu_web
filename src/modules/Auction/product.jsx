@@ -8,7 +8,7 @@ import ProductListing from "../../components/ProductsList"
 const BreadCrumbs = () => {
     return (
         <>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
                 <div className="flex gap-2 font-semibold text-sm">
                     <span className="flex flex-col pt-1">
                         Home
@@ -80,7 +80,7 @@ export default function ViewAuctionProduct() {
                                 <BreadCrumbs />
                             </div>
                         </div>
-                        <div className="flex">
+                        <div className="md:flex hidden">
                             <div className="flex mt-1 px-7 py-1 border border-[rgba(57,57,57,1)] rounded-md gap-2">
                                 <div className="flex">
                                     <svg width="19" height="20" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,11 +94,11 @@ export default function ViewAuctionProduct() {
                         </div>
                     </div>
                     <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 border-b border-[rgba(204,204,204,1)] flex">
-                        <span className="text-lg font-semibold mb-3">2014 AUDI A4 ALLROAD PREMIUM PLUS</span>
+                        <span className="md:text-lg text-base font-semibold mb-3">2014 AUDI A4 ALLROAD PREMIUM PLUS</span>
                     </div>
                     <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
                         <div className="w-full flex gap-3">
-                            <div className="flex flex-wrap gap-4 mb-8">
+                            <div className="flex flex-wrap md:flex-row flex-col gap-4 mb-8">
                                 {/* First Div */}
                                 <div className="flex-1 md:flex-[0_0_30%] rounded-md h-full">
                                     <div className="w-full flex justify-center">
