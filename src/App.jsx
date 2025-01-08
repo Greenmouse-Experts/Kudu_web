@@ -3,13 +3,15 @@ import { landingRooutes } from "./routes/landingRoute";
 import { authRoutes } from "./routes/authRoutes";
 import { userRoutes } from "./routes/userRoutes";
 import { productRoutes } from "./routes/productRoutes";
+import { auctionRoutes } from "./routes/auctionRoutes";
 
 function App() {
   const router = createBrowserRouter([
     ...landingRooutes,
     ...authRoutes,
     ...userRoutes,
-    ...productRoutes
+    ...productRoutes,
+    ...auctionRoutes,
   ]);
 
   return (
