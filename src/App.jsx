@@ -5,6 +5,7 @@ import { userRoutes } from "./routes/userRoutes";
 import { productRoutes } from "./routes/productRoutes";
 import {auctionRoutes} from "./routes/auctionRoutes";
 import { vendorRoutes } from "./routes/vendorRoutes";
+import { adminRoutes } from "./routes/adminRoutes";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,6 +15,7 @@ function App() {
     ...productRoutes,
     ...auctionRoutes,
     ...vendorRoutes,
+    ...adminRoutes
   ]);
 
   return (
