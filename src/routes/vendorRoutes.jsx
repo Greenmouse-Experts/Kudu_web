@@ -1,20 +1,14 @@
+import VendorLayout from "../layouts/vendor";
+import Dashboard from "../modules/Vendor/Dashboard";
 
-export const productRoutes = [
+export const vendorRoutes = [
     {
-        path: '/',
-        element: <LandingLayout />,
+        path: '/vendor',
+        element: <VendorLayout />,
         children: [
             {
-                path: 'sell-product',
-                element: <PostProduct />
-            },
-            {
-                path: 'sell-product/productdetails',
-                element: <ProductDetails />
-            },
-            {
-                path: 'product/:id',
-                element: <ViewProduct />
+                path: 'dashboard',
+                element: <Dashboard />
             }        
         ],
     },
