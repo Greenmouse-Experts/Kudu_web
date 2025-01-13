@@ -2,7 +2,7 @@ import React from 'react';
 
 function AccountProfile() {
     return (
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-white rounded-lg">
             <h2 className="text-lg font-bold p-6">Profile</h2>
             <div className='w-full h-[1px] border' />
 
