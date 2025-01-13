@@ -6,9 +6,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import useApiMutation from "../../api/hooks/useApiMutation";
-import Checkbox from "../../components/CheckBox";
 
-export default function SignUp() {
+export default function VerifyEmail() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
@@ -16,15 +15,17 @@ export default function SignUp() {
 
     const { mutate } = useApiMutation();
 
-    const createAccount = (data) => {
+    const emailData = localStorage.getItem("email");
+
+    const verifyEmail = (data) => {
+        const payload = { ...data, email: JSON.parse(emailData) };
         setIsLoading(true)
         mutate({
-            url: "/auth/register/customer",
+            url: "/auth/verify/email",
             method: "POST",
-            data: data,
+            data: payload,
             onSuccess: (response) => {
-                localStorage.setItem("email", JSON.stringify(data.email));
-                navigate("/verify-email");
+                navigate("/login")
             },
             onError: () => {
                 setIsLoading(false);
@@ -58,71 +59,22 @@ export default function SignUp() {
             </div>
             <div className='lg:w-1/2 md:w-1/2 w-full md:ml-[50%] flex h-full px-10 flex-col bg-kuduLightBlue justify-center'>
                 <div className='pt-5 lg:px-20 md:px-20 flex flex-col gap-3'>
-                    <form onSubmit={handleSubmit(createAccount)} className="flex flex-col gap-4">
-                        <p className="text-3xl font-bold mb-6 text-gray-800">Sign Up</p>
+                    <form onSubmit={handleSubmit(verifyEmail)} className="flex flex-col gap-4">
+                        <p className="text-3xl font-bold mb-6 text-gray-800">Verify Email</p>
                         <div className="mb-4">
                             <label className="block text-sm font-semibold mb-2" htmlFor="email">
-                                First Name
+                                OTP
                             </label>
-                            <Input placeholder="Enter first name" name="firstName" register={register}
-                                rules={{ required: 'First Name is required' }} errors={errors} background="bg-kuduDarkFade border-transparent" />
+                            <Input name="otpCode" register={register}
+                                rules={{ required: 'OTP is required' }} errors={errors} placeholder="Enter otp sent to your registered email "
+                                background="bg-kuduDarkFade border-transparent" />
                         </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold mb-2" htmlFor="email">
-                                Last Name
-                            </label>
-                            <Input placeholder="Enter last name" name="lastName" register={register}
-                                rules={{ required: 'Last Name is required' }} errors={errors} background="bg-kuduDarkFade border-transparent" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold mb-2" htmlFor="email">
-                                Phone Number
-                            </label>
-                            <Input placeholder="Enter phone name" name="phoneNumber" register={register}
-                                rules={{ required: 'Phone Number is required' }} errors={errors} background="bg-kuduDarkFade border-transparent" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold mb-2" htmlFor="email">
-                                Email address
-                            </label>
-                            <Input placeholder="Your email address" type="email"
-                                name="email" register={register}
-                                rules={{ required: 'Email is required' }} errors={errors} background="bg-kuduDarkFade border-transparent" />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-semibold mb-2" htmlFor="password">
-                                Password
-                            </label>
-                            <Input appendIcon="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
-                                type="password" background="bg-kuduDarkFade border-transparent"
-                                name="password" register={register}
-                                rules={{ required: 'Password is required' }} errors={errors}
-                                placeholder="Password" />
-                        </div>
-                        {/*<div className="flex justify-start my-2">
-                            <div className="flex gap-2">
-                                <span className="flex">
-                                    <Checkbox
-                                        name="acceptedTnC"
-                                        label="I agree to terms and policies from Kudu"
-                                        register={register}
-                                        rules={{ required: 'Terms & Conditions is required' }}
-                                        errors={errors}
-                                    />
-                                </span>
-                            </div>
-                        </div>*/}
                         <Button
                             type="submit"
                             className="w-full py-3 px-4 mt-2 mb-8 flex gap-2 justify-center bg-kuduOrange text-white rounded-lg font-[500] transition-colors"
                         >
-                            <span className='flex text-sm normal-case'>
-                                Sign Up
-                            </span>
-                            <span className='flex mt-1'>
-                                <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M22 6L12 0.226497V11.7735L22 6ZM0 7H13V5H0V7Z" fill="white" />
-                                </svg>
+                            <span className='flex text-sm'>
+                                Verify Email
                             </span>
                         </Button>
                     </form>

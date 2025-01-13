@@ -21,19 +21,11 @@ export default function Header({ openMenu }) {
 
     const authOptions = [
         {
-            value: 'Register as a Vendor',
-            slug: 'vendorSignUp'
-        },
-        {
-            value: 'Register as a User',
+            value: 'Register',
             slug: 'sign-up'
         },
         {
-            value: 'Login as a Vendor',
-            slug: 'vendorLogin'
-        },
-        {
-            value: 'Login as a User',
+            value: 'Login',
             slug: 'login'
         }
     ];

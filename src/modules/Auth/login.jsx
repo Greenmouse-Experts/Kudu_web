@@ -1,47 +1,82 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import Imgix from "react-imgix";
 import { Button } from "@material-tailwind/react";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import useApiMutation from "../../api/hooks/useApiMutation";
+import { setKuduUser } from "../../reducers/userSlice";
 
 export default function Login() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { mutate } = useApiMutation();
+
+
+    const loginAccount = (data) => {
+        setIsLoading(true)
+        mutate({
+            url: "/auth/login",
+            method: "POST",
+            data: data,
+            onSuccess: (response) => {
+                dispatch(setKuduUser(response.data.data));
+                navigate("/");
+            },
+            onError: () => {
+                setIsLoading(false);
+            }
+        });
+    };
+
+
     return (
         <div className="w-full h-full flex bg-kuduLightBlue">
             <div className='lg:w-1/2 md:w-1/2 w-full flex lg:h-screen md:h-screen px-10 flex-col justify-center'>
                 <div className='py-10 lg:px-20 md:px-20 flex flex-col gap-4'>
-                    <p className="text-3xl font-bold mb-6 text-gray-800">Sign In</p>
-                    <div className="mb-4">
-                        <label className="block text-sm font-semibold mb-2" htmlFor="email">
-                            Email address
-                        </label>
-                        <Input placeholder="Your email address" background="bg-kuduDarkFade border-transparent" class="px-3 placeholder-black py-3" />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-sm font-semibold mb-2" htmlFor="password">
-                            Password
-                        </label>
-                        <Input
-                            appendIcon="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
-                            background="bg-kuduDarkFade" class="px-3 placeholder-black py-3" type="password" placeholder="Password"
-                        />
-                    </div>
-                    <div className="flex justify-between items-center mb-4">
-                        <a href="#" className="text-sm text-[rgba(66,133,244,1)] hover:underline">
-                            Forgot password?
-                        </a>
-                    </div>
-                    <Button
-                        type="submit"
-                        className="w-full py-4 px-4 flex justify-center gap-2 bg-kuduOrange text-white rounded-lg font-[500] transition-colors"
-                    >
-                        <span className='flex flex-col text-sm justify-center'>
-                            Sign In
-                        </span>
-                        <span className='flex flex-col justify-center h-full'>
-                            <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22 6L12 0.226497V11.7735L22 6ZM0 7H13V5H0V7Z" fill="white" />
-                            </svg>
-                        </span>
-                    </Button>
+                    <form onSubmit={handleSubmit(loginAccount)} className="flex flex-col gap-4">
+                        <p className="text-3xl font-bold mb-6 text-gray-800">Sign In</p>
+                        <div className="mb-4">
+                            <label className="block text-sm font-semibold mb-2" htmlFor="email">
+                                Email address
+                            </label>
+                            <Input placeholder="Your email address" name="email" register={register}
+                                rules={{ required: 'Email is required' }} errors={errors} background="bg-kuduDarkFade border-transparent" class="px-3 placeholder-black py-3" />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-semibold mb-2" htmlFor="password">
+                                Password
+                            </label>
+                            <Input
+                                name="password" register={register}
+                                rules={{ required: 'Password is required' }} errors={errors}
+                                appendIcon="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
+                                background="bg-kuduDarkFade" class="px-3 placeholder-black py-3" type="password" placeholder="Password"
+                            />
+                        </div>
+                        <div className="flex justify-between items-center mb-4">
+                            <a href="#" className="text-sm text-[rgba(66,133,244,1)] hover:underline">
+                                Forgot password?
+                            </a>
+                        </div>
+                        <Button
+                            type="submit"
+                            className="w-full py-4 px-4 flex justify-center gap-2 bg-kuduOrange text-white rounded-lg font-[500] transition-colors"
+                        >
+                            <span className='flex flex-col text-sm justify-center'>
+                                Sign In
+                            </span>
+                            <span className='flex flex-col justify-center h-full'>
+                                <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22 6L12 0.226497V11.7735L22 6ZM0 7H13V5H0V7Z" fill="white" />
+                                </svg>
+                            </span>
+                        </Button>
+                    </form>
                 </div>
 
                 <div className='flex justify-center'>
@@ -55,7 +90,7 @@ export default function Login() {
                                     Sign Up
                                 </span>
                                 <span className='flex flex-col justify-center h-full mt-1'>
-                                <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <svg width="22" height="12" viewBox="0 0 22 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22 6L12 0.226497V11.7735L22 6ZM0 7H13V5H0V7Z" fill="rgba(255, 111, 34, 1)" />
                                     </svg>
                                 </span>
