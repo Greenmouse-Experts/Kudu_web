@@ -1,5 +1,6 @@
 import LandingLayout from "../layouts/landing";
 import AuctionPage from "../modules/Auction";
+import AllAuctions from "../modules/Auction/allAuctions";
 import ViewAuctionProduct from "../modules/Auction/product";
 
 export const auctionRoutes = [
@@ -14,6 +15,10 @@ export const auctionRoutes = [
             {
                 path: 'auction/product/:id',
                 element: <ViewAuctionProduct />
+            },
+            {
+                path: 'auction/all-auctions',
+                element: <AllAuctions />
             }
         ],
     },
