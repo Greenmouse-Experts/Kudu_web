@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -103,9 +104,9 @@ function Login() {
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-600 leading-loose">
                             Don’t have an account?{' '}<br />
-                            <a href="#" className="text-orange-500 font-semibold hover:underline leading-loose">
+                            <Link to={'/sign-up'} className="text-orange-500 font-semibold hover:underline leading-loose">
                                 Sign Up →
-                            </a>
+                            </Link>
                         </p>
                     </div>
                 </div>

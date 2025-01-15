@@ -11,7 +11,7 @@ function SignUp() {
 
     return (
         <div
-            className="w-full h-screen flex flex-col justify-center items-center"
+            className="w-full h-full flex flex-col justify-center items-center"
             style={{
                 backgroundImage: `
   url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736942330/Sign_Up_1_og6gq5.jpg
@@ -23,7 +23,7 @@ function SignUp() {
             }}
         >
             {/* Logo Section */}
-            <div className="mb-6">
+            <div className="mb-6 pt-4">
                 <img
                     src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/kudu1_rarauu.png"
                     alt="Kudu Logo"
@@ -140,14 +140,12 @@ function SignUp() {
 
                         {/* Submit Button */}
                         <div>
-                            <Link to={'/login'}>
                                 <button
                                     type="submit"
                                     className="w-full mb-4 py-3 bg-kuduOrange text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
                                 >
                                     Sign Up →
                                 </button>
-                            </Link>
                         </div>
                     </form>
 
@@ -176,7 +174,7 @@ function SignUp() {
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-600 leading-loose">
 
-                            <Link to={'/'}  className="text-orange-500 font-semibold hover:underline leading-loose">
+                            <Link to={'/login'}  className="text-orange-500 font-semibold hover:underline leading-loose">
                             Sign In →
                                 </Link>
                         </p>
