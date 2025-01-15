@@ -1,6 +1,6 @@
 import Login from "../modules/Auth/login";
 import SignUp from "../modules/Auth/signUp";
-import VerifyEmail from "../modules/Auth/verifyEmail";
+import Forget from "../modules/Auth/forget";
 
 export const authRoutes = [
     {
@@ -12,7 +12,7 @@ export const authRoutes = [
         element: <SignUp />,
     },
     {
-        path: '/verify-email',
-        element: <VerifyEmail />
-    }
+        path: '/forget',
+        element: <Forget />,
+    },
 ];
