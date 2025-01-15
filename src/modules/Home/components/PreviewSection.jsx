@@ -4,7 +4,7 @@ import { Card } from "@material-tailwind/react";
 export default function PreviewSection() {
     return (
         <>
-            <div className="relative w-full md:h-[465px] md:mt-8 mt-3 xl:h-[577px] overflow-hidden">
+            <div className="relative w-full md:h-[465px] md:mt-10 mt-3 xl:h-[577px] overflow-hidden">
                 <div className="w-full flex flex-col gap-2 justify-center items-center">
                     <div className="md:w-1/3 w-full flex flex-col gap-5 z-0">
                         <Imgix

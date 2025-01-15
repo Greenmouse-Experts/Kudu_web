@@ -18,6 +18,7 @@ body {
   color: #0a0a0a;
   background: rgba(241, 241, 242, 1);
   font-family: "Montserrat", sans-serif !important;
+  font-size: 14px;
 }
 
 .font-sans {
@@ -79,4 +80,19 @@ a {
 
 .carouix span.block {
   display: none !important;
+}
+
+
+.table-x tr:last-child th:first-child {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px; /* Optional: Bottom-left corner for specific use cases */
+}
+
+.table-x tr:first-child th:last-child {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px; /* Optional: Bottom-right corner */
+}
+
+.table-x tr {
+  border-radius: 10px;
 }

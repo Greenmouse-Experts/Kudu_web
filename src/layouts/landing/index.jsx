@@ -26,6 +26,16 @@ const LandingLayout = () => {
         }
     }, [location.pathname]); // Trigger this effect whenever the pathname changes
 
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+
+        document.documentElement.style.position = null;
+    }, [location]);
+
     return (
         <>
             <div>

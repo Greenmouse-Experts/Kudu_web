@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProductsSection from "./layouts/productsSection";
 import Imgix from "react-imgix";
+import { Link } from "react-router-dom";
 
 export default function AuctionPage() {
     const conditionsArr = [
@@ -46,7 +47,9 @@ export default function AuctionPage() {
                                         SORT BY
                                     </p>
                                     <p className="md:text-sm text-xs cursor-pointer font-semibold underline text-kuduOrange flex">
-                                        View all Auctions
+                                        <Link to={'/auction/all-auctions'}>
+                                            View all Auctions
+                                        </Link>
                                     </p>
                                 </div>
                                 <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
