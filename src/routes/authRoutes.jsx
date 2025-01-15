@@ -1,5 +1,6 @@
 import Login from "../modules/Auth/login";
 import SignUp from "../modules/Auth/signUp";
+import Forget from "../modules/Auth/forget";
 
 export const authRoutes = [
     {
@@ -9,5 +10,9 @@ export const authRoutes = [
     {
         path: '/sign-up',
         element: <SignUp />,
-    }
+    },
+    {
+        path: '/forget',
+        element: <Forget />,
+    },
 ];
