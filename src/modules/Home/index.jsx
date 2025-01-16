@@ -44,7 +44,7 @@ export default function LandingHomepage() {
     return (
         <div className="w-full flex flex-col">
             <SearchSection />
-            <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
                 <div className="w-full lg:flex md:flex gap-3 md:mt-3">
                     <PreviewSection />
                 </div>
@@ -55,7 +55,7 @@ export default function LandingHomepage() {
                     <ProductsSection />
                 </div>
             </div>
-            <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-black h-full">
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-black h-full">
                 <div className="w-full flex flex-col gap-5 mt-3">
                     <ProductConditions />
                     <ProductListing productsArr={productsArr} />
@@ -63,7 +63,7 @@ export default function LandingHomepage() {
                     <ProductListing productsArr={productsArr} />
                 </div>
             </div>
-            <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
                 <div className="w-full flex mt-3">
                     <ShoppingExperience />
                 </div>

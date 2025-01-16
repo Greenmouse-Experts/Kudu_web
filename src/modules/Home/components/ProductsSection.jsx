@@ -66,8 +66,8 @@ export default function ProductsSection() {
     ]
     return (
         <>
-            <div className="flex flex-col gap-5 w-full">
-                <span className="text-xs font-semibold">Trending</span>
+            <div className="flex flex-col gap-8 w-full">
+                <span className="text-lg font-semibold">Trending</span>
                 <ProductListing productsArr={productsArr} />
                 <div className="flex w-full flex-col md:flex-row gap-4">
                     <div className="bg-kuduDarkBlue md:w-1/2 flex md:flex-row flex-col w-full py-2 px-4 lg:rounded-lg md:rounded-lg">

@@ -51,6 +51,7 @@ function Login() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
+        height:"100vh"
       }}
     >
       {/* Logo Section */}

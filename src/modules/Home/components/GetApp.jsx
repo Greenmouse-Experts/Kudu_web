@@ -3,7 +3,7 @@ import Imgix from "react-imgix";
 export default function GetApp() {
     return (
         <>
-            <div className="w-full md:py-44 py-12 relative h-full">
+            <div className="w-full md:py-60 py-1 relative h-full Abi">
                 <div className="absolute top-0 left-0 w-full h-full">
                     <Imgix src="https://res.cloudinary.com/do2kojulq/image/upload/v1735564796/kudu_mart/Frame_1618873123_exzpdq.png" sizes="100vw" className="w-full h-full" />
                 </div>

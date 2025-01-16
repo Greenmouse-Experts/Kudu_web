@@ -3,7 +3,7 @@ import { Button } from "@material-tailwind/react";
 export default function Footer() {
     return (
         <>
-            <div className="w-full flex bg-[rgba(30,30,30,1)] flex-col items-center justify-center xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-10">
+            <div className="w-full flex bg-[rgba(30,30,30,1)] flex-col items-center justify-center xl:px-40 lg:pl-20 lg:pr-36 md:px-4 px-5 py-3 md:py-10">
                 <div className="w-full flex md:flex-row flex-col justify-between gap-4 md:gap-6">
                     <p className="w-full text-white font-semibold md:text-lg lg:text-xl text-sm">
                         Stay up to date on the latest promos and discounts
@@ -190,7 +190,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className="py-5 flex w-full justify-center" style={{ backgroundColor: 'rgba(49, 49, 51, 1)' }}>
-                <p className="text-sm text-kuduGray">Copyright © 2024 Kudu.com. All rights reserved</p>
+                <p className="text-sm text-kuduGray">Copyright © 2025 Kudu.com. All rights reserved</p>
             </div>
         </>
     )

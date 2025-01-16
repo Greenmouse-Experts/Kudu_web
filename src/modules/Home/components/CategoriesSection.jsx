@@ -56,12 +56,12 @@ export default function CategoriesSection() {
 
     return (
         <>
-            <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2">
-                <div className="flex w-full">
-                    <p className="lg:text-lg md:text-lg text-xs lg:text-left md:text-left text-center text-black font-semibold flex flex-grow">
+            <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2 mt-5">
+                <div className="flex w-full mb-5">
+                    <h1 className="lg:text-lg md:text-lg text-xs lg:text-left md:text-left text-center text-black font-semibold flex flex-grow">
                         Explore Popular Categories
-                    </p>
-                    <p className="text-xs cursor-pointer font-semibold underline text-kuduOrange flex">
+                    </h1>
+                    <p className="text-lg cursor-pointer font-semibold underline text-kuduOrange flex">
                         View all Categories
                     </p>
                 </div>
@@ -96,24 +96,24 @@ export default function CategoriesSection() {
                         )}
                     >
                         {slides.map((slide, slideIndex) => (
-                            <div className="flex md:gap-10 py-2 gap-4 justify-center" key={`slide-${slideIndex}`}>
+                            <div className="flex md:gap-20 py-2 gap-4 justify-center" key={`slide-${slideIndex}`}>
                                 {slide.map((category, index) => (
                                     <div
                                         key={`slide1-div${index}`}
-                                        className="w-[100px] p-1 gap-2 flex flex-col rounded-full text-center"
+                                        className="w-[115px] p-1 gap-8 flex flex-col rounded-full text-center"
                                     >
                                         {category.active ?
-                                            <div className="w-[95px] h-[95px] -mx-2 top-1 rounded-full border-2 border-kuduOrange absolute" />
+                                            <div className="w-[140px] h-[140px] -mx-3 top-0 rounded-full border-4 border-kuduOrange absolute" />
                                             :
                                             <></>
                                         }
-                                        <div className={`w-[80px] h-[80px] rounded-full p-4 flex justify-center ${category.color}`}>
-                                            <Imgix src={category.img} width={50} // Reduced size
-                                                height={50} // Reduced size
+                                        <div className={`w-[115px] h-[115px] rounded-full p-4 flex justify-center ${category.color}`}>
+                                            <Imgix src={category.img} width={100} // Reduced size
+                                                height={100} // Reduced size
                                                 sizes="(max-width: 768px) 50px, 80px"
                                                 className="max-w-[50px] max-h-[50px] md:max-w-[80px] md:max-h-[80px] object-contain" />
                                         </div>
-                                        <span className={`w-full flex font-[500] md:text-sm text-xs justify-center ${category.active ? 'text-kuduOrange' : 'text-black'}`}>
+                                        <span className={`w-full flex font-[500] md:text-lg text-xs justify-center ${category.active ? 'text-kuduOrange' : 'text-black'}`}>
                                             {category.name}
                                         </span>
                                     </div>

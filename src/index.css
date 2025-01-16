@@ -96,3 +96,9 @@ a {
 .table-x tr {
   border-radius: 10px;
 }
+@media (max-width:548px) {
+  .Abi{
+    display: none;
+  }
+  
+}
