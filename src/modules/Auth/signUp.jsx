@@ -60,11 +60,13 @@ function SignUp() {
         >
             {/* Logo Section */}
             <div className="mb-6 pt-4">
-                <img
+            <Link to={'/'}>
+               <img
                     src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/kudu1_rarauu.png"
                     alt="Kudu Logo"
                     className="h-12"
                 />
+               </Link>
             </div>
 
             {/* Form Card */}

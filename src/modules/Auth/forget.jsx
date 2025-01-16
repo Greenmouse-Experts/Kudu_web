@@ -7,7 +7,7 @@ function Forget() {
     const [isLoading, setIsLoading] = useState(false);
     const [passwordBlock, setPasswordBlock] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -47,7 +47,7 @@ function Forget() {
 
     const resetPassword = (data) => {
         const email = localStorage.getItem("kuduEmail");
-        const payload = {...data, email: JSON.parse(email)};
+        const payload = { ...data, email: JSON.parse(email) };
         setIsLoading(true)
         mutate({
             url: "/auth/password/reset",
@@ -64,9 +64,9 @@ function Forget() {
     };
 
 
-    
+
     const handleResend = () => {
-        const payload = {email: JSON.parse(email)};
+        const payload = { email: JSON.parse(email) };
         mutate({
             url: "/auth/resend/verification/email",
             method: "POST",
@@ -92,11 +92,13 @@ function Forget() {
         }}>
             {/* Logo Section */}
             <div className="mb-6">
-                <img
-                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/kudu1_rarauu.png"
-                    alt="Kudu Logo"
-                    className="h-12"
-                />
+                <Link to={'/'}>
+                    <img
+                        src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/kudu1_rarauu.png"
+                        alt="Kudu Logo"
+                        className="h-12"
+                    />
+                </Link>
             </div>
 
             {/* Form Card */}
@@ -179,91 +181,91 @@ function Forget() {
                                 </div>
 
 
-                        {/* Password Field */}
-                        <div>
-                            <label className="block text-md font-semibold mb-3" htmlFor="password">
-                                Password
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    id="password"
-                                    placeholder="Enter password"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none", }}
-                                    {...register("newPassword", {
-                                        required: "newPassword is required",
-                                        minLength: {
-                                            value: 6,
-                                            message: "Password must be at least 6 characters",
-                                        },
-                                    })}
-                                    required
-                                />
-                                <button
-                                    type="button"
-                                    onClick={togglePasswordVisibility}
-                                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
-                                >
-                                    {showPassword ? (
-                                        <img
-                                            src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
-                                            alt="Hide Password"
-                                            className="w-5"
+                                {/* Password Field */}
+                                <div>
+                                    <label className="block text-md font-semibold mb-3" htmlFor="password">
+                                        Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            id="password"
+                                            placeholder="Enter password"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none", }}
+                                            {...register("newPassword", {
+                                                required: "newPassword is required",
+                                                minLength: {
+                                                    value: 6,
+                                                    message: "Password must be at least 6 characters",
+                                                },
+                                            })}
+                                            required
                                         />
-                                    ) : (
-                                        <img
-                                            src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
-                                            alt="Show Password"
-                                            className="w-5"
-                                        />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={togglePasswordVisibility}
+                                            className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                                        >
+                                            {showPassword ? (
+                                                <img
+                                                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
+                                                    alt="Hide Password"
+                                                    className="w-5"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
+                                                    alt="Show Password"
+                                                    className="w-5"
+                                                />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
 
-                        {/* Confirm Password Field */}
-                        <div>
-                            <label className="block text-md font-semibold mb-3" htmlFor="password">
-                                Confirm Password
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    id="confirmPassword"
-                                    placeholder="Confirm password"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none", }}
-                                    {...register("confirmPassword", {
-                                        required: "Confirm Password is required",
-                                        minLength: {
-                                            value: 6,
-                                            message: "Password must be at least 6 characters",
-                                        },
-                                    })}
-                                    required
-                                />
-                                <button
-                                    type="button"
-                                    onClick={togglePasswordVisibility}
-                                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
-                                >
-                                    {showPassword ? (
-                                        <img
-                                            src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
-                                            alt="Hide Password"
-                                            className="w-5"
+                                {/* Confirm Password Field */}
+                                <div>
+                                    <label className="block text-md font-semibold mb-3" htmlFor="password">
+                                        Confirm Password
+                                    </label>
+                                    <div className="relative">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            id="confirmPassword"
+                                            placeholder="Confirm password"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none", }}
+                                            {...register("confirmPassword", {
+                                                required: "Confirm Password is required",
+                                                minLength: {
+                                                    value: 6,
+                                                    message: "Password must be at least 6 characters",
+                                                },
+                                            })}
+                                            required
                                         />
-                                    ) : (
-                                        <img
-                                            src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
-                                            alt="Show Password"
-                                            className="w-5"
-                                        />
-                                    )}
-                                </button>
-                            </div>
-                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={togglePasswordVisibility}
+                                            className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                                        >
+                                            {showPassword ? (
+                                                <img
+                                                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
+                                                    alt="Hide Password"
+                                                    className="w-5"
+                                                />
+                                            ) : (
+                                                <img
+                                                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/eye-password_yjivzt.png"
+                                                    alt="Show Password"
+                                                    className="w-5"
+                                                />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
 
                                 <div className="flex justify-between items-center text-sm mb-4">
                                     <span className="text-orange-500 cursor-pointer" onClick={() => handleResend()}>
