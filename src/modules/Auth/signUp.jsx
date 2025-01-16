@@ -1,13 +1,49 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox } from "@material-tailwind/react";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import { useForm } from "react-hook-form";
+import useApiMutation from "../../api/hooks/useApiMutation"
 
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    // React Hook Form setup
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        getValues,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    const { mutate } = useApiMutation();
+
+    const onSubmit = (data) => {
+        setIsLoading(true);
+        mutate({
+            url: "/auth/register/customer",
+            method: "POST",
+            data: data,
+            onSuccess: (response) => {
+                localStorage.setItem("kuduEmail", JSON.stringify(data.email));
+                navigate('/verify-account');
+                setIsLoading(false);
+            },
+            onError: () => {
+                setIsLoading(false);
+            }
+        });
+    };
+
 
     return (
         <div
@@ -35,66 +71,104 @@ function SignUp() {
             <div className="w-full max-w-screen-md mx-auto px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
                 <div className="w-full px-8 py-10 bg-white rounded-lg">
                     <h2 className="text-2xl font-bold mb-6 text-black-800">Sign Up</h2>
-                    <form className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/*  First Name Field */}
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    >
+                        {/* First Name Field */}
                         <div>
-                            <label
-                                className="block text-md font-semibold mb-3"
-                                htmlFor="firstname"
-                            >
+                            <label className="block text-md font-semibold mb-3" htmlFor="firstName">
                                 First Name
                             </label>
                             <input
                                 type="text"
-                                id="firstname"
+                                id="firstName"
                                 placeholder="Enter First Name"
+                                {...register("firstName", { required: "First name is required" })}
                                 className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                style={{ outline: "none" }}
-                                required 
                             />
+                            {errors.firstName && (
+                                <p className="text-red-500 text-sm">{errors.firstName.message}</p>
+                            )}
                         </div>
-                        {/*  Last Name Field */}
+
+                        {/* Last Name Field */}
                         <div>
-                            <label
-                                className="block text-md font-semibold mb-3"
-                                htmlFor="lastname"
-                            >
+                            <label className="block text-md font-semibold mb-3" htmlFor="lastName">
                                 Last Name
                             </label>
                             <input
                                 type="text"
-                                id="lastname"
+                                id="lastName"
                                 placeholder="Enter Last Name"
+                                {...register("lastName", { required: "Last name is required" })}
                                 className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                style={{ outline: "none" }}
-                                required 
                             />
+                            {errors.lastName && (
+                                <p className="text-red-500 text-sm">{errors.lastName.message}</p>
+                            )}
                         </div>
 
+                        {/* Phone Number Field */}
+                        <div>
+                            <label className="block text-md font-semibold mb-3" htmlFor="phone">
+                                Phone Number
+                            </label>
+                            <PhoneInput
+                                country={"us"}
+                                inputProps={{
+                                    name: "phoneNumber",
+                                    required: true,
+                                }}
+                                onChange={(value) => {
+                                    // Ensure `+` is included and validate
+                                    if (!value.startsWith("+")) {
+                                        value = "+" + value;
+                                    }
+                                    setValue("phoneNumber", value, { shouldValidate: true });
+                                }}
+                                containerClass="w-full"
+                                dropdownClass="flex flex-col gap-2 font-sans"
+                                buttonClass="!bg-gray-100 !border !border-gray-100 hover:!bg-gray-100"
+                                inputClass="!w-full px-4 font-sans !h-[54px] !py-4 !bg-gray-100 !border !border-gray-100 !rounded-lg focus:outline-none placeholder-gray-400 !text-sm mb-3"
+                            />
+                            {errors.phone && (
+                                <p className="text-red-500 text-sm">Phone number is required</p>
+                            )}
+                        </div>
+                        {/* Add hidden input for validation */}
+                        <input
+                            type="hidden"
+                            {...register("phoneNumber", {
+                                required: "Phone number is required",
+                            })}
+                        />
                         {/* Email Field */}
                         <div>
-                            <label
-                                className="block text-md font-semibold mb-3"
-                                htmlFor="email"
-                            >
-                                Email address
+                            <label className="block text-md font-semibold mb-3" htmlFor="email">
+                                Email Address
                             </label>
                             <input
                                 type="email"
                                 id="email"
                                 placeholder="Your email address"
+                                {...register("email", {
+                                    required: "Email is required",
+                                    pattern: {
+                                        value: /^\S+@\S+$/i,
+                                        message: "Enter a valid email address",
+                                    },
+                                })}
                                 className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                style={{ outline: "none" }}
-                                required 
                             />
+                            {errors.email && (
+                                <p className="text-red-500 text-sm">{errors.email.message}</p>
+                            )}
                         </div>
 
                         {/* Password Field */}
                         <div>
-                            <label
-                                className="block text-md font-semibold mb-3"
-                                htmlFor="password"
-                            >
+                            <label className="block text-md font-semibold mb-3" htmlFor="password">
                                 Password
                             </label>
                             <div className="relative">
@@ -102,15 +176,19 @@ function SignUp() {
                                     type={showPassword ? "text" : "password"}
                                     id="password"
                                     placeholder="Enter password"
+                                    {...register("password", {
+                                        required: "Password is required",
+                                        minLength: {
+                                            value: 6,
+                                            message: "Password must be at least 6 characters",
+                                        },
+                                    })}
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none" }}
-                                    required 
                                 />
                                 <button
                                     type="button"
                                     onClick={togglePasswordVisibility}
                                     className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
-                                    required 
                                 >
                                     {showPassword ? (
                                         <img
@@ -127,25 +205,33 @@ function SignUp() {
                                     )}
                                 </button>
                             </div>
+                            {errors.password && (
+                                <p className="text-red-500 text-sm">{errors.password.message}</p>
+                            )}
                         </div>
 
-                        {/* Checked */}
-                        <div className="flex items-center text-sm mb-4">
-                            <span className="flex">
-                                <Checkbox />
-                                
-                            </span>
-                            <span className="flex flex-col text-sm justify-center">I agree to terms and policies from Kudu</span>
+                        {/* Terms and Conditions Checkbox */}
+                        <div className="flex flex-col text-sm md:mt-8">
+                            <Checkbox
+                                id="terms"
+                                {...register("terms", { required: "You must agree to the terms" })}
+                                color="orange"
+                                label="I agree to terms and policies from Kudu"
+                            />
+                            {errors.terms && (
+                                <p className="text-red-500 text-sm ml-2">{errors.terms.message}</p>
+                            )}
                         </div>
 
                         {/* Submit Button */}
                         <div>
-                                <button
-                                    type="submit"
-                                    className="w-full mb-4 py-3 bg-kuduOrange text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
-                                >
-                                    Sign Up →
-                                </button>
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full py-3 bg-kuduOrange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+                        >
+                                Sign Up →
+                            </button>
                         </div>
                     </form>
 
@@ -174,9 +260,9 @@ function SignUp() {
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-600 leading-loose">
 
-                            <Link to={'/login'}  className="text-orange-500 font-semibold hover:underline leading-loose">
-                            Sign In →
-                                </Link>
+                            <Link to={'/login'} className="text-orange-500 font-semibold hover:underline leading-loose">
+                                Sign In →
+                            </Link>
                         </p>
                     </div>
                 </div>
