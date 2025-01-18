@@ -1,11 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useErrorHandler from "./errorHooks";
 import apiClient from "../apiFactory";
 
 const useApiMutation = () => {
-    const navigate = useNavigate();
     const handleError = useErrorHandler();
     const token = localStorage.getItem("kuduUserToken");
 
@@ -44,11 +42,6 @@ const useApiMutation = () => {
                 // Show toast message
                 if (data.data?.message) {
                     toast.success(data.data.message);
-                }
-
-                // Navigate if a navigation path is provided
-                if (variables.navigateTo) {
-                    navigate(variables.navigateTo);
                 }
             }
         },

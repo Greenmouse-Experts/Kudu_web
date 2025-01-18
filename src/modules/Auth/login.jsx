@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../api/hooks/useApiMutation";
+import { useDispatch } from "react-redux";
+import { setKuduUser } from "../../reducers/userSlice";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -30,7 +34,9 @@ function Login() {
       method: "POST",
       data: data,
       onSuccess: (response) => {
-        console.log(response.data);
+        delete response.data.data.password;
+        localStorage.setItem("kuduUserToken", response.data.data.token);
+        dispatch(setKuduUser(response.data.data))
         navigate("/");
         setIsLoading(false);
       },
@@ -51,7 +57,7 @@ function Login() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-        height:"100vh"
+        height: "100vh"
       }}
     >
       {/* Logo Section */}
@@ -111,6 +117,13 @@ function Login() {
                 <input
                   type={showPassword ? "text" : "password"}
                   id="password"
+                  {...register("password", {
+                    required: "Password is required",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters",
+                    },
+                  })}
                   placeholder="Enter password"
                   className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                   style={{ outline: "none" }}

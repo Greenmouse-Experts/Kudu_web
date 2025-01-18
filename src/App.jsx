@@ -1,28 +1,17 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { landingRooutes } from "./routes/landingRoute";
-import { authRoutes } from "./routes/authRoutes";
-import { userRoutes } from "./routes/userRoutes";
-import { productRoutes } from "./routes/productRoutes";
-import {auctionRoutes} from "./routes/auctionRoutes";
-import { vendorRoutes } from "./routes/vendorRoutes";
-import { adminRoutes } from "./routes/adminRoutes";
+import { routes } from "./routes";
+import { ModalProvider } from "./hooks/modal";
+import ReusableModal from "./components/ReusableModal";
 
 function App() {
-  const router = createBrowserRouter([
-    ...landingRooutes,
-    ...authRoutes,
-    ...userRoutes,
-    ...productRoutes,
-    ...auctionRoutes,
-    ...vendorRoutes,
-    ...adminRoutes
-  ]);
+  const router = createBrowserRouter(routes);
 
   return (
-    <>
-    <RouterProvider router={router} />
-    </>
-  )
+    <ModalProvider>
+      <ReusableModal />
+      <RouterProvider router={router} />
+    </ModalProvider>
+  );
 }
 
 export default App
