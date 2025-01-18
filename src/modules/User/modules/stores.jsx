@@ -35,7 +35,7 @@ function Stores() {
             </button>
 
             {isModalOpen && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
                     <div className="bg-white p-8 rounded-lg w-11/12 max-w-screen-md mx-auto">
                         <h2 className="text-lg font-bold mb-4">Create your Store</h2>
 

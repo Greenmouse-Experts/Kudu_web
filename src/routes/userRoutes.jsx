@@ -11,7 +11,7 @@ export const userRoutes = [
         element: <LandingLayout />,
         children: [
             {
-                path: ':id',
+                path: 'profile',
                 element: <UserProfile />,
                 children: [
                     {

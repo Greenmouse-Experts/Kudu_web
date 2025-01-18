@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import useApiMutation from '../../api/hooks/useApiMutation';
+import { useNavigate } from 'react-router-dom';
 
 function VerifyEmail() {
     const email = localStorage.getItem("kuduEmail");
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
         // React Hook Form setup
         const {
