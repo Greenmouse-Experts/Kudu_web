@@ -256,7 +256,7 @@ function SignUp() {
                                 <path d="M6.8851 15.8363C6.63064 15.1013 6.48337 14.3138 6.48337 13.5C6.48337 12.6862 6.63064 11.8988 6.87171 11.1638L6.86497 11.0072L3.09766 8.14001L2.97441 8.19747C2.15748 9.79877 1.68872 11.5969 1.68872 13.5C1.68872 15.4031 2.15748 17.2012 2.97441 18.8025L6.8851 15.8363Z" fill="#FBBC05" />
                                 <path d="M13.7416 6.25497C16.0049 6.25497 17.5317 7.21309 18.4023 8.01377L21.804 4.75875C19.7148 2.85563 16.996 1.6875 13.7416 1.6875C9.02719 1.6875 4.95576 4.33873 2.97363 8.19745L6.87095 11.1637C7.84872 8.31562 10.554 6.25497 13.7416 6.25497Z" fill="#EB4335" />
                             </svg>
-                            <span className='text-base text-dark flex text-sm font-semibold flex-col justify-center mt-[1.5px]'>Continue with Google</span>
+                            <span className='text-dark flex text-sm font-semibold flex-col justify-center mt-[1.5px]'>Continue with Google</span>
                         </Button>
                     </div>
                     {/* Sign Up Link */}

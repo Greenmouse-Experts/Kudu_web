@@ -17,7 +17,7 @@ function Table({ title, subTitle, filter, exportData, tableBtn, children, tableH
     }, [hasNumber, tableHeader]); 
 
     return (
-        <div className="md:px-5 px-3 py-7 w-full md:rounded-lg bg-white shadow shadow-md">
+        <div className="md:px-5 px-3 pt-6 pb-12 w-full md:rounded-lg bg-white">
             <p className="text-base font-[500px] mb-4">{title}</p>
             <div className="flex lg:flex-row md:flex-row flex-col lg:gap-0 md:gap-0 gap-3 justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">{subTitle}</h3>
@@ -48,7 +48,7 @@ function Table({ title, subTitle, filter, exportData, tableBtn, children, tableH
                         <thead>
                             <tr>
                                 {updatedTableHeader.map((header, index) => (
-                                    <th className="px-3 text-sm text-left py-2" key={index}>{ header }</th>
+                                    <th className="px-6 text-sm text-left py-5" key={index}>{ header }</th>
                                 ))}
                             </tr>
                         </thead>

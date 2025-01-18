@@ -21,7 +21,7 @@ export default function SearchSection() {
             />
 
             {/* Content Section */}
-            <div className="flex w-full absolute inset-0 grid grid-cols-1 md:grid-cols-2 items-center gap-6 px-6 lg:px-20">
+            <div className="w-full absolute inset-0  grid grid-cols-1 md:grid-cols-2 items-center gap-6 px-6 lg:px-20">
                 {/* Left Content */}
                 <div className="flex flex-col gap-4 text-center md:text-left z-0 w-full max-w-6xl px-4 md:px-8 lg:pl-20 lg:mt-[-80px]">
                     <p className="text-white text-xl md:text-3xl lg:text-5xl font-bold Fonttin">

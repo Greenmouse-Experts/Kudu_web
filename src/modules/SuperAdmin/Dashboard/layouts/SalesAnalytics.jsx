@@ -60,7 +60,7 @@ export default function SalesAnalytics() {
     };
 
     return (
-        <div className="md:px-5 px-2 py-7 md:rounded-lg bg-white shadow shadow-md">
+        <div className="md:px-5 px-2 pb-5 pt-8 md:rounded-lg bg-white">
             <div className="flex lg:flex-row md:flex-row flex-col lg:gap-0 md:gap-0 gap-3 justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">Sales Analytics</h3>
                 <div className="flex space-x-2">

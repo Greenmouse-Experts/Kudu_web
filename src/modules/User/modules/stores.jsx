@@ -125,7 +125,7 @@ function Stores() {
                                 </label>
                                 <select
                                     id="currency"
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm placeholder-gray-400 text-sm"
+                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
                                     style={{ outline: "none", }}
                                 >
                                     <option value="">Tap to select currency</option>
@@ -149,7 +149,7 @@ function Stores() {
                                 <textarea
                                     id="tips"
                                     rows="4"
-                                    className="border p-2 text-sm placeholder-gray-400 text-sm"
+                                    className="border p-2 placeholder-gray-400 text-sm"
                                     placeholder="Enter tips to help customers find your store"
                                     style={{ outline: "none", }}
                                 />

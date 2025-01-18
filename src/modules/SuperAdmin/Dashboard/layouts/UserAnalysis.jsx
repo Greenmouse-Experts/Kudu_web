@@ -1,9 +1,9 @@
 const UserAnalysis = () => {
     return (
         <>
-            <div className="md:px-5 px-2 py-7 md:rounded-lg bg-white shadow shadow-md">
+            <div className="md:px-5 px-2 pt-6 pb-12 md:rounded-lg bg-white">
                 <div className="flex lg:flex-row md:flex-row flex-col lg:gap-0 md:gap-0 gap-3 justify-between items-center mb-4">
-                    <h3 className="text-lg font-semibold">Product Analytics</h3>
+                    <h3 className="text-lg font-semibold">User Analysis</h3>
                     <div className="flex space-x-2">
                         <button className="px-2 py-2 flex gap-2 rounded-md" style={{ backgroundColor: 'rgba(10, 19, 48, 1)' }}>
                             <p className='text-xs text-white'>2024</p>
@@ -15,10 +15,10 @@ const UserAnalysis = () => {
                         </button>
                     </div>
                 </div>
-                <div className="py-1 mt-5 rounded-lg border border-mobiBorderTable px-3">
+                <div className="py-4 mt-5 rounded-lg border border-mobiBorderTable px-3">
                     <div style={{ position: 'relative', width: '300px', height: '300px' }}>
                         {/* SVG Donut Chart */}
-                        <svg width="300" height="300" viewBox="0 0 42 42" className="donut-chart">
+                        <svg width="350" height="300" viewBox="0 0 42 42" className="donut-chart">
                             {/* First Segment (Individual - 40%) */}
                             <circle
                                 className="donut-segment"
@@ -26,7 +26,7 @@ const UserAnalysis = () => {
                                 cy="21"
                                 r="15.91549431"
                                 fill="transparent"
-                                stroke="#000000"
+                                stroke="#7F7F7F"
                                 strokeWidth="4" // Smaller stroke width for Individual
                                 strokeDasharray="40 60" // 40% and 60% of the circle
                                 strokeDashoffset="65"   // Rotate the circle to position it correctly
@@ -39,8 +39,8 @@ const UserAnalysis = () => {
                                 cy="21"
                                 r="15.91549431"
                                 fill="transparent"
-                                stroke="rgba(255, 111, 34, 0.7)"
-                                strokeWidth="8" // Organisation stroke width
+                                stroke="#FF6F22"
+                                strokeWidth="5" // Organisation stroke width
                                 strokeDasharray="60 40" // Organisation covers 60%, leaving 40% as a gap
                                 strokeDashoffset="25"
                             ></circle>
@@ -50,15 +50,14 @@ const UserAnalysis = () => {
                         <div style={{
                             position: 'absolute',
                             top: '50%',
-                            left: '50%',
+                            left: '60%',
                             transform: 'translate(-50%, -50%)',
-                            fontSize: '16px',
+                            fontSize: '15px',
                             color: '#000',
                             textAlign: 'center',
-                            fontWeight: 'bold'
                         }}>
-                            <div>60%</div>
-                            <div>(New Products)</div>
+                            <div>50%</div>
+                            <div>Vendors/Seller</div>
                         </div>
                     </div>
                 </div></div>

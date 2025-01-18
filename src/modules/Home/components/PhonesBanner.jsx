@@ -6,7 +6,7 @@ const PhonesBanner = () => {
                 {/* Background section with split colors */}
                 <div className="flex flex-col md:flex-row w-full h-full">
                     {/* Left background color (Peach) */}
-                    <div className="bg-kuduSkyBlue w-full md:w-[73%] xl:w-[78%] p-6 md:h-[300px] h-[280px] md:h-full lg:h-full"></div>
+                    <div className="bg-kuduSkyBlue w-full md:w-[73%] xl:w-[78%] p-6 md:h-[300px] h-[280px] lg:h-full"></div>
 
                     {/* Right background color (Orange) */}
                     <div className="w-full md:w-[27%] xl:w-[22%] md:h-full h-[100px] sm:h-[300px]" style={{ backgroundColor: "rgba(100, 158, 255, 1)" }}></div>
