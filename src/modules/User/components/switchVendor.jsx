@@ -1,24 +1,23 @@
-import useApiMutation from '../api/hooks/useApiMutation';
 import { useDispatch } from 'react-redux';
 import { Button } from '@material-tailwind/react';
-import { setKuduUser } from '../reducers/userSlice';
-import { useModal } from '../hooks/modal';
+import { useModal } from '../../../hooks/modal';
+import useApiMutation from '../../../api/hooks/useApiMutation';
 
-const LogOutModal = ({redirect}) => {
+const SwitchVendorModal = ({ children, redirect }) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
-
     const { mutate } = useApiMutation();
 
-    const logOutUser = () => {
+    const switchVendor = () => {
         mutate({
-            url: "/user/logout",
-            method: "POST",
+            url: "/user/become/vendor",
+            method: "PATCH",
             headers: true,
             onSuccess: (response) => {
-                dispatch(setKuduUser(null));
-                localStorage.removeItem('kuduUserToken');
-                redirect();
+                console.log(response.data);
+                if (redirect) {
+                    redirect();
+                }
                 closeModal();
             },
             onError: () => {
@@ -27,21 +26,21 @@ const LogOutModal = ({redirect}) => {
         });
     }
 
-
     return (
         <>
             <div className="w-full flex h-auto flex-col px-3 py-6 gap-3 -mt-3">
                 <div className="flex gap-5 justify-center w-full">
                     <p className="font-semibold text-center text-lg">
-                        Are you sure you want to log out?
+                        Switch to Vendor?
                     </p>
                 </div>
+                {children}
                 <div className="flex justify-center mt-5 gap-4">
                     <Button
-                        onClick={logOutUser}
-                        className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
+                        onClick={() => switchVendor()}
+                        className="bg-kuduOrange text-white outline-none px-4 py-2 rounded-lg"
                     >
-                        Yes, Log Out
+                        Yes, Switch to Vendor
                     </Button>
                     <button
                         onClick={closeModal}
@@ -55,4 +54,4 @@ const LogOutModal = ({redirect}) => {
     );
 }
 
-export default LogOutModal;
+export default SwitchVendorModal;
