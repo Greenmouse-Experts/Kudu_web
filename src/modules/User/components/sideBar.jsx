@@ -1,7 +1,12 @@
 import Imgix from "react-imgix";
 import { Link } from "react-router-dom";
+import useAppState from "../../../hooks/appState";
 
 const ProfileSideBar = () => {
+    const { user } = useAppState();
+
+    console.log(user);
+
     return (
         <div className="w-full bg-white rounded-lg p-4">
             {/* Profile Section */}
@@ -14,30 +19,34 @@ const ProfileSideBar = () => {
                     sizes="100vw"
                     className="rounded-full border-4 border-white shadow-md"
                 />
-                <h2 className="mt-2 text-lg font-semibold">Victor Dwaelo</h2>
-                <Link to={'/victor-dwaelo'}><p className="text-sm">See Profile</p></Link>
+                <h2 className="mt-2 text-lg font-semibold">{user.firstName} {user.lastName}</h2>
+                <Link to={'/profile'}><p className="text-sm">See Profile</p></Link>
             </div>
 
             {/* Alerts Section */}
-            <div className="mt-4 bg-kuduOrange px-4 py-3 w-full rounded-lg">
-                <div className="flex justify-between items-center text-white">
-                    <span className="text-sm font-semibold">Alerts</span>
-                </div>
-                <div className="flex items-center justify-between bg-white px-3 py-2 mt-2 rounded-md">
-                    <div className="flex items-center">
-                        <span className="w-2.5 h-2.5 bg-green-500 rounded-full mr-2"></span>
-                        <span className="text-sm text-gray-600">
-                            Become verified by completing your KYC
-                        </span>
+            {user.accountType !== 'Customer' && !user.isVerified ?
+                <div className="mt-4 bg-kuduOrange px-4 py-3 w-full rounded-lg">
+                    <div className="flex justify-between items-center text-white">
+                        <span className="text-sm font-semibold">Alerts</span>
                     </div>
-                    <button
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
-                        aria-label="Close alert"
-                    >
-                        &times;
-                    </button>
+                    <div className="flex items-center justify-between bg-white px-3 py-2 mt-2 rounded-md">
+                        <div className="flex items-center">
+                            <span className="w-2.5 h-2.5 bg-green-500 rounded-full mr-2"></span>
+                            <span className="text-sm text-gray-600">
+                                Become verified by completing your KYC
+                            </span>
+                        </div>
+                        <button
+                            className="text-gray-400 hover:text-gray-600 transition-colors"
+                            aria-label="Close alert"
+                        >
+                            &times;
+                        </button>
+                    </div>
                 </div>
-            </div>
+                :
+                <></>
+            }
 
 
 
