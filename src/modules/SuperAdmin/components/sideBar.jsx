@@ -5,7 +5,7 @@ export default function Sidebar() {
     const pathname = useLocation().pathname;
 
     return (
-        <div className={`h-full bg-white rounded-md flex-col md:w-[22%] lg:flex hidden custom-scrollbar overflow-auto h-[650px] fixed bg-mobiDarkCloud transition-all mb-10`}>
+        <div className={`h-full bg-white rounded-md flex-col md:w-[22%] lg:flex hidden custom-scrollbar overflow-auto fixed bg-mobiDarkCloud transition-all mb-10`}>
             {/* Logo */}
             <div className="py-6 px-4 flex gap-2 flex-col space-x-2 border-bottom">
                 <div className='flex px-3 justify-center'>

@@ -2,38 +2,61 @@ import StatCard from "../../../../components/StatsCard";
 
 const DashboardStats = () => {
     return (
-        <div className="flex w-full lg:flex-row md:flex-row flex-col gap-4">
+        <div className="flex w-full flex-col md:flex-row gap-5">
             <StatCard
-                cronTop
-                cronAnalytics={<span className="flex w-auto flex-col justify-center py-1 px-3 text-xs rounded-md shadow-xs" style={{ backgroundColor: 'rgba(5, 193, 104, 0.2)' }}>
-                    28.4%
-                </span>}
-                number={3023}
+                number={700}
+                label="Total Users"
+                growth="3.1%"
+                iconColor="bg-orange-200"
+                IconComponent={
+                    <img
+                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737203300/kuduMart/1_vvqwpc.png"
+                        alt="Users"
+                        className="w-[200px]"
+                    />
+                }
+            />
+            <StatCard
+                number="N20M"
                 label="Total Sales"
-                iconColor="bg-mobiOrange"
-                IconComponent={<img src="https://res.cloudinary.com/do2kojulq/image/upload/v1736412889/kudu_mart/money_gh4xfu.svg" alt="Users" style={{ width: '22px' }} />}
+                growth="3.1%"
+                iconColor="bg-orange-200"
+                IconComponent={
+                    <img
+                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737203300/kuduMart/Group_otlfj2.png"
+                        alt="Sales"
+                        className="w-[200px]"
+                    />
+                }
             />
             <StatCard
-                cronTop
-                cronAnalytics={<span className="flex w-auto flex-col justify-center py-1 px-3 text-xs rounded-md shadow-xs" style={{ backgroundColor: 'rgba(5, 193, 104, 0.2)' }}>
-                    28.4%
-                </span>}
-                number={407}
+                number={4700}
                 label="Total Products"
-                iconColor="bg-mobiSubPurple"
-                IconComponent={<img src="https://res.cloudinary.com/do2kojulq/image/upload/v1736412891/kudu_mart/products_bajfry.svg" alt="Subscriptions" style={{ width: '20px' }} />}
+                growth="3.1%"
+                iconColor="bg-orange-200"
+                IconComponent={
+                    <img
+                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737203300/kuduMart/Group_1321314864_bu3ohe.png"
+                        alt="Products"
+                        className="w-[100px]"
+                    />
+                }
             />
             <StatCard
-                cronTop
-                cronAnalytics={<span className="flex w-auto flex-col justify-center py-1 px-3 text-xs rounded-md shadow-xs" style={{ backgroundColor: 'rgba(5, 193, 104, 0.2)' }}>
-                    28.4%
-                </span>}
-                number={139}
+                number={1203}
                 label="Total Orders"
-                iconColor="bg-mobiSkyCloud"
-                IconComponent={<img src="https://res.cloudinary.com/do2kojulq/image/upload/v1736412889/kudu_mart/orders_fghfzk.svg" alt="Organisations" style={{ width: '20px' }} />}
+                growth="3.1%"
+                iconColor="bg-orange-200"
+                IconComponent={
+                    <img
+                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737203300/kuduMart/Group_1321314865_pgn6f5.png"
+                        alt="Orders"
+                        className="w-[200px]"
+                    />
+                }
             />
         </div>
+
     );
 };
 

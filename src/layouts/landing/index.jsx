@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Footer from "./Footer";
 
+
 const LandingLayout = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [hideFooter, setHideFooter] = useState(false);

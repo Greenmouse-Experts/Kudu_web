@@ -3,9 +3,11 @@ import Header from "./Header";
 import { Drawer } from "@material-tailwind/react";
 import { useState } from "react";
 import SideBar from "./SideBar";
+import NavBar from "./navBar";
 
 const AdminLayout = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -18,7 +20,8 @@ const AdminLayout = () => {
                 <div className="hidden md:flex">
                     <SideBar />
                 </div>
-                <div className="w-full lg:ml-[22%] md:mx-4 flex flex-col gap-5 md:ml-[23%] h-full">
+                <div className="w-full lg:ml-[24%] md:mx-4 flex flex-col gap-5 md:ml-[23%] h-full">
+                <NavBar />
                     <Outlet />
                 </div>
             </div>

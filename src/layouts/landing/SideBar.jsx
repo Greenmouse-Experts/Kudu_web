@@ -83,7 +83,7 @@ export default function Sidebar({onSelected}) {
                     </AccordionBody>
                 </Accordion>
 
-                <Link to={'/auction'} className="bg-kuduDarkGrey text-white flex items-center py-2 px-6 items-center gap-1 rounded-lg" onClick={() => onSelected(false)}>
+                <Link to={'/auction'} className="bg-kuduDarkGrey text-white flex py-2 px-6 items-center gap-1 rounded-lg" onClick={() => onSelected(false)}>
                     <span className="text-center w-full text-sm font-[500]">Auction</span>
                 </Link>
                 <Link to={'/post-product'} className="bg-kuduOrange text-white py-2 px-6 flex items-center rounded-lg" onClick={() => onSelected(false)}>
