@@ -35,18 +35,20 @@ function AccountProfile() {
                     </div>
                 </div>
 
-                <div className="border rounded-lg">
-                    <div className='flex justify-between p-4'>
-                        <h3 className="text-lg font-semibold mb-2">Newsletter Preferences</h3>
+                {user.accountType !== 'Customer' &&
+                    <div className="border rounded-lg">
+                        <div className='flex justify-between p-4'>
+                            <h3 className="text-lg font-semibold mb-2">Subscription Plan</h3>
+                        </div>
+                        <div className='w-full h-[1px] -mt-3 border' />
+                        <div className='flex flex-col gap-2 p-4'>
+                            <p className='text-gray-500 font-[500]'>You are currently not subscribed to any of our plans.</p>
+                        </div>
+                        {/*<div className='p-4'>
+                            <button className="text-sm text-kuduOrange uppercase font-semibold underline">Edit Newsletter Preferences</button>
+                        </div>*/}
                     </div>
-                    <div className='w-full h-[1px] -mt-3 border' />
-                    <div className='flex flex-col gap-2 p-4'>
-                        <p className='text-gray-500 font-[500]'>You are currently not subscribed to any of our newsletters.</p>
-                    </div>
-                    <div className='p-4'>
-                        <button className="text-sm text-kuduOrange uppercase font-semibold underline">Edit Newsletter Preferences</button>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     );
