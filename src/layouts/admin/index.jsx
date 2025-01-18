@@ -18,7 +18,7 @@ const AdminLayout = () => {
                 <div className="hidden md:flex">
                     <SideBar />
                 </div>
-                <div className="w-full lg:ml-[23%] md:mx-4 flex flex-col gap-5 md:ml-[23%] h-full">
+                <div className="w-full lg:ml-[22%] md:mx-4 flex flex-col gap-5 md:ml-[23%] h-full">
                     <Outlet />
                 </div>
             </div>
