@@ -1,14 +1,16 @@
 import 'animate.css';
 import { Menu, MenuHandler, MenuList } from "@material-tailwind/react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Imgix from 'react-imgix';
 import LogOutModal from '../../components/LogOut';
 import { useModal } from "../../hooks/modal"; // Adjust the path as needed
 import useAppState from '../../hooks/appState';
+import SwitchVendorModal from '../../modules/User/components/switchVendor';
 
 export default function Header({ openMenu }) {
     const { user } = useAppState();
     const { openModal } = useModal();
+    const navigate = useNavigate();
 
     const arrOptions = [
         {
@@ -41,12 +43,38 @@ export default function Header({ openMenu }) {
         openMenu()
     }
 
+
+    const handleRedirect = () => {
+        navigate('/sell-product');
+    }
+
+
+    const logOutRedirect = () => {
+        navigate('/login');
+    }
+
+
     const handleLogOutModal = () => {
         openModal({
             size: "sm",
-            content: <LogOutModal />
+            content: <LogOutModal redirect={logOutRedirect} />
         })
     }
+
+
+    const handleVendorModal = () => {
+        openModal({
+            size: 'sm',
+            content: <SwitchVendorModal redirect={handleRedirect}>
+                <div className='flex'>
+                    <p className='text-sm gap-2 leading-[1.7rem]'>
+                        To start selling on Kudu, your account will be switched to a vendor account. This change unlocks all the features you need to list products, manage orders, and grow your business.
+                    </p>
+                </div>
+            </SwitchVendorModal>
+        })
+    }
+
 
     return (
         <div className="bg-white shadow-md fixed w-full z-[95] py-1 lg:py-0 md:py-0">
@@ -169,9 +197,9 @@ export default function Header({ openMenu }) {
                     </Link>
 
                     {user &&
-                        <Link to={'/sell-product'} className="bg-kuduOrange text-white py-2 px-6 rounded-lg">
+                        <span className="bg-kuduOrange text-white py-2 px-6 cursor-pointer rounded-lg" onClick={() => handleVendorModal()}>
                             <span className="mr-1 text-sm font-[500]">Sell on Kudu</span>
-                        </Link>
+                        </span>
                     }
                 </div>
             </div>

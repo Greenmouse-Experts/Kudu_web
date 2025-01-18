@@ -4,7 +4,7 @@ import { Button } from '@material-tailwind/react';
 import { setKuduUser } from '../reducers/userSlice';
 import { useModal } from '../hooks/modal';
 
-const LogOutModal = () => {
+const LogOutModal = ({redirect}) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
@@ -18,7 +18,8 @@ const LogOutModal = () => {
             onSuccess: (response) => {
                 dispatch(setKuduUser(null));
                 localStorage.removeItem('kuduUserToken');
-                window.location.href = "/";
+                redirect();
+                closeModal();
             },
             onError: () => {
                 closeModal();
@@ -38,13 +39,13 @@ const LogOutModal = () => {
                 <div className="flex justify-center mt-5 gap-4">
                     <Button
                         onClick={logOutUser}
-                        className="bg-red-500 text-white outline-none px-4 py-2 rounded-full"
+                        className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
                     >
                         Yes, Log Out
                     </Button>
                     <button
                         onClick={closeModal}
-                        className="bg-gray-300 text-black px-4 py-2 rounded-full"
+                        className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
                     >
                         Cancel
                     </button>
