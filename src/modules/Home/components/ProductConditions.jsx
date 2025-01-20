@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Imgix from "react-imgix";
+import './style.css';
 
 export default function ProductConditions() {
     const conditionsArr = [
@@ -29,9 +30,9 @@ export default function ProductConditions() {
 
     return (
         <>
-            <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2">
+            <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2 Justi">
                 <div className="flex w-full">
-                    <p className="lg:text-lg md:text-lg text-xs lg:text-left md:text-left text-center text-white font-semibold flex flex-grow">
+                    <p className="text-white sm:text-lg md:text-2xl xl:text-3xl font-bold">
                         Explore by Product Condition
                     </p>
                 </div>

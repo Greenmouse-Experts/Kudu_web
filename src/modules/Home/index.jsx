@@ -7,6 +7,7 @@ import SearchSection from "./components/SearchSection";
 import ShoppingExperience from "./components/ShoppingExperience";
 import GetApp from "./components/GetApp";
 import PreviewSection from "./components/PreviewSection";
+import '../Home/components/style.css';
 
 export default function LandingHomepage() {
     const productsArr = [
@@ -56,7 +57,7 @@ export default function LandingHomepage() {
                 </div>
             </div>
             <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-black h-full">
-                <div className="w-full flex flex-col gap-5 mt-3">
+                <div className="w-full flex flex-col gap-5 mt-3 Justig">
                     <ProductConditions />
                     <ProductListing productsArr={productsArr} />
                     <PhonesBanner />
@@ -64,11 +65,25 @@ export default function LandingHomepage() {
                 </div>
             </div>
             <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
-                <div className="w-full flex mt-3">
+                <div className="w-full flex mt-3 Justing">
                     <ShoppingExperience />
                 </div>
             </div>
-            <GetApp />
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 Amenn" style={{
+                    backgroundImage: `
+                    url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737405367/Frame_1618873123_fy7sgx.png)
+                    `,
+                    backgroundBlendMode: "overlay",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    width: "100%",
+                    className: "sm-[70vh]",
+                }}>
+                <div className="w-full flex flex-col gap-5 ">
+                    <GetApp />
+                </div>
+            </div>
+            
         </div >
     )
 };

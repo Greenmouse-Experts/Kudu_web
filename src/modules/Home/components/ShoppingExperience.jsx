@@ -1,7 +1,7 @@
 export default function ShoppingExperience() {
     return (
         <>
-            <div className="flex w-full flex-col md:gap-8 gap-5 py-5">
+            <div className="flex w-full flex-col md:gap-8 gap-5 py-5 Justing">
                 <div className="flex w-full flex-col gap-2 md:gap-4 justify-center items-center">
                     <p className="md:text-3xl text-base font-semibold text-center flex">
                         Enjoy A Smooth Shopping Experience

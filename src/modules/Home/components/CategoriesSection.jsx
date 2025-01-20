@@ -3,46 +3,25 @@ import Imgix from "react-imgix";
 
 export default function CategoriesSection() {
     const categoriesArr = [
-        {
-            name: 'Trending',
-            color: 'bg-kuduStrayBlue',
-            img: 'https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/trending_fire_ivir2f.png',
-            active: true,
-        },
-        {
-            name: 'Vehicles',
-            color: 'bg-kuduPink',
-            img: 'https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/car_wosdu8.png',
-            active: false
-        },
-        {
-            name: 'Property',
-            color: 'bg-kuduOrangeLight',
-            img: 'https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png',
-            active: false
-        },
-        {
-            name: 'Sports',
-            color: 'bg-kuduLightGreen',
-            img: 'https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png',
-            active: false
-        },
-        {
-            name: 'Devices',
-            color: 'bg-kuduPurple',
-            img: 'https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png',
-            active: false
-        },
-        {
-            name: 'Beauty',
-            color: 'bg-kuduStrayBlue',
-            img: 'https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/beauty_wt1imb.png',
-            active: false
-        },
+        { name: "Trending", color: "bg-kuduStrayBlue", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/trending_fire_ivir2f.png", active: true },
+        { name: "Vehicles", color: "bg-kuduPink", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/car_wosdu8.png", active: false },
+        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
+        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
+        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
+        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
+        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
+        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
+        { name: "Beauty", color: "bg-kuduStrayBlue", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/beauty_wt1imb.png", active: false },
+        { name: "Trending", color: "bg-kuduStrayBlue", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/trending_fire_ivir2f.png", active: true },
+        { name: "Vehicles", color: "bg-kuduPink", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/car_wosdu8.png", active: false },
+        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
+        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
+        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
+        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
+        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
+        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
     ];
 
-
-    // Helper function to chunk the array
     const chunkArray = (arr, size) => {
         const chunks = [];
         for (let i = 0; i < arr.length; i += size) {
@@ -51,147 +30,116 @@ export default function CategoriesSection() {
         return chunks;
     };
 
-    const slidesXS = chunkArray(categoriesArr, 4);
-    const slides = chunkArray(categoriesArr, 8);
+    const slidesXS = chunkArray(categoriesArr, 3); // Smaller chunk for mobile
+    const slides = chunkArray(categoriesArr, 6); // Larger chunk for larger screens
 
     return (
-        <>
-            <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2 mt-5">
-                <div className="flex w-full mb-5">
-                    <h1 className="lg:text-lg md:text-lg text-xs lg:text-left md:text-left text-center text-black font-semibold flex flex-grow">
-                        Explore Popular Categories
-                    </h1>
-                    <p className="text-lg cursor-pointer font-semibold underline text-kuduOrange flex">
-                        View all Categories
-                    </p>
-                </div>
-                <div className="w-full mx-auto md:mt-3">
-                    <Carousel className="rounded-lg md:flex hidden carouix"
-                        prevArrow={({ handlePrev }) => (
-                            <IconButton
-                                variant="text"
-                                color="black"
-                                size="md"
-                                onClick={handlePrev}
-                                className="!absolute top-2/4 bg-white shadow-md rounded-full left-4 -translate-y-2/4 
-                       !hover:bg-white !focus:bg-white !active:bg-white !disabled:bg-white"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" class="-ml-1 h-7 w-7">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path>
-                                </svg>
-                            </IconButton>
-                        )}
-                        nextArrow={({ handleNext }) => (
-                            <IconButton
-                                variant="text"
-                                color="black"
-                                size="md"
-                                onClick={handleNext}
-                                className="!absolute top-2/4 !right-4 bg-white hover:bg-white !focus:bg-white active:bg-white !disabled:bg-white shadow-md rounded-full -translate-y-2/4"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width={10} height={10} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" class="ml-1 h-7 w-7">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
-                                </svg>
-                            </IconButton>
-                        )}
-                    >
-                        {slides.map((slide, slideIndex) => (
-                            <div className="flex md:gap-20 py-2 gap-4 justify-center" key={`slide-${slideIndex}`}>
-                                {slide.map((category, index) => (
-                                    <div
-                                        key={`slide1-div${index}`}
-                                        className="w-[115px] p-1 gap-8 flex flex-col rounded-full text-center"
-                                    >
-                                        {category.active ?
-                                            <div className="w-[140px] h-[140px] -mx-3 top-0 rounded-full border-4 border-kuduOrange absolute" />
-                                            :
-                                            <></>
-                                        }
-                                        <div className={`w-[115px] h-[115px] rounded-full p-4 flex justify-center ${category.color}`}>
-                                            <Imgix src={category.img} width={100} // Reduced size
-                                                height={100} // Reduced size
-                                                sizes="(max-width: 768px) 50px, 80px"
-                                                className="max-w-[50px] max-h-[50px] md:max-w-[80px] md:max-h-[80px] object-contain" />
-                                        </div>
-                                        <span className={`w-full flex font-[500] md:text-lg text-xs justify-center ${category.active ? 'text-kuduOrange' : 'text-black'}`}>
-                                            {category.name}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </Carousel>
-
-
-                    {/** FOR MOBILE DEVICES */}
-
-                    <Carousel className="rounded-lg md:hidden flex carouix"
-                        prevArrow={({ handlePrev }) => (
-                            <IconButton
-                                variant="text"
-                                color="black"
-                                size="md"
-                                onClick={handlePrev}
-                                className="!absolute top-2/4 bg-white shadow-md rounded-full left-4 -translate-y-2/4 
-                       hover:bg-white !focus:bg-white active:bg-white !disabled:bg-white"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" class="-ml-1 h-7 w-7">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"></path>
-                                </svg>
-                            </IconButton>
-                        )}
-                        nextArrow={({ handleNext }) => (
-                            <IconButton
-                                variant="text"
-                                color="black"
-                                size="md"
-                                onClick={handleNext}
-                                className="!absolute top-2/4 !right-4 bg-white hover:bg-white !focus:bg-white active:bg-white !disabled:bg-white shadow-md rounded-full -translate-y-2/4"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width={10} height={10} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3" class="ml-1 h-7 w-7">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
-                                </svg>
-                            </IconButton>
-                        )}
-                    >
-                        {slidesXS.map((slide, slideIndex) => (
-                            <div className="flex md:gap-10 gap-4 mt-2" key={`slide-${slideIndex}`}>
-                                {slide.map((category, index) => (
-                                    <div
-                                        key={`slide1-div${index}`}
-                                        className="w-[80px] md:w-[100px] relative p-1 gap-2 flex flex-col items-center rounded-full text-center"
-                                    >
-                                        {category.active ?
-                                            <div className="w-[68px] h-[68px] -top-0 md:w-[90px] md:h-[90px] rounded-full border-2 border-kuduOrange absolute" />
-                                            :
-                                            <></>
-                                        }
-                                        {/* Adjust the size of the container */}
-                                        <div
-                                            className={`w-[60px] h-[60px] md:w-[80px] md:h-[80px] rounded-full flex justify-center items-center ${category.color}`}
-                                        >
-                                            {/* Adjust the size of the image */}
-                                            <Imgix
-                                                src={category.img}
-                                                width={50} // Reduced size
-                                                height={50} // Reduced size
-                                                sizes="(max-width: 768px) 50px, 80px"
-                                                className="max-w-[50px] max-h-[50px] md:max-w-[80px] md:max-h-[80px] object-contain"
-                                            />
-                                        </div>
-                                        <span
-                                            className={`w-full flex font-[500] md:text-sm text-xs justify-center ${category.active ? "text-kuduOrange" : "text-black"
-                                                }`}
-                                        >
-                                            {category.name}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </Carousel>
-                </div>
+        <div className="flex w-full flex-col gap-5">
+            {/* Heading Section */}
+            <div className="flex w-full items-center justify-between">
+                <h1 className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Explore Popular Categories</h1>
+                <p className="sm:text-lg md:text-1xl  text-kuduOrange font-semibold cursor-pointer underline">
+                    View all Categories
+                </p>
             </div>
-        </>
-    )
+
+            {/* Carousel Section */}
+            <div className="w-full mx-auto">
+                {/* Desktop Carousel */}
+                <Carousel
+                    className="rounded-lg md:flex hidden"
+                    prevArrow={({ handlePrev }) => (
+                        <IconButton
+                            variant="text"
+                            color="black"
+                            size="md"
+                            onClick={handlePrev}
+                            className="!absolute top-2/4 left-4 -translate-y-2/4 bg-black text-white shadow-md rounded-full 
+                       hover:bg-black !focus:bg-black active:bg-black !disabled:bg-black"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                className="-ml-1 h-5 w-5"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </IconButton>
+                    )}
+                    nextArrow={({ handleNext }) => (
+                        <IconButton
+                            variant="text"
+                            color="black"
+                            size="md"
+                            onClick={handleNext}
+                            className="!absolute top-2/4 right-4 -translate-y-2/4 bg-black text-white shadow-md rounded-full 
+                       hover:bg-black !focus:bg-black active:bg-black !disabled:bg-black"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                className="ml-1 h-5 w-5"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </IconButton>
+                    )}
+                >
+                    {slides.map((slide, slideIndex) => (
+                        <div className="flex gap-10 mt-10 py-2 justify-center" key={`slide-${slideIndex}`}>
+                            {slide.map((category, index) => (
+                                <div
+                                    key={`slide-desktop-${index}`}
+                                    className="w-[140px] flex flex-col items-center gap-4"
+                                >
+                                    <div
+                                        className={`w-[140px] h-[140px] rounded-full flex items-center justify-center ${category.color}`}
+                                    >
+                                        <img
+                                            src={category.img}
+                                            alt={category.name}
+                                            className="w-[70px] h-[70px] object-contain"
+                                        />
+                                    </div>
+                                    <span
+                                        className={`font-medium text-lg ${category.active ? "text-kuduOrange" : "text-black"
+                                            }`}
+                                    >
+                                        {category.name}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </Carousel>
+
+                {/* Mobile Carousel */}
+                <Carousel className="rounded-lg md:hidden flex mt-8 mb-5">
+                    {slidesXS.map((slide, slideIndex) => (
+                        <div className="flex gap-5 justify-center" key={`slide-xs-${slideIndex}`}>
+                            {slide.map((category, index) => (
+                                <div
+                                    key={`slide-mobile-${index}`}
+                                    className="w-[90px] flex flex-col items-center gap-2"
+                                >
+                                    <div className={`w-[90px] h-[90px] rounded-full flex items-center justify-center ${category.color}`}>
+                                        <img src={category.img} alt={category.name} className="w-[50px] h-[50px] object-contain" />
+                                    </div>
+                                    <span className={`font-medium text-sm ${category.active ? 'text-kuduOrange' : 'text-black'}`}>
+                                        {category.name}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </Carousel>
+            </div>
+        </div>
+    );
 }

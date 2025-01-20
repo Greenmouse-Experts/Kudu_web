@@ -1,27 +1,51 @@
 import Imgix from "react-imgix";
-
+import './style.css';
 export default function GetApp() {
     return (
         <>
-            <div className="w-full md:py-60 py-1 relative h-full Abi">
-                <div className="absolute top-0 left-0 w-full h-full">
-                    <Imgix src="https://res.cloudinary.com/do2kojulq/image/upload/v1735564796/kudu_mart/Frame_1618873123_exzpdq.png" sizes="100vw" className="w-full h-full" />
-                </div>
-                <div className="relative z-10 w-full h-full">
-                    <a
-                        href="https://play.google.com/store/apps"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="absolute left-[10.4%] top-[100%] mt-[3.5%] w-[8%] h-[40px] bg-transparent hover:bg-black/10 rounded-md"
-                        aria-label="Download on Google Play"
-                    ></a>
-                    <a
-                        href="https://www.apple.com/app-store/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="absolute left-[19%] top-[100%] mt-[3.5%] w-[8%] h-[40px] bg-transparent hover:bg-black/10 rounded-md"
-                        aria-label="Download on the App Store"
-                    ></a>
+            <div className="relative flex flex-col md:flex-row w-full min-w-screen-xl mx-auto h-auto md:h-[400px] bg-transparent">
+
+                {/* Background section */}
+
+
+                {/* Foreground Content */}
+                <div className="relative flex flex-col md:flex-row items-center justify-between w-full h-full px-6 z-10">
+                    {/* Left Section: Text & Button */}
+                    <div className="flex flex-col justify-center md:w-1/2 max-w-md text-center md:text-left">
+                        <h2 className="text-2xl md:text-4xl font-semibold text-white leading-snug">
+                            Get the App
+                        </h2>
+                        <p className="text-white text-base md:text-lg mt-4 leading-loose">
+                            Buy and sell with Kudu, where convenience meets quality.
+                        </p>
+                        <div className="flex items-center gap-4 mt-6">
+                            {/* Google Play Button */}
+                            <img
+                                src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_23_x0rtk4.png"
+                                alt="Google Play"
+                                className="w-36 h-auto sm:w-20 md:w-40"
+                                draggable="false"
+                            />
+                            {/* App Store Button */}
+                            <img
+                                src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_24_jfspqy.png"
+                                alt="App Store"
+                                draggable="false"
+                                className="w-36 h-auto sm:w-20 md:w-40"
+                            />
+                        </div>
+
+                    </div>
+
+                    {/* Right Section: Image */}
+                    <div className="relative flex items-center justify-center md:justify-end w-full md:w-1/1 sm:mt-14">
+                        <img
+                            src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404892/Group_1321314900_l9puj7.png"
+                            alt="App Illustration"
+                            className="object-contain Jusyyy md:w-full"
+                        />
+                    </div>
+
                 </div>
             </div>
         </>

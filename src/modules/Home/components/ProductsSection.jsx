@@ -1,5 +1,6 @@
 import Imgix from "react-imgix"
 import ProductListing from "../../../components/ProductsList"
+import './style.css';
 
 export default function ProductsSection() {
     const productsArr = [
@@ -66,8 +67,8 @@ export default function ProductsSection() {
     ]
     return (
         <>
-            <div className="flex flex-col gap-8 w-full">
-                <span className="text-lg font-semibold">Trending</span>
+            <div className="flex flex-col gap-8 w-full Justing">
+                <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Trending</span>
                 <ProductListing productsArr={productsArr} />
                 <div className="flex w-full flex-col md:flex-row gap-4">
                     <div className="bg-kuduDarkBlue md:w-1/2 flex md:flex-row flex-col w-full py-2 px-4 lg:rounded-lg md:rounded-lg">

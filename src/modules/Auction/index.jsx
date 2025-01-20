@@ -29,7 +29,7 @@ export default function AuctionPage() {
     return (
         <>
             <div className="w-full flex flex-col h-full bg-kuduLightBlue">
-                <div className="w-full flex flex-col h-full md:gap-10 bg-kuduLightBlue h-full mt-14 md:mt-16">
+                <div className="w-full flex flex-col md:gap-10 bg-kuduLightBlue h-full mt-14 md:mt-16">
                     <div className="relative w-full h-[100px] md:h-auto flex flex-grow z-50">
                         <Imgix
                             src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426623/kudu_mart/auction_frame_lscwdh.png"
