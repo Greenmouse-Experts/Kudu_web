@@ -81,7 +81,7 @@ function Forget() {
 
 
     return (
-        <div className={`w-full ${passwordBlock ? 'h-full' : 'h-screen'} flex flex-col justify-center items-center`} style={{
+        <div className={`w-full ${passwordBlock ? 'h-full' : 'h-screen'} flex flex-col justify-center items-center okayb`} style={{
             backgroundImage: `
   url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736943190/Reset_Password_xqqki7.jpg
 `,
@@ -89,6 +89,7 @@ function Forget() {
             backgroundSize: "cover",
             backgroundPosition: "center",
             width: "100%",
+            height: "100vh"
         }}>
             {/* Logo Section */}
             <div className="mb-6">

@@ -47,7 +47,7 @@ function SignUp() {
 
     return (
         <div
-            className="w-full h-full flex flex-col justify-center items-center"
+            className="w-full h-full flex flex-col justify-center items-center okayb"
             style={{
                 backgroundImage: `
   url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736942330/Sign_Up_1_og6gq5.jpg
