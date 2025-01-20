@@ -15,33 +15,35 @@ export default function SearchSection() {
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     width: "100%",
-                   
+
                 }}
-                className="h-[32vh] md:h-[60vh] lg:h-[70vh]"
+                className="h-[70vh] md:h-[60vh] lg:h-[70vh]"
             />
 
             {/* Content Section */}
             <div className="w-full absolute inset-0  grid grid-cols-1 md:grid-cols-2 items-center gap-6 px-6 lg:px-20">
                 {/* Left Content */}
-                <div className="flex flex-col gap-4 text-center md:text-left z-0 w-full max-w-6xl px-4 md:px-8 lg:pl-20 lg:mt-[-80px]">
-                    <p className="text-white text-xl md:text-3xl lg:text-5xl font-bold Fonttin">
+                <div className="flex flex-col gap-4 md:text-left z-0 w-full max-w-6xl lg:pl-20 lg:mt-[-80px]">
+                    <p className="text-3xl text-white sm:text-lg md:text-4xl xl:text-5xl Fonttin font-bold">
                         Buy & Sell Everything in Conditions of Your Choice
                     </p>
+
 
                     <div className="flex w-full flex-col gap-4">
                         <div className="flex items-center bg-white rounded-lg overflow-hidden shadow-lg">
                             <input
                                 type="text"
-                                className="w-full px-4 py-2 md:px-6 md:py-5 text-sm md:text-lg text-gray-700 outline-none rounded-lg"
+                                className="w-full px-4 py-5 sm:px-4 sm:py-3 md:px-6 md:py-5 text-sm sm:text-base md:text-lg text-gray-700 outline-none"
                                 placeholder="Find anything on Kudu..."
                             />
                         </div>
-                        <div className="flex justify-center md:justify-start">
-                            <button className="bg-kuduOrange text-white text-sm px-6 py-4 md:py-4 rounded-md transition duration-300">
+                        <div className="flex sm:justify-start">
+                            <button className="bg-kuduOrange text-white text-sm sm:text-base px-8 py-5 sm:py-3 md:py-4 rounded-md transition duration-300 hover:bg-opacity-90">
                                 Search
                             </button>
                         </div>
                     </div>
+
                 </div>
 
                 {/* Right Image */}
