@@ -164,7 +164,7 @@ export default function CategoriesSection() {
                         </IconButton>
                     )}>
                     {slidesXS.map((slide, slideIndex) => (
-                        <div className="flex gap-5 justify-center" key={`slide-xs-${slideIndex}`}>
+                        <div className="flex gap-5 justify-center mt-8" key={`slide-xs-${slideIndex}`}>
                             {slide.map((category, index) => (
                                 <div
                                     key={`slide-mobile-${index}`}
