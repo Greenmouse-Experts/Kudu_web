@@ -65,7 +65,7 @@ function VerifyEmail() {
             {/* Logo Section */}
             <div className="mb-6">
                 <img
-                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426587/kudu_mart/kudu1_rarauu.png"
+                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
                     alt="Kudu Logo"
                     className="h-12"
                 />
