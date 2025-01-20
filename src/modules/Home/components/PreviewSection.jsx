@@ -78,7 +78,7 @@ export default function PreviewSection() {
 
                         {/* Bid Your Price Card */}
                         <div
-                            className="p-8 rounded-md h-full w-full shadow-md bg-white transform md:rotate-[-3.54deg]"
+                            className="p-10 rounded-md h-full w-full shadow-md bg-white transform md:rotate-[-3.54deg]"
                         >
                             <div
                                 className=""
