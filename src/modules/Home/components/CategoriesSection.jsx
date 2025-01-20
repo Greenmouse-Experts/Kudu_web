@@ -120,7 +120,49 @@ export default function CategoriesSection() {
                 </Carousel>
 
                 {/* Mobile Carousel */}
-                <Carousel className="rounded-lg md:hidden flex mt-8 mb-5">
+                <Carousel  className="rounded-lg flex md:hidden"
+                    prevArrow={({ handlePrev }) => (
+                        <IconButton
+                            variant="text"
+                            color="black"
+                            size="sm"
+                            onClick={handlePrev}
+                            className="!absolute top-2/4 left-2 -translate-y-2/4 bg-black text-white shadow-md rounded-full 
+                           hover:bg-black !focus:bg-black active:bg-black !disabled:bg-black"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                className="-ml-1 h-6 w-6"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                            </svg>
+                        </IconButton>
+                    )}
+                    nextArrow={({ handleNext }) => (
+                        <IconButton
+                            variant="text"
+                            color="black"
+                            size="sm"
+                            onClick={handleNext}
+                            className="!absolute top-2/4 right-2 -translate-y-2/4 bg-black text-white shadow-md rounded-full 
+                           hover:bg-black !focus:bg-black active:bg-black !disabled:bg-black"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                className="ml-1 h-6 w-6"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </IconButton>
+                    )}>
                     {slidesXS.map((slide, slideIndex) => (
                         <div className="flex gap-5 justify-center" key={`slide-xs-${slideIndex}`}>
                             {slide.map((category, index) => (
