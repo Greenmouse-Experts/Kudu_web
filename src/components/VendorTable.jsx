@@ -1,12 +1,13 @@
 import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
 
-const UserTable = ({ data }) => {
+const VendorTable = ({ data }) => {
+    console.log(data)
     return (
         <>
-            <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">All Customers</h2></div>
+            <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">All Vendors</h2></div>
             <div className="bg-white rounded-md p-6 w-full gap-5">
-                <h2 className="text-lg font-semibold text-black-700 mb-4">All Customers</h2>
+                <h2 className="text-lg font-semibold text-black-700 mb-4">All Vendors</h2>
                 <div className="overflow-x-auto mt-5">
                     <table className="w-full border-collapse">
                         <thead>
@@ -16,7 +17,8 @@ const UserTable = ({ data }) => {
                                 <th className="py-8 px-4 text-left">Email</th>
                                 <th className="py-8 px-4 text-left">User Type</th>
                                 <th className="py-8 px-4 text-left">Date Joined</th>
-                                <th className="py-8 px-4 text-left">Status</th>
+                               {/* <th className="py-8 px-4 text-left">Status</th> */}
+                                <th className='py-8 px-4 text-left'>Verified</th>
                                 <th className="py-8 px-4 text-left">Action</th>
                             </tr>
                         </thead>
@@ -32,7 +34,7 @@ const UserTable = ({ data }) => {
                                     <td className="py-8 px-4 text-left">{user.email}</td>
                                     <td className="py-8 px-4 text-left">{user.accountType}</td>
                                     <td className="py-8 px-4 text-left">{dateFormat(user.createdAt, "dd-MM-YYY")}</td>
-                                    <td className="py-8 px-4 text-left">
+                                    {/*<td className="py-8 px-4 text-left">
                                         <span
                                             className={`py-2 px-4 rounded-full text-sm capitalize ${user.status === 'active'
                                                 ? 'bg-green-100 text-green-600'
@@ -40,6 +42,16 @@ const UserTable = ({ data }) => {
                                                 }`}
                                         >
                                             {user.status}
+                                        </span>
+                                    </td>*/}
+                                    <td className="py-8 px-4 text-left">
+                                        <span
+                                            className={`py-2 px-4 rounded-full text-sm capitalize ${user.isVerified
+                                                ? 'bg-green-100 text-green-600'
+                                                : 'bg-red-100 text-red-600'
+                                                }`}
+                                        >
+                                            {user.isVerified ? 'Verified' : 'Unverified'}
                                         </span>
                                     </td>
                                     <td className="py-3 px-4 text-left">
@@ -64,4 +76,4 @@ const UserTable = ({ data }) => {
     );
 };
 
-export default UserTable;
+export default VendorTable;

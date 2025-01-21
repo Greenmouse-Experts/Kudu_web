@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PostProducts from "../../../components/PostProducts";
+import useApiMutation from '../../../api/hooks/useApiMutation';
+import { useEffect } from 'react';
 
 const data = [
     { id: 1, products: 'Nike Sneakers', category: 'Shoe', conditions: 'New', price: 'N10,000', quantity: '2', vendor: 'Hamzat Adekele' },
@@ -13,6 +15,26 @@ const data = [
   ];
   
   const App = () => {
+    const { mutate } = useApiMutation();
+
+    const getProducts = () => {
+      mutate({
+          url: `/admin/products?limit=10&page=1`,
+          method: "GET",
+          headers: true,
+          hideToast: true,
+          onSuccess: (response) => {
+              console.log(response.data)
+          },
+          onError: () => {
+          }
+      });
+  }
+
+  useEffect(() => {
+    getProducts();
+  },[])
+
     return (
       <div className="min-h-screen">
         <PostProducts data={data} />
