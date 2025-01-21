@@ -73,7 +73,7 @@ export default function ViewAuctionProduct() {
     return (
         <>
             <div className="w-full flex flex-col h-full bg-kuduLightBlue">
-                <div className="w-full flex flex-col h-full md:gap-10 bg-kuduLightBlue h-full mt-14 md:mt-16 ">
+                <div className="w-full flex flex-col md:gap-10 bg-kuduLightBlue h-full mt-14 md:mt-16 ">
                     <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-5 bg-white shadow-lg flex">
                         <div className="flex flex-grow">
                             <div className="flex flex-col justify-center">

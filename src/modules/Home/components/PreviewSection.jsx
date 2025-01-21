@@ -1,5 +1,3 @@
-import Imgix from "react-imgix";
-import { Card } from "@material-tailwind/react";
 import './style.css';
 
 export default function PreviewSection() {
@@ -25,23 +23,23 @@ export default function PreviewSection() {
                     <div className="grid grid-cols-1 md:grid-cols-3 mx-10 mt-14 md:mb-0 gap-8" style={{ position: "relative" }}>
                         {/* Auction Card */}
                         <div
-                            className="p-10 rounded-md h-full w-full shadow-md bg-white transform md:rotate-[3.8deg]"
+                            className="h-full w-full Box"
                             style={{
                                 border: "1px solid transparent",
                             }}
                         >
                             <div
-                                className="transform md:rotate-[3.8deg]"
+                                className="transform"
                             >
                                 <div className="w-full flex justify-center">
                                     <img
-                                        src="https://res.cloudinary.com/do2kojulq/image/upload/v1736351923/kudu_mart/Ellipse_2123_yacxon.png"
+                                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737481788/kuduMart/wired-outline-1339-sale-hover-roll_cuouey.gif"
                                         alt="Auction Icon"
-                                        className="w-[50px] h-[50px]"
+                                        className="w-[100px] h-[100px]"
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="text-lg font-semibold text-center">AUCTION</p>
+                                    <p className="md:text-2xl text-center">AUCTION</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -53,20 +51,20 @@ export default function PreviewSection() {
 
                         {/* Sell Anything Card */}
                         <div
-                            className="p-10 rounded-md h-full w-full shadow-md bg-white transform md:rotate-[-0.54deg]"
+                            className=" h-full w-full Box bg-white"
                         >
                             <div
-                                className="transform md:rotate-[-0.54deg]"
+                                className=""
                             >
                                 <div className="w-full flex justify-center">
                                     <img
-                                        src="https://res.cloudinary.com/do2kojulq/image/upload/v1736352301/kudu_mart/Ellipse_2123_aoco5z.png"
+                                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737481790/kuduMart/wired-outline-139-basket-hover-oscillate-empty_c3tltg.gif"
                                         alt="Sell Anything Icon"
-                                        className="w-[50px] h-[50px]"
+                                         className="w-[100px] h-[100px]"
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="text-lg font-semibold text-center">SELL ANYTHING</p>
+                                    <p className="md:text-2xl text-center">SELL ANYTHING</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -78,20 +76,21 @@ export default function PreviewSection() {
 
                         {/* Bid Your Price Card */}
                         <div
-                            className="p-10 rounded-md h-full w-full shadow-md bg-white transform md:rotate-[-3.54deg]"
+                            className="h-full w-full Box
+                            bg-white"
                         >
                             <div
                                 className=""
                             >
                                 <div className="w-full flex justify-center">
                                     <img
-                                        src="https://res.cloudinary.com/do2kojulq/image/upload/v1736352487/kudu_mart/Ellipse_2123_1_m4izhl.png"
+                                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737481789/kuduMart/wired-outline-298-coins-hover-spending_nhci8u.gif"
                                         alt="Bid Your Price Icon"
-                                        className="w-[50px] h-[50px]"
+                                         className="w-[100px] h-[100px]"
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="text-lg font-semibold text-center">BID YOUR PRICE</p>
+                                    <p className="md:text-2xl text-center">BID YOUR PRICE</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
