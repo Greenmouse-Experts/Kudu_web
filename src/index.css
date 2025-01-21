@@ -121,6 +121,12 @@ a {
   .okayb {
     height: auto !important;
   }
+  .Desk{
+    display: none !important;
+  }
+  .view{
+    display: none !important;
+  }
 
 }
 
