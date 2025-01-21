@@ -1,10 +1,10 @@
 import StatCard from "../../../../components/StatsCard";
 
-const DashboardStats = () => {
+const DashboardStats = ({users}) => {
     return (
         <div className="flex w-full flex-col md:flex-row gap-5">
             <StatCard
-                number={700}
+                number={users}
                 label="Total Users"
                 growth="3.1%"
                 iconColor="bg-orange-200"

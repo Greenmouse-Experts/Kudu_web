@@ -1,9 +1,9 @@
 import React from 'react';
-import UserTable from "../../../components/UserTable";
 import useApiMutation from '../../../api/hooks/useApiMutation';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Loader from '../../../components/Loader';
+import VendorTable from '../../../components/VendorTable';
 
 const App = () => {
   const { mutate } = useApiMutation();
@@ -11,9 +11,9 @@ const App = () => {
   const [customers, setCustomersData] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
-  const getCustomers = () => {
+  const getVendors = () => {
     mutate({
-      url: `/admin/customers`,
+      url: `/admin/vendors`,
       method: "GET",
       headers: true,
       hideToast: true,
@@ -28,7 +28,7 @@ const App = () => {
 
 
   useEffect(() => {
-    getCustomers();
+    getVendors();
   }, []);
 
   return (
@@ -38,7 +38,7 @@ const App = () => {
           <Loader />
         </div>
         :
-        <UserTable data={customers} />
+        <VendorTable data={customers} />
       }
     </div>
   );

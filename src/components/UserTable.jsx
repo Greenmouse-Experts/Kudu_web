@@ -1,11 +1,12 @@
 import React from 'react';
+import { dateFormat } from '../helpers/dateHelper';
 
 const UserTable = ({ data }) => {
     return (
         <>
-            <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">All Users</h2></div>
+            <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">All Customers</h2></div>
             <div className="bg-white rounded-md p-6 w-full gap-5">
-                <h2 className="text-lg font-semibold text-black-700 mb-4">All Users</h2>
+                <h2 className="text-lg font-semibold text-black-700 mb-4">All Customers</h2>
                 <div className="overflow-x-auto mt-5">
                     <table className="w-full border-collapse">
                         <thead>
@@ -27,13 +28,13 @@ const UserTable = ({ data }) => {
                                         } text-gray-700 text-sm`}
                                 >
                                     <td className="py-8 px-4 text-left">{index + 1}</td>
-                                    <td className="py-8 px-4 text-left">{user.name}</td>
+                                    <td className="py-8 px-4 text-left">{user.firstName} {user.lastName}</td>
                                     <td className="py-8 px-4 text-left">{user.email}</td>
-                                    <td className="py-8 px-4 text-left">{user.userType}</td>
-                                    <td className="py-8 px-4 text-left">{user.dateJoined}</td>
+                                    <td className="py-8 px-4 text-left">{user.accountType}</td>
+                                    <td className="py-8 px-4 text-left">{dateFormat(user.createdAt, "dd-MM-YYY")}</td>
                                     <td className="py-8 px-4 text-left">
                                         <span
-                                            className={`py-2 px-4 rounded-full text-sm ${user.status === 'Verified'
+                                            className={`py-2 px-4 rounded-full text-sm capitalize ${user.status === 'active'
                                                 ? 'bg-green-100 text-green-600'
                                                 : 'bg-red-100 text-red-600'
                                                 }`}

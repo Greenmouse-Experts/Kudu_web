@@ -198,9 +198,6 @@ export default function Header({ openMenu }) {
                         <Link to={'/auction'} className="bg-kuduDarkGrey text-white py-4 px-4 rounded-md">
                             <span className="mr-1 text-sm font-[500]">Auction</span>
                         </Link>
-                        <Link to={'/auction'} className="bg-kuduOrange text-white py-4 px-6 cursor-pointer rounded-md">
-                            <span className="mr-1 text-sm font-[500]">Sell on Kudu </span>
-                        </Link>
 
                         {user &&
                             <span className="bg-kuduOrange text-white py-2 px-6 cursor-pointer rounded-lg" onClick={() => handleVendorModal()}>
