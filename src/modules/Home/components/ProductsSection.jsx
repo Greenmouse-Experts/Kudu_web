@@ -102,11 +102,11 @@ export default function ProductsSection() {
                         <div className="flex flex-grow flex-col relative gap-2 px-4 py-5">
                             <h2 className="md:text-2xl text-base font-semibold text-white">Hisense Smart
                                 60” LED Television</h2>
-                            <button className="bg-white shadow-sm flex gap-2 mt-5 text-kuduDarkBlue font-semibold text-xs rounded-full px-3 md:w-1/2 py-1">
+                            <button className="bg-white shadow-sm flex gap-2 mt-5 text-kuduDarkBlue font-semibold text-xs py-4 rounded-full sm:rounded-sm px-3 sm:px-11 md:w-1/2 ">
                                 Starting
-                                <br />
+                                
                                 From
-                                <b className="mt-2">₦285,000</b>
+                                <b className="">₦285,000</b>
                             </button>
                         </div>
                         <div className="md:flex flex relative px-4">
