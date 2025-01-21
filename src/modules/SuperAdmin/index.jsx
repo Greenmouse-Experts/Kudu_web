@@ -5,7 +5,7 @@ import useApiMutation from "../../api/hooks/useApiMutation";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
 
-function Login() {
+function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -30,14 +30,13 @@ function Login() {
   const onSubmit = (data) => {
     setIsLoading(true);
     mutate({
-      url: "/auth/login",
+      url: "/auth/admin/login",
       method: "POST",
       data: data,
       onSuccess: (response) => {
-        delete response.data.data.password;
-        localStorage.setItem("kuduUserToken", response.data.data.token);
+        localStorage.setItem("kuduUserToken", response.data.token);
         dispatch(setKuduUser(response.data.data))
-        navigate("/");
+        navigate("/admin/dashboard");
         setIsLoading(false);
       },
       onError: () => {
@@ -62,7 +61,7 @@ function Login() {
     >
       {/* Logo Section */}
       <div className="my-6">
-        <Link to={'/'}>
+        <Link to={'/admin/login'}>
           <img
             src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
             alt="Kudu Logo"
@@ -74,7 +73,7 @@ function Login() {
       {/* Form Card */}
       <div className="w-full max-w-lg px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
         <div className="w-full max-w-lg px-8 py-10 bg-white rounded-lg ">
-          <h2 className="text-2xl font-bold mb-6 text-black-800">Sign In</h2>
+          <h2 className="text-2xl font-bold mb-6 text-black-800">Admin Login</h2>
           <form
             className="flex flex-col gap-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -153,12 +152,6 @@ function Login() {
               </div>
             </div>
 
-            {/* Forgot Password */}
-            <div className="flex justify-between items-center text-sm mb-4">
-              <Link to={'/forget'} className="text-orange-500 hover:underline">
-                Forgot password?
-              </Link>
-            </div>
 
             {/* Submit Button */}
             <button
@@ -170,22 +163,10 @@ function Login() {
             </button>
           </form>
 
-          {/* Sign Up Link */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600 leading-loose">
-              Don’t have an account? <br />
-              <Link
-                to={"/sign-up"}
-                className="text-orange-500 font-semibold hover:underline leading-loose"
-              >
-                Sign Up →
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default AdminLogin;

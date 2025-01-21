@@ -4,7 +4,6 @@ import Dashboard from "../modules/SuperAdmin/Dashboard";
 import Users from '../modules/SuperAdmin/Dashboard/users.jsx'; 
 import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx'; 
 
-
 export const adminRoutes = [
     {
         path: "/admin/*",

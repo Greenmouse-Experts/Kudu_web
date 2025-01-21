@@ -1,4 +1,20 @@
-const UserAnalysis = () => {
+const UserAnalysis = ({ usersData }) => {
+    const counts = usersData.reduce(
+        (acc, user) => {
+            if (user.accountType === "Customer") {
+                acc.customers++;
+            } else if (user.accountType === "Vendor") {
+                acc.vendors++;
+            }
+            return acc;
+        },
+        { customers: 0, vendors: 0 }
+    );
+
+    const percentageCustomers = counts.customers / (counts.customers + counts.vendors) * 100;
+    const percentageVendors = counts.vendors / (counts.vendors + counts.customers) * 100;
+
+
     return (
         <>
             <div className="md:px-5 px-2 pt-6 pb-12 md:rounded-lg bg-white">
@@ -15,49 +31,59 @@ const UserAnalysis = () => {
                         </button>
                     </div>
                 </div>
-                <div className="py-4 mt-5 rounded-lg border border-mobiBorderTable px-3">
-                    <div style={{ position: 'relative', width: '300px', height: '300px' }}>
+                <div className="py-2 rounded-lg border border-mobiBorderTable px-3">
+                    <div className="mx-4" style={{ position: 'relative', width: '300px', height: '300px' }}>
                         {/* SVG Donut Chart */}
-                        <svg width="350" height="300" viewBox="0 0 42 42" className="donut-chart">
-                            {/* First Segment (Individual - 40%) */}
+                        <svg width="300" height="300" viewBox="0 0 42 42" className="donut-chart">
+                            {/* Vendor Segment */}
                             <circle
-                                className="donut-segment"
-                                cx="21"
-                                cy="21"
-                                r="15.91549431"
-                                fill="transparent"
-                                stroke="#7F7F7F"
-                                strokeWidth="4" // Smaller stroke width for Individual
-                                strokeDasharray="40 60" // 40% and 60% of the circle
-                                strokeDashoffset="65"   // Rotate the circle to position it correctly
-                            ></circle>
-
-                            {/* Background Circle (Organisation - 60%) */}
-                            <circle
-                                className="donut-ring"
                                 cx="21"
                                 cy="21"
                                 r="15.91549431"
                                 fill="transparent"
                                 stroke="#FF6F22"
-                                strokeWidth="5" // Organisation stroke width
-                                strokeDasharray="60 40" // Organisation covers 60%, leaving 40% as a gap
+                                strokeWidth="4"
+                                strokeDasharray={`${percentageVendors} ${100 - percentageVendors}`}
                                 strokeDashoffset="25"
-                            ></circle>
+                                transform="rotate(-90 21 21)" // Start from the top
+                            />
+                            {/* Customer Segment */}
+                            <circle
+                                cx="21"
+                                cy="21"
+                                r="15.91549431"
+                                fill="transparent"
+                                stroke="#7F7F7F"
+                                strokeWidth="4"
+                                strokeDasharray={`${percentageCustomers} ${100 - percentageCustomers}`}
+                                strokeDashoffset={`calc(25 - ${percentageVendors})`} // Position after vendor arc
+                                transform="rotate(-90 21 21)" // Start from the top
+                            />
                         </svg>
 
                         {/* Center text */}
                         <div style={{
                             position: 'absolute',
                             top: '50%',
-                            left: '60%',
+                            left: '50%',
                             transform: 'translate(-50%, -50%)',
                             fontSize: '15px',
                             color: '#000',
                             textAlign: 'center',
                         }}>
-                            <div>50%</div>
-                            <div>Vendors/Seller</div>
+                            <div>{percentageCustomers}%</div>
+                            <div>Customers</div>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-center w-full gap-6">
+                        <div className="flex gap-2">
+                            <span className="w-3 h-3 mt-1 rounded-full bg-[#7F7F7F]"></span>
+                            <span className="text-sm font-[500]">Customers ({percentageCustomers}%)</span>
+                        </div>
+                        <div className="flex gap-2">
+                            <span className="w-3 h-3 mt-1 rounded-full bg-[#FF6F22]"></span>
+                            <span className="text-sm font-[500]">Vendors ({percentageVendors}%)</span>
                         </div>
                     </div>
                 </div></div>
