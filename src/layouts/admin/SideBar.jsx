@@ -1,14 +1,29 @@
 import { useState } from "react";
 import Imgix from "react-imgix";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useModal } from "../../hooks/modal";
+import LogOutModal from "../../components/LogOut";
 
 const Sidebar = () => {
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
     const [dropDown, setDropdown] = useState(false);
+    const { openModal } = useModal();
+    const navigate = useNavigate();
 
     const handleChildren = (params) => {
         setDropdown(!dropDown)
+    }
+
+    const logOutRedirect = () => {
+        navigate('/auth/admin/login');
+    }
+
+    const handleLogOutModal = () => {
+        openModal({
+            size: "sm",
+            content: <LogOutModal redirect={logOutRedirect} mode='admin' />
+        })
     }
 
     return (
@@ -120,10 +135,10 @@ const Sidebar = () => {
                             <i className={`fas fa-cog mr-5`}></i>
                             <span className="text-md font-[600]">Settings</span>
                         </Link>
-                        <a href="#" onClick={() => onSelected(false)} className={`flex items-center py-2 px-4 h-[57px] rounded-lg text-red-500 hover:bg-kuduLightGray  transition`}>
+                        <span onClick={() => [handleLogOutModal(), onSelected(false)]} className={`flex cursor-pointer items-center py-2 px-4 h-[57px] rounded-lg text-red-500 hover:bg-kuduLightGray  transition`}>
                             <i className="fas fa-sign-out-alt mr-5"></i>
                             <span className="text-md font-[600]">Logout</span>
-                        </a>
+                        </span>
                     </div>
                 </div>
             </div>

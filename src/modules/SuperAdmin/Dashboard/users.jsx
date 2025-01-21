@@ -34,7 +34,7 @@ const App = () => {
   return (
     <div className="min-h-screen">
       {loading ?
-        <div className='w-full h-screen top-[50%]'>
+        <div className="w-full h-screen flex items-center justify-center">
           <Loader />
         </div>
         :

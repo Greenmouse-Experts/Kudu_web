@@ -4,7 +4,7 @@ import { Button } from '@material-tailwind/react';
 import { setKuduUser } from '../reducers/userSlice';
 import { useModal } from '../hooks/modal';
 
-const LogOutModal = ({redirect}) => {
+const LogOutModal = ({redirect, mode}) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
@@ -12,8 +12,8 @@ const LogOutModal = ({redirect}) => {
 
     const logOutUser = () => {
         mutate({
-            url: "/user/logout",
-            method: "POST",
+            url: mode === 'admin' ? "/admin/logout" : "/user/logout",
+            method: mode === 'admin' ? "GET" : "POST",
             headers: true,
             onSuccess: (response) => {
                 dispatch(setKuduUser(null));

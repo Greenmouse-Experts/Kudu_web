@@ -1,45 +1,77 @@
-import React, { Component } from 'react'
-import PostProducts from "../../../components/PostProducts";
+import React, { useEffect, useState } from 'react';
+import PostProducts from '../../../components/PostProducts';
 import useApiMutation from '../../../api/hooks/useApiMutation';
-import { useEffect } from 'react';
+import Loader from '../../../components/Loader';
 
-const data = [
-    { id: 1, products: 'Nike Sneakers', category: 'Shoe', conditions: 'New', price: 'N10,000', quantity: '2', vendor: 'Hamzat Adekele' },
-    { id: 2, products: '2010 Lexus ES 300', category: 'Car', conditions: 'Used', price: 'N20,000', quantity: '1' , vendor: 'Hamzat Abdul'},
-    { id: 3, products: 'iPhone 16', category: 'Gadgets', conditions: 'Refurbished', price: 'N100,000', quantity: '2', vendor: 'Victor Chiko'},
-    { id: 4, products: 'Balenciaga Runners', category: 'Shoe', conditions: 'Used', price: 'N70,000', quantity: '2', vendor: 'Mustapha Sodiq' },
-    { id: 5, products: '2015 Mercedes C300', category: 'Car', conditions: 'New', price: 'N95,000', quantity: '1', vendor: 'Fawaz Rasheed' },
-    { id: 6, products: 'Samsung Galaxy Fold', category: 'Gadgets', conditions: 'Brand New', price: 'N105,000', quantity: '5', vendor: 'Promise Ezima' },
-    { id: 7, products: 'iPhone 16', category: 'Gadgets', conditions: 'Refurbished', price: 'N100,000', quantity: '2', vendor: 'Victor Chiko'},
-    { id: 8, products: '2010 Lexus ES 300', category: 'Car', conditions: 'Used', price: 'N20,000', quantity: '1' , vendor: 'Hamzat Abdul'},
-  ];
-  
-  const App = () => {
-    const { mutate } = useApiMutation();
+const App = () => {
+  const { mutate } = useApiMutation();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    const getProducts = () => {
-      mutate({
-          url: `/admin/products?limit=10&page=1`,
-          method: "GET",
+  // Fetch both products and categories and merge them
+  const fetchData = async () => {
+    try {
+      const productRequest = new Promise((resolve, reject) => {
+        mutate({
+          url: '/admin/products',
+          method: 'GET',
           headers: true,
           hideToast: true,
-          onSuccess: (response) => {
-              console.log(response.data)
-          },
-          onError: () => {
-          }
+          onSuccess: (response) => resolve(response.data.data),
+          onError: reject,
+        });
       });
-  }
+
+      const categoryRequest = new Promise((resolve, reject) => {
+        mutate({
+          url: '/admin/categories',
+          method: 'GET',
+          headers: true,
+          hideToast: true,
+          onSuccess: (response) => resolve(response.data.data),
+          onError: reject,
+        });
+      });
+
+      const [productsData, categories] = await Promise.all([
+        productRequest,
+        categoryRequest,
+      ]);
+
+      // Merge categories with products
+      const mergedData = productsData.map((product) => {
+        const category = categories.find(
+          (cat) => cat.id === product.sub_category?.categoryId
+        );
+        return {
+          ...product,
+          category: category ? category.name : 'Unknown',
+        };
+      });
+
+      setProducts(mergedData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    getProducts();
-  },[])
+    fetchData();
+  }, []); // Only run once on mount
 
-    return (
-      <div className="min-h-screen">
-        <PostProducts data={data} />
-      </div>
-    );
-  };
-  
-  export default App;
+  return (
+    <div className="min-h-screen">
+      {loading ? (
+        <div className="w-full h-screen flex items-center justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <PostProducts data={products} />
+      )}
+    </div>
+  );
+};
+
+export default App;
