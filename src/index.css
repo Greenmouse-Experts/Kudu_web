@@ -42,29 +42,39 @@ a {
 }
 
 .custom-scrollbar:hover {
-  overflow-y: scroll; /* Enable vertical scrolling */
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: #888 transparent; /* For Firefox */
+  overflow-y: scroll;
+  /* Enable vertical scrolling */
+  scrollbar-width: thin;
+  /* For Firefox */
+  scrollbar-color: #888 transparent;
+  /* For Firefox */
 }
 
 /* Chrome, Safari, Edge - Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
+  width: 8px;
+  /* Width of the scrollbar */
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent; /* Track color */
-  border-radius: 10px; /* Rounded track edges */
+  background: transparent;
+  /* Track color */
+  border-radius: 10px;
+  /* Rounded track edges */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #888; /* Color of the scrollbar thumb */
-  border-radius: 10px; /* Rounded thumb */
-  border: 3px solid transparent; /* Padding around the thumb */
+  background-color: #888;
+  /* Color of the scrollbar thumb */
+  border-radius: 10px;
+  /* Rounded thumb */
+  border: 3px solid transparent;
+  /* Padding around the thumb */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Change thumb color on hover */
+  background: #555;
+  /* Change thumb color on hover */
 }
 
 .pending {
@@ -85,27 +95,37 @@ a {
 
 .table-x tr:last-child th:first-child {
   border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px; /* Optional: Bottom-left corner for specific use cases */
+  border-top-left-radius: 10px;
+  /* Optional: Bottom-left corner for specific use cases */
 }
 
 .table-x tr:first-child th:last-child {
   border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px; /* Optional: Bottom-right corner */
+  border-top-right-radius: 10px;
+  /* Optional: Bottom-right corner */
 }
 
 .table-x tr {
   border-radius: 10px;
 }
+
 @media (max-width:548px) {
-  .Abi{
+  .Abi {
     display: none;
   }
-  .Abinah{
+
+  .Abinah {
     display: none;
   }
-  .okayb{
+
+  .okayb {
     height: auto !important;
   }
-  
+
 }
 
+.Box {
+  box-shadow: 0px 4px 28px 0px #0000000D !important;
+  padding: 45px 25px !important;
+  border-radius: 50px !important;
+}
