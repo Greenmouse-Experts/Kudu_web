@@ -47,10 +47,10 @@ const MyComponent = () => {
                             className="w-full flex items-center justify-between px-6 lg:px-20 md:px-1"
                         >
                             {/* Left Content */}
-                            <div className="w-full absolute inset-0 grid grid-cols-1 md:grid-cols-2 items-center gap-6 px-6 xl:px-20">
+                            <div className="w-full absolute inset-0 grid grid-cols-1 md:grid-cols-2 items-center gap-6 px-6 lg:px-20">
                                 {/* Left Content */}
                                 <div className="flex flex-col gap-4 md:text-left z-0 w-full max-w-6xl lg:pl-20 md:pl-1 md:mt-[50px]">
-                                    <p className="text-2xl text-white sm:text-lg md:text-4xl xl:text-5xl Fonttin font-bold">
+                                    <p className="text-2xl text-white sm:text-4xl md:text-4xl xl:text-5xl Fonttin font-bold">
                                         {slide.heading}
                                     </p>
 

@@ -207,8 +207,6 @@ export default function Header({ openMenu }) {
                             </div>
                         </div>
 
-
-
                         {/* Main Header */}
                         <div className="w-full flex items-center justify-between py-4 xl:px-40 md:px-28">
                             <div className="flex">

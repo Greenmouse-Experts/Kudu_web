@@ -121,13 +121,16 @@ a {
   .okayb {
     height: auto !important;
   }
+
+}
+@media (max-width: 768px) {
   .Desk{
     display: none !important;
   }
   .view{
     display: none !important;
   }
-
+  
 }
 
 .Box {
