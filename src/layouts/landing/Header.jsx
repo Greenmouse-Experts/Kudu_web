@@ -208,7 +208,7 @@ export default function Header({ openMenu }) {
                         </div>
 
                         {/* Main Header */}
-                        <div className="w-full flex items-center justify-between py-4 xl:px-40 md:px-28">
+                        <div className="w-full flex items-center justify-between gap-5 py-4 xl:px-40 md:px-20">
                             <div className="flex">
                                 <img
                                     class="xl:w-[130px] md:w-[100px] sm:w-[100px]"
@@ -219,7 +219,7 @@ export default function Header({ openMenu }) {
                                 />
                             </div>
                             {/* Search Bar */}
-                            <div className="flex items-center w-full max-w-lg  rounded-full overflow-hidden shadow-sm">
+                            <div className="flex items-center w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden shadow-sm">
                                 <input
                                     type="text"
                                     placeholder="Search item"
@@ -319,19 +319,12 @@ export default function Header({ openMenu }) {
                                     </div>
                                 }
 
-                                <Link to={'/auction'} className="bg-kuduDarkGrey text-white py-4 px-4 rounded-md">
+                                <Link to={'/auction'} className="bg-kuduDarkGrey text-white py-2 px-4 rounded-md">
                                     <span className="mr-1 text-sm font-[500]">Auction</span>
                                 </Link>
 
-                                <Link
-                        to="/sell-on-kudu"
-                        className="bg-kuduOrange text-white text-sm font-medium py-4 px-4 rounded-md"
-                    >
-                        Sell on Kudu
-                    </Link>
-
                                 {user &&
-                                    <span className="bg-kuduOrange text-white py-2 px-6 cursor-pointer rounded-lg" onClick={() => handleVendorModal()}>
+                                    <span className="bg-kuduOrange text-white py-2 px-4 cursor-pointer rounded-lg" onClick={() => handleVendorModal()}>
                                         <span className="mr-1 text-sm font-[500]">Sell on Kudu</span>
                                     </span>
                                 }

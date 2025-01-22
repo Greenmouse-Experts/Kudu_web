@@ -4,6 +4,7 @@ import Dashboard from "../modules/SuperAdmin/Dashboard";
 import Users from '../modules/SuperAdmin/Dashboard/users.jsx'; 
 import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx'; 
 import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx'; 
+import Subscription from "../modules/SuperAdmin/Dashboard/subscriptions.jsx";
 
 export const adminRoutes = [
     {
@@ -26,6 +27,10 @@ export const adminRoutes = [
                 path: "products-sell",
                 element: <Products />,
             },
+            {
+                path: "subscriptions",
+                element: <Subscription />
+            }
         ],
     },
 ];
