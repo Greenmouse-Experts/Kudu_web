@@ -8,7 +8,7 @@ function Navbar() {
     };
 
     return (
-        <header className="flex items-center pt-5 justify-between Abinah">
+        <header className="flex items-center pt-5 justify-between Abinah All mt-5">
             {/* Search Bar */}
             <div className="flex items-center bg-white rounded-lg px-4 py-4 w-full max-w-md">
                 <i className="text-gray-400 mr-2">
