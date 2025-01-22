@@ -7,13 +7,21 @@ import LogOutModal from "../../components/LogOut";
 const Sidebar = () => {
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
-    const [dropDown, setDropdown] = useState(false);
+    const [dropdownStates, setDropdownStates] = useState({
+        stores: false,
+        users: false,
+        products: false,
+    });
     const { openModal } = useModal();
     const navigate = useNavigate();
 
-    const handleChildren = (params) => {
-        setDropdown(!dropDown)
-    }
+    const handleChildren = (type) => {
+        setDropdownStates((prevState) => ({
+            stores: type === 'stores' ? !prevState.stores : false,
+            users: type === 'users' ? !prevState.users : false,
+            products: type === 'products' ? !prevState.products : false,
+        }));
+    };
 
     const logOutRedirect = () => {
         navigate('/auth/admin/login');
@@ -46,7 +54,7 @@ const Sidebar = () => {
                     {/* Navigation Items */}
                     <nav className="px-10 space-y-5">
                         <Link to={'/admin/dashboard'}
-                            className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/dashboard') ? 'bg-gray-200 text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                            className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/dashboard') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-[#FFF1E9]'
                                 }`}>
                             <i className="mr-5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12.9823 2.764C12.631 2.49075 12.4553 2.35412 12.2613 2.3016C12.0902 2.25526 11.9098 2.25526 11.7387 2.3016C11.5447 2.35412 11.369 2.49075 11.0177 2.764L4.23539 8.03912C3.78202 8.39175 3.55534 8.56806 3.39203 8.78886C3.24737 8.98444 3.1396 9.20478 3.07403 9.43905C3 9.70352 3 9.9907 3 10.5651V17.8C3 18.9201 3 19.4801 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.0799 21 6.2 21H8.2C8.48003 21 8.62004 21 8.727 20.9455C8.82108 20.8976 8.89757 20.8211 8.9455 20.727C9 20.62 9 20.48 9 20.2V13.6C9 13.0399 9 12.7599 9.10899 12.546C9.20487 12.3578 9.35785 12.2049 9.54601 12.109C9.75992 12 10.0399 12 10.6 12H13.4C13.9601 12 14.2401 12 14.454 12.109C14.6422 12.2049 14.7951 12.3578 14.891 12.546C15 12.7599 15 13.0399 15 13.6V20.2C15 20.48 15 20.62 15.0545 20.727C15.1024 20.8211 15.1789 20.8976 15.273 20.9455C15.38 21 15.52 21 15.8 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4801 21 18.9201 21 17.8V10.5651C21 9.9907 21 9.70352 20.926 9.43905C20.8604 9.20478 20.7526 8.98444 20.608 8.78886C20.4447 8.56806 20.218 8.39175 19.7646 8.03913L12.9823 2.764Z"
@@ -56,7 +64,7 @@ const Sidebar = () => {
                             <span className="text-md font-[600]">Dashboard</span>
                         </Link>
                         <div className='relative'>
-                            <button onClick={() => handleChildren('users')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
+                            <button onClick={() => handleChildren('users')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-[#FFF1E9] w-full">
                                 <i className="mr-5">
                                     <svg width="20" height="20" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M7.50855 19.577L7.50852 19.577C6.96322 19.6566 6.55146 20.1334 6.55146 20.7072V20.7076C6.55075 20.9577 6.63252 21.2009 6.7841 21.3998C7.07156 21.7741 7.36665 22.1424 7.66919 22.5046L7.8748 22.7508H7.55406H6.00786H5.935L5.88996 22.6935C5.79237 22.5694 5.69426 22.443 5.59507 22.3144C5.23889 21.8524 5.05146 21.283 5.05146 20.7078C5.05146 19.4124 5.98691 18.2839 7.29177 18.0934C11.5405 17.4725 14.4973 17.5287 18.719 18.113C20.0111 18.2915 20.9514 19.4034 20.9515 20.6915C20.9515 20.6915 20.9515 20.6916 20.9515 20.6916H20.8015C20.8019 21.2547 20.6078 21.8008 20.2519 22.2372L7.50855 19.577ZM7.50855 19.577C11.5996 18.9793 14.413 19.0305 18.5129 19.5981L7.50855 19.577ZM14.3217 13.1876C13.9031 13.361 13.4545 13.4502 13.0015 13.4502C12.0865 13.4502 11.2089 13.0867 10.5619 12.4397C9.91495 11.7927 9.55147 10.9152 9.55147 10.0002C9.55147 9.0852 9.91495 8.20768 10.5619 7.56068C11.2089 6.91368 12.0865 6.5502 13.0015 6.5502C13.4545 6.5502 13.9031 6.63943 14.3217 6.81281C14.7403 6.98619 15.1206 7.24031 15.441 7.56068C15.7613 7.88104 16.0155 8.26136 16.1888 8.67994C16.3622 9.09851 16.4515 9.54713 16.4515 10.0002C16.4515 10.4533 16.3622 10.9019 16.1888 11.3205C16.0155 11.739 15.7613 12.1194 15.441 12.4397C15.1206 12.7601 14.7403 13.0142 14.3217 13.1876ZM13.0015 14.9502C14.3143 14.9502 15.5733 14.4287 16.5016 13.5004C17.4299 12.5721 17.9515 11.313 17.9515 10.0002C17.9515 8.68737 17.4299 7.42832 16.5016 6.50002C15.5733 5.57171 14.3143 5.0502 13.0015 5.0502C11.6886 5.0502 10.4296 5.57171 9.50129 6.50002C8.57298 7.42832 8.05146 8.68737 8.05146 10.0002C8.05146 11.313 8.57298 12.5721 9.50129 13.5004C10.4296 14.4287 11.6886 14.9502 13.0015 14.9502Z" fill="currentColor" stroke="currentColor" strokeWidth="0.3" />
@@ -70,25 +78,59 @@ const Sidebar = () => {
                                     </svg>
                                 </i>
                             </button>
-                            {dropDown ?
-                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg z-10">
-                                    <Link to={'/admin/all-customers'} onClick={() => setDropdown(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Customers</Link>
-                                    <Link to={'/admin/all-vendors'} onClick={() => setDropdown(false)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">All Vendors</Link>
+                            {dropdownStates.users && (
+                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                                    <Link to={'/admin/all-customers'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Customers</Link>
+                                    <Link to={'/admin/all-vendors'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Vendors</Link>
+
                                 </div>
-                                :
-                                <></>
-                            }
+                            )}
                         </div>
-                        <Link to={'/admin/products-sell'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/products-sell') ? 'bg-gray-200 text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
-                            }`}>
-                            <i className="mr-5">
+                        <div className='relative'>
+                            <button onClick={() => handleChildren('products')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
+                                <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 12.5V6.8C20 5.11984 20 4.27976 19.673 3.63803C19.3854 3.07354 18.9265 2.6146 18.362 2.32698C17.7202 2 16.8802 2 15.2 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H12M14 11H8M10 15H8M16 7H8M14.5 19L16.5 21L21 16.5"
                                         stroke={'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
-                            </i>
-                            <span className={`text-md font-[600]`}>Products</span>
-                        </Link>
+                                </i>
+                                <span className="text-md font-[600]">Products</span>
+                                <i className="ml-5 right-0">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
+                                    </svg>
+                                </i>
+                            </button>
+                            {dropdownStates.products && (
+                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                                    <Link to={'/admin/products-sell'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Products</Link>
+                                    <Link to={'#'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">My Products</Link>
+
+                                </div>
+                            )}
+                        </div>
+                        
+                        <div className='relative'>
+                            <button onClick={() => handleChildren('stores')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
+                                <i className="mr-5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M1.58479 1.6V0H22.4138V1.6H1.58479ZM1.69062 24V14.4H0V12.8L1.58479 4.8H22.4138L24 12.8V14.4H22.308V24H20.9335V14.4H14.061V24H1.69062ZM3.06512 22.4H12.6866V14.4H3.06512V22.4ZM1.38824 12.8H22.6104L21.3349 6.4H2.66377L1.38824 12.8Z" fill="#7F7F7F" />
+                                    </svg>
+                                </i>
+                                <span className="text-md font-[600]">Stores</span>
+                                <i className="ml-5 right-0">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
+                                    </svg>
+                                </i>
+                            </button>
+                            {dropdownStates.stores && (
+                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                                    <Link to={'#'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Stores</Link>
+                                    <Link to={'#'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">My Stores</Link>
+                                </div>
+                            )}
+                        </div>
                         <a to="#" className={`flex items-center py-2 px-4 h-[57px] rounded-lg hover:bg-kuduLightGray  text-[#7F7F7F] transition`}>
                             <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -97,14 +139,37 @@ const Sidebar = () => {
                             </i>
                             <span className="text-md font-[600]">Orders</span>
                         </a>
-                        <a href="#" className={`flex items-center py-2 px-4 h-[57px] rounded-lg hover:bg-kuduLightGray  text-[#7F7F7F] transition`}>
+                        <Link to={'#'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
                             <i className="mr-5">
                                 <svg width="20" height="15" viewBox="0 0 23 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20.7 18H2.3C1.69 18 1.10499 17.7893 0.673654 17.4142C0.242321 17.0391 0 16.5304 0 16V2C0 1.46957 0.242321 0.960859 0.673654 0.585786C1.10499 0.210714 1.69 0 2.3 0H20.7C21.31 0 21.895 0.210714 22.3263 0.585786C22.7577 0.960859 23 1.46957 23 2V16C23 16.5304 22.7577 17.0391 22.3263 17.4142C21.895 17.7893 21.31 18 20.7 18ZM2.3 4V16H20.7V4H2.3ZM10.35 13.121L6.08695 9.414L7.71305 8L10.35 10.293L15.287 6L16.913 7.414L10.35 13.121Z" fill="currentColor" />
                                 </svg>
                             </i>
-                            <span className="text-md font-[600]"> Transactions </span>
-                        </a>
+                            <span className={`text-md font-[600]`}>Transactions</span>
+                        </Link>
+
+                        <Link to={'#'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
+                            <i className="mr-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="29" height="26" viewBox="0 0 29 26" fill="none">
+                                    <path d="M5.67466 18.3227L9.03999 9.03866C9.65333 7.74933 10.5893 6.68399 11.6627 9.23999C12.6533 11.6 14.1293 15.92 15.0027 18.3267M7.20266 14.336H13.428" stroke="#7F7F7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M2.952 2.75733C1 4.51467 1 7.344 1 13C1 18.656 1 21.4853 2.952 23.2427C4.90667 25 8.048 25 14.3333 25C20.6187 25 23.7613 25 25.7133 23.2427C27.6653 21.4853 27.6667 18.656 27.6667 13C27.6667 7.344 27.6667 4.51467 25.7133 2.75733C23.7627 1 20.6187 1 14.3333 1C8.048 1 4.90533 1 2.952 2.75733Z" stroke="#7F7F7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M22.9787 8.98242V12.9758M22.9787 12.9758V18.2331M22.9787 12.9758H20.288C19.968 12.9758 19.6507 13.0344 19.352 13.1504C17.0947 14.0264 17.0947 17.2838 19.352 18.1598C19.652 18.2758 19.968 18.3344 20.288 18.3344H22.9787" stroke="#7F7F7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </i>
+                            <span className={`text-md font-[600]`}>Adverts</span>
+                        </Link>
+
+                        <Link to={'#'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
+                            <i className="mr-5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="24" viewBox="0 0 27 24" fill="none">
+                                    <path d="M11.3555 17.8879L17.0313 12.2121L18.3464 13.5273L11.2495 20.6242L7.86159 17.2364L9.17673 15.9212L11.1434 17.8879L11.2495 17.9939L11.3555 17.8879ZM21.6682 6.39545H4.51364V4.51364H21.6682V6.39545ZM6.69546 0.15H19.4864V2.03182H6.69546V0.15Z" fill="#7F7F7F" stroke="white" stroke-width="0.3" />
+                                    <path d="M24 21.9684H24.15V21.8184V10.9094V10.7594H24H2.18182H2.03182V10.9094V21.8184V21.9684H2.18182H24ZM2.18182 8.87754H24C24.5389 8.87754 25.0557 9.09161 25.4367 9.47265C25.8178 9.85369 26.0318 10.3705 26.0318 10.9094V21.8184C26.0318 22.3573 25.8178 22.8741 25.4367 23.2552C25.0557 23.6362 24.5389 23.8503 24 23.8503H2.18182C1.64295 23.8503 1.12615 23.6362 0.745106 23.2552C0.364066 22.8741 0.15 22.3573 0.15 21.8184V10.9094C0.15 10.3705 0.364066 9.85369 0.745106 9.47265C1.12615 9.09161 1.64295 8.87754 2.18182 8.87754Z" fill="#7F7F7F" stroke="white" stroke-width="0.3" />
+                                </svg>
+                            </i>
+                            <span className={`text-md font-[600]`}>Subscription</span>
+                        </Link>
+
+
                         <Link to={'#'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
                             <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
