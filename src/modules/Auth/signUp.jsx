@@ -63,7 +63,7 @@ function SignUp() {
             <div className="mb-6 pt-4">
             <Link to={'/'}>
                <img
-                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
+                    src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737499574/kuduMart/kudum_2-removebg-preview_kf5m0t.png"
                     alt="Kudu Logo"
                     className="h-12"
                 />

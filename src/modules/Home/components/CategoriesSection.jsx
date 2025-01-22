@@ -38,7 +38,7 @@ export default function CategoriesSection() {
             {/* Heading Section */}
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Explore Popular Categories</h1>
-                <p className="sm:text-lg md:text-1xl  text-kuduOrange font-semibold cursor-pointer underline">
+                <p className="sm:text-lg md:text-1xl  text-kuduOrange font-semibold cursor-pointer underline view">
                     View all Categories
                 </p>
             </div>
