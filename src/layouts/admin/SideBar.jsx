@@ -163,7 +163,7 @@ const Sidebar = () => {
                             <span className={`text-md font-[600]`}>Adverts</span>
                         </Link>
 
-                        <Link to={'/subscriptions'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
+                        <Link to={'subscriptions'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
                             <i className="mr-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="27" height="24" viewBox="0 0 27 24" fill="none">
                                     <path d="M11.3555 17.8879L17.0313 12.2121L18.3464 13.5273L11.2495 20.6242L7.86159 17.2364L9.17673 15.9212L11.1434 17.8879L11.2495 17.9939L11.3555 17.8879ZM21.6682 6.39545H4.51364V4.51364H21.6682V6.39545ZM6.69546 0.15H19.4864V2.03182H6.69546V0.15Z" fill="#7F7F7F" stroke="white" stroke-width="0.3" />

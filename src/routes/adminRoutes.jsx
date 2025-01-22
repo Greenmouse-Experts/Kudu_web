@@ -7,6 +7,7 @@ import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx';
 import Subscription from "../modules/SuperAdmin/Dashboard/subscriptions.jsx";
 import Orders from '../modules/SuperAdmin/Dashboard/order.jsx'; 
 import Transactions from '../modules/SuperAdmin/Dashboard/transactions.jsx'; 
+import CreateSubscription from "../modules/SuperAdmin/Dashboard/createSubscription.jsx";
 // import SubLevel from "../modules/SuperAdmin/Dashboard/sublevel.jsx";
 
 export const adminRoutes = [
@@ -33,6 +34,10 @@ export const adminRoutes = [
             {
                 path: "subscriptions",
                 element: <Subscription />
+            },
+            {
+                path: "subscriptions/create",
+                element: <CreateSubscription />
             },
             {
                 path: "orders",

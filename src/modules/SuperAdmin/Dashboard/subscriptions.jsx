@@ -1,6 +1,8 @@
 import { useState } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import Loader from "../../../components/Loader";
+import { useEffect } from "react";
+import SubscriptionTable from "../../../components/SubscriptionsTable";
 
 const Subscription = () => {
     const { mutate } = useApiMutation();
@@ -14,9 +16,11 @@ const Subscription = () => {
           headers: true,
           hideToast: true,
           onSuccess: (response) => {
-           console.log(response.data)
+           setSubscriptionData(response.data.data);
+           setLoading(false);
           },
           onError: () => {
+            setLoading(false)
           }
         });
       }
@@ -32,7 +36,7 @@ const Subscription = () => {
               <Loader />
             </div>
             :
-            <></>
+            <SubscriptionTable data={subscriptions} />
           }
         </div>
       );
