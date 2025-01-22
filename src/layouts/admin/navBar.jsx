@@ -83,11 +83,14 @@ function Navbar() {
     </div>
 
     {/* Profile Section */}
-    <div className="flex items-center bg-white rounded-lg px-4 py-3 space-x-5">
+    <div className="flex items-center bg-white rounded-lg px-2 py-1 xl:space-x-52 md:space-x-48">
+        <div className="flex items-center bg-[#FBEBE9] rounded-lg px-4 py-2 xl:space-x-48 md:space-x-44">
         <span className="text-sm text-black-700 font-medium">Super Admin</span>
         <div className="w-9 h-9 rounded-full bg-cover bg-center" style={{ backgroundImage: "url('https://res.cloudinary.com/greenmouse-tech/image/upload/v1737214961/kuduMart/Group_1321314866_u2x7bj.png')" }}>
             {/* Replace with profile image */}
         </div>
+        </div>
+
     </div>
 </header>
   );
