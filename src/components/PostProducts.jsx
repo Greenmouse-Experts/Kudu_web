@@ -1,7 +1,6 @@
 import React from 'react';
 
 const PostProducts = ({ data }) => {
-    console.log(data)
     return (
         <>
             <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">All Products</h2></div>

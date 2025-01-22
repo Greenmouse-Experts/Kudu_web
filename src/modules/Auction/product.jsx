@@ -169,7 +169,7 @@ export default function ViewAuctionProduct() {
 
                     <div className="w-full flex flex-col gap-6 items-start mb-20">
                         <p className="md:text-xl text-base font-semibold">View Similar Products</p>
-                        <ProductListing productsArr={productsArr} />
+                        {/*<ProductListing productsArr={productsArr} />*/}
                     </div>
 
                     </div>

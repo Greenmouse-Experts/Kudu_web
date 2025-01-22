@@ -51,7 +51,7 @@ export default function UserProfile() {
 
                     <div className="w-full flex flex-col gap-6 items-start my-20">
                         <p className="text-xl uppercase font-semibold">More Like this</p>
-                        <ProductListing productsArr={productsArr} />
+                        {/*<ProductListing productsArr={productsArr} />*/}
                     </div>
                 </div>
             </div>

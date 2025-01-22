@@ -2,7 +2,8 @@ import Imgix from "react-imgix"
 import ProductListing from "../../../components/ProductsList"
 import './style.css';
 
-export default function ProductsSection() {
+export default function ProductsSection({data}) {
+    console.log(data);
     const productsArr = [
         {
             photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
@@ -69,7 +70,7 @@ export default function ProductsSection() {
         <>
             <div className="flex flex-col gap-8 w-full Justing">
                 <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Trending</span>
-                <ProductListing productsArr={productsArr} />
+                <ProductListing productsArr={data} />
                 <div className="flex w-full flex-col md:flex-row gap-4">
                     <div className="bg-kuduDarkBlue md:w-1/2 flex md:flex-row flex-col w-full py-2 px-4 lg:rounded-lg md:rounded-lg">
                         <div className="flex flex-col flex-grow gap-2 py-3">

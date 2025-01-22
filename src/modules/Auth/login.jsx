@@ -40,7 +40,12 @@ function Login() {
         navigate("/");
         setIsLoading(false);
       },
-      onError: () => {
+      onError: (error) => {
+        if(error.response.data.message === 'Your email is not verified. A verification email has been sent to your email address.')
+        {
+          localStorage.setItem("kuduEmail", JSON.stringify(data.email));
+          navigate('/verify-account')
+        }
         setIsLoading(false);
       },
     });
