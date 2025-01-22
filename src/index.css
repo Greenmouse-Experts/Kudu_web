@@ -130,8 +130,12 @@ a {
   .view{
     display: none !important;
   }
+  .All{
+    padding: 0px 30px !important;
+  }
   
 }
+
 
 .Box {
   box-shadow: 0px 4px 28px 0px #0000000D !important;

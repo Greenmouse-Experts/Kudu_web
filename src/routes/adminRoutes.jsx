@@ -4,6 +4,9 @@ import Dashboard from "../modules/SuperAdmin/Dashboard";
 import Users from '../modules/SuperAdmin/Dashboard/users.jsx'; 
 import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx'; 
 import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx'; 
+import Orders from '../modules/SuperAdmin/Dashboard/order.jsx'; 
+import Transactions from '../modules/SuperAdmin/Dashboard/transactions.jsx'; 
+// import SubLevel from "../modules/SuperAdmin/Dashboard/sublevel.jsx";
 
 export const adminRoutes = [
     {
@@ -26,6 +29,19 @@ export const adminRoutes = [
                 path: "products-sell",
                 element: <Products />,
             },
+            {
+                path: "orders",
+                element: <Orders />,
+            },
+            {
+                path: "transactions",
+                element: <Transactions />,
+            },
+            // {
+            //     path: "sublevel",
+            //     element: <SubLevel />,
+            // },
+            
         ],
     },
 ];
