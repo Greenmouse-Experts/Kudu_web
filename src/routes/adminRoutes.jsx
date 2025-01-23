@@ -10,7 +10,10 @@ import Transactions from '../modules/SuperAdmin/Dashboard/transactions.jsx';
 import CreateSubscription from "../modules/SuperAdmin/Dashboard/createSubscription.jsx";
 import ProductCategories from "../modules/SuperAdmin/Dashboard/productCategories.jsx";
 import AddProductCategory from "../modules/SuperAdmin/Dashboard/addProductCategory.jsx";
-// import SubLevel from "../modules/SuperAdmin/Dashboard/sublevel.jsx";
+import Settings from "../modules/SuperAdmin/Dashboard/settings.jsx";
+import SubLevel from "../modules/SuperAdmin/Dashboard/sublevel.jsx";
+import AdminAdverts from "../modules/SuperAdmin/Dashboard/adverts.jsx";
+import PostNewAdvert from "../modules/SuperAdmin/Dashboard/postadverts.jsx";
 
 export const adminRoutes = [
     {
@@ -57,11 +60,22 @@ export const adminRoutes = [
                 path: "transactions",
                 element: <Transactions />,
             },
-            // {
-            //     path: "sublevel",
-            //     element: <SubLevel />,
-            // },
-            
+            {
+                path: "settings",
+                element: <Settings />,
+            },
+            {
+                path: "sublevel",
+                element: <SubLevel />,
+            },
+            {
+                path: "adverts",
+                element: <AdminAdverts />,
+            },
+            {
+                path: "postadverts",
+                element: <PostNewAdvert />,
+            },
         ],
     },
 ];

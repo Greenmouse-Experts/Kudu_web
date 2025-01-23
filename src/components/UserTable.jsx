@@ -11,7 +11,7 @@ const UserTable = ({ data }) => {
                     <div className="overflow-x-auto mt-5">
                         <table className="w-full border-collapse">
                             <thead>
-                                <tr className=" text-black-600 text-md font-medium">
+                                <tr className="text-black-600 text-md font-medium">
                                     <th className="py-6 px-4 text-left">#</th>
                                     <th className="py-6 px-4 text-left">Name</th>
                                     <th className="py-6 px-4 text-left">Email</th>
