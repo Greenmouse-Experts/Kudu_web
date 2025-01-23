@@ -49,7 +49,7 @@ const useApiMutation = () => {
             if (!variables.hideToast) {
                 handleError(error);
             }
-            variables.onError();
+            variables.onError(error);
         },
     });
 

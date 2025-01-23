@@ -46,7 +46,7 @@ export default function Cart() {
                     </div>
                     <div className="w-full flex flex-col gap-6 items-start my-10">
                         <p className="md:text-xl text-base font-semibold">Your Recently Viewed Products</p>
-                        <ProductListing productsArr={productsArr} />
+                       {/* <ProductListing productsArr={productsArr} />*/}
                     </div>
                 </div>
             </div>

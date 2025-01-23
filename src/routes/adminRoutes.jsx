@@ -4,8 +4,12 @@ import Dashboard from "../modules/SuperAdmin/Dashboard";
 import Users from '../modules/SuperAdmin/Dashboard/users.jsx'; 
 import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx'; 
 import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx'; 
+import Subscription from "../modules/SuperAdmin/Dashboard/subscriptions.jsx";
 import Orders from '../modules/SuperAdmin/Dashboard/order.jsx'; 
 import Transactions from '../modules/SuperAdmin/Dashboard/transactions.jsx'; 
+import CreateSubscription from "../modules/SuperAdmin/Dashboard/createSubscription.jsx";
+import ProductCategories from "../modules/SuperAdmin/Dashboard/productCategories.jsx";
+import AddProductCategory from "../modules/SuperAdmin/Dashboard/addProductCategory.jsx";
 // import SubLevel from "../modules/SuperAdmin/Dashboard/sublevel.jsx";
 
 export const adminRoutes = [
@@ -28,6 +32,22 @@ export const adminRoutes = [
             {
                 path: "products-sell",
                 element: <Products />,
+            },
+            {
+                path: "products-categories",
+                element: <ProductCategories />,
+            },
+            {
+                path: "products-categories/add-category",
+                element: <AddProductCategory />,
+            },
+            {
+                path: "subscriptions",
+                element: <Subscription />
+            },
+            {
+                path: "subscriptions/create",
+                element: <CreateSubscription />
             },
             {
                 path: "orders",
