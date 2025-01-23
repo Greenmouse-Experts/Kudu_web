@@ -150,7 +150,8 @@ const Sidebar = () => {
                             <span className={`text-md font-[600]`}>Transactions</span>
                         </Link>
 
-                        <Link to={'#'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
+                        <Link to={'/admin/adverts'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/adverts') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                            }`}>
                             <i className="mr-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="29" height="26" viewBox="0 0 29 26" fill="none">
                                     <path d="M5.67466 18.3227L9.03999 9.03866C9.65333 7.74933 10.5893 6.68399 11.6627 9.23999C12.6533 11.6 14.1293 15.92 15.0027 18.3267M7.20266 14.336H13.428" stroke="#7F7F7F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -182,7 +183,7 @@ const Sidebar = () => {
                             <span className={`text-md font-[600]`}>Notification</span>
                         </Link>
 
-                        <Link to={'/admin/sublevel'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/sublevel') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        <Link to={'/admin/sublevel'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/sublevel') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -199,7 +200,8 @@ const Sidebar = () => {
 
                     {/* Footer */}
                     <div className="px-4 py-6">
-                        <Link to={'#'} onClick={() => onSelected(false)} className={`flex items-center py-2 px-4 h-[57px] rounded-lg transition`}>
+                        <Link to={'/admin/settings'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/settings') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                            }`}>
                             <i className={`fas fa-cog mr-5`}></i>
                             <span className="text-md font-[600]">Settings</span>
                         </Link>
