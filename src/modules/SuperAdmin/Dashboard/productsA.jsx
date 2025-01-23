@@ -13,7 +13,7 @@ const App = () => {
     try {
       const productRequest = new Promise((resolve, reject) => {
         mutate({
-          url: '/admin/products',
+          url: '/admin/general/products',
           method: 'GET',
           headers: true,
           hideToast: true,
