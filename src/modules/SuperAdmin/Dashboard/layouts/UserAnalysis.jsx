@@ -72,7 +72,7 @@ const UserAnalysis = ({ usersData }) => {
                                 color: '#000',
                                 textAlign: 'center',
                             }}>
-                                <div>{percentageCustomers > percentageVendors ? percentageCustomers : percentageVendors}%</div>
+                                <div>{percentageCustomers > percentageVendors ? Math.round(percentageCustomers) : Math.round(percentageVendors)}%</div>
                                 <div>{percentageCustomers > percentageVendors ? 'Customers' : 'Vendors'}</div>
                             </div>
                             :
@@ -83,11 +83,11 @@ const UserAnalysis = ({ usersData }) => {
                     <div className="flex justify-center w-full gap-6">
                         <div className="flex gap-2">
                             <span className="w-3 h-3 mt-1 rounded-full bg-[#7F7F7F]"></span>
-                            <span className="text-sm font-[500]">Customers ({percentageCustomers}%)</span>
+                            <span className="text-sm font-[500]">Customers ({Math.round(percentageCustomers)}%)</span>
                         </div>
                         <div className="flex gap-2">
                             <span className="w-3 h-3 mt-1 rounded-full bg-[#FF6F22]"></span>
-                            <span className="text-sm font-[500]">Vendors ({percentageVendors}%)</span>
+                            <span className="text-sm font-[500]">Vendors ({Math.round(percentageVendors)}%)</span>
                         </div>
                     </div>
                 </div></div>
