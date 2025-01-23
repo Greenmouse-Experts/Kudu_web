@@ -131,7 +131,7 @@ const Sidebar = () => {
                                 </div>
                             )}
                         </div>
-                        <Link to={'/admin/orders'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/orders') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        <Link to={'/admin/orders'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/orders') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -140,7 +140,7 @@ const Sidebar = () => {
                             </i>
                             <span className="text-md font-[600]">Orders</span>
                         </Link>
-                        <Link to={'/admin/transactions'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/transactions') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        <Link to={'/admin/transactions'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/transactions') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className="mr-5">
                                 <svg width="20" height="15" viewBox="0 0 23 18" fill="none" xmlns="http://www.w3.org/2000/svg">
