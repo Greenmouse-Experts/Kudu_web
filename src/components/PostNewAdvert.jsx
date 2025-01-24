@@ -168,19 +168,90 @@ const PostNewAdvert = ({ data }) => {
             case 3:
                 return (
                     <div>
-                        <h2 className="text-lg font-semibold mb-4 text-gray-800">Pricing & Bidding</h2>
-                        <div>
-                            <label className="block text-sm font-medium mb-4">Bidding Options</label>
-                            <select
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-4"
-                                value={data?.biddingOption || ''}
-                                onChange={(e) => console.log(e.target.value)}
-                            >
-                                <option value="">Choose bidding option</option>
-                                <option value="fixed">Fixed Price</option>
-                                <option value="negotiable">Negotiable</option>
-                                <option value="auction">Auction</option>
-                            </select>
+                        <h2 className="text-lg mb-5">PRICING & BIDDING</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-4">Auction Name</label>
+                                <input
+                                    type="text"
+                                    className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
+                                    placeholder="Enter a unique title, e.g, “Luxury Watch Auction”"
+                                    value={data?.auctionName || ''}
+                                    onChange={(e) => console.log(e.target.value)}
+                                    style={{ outline: "none" }}
+                                />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-4">Auction Start Time</label>
+                                <input
+                                    type="time"
+                                    className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
+                                    placeholder="Enter start time "
+                                    value={data?.auctionStartTime || ''}
+                                    onChange={(e) => console.log(e.target.value)}
+                                    style={{ outline: "none" }}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-4">Auction End Time</label>
+                                <input
+                                    type="time"
+                                    className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
+                                    placeholder="Enter End time "
+                                    value={data?.auctionEndTime || ''}
+                                    onChange={(e) => console.log(e.target.value)}
+                                    style={{ outline: "none" }}
+                                />
+                            </div>
+                        </div>
+                        <h2 className="text-lg mb-5">BIDDING RULES</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-4">Starting Price</label>
+                                <input
+                                    type="text"
+                                    className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
+                                    placeholder="Enter the minimum price to initiate bidding"
+                                    value={data?.startingPrice || ''}
+                                    onChange={(e) => console.log(e.target.value)}
+                                    style={{ outline: "none" }}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-4">Reserve Price (Optional)</label>
+                                <input
+                                    type="text"
+                                    className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
+                                    placeholder="Enter the minimum price for the product"
+                                    value={data?.reservePrice || ''}
+                                    onChange={(e) => console.log(e.target.value)}
+                                    style={{ outline: "none" }}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-4">Bid Increment</label>
+                                <input
+                                    type="text"
+                                    className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
+                                    placeholder="Enter increment amount eg; N500"
+                                    value={data?.bidIncrement || ''}
+                                    onChange={(e) => console.log(e.target.value)}
+                                    style={{ outline: "none" }}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-4">Maximum Number of Bids Per Participant</label>
+                                <input
+                                    type="number"
+                                    className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
+                                    placeholder="Limit how many times a participant can bid"
+                                    value={data?.maximumNumberOfBids || ''}
+                                    onChange={(e) => console.log(e.target.value)}
+                                    style={{ outline: "none" }}
+                                />
+                            </div>
                         </div>
                     </div>
                 );
@@ -237,7 +308,7 @@ const PostNewAdvert = ({ data }) => {
                             Proceed to Pricing
                         </button>
                     ) : (
-                        <button className="bg-green-500 text-white font-medium px-6 py-2 rounded-md">
+                        <button className="bg-[#FF6F22] text-white font-medium px-6 py-3 rounded-md">
                             Submit
                         </button>
                     )}

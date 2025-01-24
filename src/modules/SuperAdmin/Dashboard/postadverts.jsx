@@ -15,6 +15,11 @@ const App = () => {
         productCategory: '',
         productCondition: '',
         productLocation: '',
+        auctionName: '',
+        auctionStartTime: '',
+        auctionEndTime: '',
+        maximumNumberOfBids: '',
+        bidIncrement: '',
     };
 
     return (
