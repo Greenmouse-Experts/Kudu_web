@@ -41,10 +41,12 @@ const LandingLayout = () => {
         <>
             <div>
                 <Header openMenu={toggleMenu} />
-                <Outlet />
-                {!hideFooter &&
-                    <Footer />
-                }
+                <div className={`${hideFooter ? 'pt-[2%]' : 'pt-[4%]'}`}>
+                    <Outlet />
+                    {!hideFooter &&
+                        <Footer />
+                    }
+                </div>
             </div>
             <Drawer open={isMenuOpen} onClose={toggleMenu} placement="left">
                 <SideBar onSelected={toggleMenu} />

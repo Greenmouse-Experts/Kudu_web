@@ -1,21 +1,87 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import useApiMutation from '../api/hooks/useApiMutation';
+import useFileUpload from '../api/hooks/useFileUpload';
+import { useDispatch } from 'react-redux';
+import { setKuduUser } from '../reducers/userSlice';
+import useAppState from '../hooks/appState';
+import { useNavigate } from 'react-router-dom';
 
 const Setting = () => {
+    const { user } = useAppState();
     const [activeTab, setActiveTab] = useState("profile");
     const [profilePicture, setProfilePicture] = useState(
-        "https://res.cloudinary.com/greenmouse-tech/image/upload/v1737659699/kuduMart/Ellipse_1004_ouet7u.png"
+        user.photo ? `${user.photo}` : "https://res.cloudinary.com/greenmouse-tech/image/upload/v1737659699/kuduMart/Ellipse_1004_ouet7u.png"
     );
+    const [isLoading, setIsLoading] = useState(false);
+    const { uploadFiles, isLoadingUpload } = useFileUpload();
+    const navigate = useNavigate();
 
-    const handlePictureChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = () => {
-                setProfilePicture(reader.result);
-            };
-            reader.readAsDataURL(file);
+
+    const handlePictureChange = async (event) => {
+        const files = event.target.files;
+        if (files.length > 0) {
+            await uploadFiles(files, (uploadedUrl) => {
+                setProfilePicture(uploadedUrl)
+            });
         }
     };
+
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        getValues,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+
+    const dispatch = useDispatch();
+
+    const { mutate } = useApiMutation();
+
+    const onSubmit = (data) => {
+        const payload = { ...data, photo: profilePicture };
+        setIsLoading(true);
+        mutate({
+            url: "/admin/profile/update",
+            method: "PUT",
+            data: payload,
+            headers: true,
+            onSuccess: (response) => {
+                setIsLoading(false);
+                dispatch(setKuduUser(response.data.data));
+            },
+            onError: (error) => {
+                setIsLoading(false);
+            },
+        });
+    };
+
+
+    const changePassword = (passwordData) => {
+        setIsLoading(true);
+        delete passwordData.name;
+        delete passwordData.email;
+        mutate({
+            url: "/admin/profile/update/password",
+            method: "PUT",
+            data: passwordData,
+            headers: true,
+            onSuccess: (response) => {
+                setIsLoading(false);
+                dispatch(setKuduUser(null));
+                localStorage.removeItem('kuduUserToken');
+                navigate('/auth/admin/login');
+            },
+            onError: (error) => {
+                setIsLoading(false);
+            },
+        });
+    }
+
 
     return (
         <div className="min-h-screen">
@@ -57,61 +123,34 @@ const Setting = () => {
                                         htmlFor="profilePicture"
                                         className="border rounded-lg px-4 py-2 text-sm text-gray-600 cursor-pointer"
                                     >
-                                        Change Picture
+                                        {isLoadingUpload ? 'Changing Picture' : 'Change Picture'}
                                         <input
                                             type="file"
                                             id="profilePicture"
                                             accept="image/*"
                                             className="hidden"
+                                            disabled={isLoadingUpload}
                                             onChange={handlePictureChange}
                                         />
                                     </label>
                                 </div>
 
                                 {/* Form */}
-                                <form className="grid grid-cols-2 gap-6">
-                                    <div>
-                                        <label htmlFor="firstName" className="block text-sm font-medium mb-4 mt-4">
-                                            First Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="firstName"
-                                            className="border rounded-lg p-4 w-full bg-gray-50"
-                                            placeholder="Enter first name"
-                                            style={{ outline: "none" }}
-                                        />
-                                    </div>
-
+                                <form className="grid grid-cols-2 gap-6" onSubmit={handleSubmit(onSubmit)}>
                                     <div>
                                         <label htmlFor="lastName" className="block text-sm font-medium mb-4 mt-4">
-                                            Last Name
+                                            Name
                                         </label>
                                         <input
                                             type="text"
                                             id="lastName"
                                             className="border rounded-lg p-4 w-full bg-gray-50"
                                             placeholder="Enter last name"
+                                            value={user.name}
                                             style={{ outline: "none" }}
+                                            disabled
+                                            {...register("name")}
                                         />
-                                    </div>
-
-                                    <div>
-                                        <label htmlFor="phoneNumber" className="block text-sm font-medium mb-4 mt-4">
-                                            Phone Number
-                                        </label>
-                                        <div className="flex">
-                                            <span className="inline-flex items-center px-4 rounded-l-lg border bg-gray-100 text-gray-600">
-                                                🇳🇬
-                                            </span>
-                                            <input
-                                                type="text"
-                                                id="phoneNumber"
-                                                className="border rounded-r-lg p-4 w-full bg-gray-50"
-                                                placeholder="Enter phone number"
-                                                style={{ outline: "none" }}
-                                            />
-                                        </div>
                                     </div>
 
                                     <div>
@@ -121,15 +160,22 @@ const Setting = () => {
                                         <input
                                             type="email"
                                             id="email"
+                                            {...register("email")}
+                                            value={user.email}
                                             className="border rounded-lg p-4 w-full bg-gray-50"
                                             placeholder="Enter email address"
                                             style={{ outline: "none" }}
+                                            required
                                         />
+                                        {errors.email && (
+                                            <p className="text-red-500 text-sm">{errors.email.message}</p>
+                                        )}
                                     </div>
 
                                     <div className="col-span-2 flex justify-start">
                                         <button
                                             type="submit"
+                                            disabled={isLoading}
                                             className="bg-orange-500 text-white text-xs font-medium py-4 px-4 rounded-md hover:bg-orange-600"
                                         >
                                             Update Info
@@ -142,7 +188,7 @@ const Setting = () => {
                         {activeTab === "security" && (
                             <>
                                 <h3 className="text-lg font-medium mb-4">Security Settings</h3>
-                                <form className="grid grid-cols-2 gap-6">
+                                <form className="grid grid-cols-2 gap-6" onSubmit={handleSubmit(changePassword)}>
                                     <div>
                                         <label htmlFor="currentPassword" className="block text-sm font-medium mb-4 mt-4">
                                             Current Password
@@ -150,10 +196,14 @@ const Setting = () => {
                                         <input
                                             type="password"
                                             id="currentPassword"
+                                            {...register("oldPassword")}
                                             className="border rounded-lg p-4 w-full bg-gray-50"
                                             placeholder="Enter current password"
                                             style={{ outline: "none" }}
                                         />
+                                        {errors.oldPassword && (
+                                            <p className="text-red-500 text-sm">{errors.oldPassword.message}</p>
+                                        )}
                                     </div>
 
                                     <div>
@@ -163,10 +213,14 @@ const Setting = () => {
                                         <input
                                             type="password"
                                             id="newPassword"
+                                            {...register("newPassword")}
                                             className="border rounded-lg p-4 w-full bg-gray-50"
                                             placeholder="Enter new password"
                                             style={{ outline: "none" }}
                                         />
+                                        {errors.newPassword && (
+                                            <p className="text-red-500 text-sm">{errors.newPassword.message}</p>
+                                        )}
                                     </div>
 
                                     <div className="col-span-2">
@@ -176,15 +230,20 @@ const Setting = () => {
                                         <input
                                             type="password"
                                             id="confirmPassword"
+                                            {...register("confirmNewPassword")}
                                             className="border rounded-lg p-4 w-full bg-gray-50"
                                             placeholder="Confirm new password"
                                             style={{ outline: "none" }}
                                         />
+                                        {errors.confirmNewPassword && (
+                                            <p className="text-red-500 text-sm">{errors.confirmNewPassword.message}</p>
+                                        )}
                                     </div>
 
                                     <div className="col-span-2 flex justify-start">
                                         <button
                                             type="submit"
+                                            disabled={isLoading}
                                             className="bg-orange-500 text-white text-xs font-medium py-4 px-4 rounded-md hover:bg-orange-600"
                                         >
                                             Update Password

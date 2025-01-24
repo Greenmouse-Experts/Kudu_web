@@ -156,6 +156,9 @@ function Login() {
                   )}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-red-500 text-sm">{errors.password.message}</p>
+              )}
             </div>
 
             {/* Forgot Password */}

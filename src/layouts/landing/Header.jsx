@@ -63,16 +63,21 @@ export default function Header({ openMenu }) {
 
 
     const handleVendorModal = () => {
-        openModal({
-            size: 'sm',
-            content: <SwitchVendorModal redirect={handleRedirect}>
-                <div className='flex'>
-                    <p className='text-sm gap-2 leading-[1.7rem]'>
-                        To start selling on Kudu, your account will be switched to a vendor account. This change unlocks all the features you need to list products, manage orders, and grow your business.
-                    </p>
-                </div>
-            </SwitchVendorModal>
-        })
+        if (user.accountType !== 'Vendor') {
+            openModal({
+                size: 'sm',
+                content: <SwitchVendorModal redirect={handleRedirect}>
+                    <div className='flex'>
+                        <p className='text-sm gap-2 leading-[1.7rem]'>
+                            To start selling on Kudu, your account will be switched to a vendor account. This change unlocks all the features you need to list products, manage orders, and grow your business.
+                        </p>
+                    </div>
+                </SwitchVendorModal>
+            })
+        }
+        else {
+            handleRedirect();
+        }
     }
 
 

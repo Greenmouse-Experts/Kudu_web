@@ -61,7 +61,7 @@ function AdminLogin() {
     >
       {/* Logo Section */}
       <div className="my-6">
-        <Link to={'/admin/login'}>
+        <Link to={'/auth/admin/login'}>
           <img
             src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
             alt="Kudu Logo"

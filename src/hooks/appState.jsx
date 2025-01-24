@@ -5,6 +5,7 @@ const useAppState = () => {
 
   return {
     user: state.userData?.data,
+    currency: state.userData.currencies
     // products: state.products?.data,
   };
 };
