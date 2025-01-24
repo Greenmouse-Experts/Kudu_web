@@ -21,9 +21,6 @@ function App() {
     }
   }
 
-  console.log(userData);
-  console.log(window.location.href.includes('admin'));
-
   return (
     <ModalProvider>
       <ReusableModal />

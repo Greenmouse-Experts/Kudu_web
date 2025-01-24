@@ -1,8 +1,13 @@
 import { Outlet } from "react-router-dom";
 import ProductListing from "../../components/ProductsList";
 import ProfileSideBar from "./components/sideBar";
+import { useEffect } from "react";
+import useApiMutation from "../../api/hooks/useApiMutation";
+import { setCurrencyData } from "../../reducers/userSlice";
 
 export default function UserProfile() {
+    const { mutate } = useApiMutation();
+
     const productsArr = [
         {
             photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
@@ -35,6 +40,25 @@ export default function UserProfile() {
             status: "Brand New"
         },
     ];
+
+    const getCurrency = () => {
+        mutate({
+            url: `/vendor/currencies`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setCurrencyData(response.data.data)
+            },
+            onError: () => {
+            }
+        });
+    }
+
+    useEffect(() => {
+        getCurrency();
+    }, []);
+
 
     return (
         <>

@@ -14,6 +14,7 @@ const LogOutModal = ({redirect, mode}) => {
         mutate({
             url: mode === 'admin' ? "/admin/logout" : "/user/logout",
             method: mode === 'admin' ? "GET" : "POST",
+            data: null, // Explicitly set data to null
             headers: true,
             onSuccess: (response) => {
                 dispatch(setKuduUser(null));

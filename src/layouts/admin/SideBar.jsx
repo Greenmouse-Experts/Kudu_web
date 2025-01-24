@@ -150,7 +150,7 @@ const Sidebar = () => {
                             <span className={`text-md font-[600]`}>Transactions</span>
                         </Link>
 
-                        <Link to={'/admin/adverts'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/adverts') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        <Link to={'/admin/adverts'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/adverts') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className="mr-5">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="29" height="26" viewBox="0 0 29 26" fill="none">
@@ -183,7 +183,7 @@ const Sidebar = () => {
                             <span className={`text-md font-[600]`}>Notification</span>
                         </Link>
 
-                        <Link to={'/admin/sublevel'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/sublevel') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        <Link to={'/admin/sublevel'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/sublevel') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -200,7 +200,7 @@ const Sidebar = () => {
 
                     {/* Footer */}
                     <div className="px-4 py-6">
-                        <Link to={'/admin/settings'} onClick={() => onSelected(false)} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/settings') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        <Link to={'/admin/settings'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/settings') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className={`fas fa-cog mr-5`}></i>
                             <span className="text-md font-[600]">Settings</span>
