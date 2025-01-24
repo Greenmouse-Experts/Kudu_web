@@ -14,6 +14,9 @@ import Settings from "../modules/SuperAdmin/Dashboard/settings.jsx";
 import SubLevel from "../modules/SuperAdmin/Dashboard/sublevel.jsx";
 import AdminAdverts from "../modules/SuperAdmin/Dashboard/adverts.jsx";
 import PostNewAdvert from "../modules/SuperAdmin/Dashboard/postadverts.jsx";
+import AllStores from "../modules/SuperAdmin/Dashboard/stores.jsx";
+import MyStores from "../modules/SuperAdmin/Dashboard/mystores.jsx";
+import AddNewStore from "../modules/SuperAdmin/Dashboard/newStore.jsx";
 
 export const adminRoutes = [
     {
@@ -75,6 +78,18 @@ export const adminRoutes = [
             {
                 path: "postadverts",
                 element: <PostNewAdvert />,
+            },
+            {
+                path: "all-stores",
+                element: <AllStores />,
+            },
+            {
+                path: "my-stores",
+                element: <MyStores />,
+            },
+            {
+                path: "new-stores",
+                element: <AddNewStore />,
             },
         ],
     },

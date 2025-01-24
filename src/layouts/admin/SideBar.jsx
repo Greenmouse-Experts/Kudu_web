@@ -126,8 +126,10 @@ const Sidebar = () => {
                             </button>
                             {dropdownStates.stores && (
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
-                                    <Link to={'#'} onClick={() =>handleChildren('')}  className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Stores</Link>
-                                    <Link to={'#'} onClick={() =>handleChildren('')}  className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">My Stores</Link>
+                                    <Link to={'/admin/all-stores'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/all-stores') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                            }`}>All Stores</Link>
+                                    <Link to={'/admin/my-stores'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/my-stores') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                            }`}>My Stores</Link>
                                 </div>
                             )}
                         </div>
