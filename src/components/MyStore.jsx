@@ -1,21 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useAppState from '../hooks/appState';
+import { dateFormat } from '../helpers/dateHelper';
 
 const AllStore = ({ data }) => {
+    const { user } = useAppState();
+
+    console.log(user)
+
     return (
         <>
             <div className='All'>
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-lg font-semibold text-black-700 mb-4">All Stores</h1>
-                <Link
-                    to="/admin/new-stores"
-                    className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
-                >
-                    Create New Store
-                </Link>
-            </div>
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-lg font-semibold text-black-700 mb-4">My Stores</h1>
+                    <Link
+                        to="/admin/new-stores"
+                        className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
+                    >
+                        Create New Store
+                    </Link>
+                </div>
                 <div className="bg-white rounded-md p-6 w-full gap-5">
-                    <h2 className="text-lg font-semibold text-black-700 mb-4">All Stores</h2>
+                    <h2 className="text-lg font-semibold text-black-700 mb-4">My Stores</h2>
                     <div className="overflow-x-auto mt-5">
                         <table className="w-full border-collapse">
                             <thead>
@@ -25,35 +31,33 @@ const AllStore = ({ data }) => {
                                     <th className="py-6 px-4 text-left">Vendor Name</th>
                                     <th className="py-6 px-4 text-left">No. Product</th>
                                     <th className="py-6 px-4 text-left">Date Created</th>
-                                    <th className="py-6 px-4 text-left">Status</th>
+                                    {/*<th className="py-6 px-4 text-left">Status</th>*/}
                                     <th className="py-6 px-4 text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((user, index) => (
+                                {data.map((store, index) => (
                                     <tr
-                                        key={user.id}
+                                        key={store.id}
                                         className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                                             } text-gray-700 text-sm`}
                                     >
                                         <td className="py-6 px-4 text-left">{index + 1}</td>
-                                        <td className="py-6 px-4 text-left">{user.storeName}</td>
-                                        <td className="py-6 px-4 text-left">{user.vendorName}</td>
-                                        <td className="py-6 px-4 text-left">{user.price}</td>
-                                    <td className="py-6 px-4 text-left">{user.dateJoined}</td>
-                                    <td className="py-6 px-4 text-left">
-                                        <span
-                                            className={`py-2 px-4 rounded-md text-sm ${user.status === 'Completed'
+                                        <td className="py-6 px-4 text-left">{store.name}</td>
+                                        <td className="py-6 px-4 text-left">{user.name ? `${user.name}` : `${user.firstName} ${user.lastName}`}</td>
+                                        <td className="py-6 px-4 text-left">{store.totalProducts}</td>
+                                        <td className="py-6 px-4 text-left">{dateFormat(store.createdAt, "dd-MM-YYY")}</td>
+                                        {/*<td className="py-6 px-4 text-left">
+                                            <span
+                                                className={`py-2 px-4 rounded-md text-sm ${store.isVerified
                                                     ? 'bg-green-100 text-green-600'
-                                                    : user.status === 'Ongoing'
-                                                        ? 'bg-[#F9EFCE] text-[#D88912]'
-                                                        : 'bg-red-100 text-red-600'
-                                                }`}
-                                        >
-                                            {user.status}
-                                        </span>
+                                                    : 'bg-red-100 text-red-600'
+                                                    }`}
+                                            >
+                                                {store.isVerified ? 'Verified' : 'Unverified'}
+                                            </span>
 
-                                    </td>
+                                        </td>*/}
                                         <td className="py-3 px-4 text-left">
                                             <button className="text-gray-400 hover:text-gray-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="9" viewBox="0 0 32 9" fill="none">

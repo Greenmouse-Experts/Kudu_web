@@ -1,6 +1,6 @@
 import { BeatLoader } from "react-spinners";
 
-export default function Loader({size=30}) {
+export default function Loader({size=20}) {
     return (
         <div className="flex w-full justify-center">
             <BeatLoader
