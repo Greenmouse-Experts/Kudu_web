@@ -154,7 +154,6 @@ function Stores() {
                                     style={{ outline: "none", }}
                                 />
                             </div>
-
                         <div className="flex justify-end mt-4">
                             <button
                                 className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
