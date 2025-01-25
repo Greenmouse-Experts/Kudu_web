@@ -1,4 +1,5 @@
 import React from 'react';
+import { dateFormat } from '../helpers/dateHelper';
 
 const AllStore = ({ data }) => {
     return (
@@ -16,35 +17,35 @@ const AllStore = ({ data }) => {
                                     <th className="py-6 px-4 text-left">Vendor Name</th>
                                     <th className="py-6 px-4 text-left">No. Product</th>
                                     <th className="py-6 px-4 text-left">Date Created</th>
-                                    <th className="py-6 px-4 text-left">Status</th>
+                                    {/* <th className="py-6 px-4 text-left">Status</th> */}
                                     <th className="py-6 px-4 text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((user, index) => (
+                                {data.map((store, index) => (
                                     <tr
-                                        key={user.id}
+                                        key={store.id}
                                         className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                                             } text-gray-700 text-sm`}
                                     >
                                         <td className="py-6 px-4 text-left">{index + 1}</td>
-                                        <td className="py-6 px-4 text-left">{user.storeName}</td>
-                                        <td className="py-6 px-4 text-left">{user.vendorName}</td>
-                                        <td className="py-6 px-4 text-left">{user.price}</td>
-                                    <td className="py-6 px-4 text-left">{user.dateJoined}</td>
-                                    <td className="py-6 px-4 text-left">
+                                        <td className="py-6 px-4 text-left">{store.name}</td>
+                                        <td className="py-6 px-4 text-left">{store.vendor ? `${store.vendor.firstName} ${store.vendor.lastName}` : `${store.admin.name}`}</td>
+                                        <td className="py-6 px-4 text-left">{store.totalProducts}</td>
+                                        <td className="py-6 px-4 text-left">{dateFormat(store.createdAt, "dd-MM-YYY")}</td>
+                                        {/* <td className="py-6 px-4 text-left">
                                         <span
-                                            className={`py-2 px-4 rounded-md text-sm ${user.status === 'Completed'
+                                            className={`py-2 px-4 rounded-md text-sm ${store.status === 'Completed'
                                                     ? 'bg-green-100 text-green-600'
-                                                    : user.status === 'Ongoing'
+                                                    : store.status === 'Ongoing'
                                                         ? 'bg-[#F9EFCE] text-[#D88912]'
                                                         : 'bg-red-100 text-red-600'
                                                 }`}
                                         >
-                                            {user.status}
+                                            {store.status}
                                         </span>
 
-                                    </td>
+                                    </td> */}
                                         <td className="py-3 px-4 text-left">
                                             <button className="text-gray-400 hover:text-gray-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="9" viewBox="0 0 32 9" fill="none">
