@@ -152,7 +152,6 @@ const Setting = () => {
                                             {...register("name")}
                                         />
                                     </div>
-
                                     <div>
                                         <label htmlFor="email" className="block text-sm font-medium mb-4 mt-4">
                                             Email Address
