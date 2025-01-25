@@ -40,7 +40,7 @@ const Sidebar = () => {
                 <div className={`h-full bg-white pb-20 rounded-md flex-col w-full md:w-[21%] relative md:fixed flex overflow-auto bg-mobiDarkCloud transition-all mb-10`}>
                     {/* Logo */}
                     <div className="px-4 flex flex-col gap-2">
-                        <Link to={'/'}>
+                        <Link to={'/auth/admin/login'}>
                             <Imgix
                                 src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
                                 alt="Kudu Mart Logo"
@@ -104,7 +104,7 @@ const Sidebar = () => {
                             {dropdownStates.products && (
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                                     <Link to={'products-sell'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Products</Link>
-                                    <Link to={'#'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">My Products</Link>
+                                    <Link to={'my-products'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">My Products</Link>
                                     <Link to={'products-categories'} onClick={() =>handleChildren('')}  className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Categories</Link>
                                 </div>
                             )}
