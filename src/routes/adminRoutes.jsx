@@ -4,6 +4,7 @@ import Dashboard from "../modules/SuperAdmin/Dashboard";
 import Users from '../modules/SuperAdmin/Dashboard/users.jsx'; 
 import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx'; 
 import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx'; 
+import MyProducts from '../modules/SuperAdmin/Dashboard/myProducts.jsx';
 import Subscription from "../modules/SuperAdmin/Dashboard/subscriptions.jsx";
 import Orders from '../modules/SuperAdmin/Dashboard/order.jsx'; 
 import Transactions from '../modules/SuperAdmin/Dashboard/transactions.jsx'; 
@@ -17,6 +18,7 @@ import PostNewAdvert from "../modules/SuperAdmin/Dashboard/postadverts.jsx";
 import AllStores from "../modules/SuperAdmin/Dashboard/stores.jsx";
 import MyStores from "../modules/SuperAdmin/Dashboard/mystores.jsx";
 import AddNewStore from "../modules/SuperAdmin/Dashboard/newStore.jsx";
+import AddNewProduct from "../modules/SuperAdmin/Dashboard/newProduct.jsx"
 
 export const adminRoutes = [
     {
@@ -38,6 +40,10 @@ export const adminRoutes = [
             {
                 path: "products-sell",
                 element: <Products />,
+            },
+            {
+                path: "my-products",
+                element: <MyProducts />,
             },
             {
                 path: "products-categories",
@@ -90,6 +96,10 @@ export const adminRoutes = [
             {
                 path: "new-stores",
                 element: <AddNewStore />,
+            },
+            {
+                path: "new-product",
+                element: <AddNewProduct />,
             },
         ],
     },
