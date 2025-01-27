@@ -6,6 +6,8 @@ import Contact from "../modules/Home/contact";
 import Faqs from "../modules/Home/faqs";
 import Privacy from "../modules/Home/privacy";
 import Condititons from "../modules/Home/conditions";
+import Testimonial from "../modules/Home/testimonial";
+import About from "../modules/Home/about";
 
 export const landingRooutes = [
     {
@@ -40,6 +42,16 @@ export const landingRooutes = [
           {
             path: 'terms-condition',
             element: <Condititons/>
+          },
+
+          {
+            path: 'testimonial',
+            element: <Testimonial/>
+          },
+
+          {
+            path: 'about',
+            element: <About/>
           },
         ],
     },

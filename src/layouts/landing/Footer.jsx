@@ -1,4 +1,5 @@
 import { Button } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
     return (
@@ -20,10 +21,26 @@ export default function Footer() {
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Buy</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="text-gray-400">Registration</a></li>
-                            <li><a href="#" className="text-gray-400">Payment</a></li>
-                            <li><a href="#" className="text-gray-400">Delivery</a></li>
-                            <li><a href="#" className="text-gray-400">Bulk Purchase</a></li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Registration
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Payment
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Delivery
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Bulk Purchase
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
@@ -38,19 +55,56 @@ export default function Footer() {
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Useful Links</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="text-gray-400">About Us</a></li>
-                            <li><a href="#" className="text-gray-400">Contact Us</a></li>
-                            <li><a href="#" className="text-gray-400">Privacy Policy</a></li>
-                            <li><a href="#" className="text-gray-400">Terms and Conditions</a></li>
-                            <li><a href="#" className="text-gray-400">Site Map</a></li>
+                            <li>
+                                <Link to="/about" className="text-gray-400 hover:text-gray-600 transition">
+                                    About Us
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/contact" className="text-gray-400 hover:text-gray-600 transition">
+                                    Contact Us
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/privacy" className="text-gray-400 hover:text-gray-600 transition">
+                                    Privacy Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/terms-conditions" className="text-gray-400 hover:text-gray-600 transition">
+                                    Terms and Conditions
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Site Map
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Support</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="text-gray-400">Help Center</a></li>
-                            <li><a href="#" className="text-gray-400">Chat with Us</a></li>
-                            <li><a href="#" className="text-gray-400">FAQs</a></li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Help Center
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Chat with Us
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/faqs" className="text-gray-400 hover:text-gray-600 transition">
+                                    FAQs
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/testimonial" className="text-gray-400 hover:text-gray-600 transition">
+                                   Testimonail
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
