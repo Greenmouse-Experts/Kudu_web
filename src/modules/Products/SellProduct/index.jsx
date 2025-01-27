@@ -58,11 +58,11 @@ export default function PostProduct() {
     return (
         <>
             <div className="w-full flex flex-col h-full bg-kuduLightBlue">
-                <div className="w-full flex flex-col h-full xl:px-80 lg:pl-40 lg:pr-36 md:px-4 py-3 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
+                <div className="w-full flex flex-col h-full xl:px-80 lg:pl-40 lg:pr-36 md:px-4 py-3 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue">
                     <div className="w-full flex flex-col gap-4">
                         <div className="w-full py-3 md:px-28 flex flex-col md:mt-20 mt-14 gap-8">
 
-                            <div className="w-full bg-white shadow rounded-md shadow-md py-4 px-8">
+                            <div className="w-full bg-white rounded-md shadow-md py-4 px-8">
                                 <div className="w-full flex justify-between">
                                     <span className="text-base font-semibold">Post an AD on Kudu</span>
                                     <span className="flex mt-[2px]">
@@ -74,7 +74,7 @@ export default function PostProduct() {
                             </div>
 
 
-                            <div className="w-full bg-white shadow rounded-md shadow-md py-4 flex justify-center">
+                            <div className="w-full bg-white rounded-md shadow-md py-4 flex justify-center">
                                 <div className="md:w-[70%] w-full flex flex-col md:py-7 md:px-0 py-3 px-3 gap-7">
                                     <SelectInput options={options} onSelect={handleSelect} placeholder="Category" />
                                     <SelectInput options={countries.map((country) => ({
