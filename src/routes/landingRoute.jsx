@@ -3,6 +3,9 @@ import Cart from "../modules/Cart";
 import LandingHomepage from "../modules/Home";
 import Messages from "../modules/Messages";
 import Contact from "../modules/Home/contact";
+import Faqs from "../modules/Home/faqs";
+import Privacy from "../modules/Home/privacy";
+import Condititons from "../modules/Home/conditions";
 
 export const landingRooutes = [
     {
@@ -24,6 +27,19 @@ export const landingRooutes = [
           {
             path: 'contact',
             element: <Contact />
+          },
+          {
+            path: 'faqs',
+            element: < Faqs/>
+          },
+          {
+            path: 'privacy',
+            element: <Privacy/>
+          },
+
+          {
+            path: 'terms-condition',
+            element: <Condititons/>
           },
         ],
     },

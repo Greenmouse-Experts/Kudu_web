@@ -199,7 +199,6 @@ const AddNewStore = () => {
                                 <option value="Ibadan">Ibadan</option>
                                 <option value="Ogun">Ogun</option>
                             </select>
-
                         </div>
                         <div>
                             <label
