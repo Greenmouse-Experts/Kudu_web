@@ -3,7 +3,7 @@ import './style.css';
 export default function PreviewSection() {
     return (
         <>
-            <div className="relative w-full overflow-hidden bg-white Justing">
+            <div className="relative w-full overflow-hidden bg-white Ju">
                 <div className="w-full flex flex-col gap-2 justify-center items-center">
                     {/* Header Section */}
                     <div className="md:w-1/2 w-full flex flex-col gap-5 z-10">
