@@ -31,7 +31,7 @@ export default function About() {
                 icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1738152542/Group_1321314958_orslsy.png",
             },
             {
-                title: "Connect with Buyers",
+                title: "3. Connect with Buyers",
                 description:
                     "Buyers will contact you directly. Answer queries, negotiate terms, and finalize deals.",
                 last:
@@ -39,7 +39,7 @@ export default function About() {
                 icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1738152542/Group_1321314959_nach9t.png",
             },
             {
-                title: "Fulfill Orders",
+                title: "4. Fulfill Orders",
                 description:
                     "For sales done directly or from the platform, confirm that you’ve received payment before shipping.",
                 last:
@@ -119,7 +119,7 @@ export default function About() {
             <div className="w-full flex flex-col bg-white items-center">
                 {/* Hero Section */}
                 <section className="w-full Ju mt-16">
-                    <div className="container mx-auto flex flex-col md:flex-row px-6 lg:px-20 gap-8">
+                    <div className="container mx-auto flex flex-col md:flex-row lg:px-20 sm:px-3 gap-8">
                         <div className="flex-[1] text-center md:text-left">
                             <h1 className="text-4xl font-medium text-black leading-snug mb-4">
                                 Welcome to Kudu Mart, your ultimate destination for secure and seamless online shopping
@@ -187,7 +187,7 @@ export default function About() {
                                     <img
                                         src={principle.icon}
                                         alt={principle.title}
-                                        className="w-20 h-20 inline-block mx-auto mb-6 !important"
+                                        className="w-16 h-16 inline-block mx-auto mb-6 !important"
                                     />
                                     <h3 className="text-lg font-semibold text-black mb-2">
                                         {principle.title}
@@ -205,27 +205,38 @@ export default function About() {
                             We make internet purchasing simple, <br></br> dependable, and fulfilling.
                         </h2>
 
-                        <div className="flex justify-center lg:space-x-16 sm:space-x-8 space-x-4 mb-12">
-                            {tabs.map((tab) => (
-                                <button
-                                    key={tab.id}
-                                    className={`px-8 py-5 rounded-lg font-medium transition-all ${activeTab === tab.id
-                                        ? "bg-[#FF6F22] text-white shadow-lg"
-                                        : "bg-gray-200 text-gray-600"
-                                        }`}
-                                    onClick={() => setActiveTab(tab.id)}
-                                >
-                                    {tab.label}
-                                </button>
+                        <div className="flex justify-center lg:space-x-12 sm:space-x-8 space-x-4 mb-12">
+                            {tabs.map((tab, index) => (
+                                <div key={tab.id} className="flex items-center space-x-4">
+                                    <button
+                                        className={`px-8 py-5 rounded-lg font-medium transition-all ${activeTab === tab.id
+                                            ? "bg-[#FF6F22] text-white shadow-lg"
+                                            : "bg-gray-200 text-gray-600"
+                                            }`}
+                                        onClick={() => setActiveTab(tab.id)}
+                                    >
+                                        {tab.label}
+                                    </button>
+
+                                    {/* Image between tabs, except after the last tab */}
+                                    {index < tabs.length - 1 && (
+                                        <img
+                                            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1738178221/Line_3_tq4kun.png"
+                                            alt="separator"
+                                            className="h-12 w-44 object-contain"
+                                        />
+                                    )}
+                                </div>
                             ))}
                         </div>
+
                         <p className="mb-10 text-base">
                             A little guide on how to sell your product her on Kudu
                         </p>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:text-center sm:text-left rounded-full">
                             {content[activeTab].map((step, index) => (
-                                <div key={index} className="p-10 sm:p-6 md:p-8 flex flex-col Abinahh">
+                                <div key={index} className="p-10 sm:p-6 md:p-8 flex flex-col Abinahh cursor-pointer">
                                     <img
                                         src={step.icon}
                                         alt={step.title}
@@ -240,6 +251,30 @@ export default function About() {
                         </div>
                     </div>
                 </div>
+                <div className="container mx-auto px-6 lg:px-20 text-left">
+                    <div className="relative w-full mx-auto Juppp">
+                        {/* Background Image */}
+                        <div className="relative h-64 md:h-80 w-full rounded-2xl overflow-hidden">
+                            <img
+                                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1738178739/image_umfj5s.jpg"
+                                alt="Shopping Bags"
+                                className="absolute w-full h-full object-cover"
+                            />
+                        </div>
+
+                        {/* Text & Button Overlay */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+                            <h2 className="text-white text-lg md:text-3xl font-semibold leading-loose">
+                                Join the thousands of happy customers who rely on <br />
+                                <span className="font-bold leading-loose">Kudu Mart</span> for their online shopping needs.
+                            </h2>
+                            <button className="mt-7 bg-[#FF6F22] text-white text-sm px-8 py-3 rounded-md">
+                                Start Shopping
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </>
     );
