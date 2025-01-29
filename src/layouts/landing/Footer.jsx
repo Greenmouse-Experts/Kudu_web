@@ -6,7 +6,7 @@ export default function Footer() {
         <>
             <div className="w-full flex bg-[rgba(30,30,30,1)] flex-col items-center justify-center xl:px-40 lg:pl-20 lg:pr-36 md:px-4 px-5 py-3 md:py-10">
                 <div className="w-full flex md:flex-row flex-col justify-between gap-4 md:gap-6">
-                    <p className="w-full text-white font-semibold md:text-lg lg:text-xl text-sm">
+                    <p className="w-full text-white font-semibold md:text-lg lg:text-4xl leading-loose text-sm">
                         Stay up to date on the latest promos and discounts
                     </p>
                     <div className="w-full flex gap-2">
