@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "../Home/components/style.css";
+import ShoppingExperience from "./components/ShoppingExperience";
 
 export default function About() {
     const [activeTab, setActiveTab] = useState("sell");
@@ -251,10 +252,10 @@ export default function About() {
                         </div>
                     </div>
                 </div>
-                <div className="container mx-auto px-6 lg:px-20 text-left">
-                    <div className="relative w-full mx-auto Juppp">
+                <div className="container mx-auto px-6 lg:px-20 text-left Juppp">
+                    <div className="relative w-full mx-auto">
                         {/* Background Image */}
-                        <div className="relative h-64 md:h-80 w-full rounded-2xl overflow-hidden">
+                        <div className="relative h-72 md:h-96 w-full rounded-2xl overflow-hidden">
                             <img
                                 src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1738178739/image_umfj5s.jpg"
                                 alt="Shopping Bags"
@@ -274,7 +275,11 @@ export default function About() {
                         </div>
                     </div>
                 </div>
-
+                <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
+                    <div className="w-full flex mt-3 Justing">
+                        <ShoppingExperience />
+                    </div>
+                </div>
             </div>
         </>
     );
