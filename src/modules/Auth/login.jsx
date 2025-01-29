@@ -69,7 +69,7 @@ function Login() {
       <div className="my-6">
         <Link to={'/'}>
           <img
-            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737499574/kuduMart/kudum_2-removebg-preview_kf5m0t.png"
+            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
             alt="Kudu Logo"
             className="h-12"
           />
