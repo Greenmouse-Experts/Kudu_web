@@ -106,6 +106,7 @@ const Sidebar = () => {
                                     <Link to={'products-sell'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Products</Link>
                                     <Link to={'my-products'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">My Products</Link>
                                     <Link to={'products-categories'} onClick={() =>handleChildren('')}  className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Categories</Link>
+                                    <Link to={'products-categories/sub-category'} onClick={() =>handleChildren('')}  className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link>
                                 </div>
                             )}
                         </div>

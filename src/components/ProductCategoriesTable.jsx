@@ -57,12 +57,7 @@ const ProductCategoriesTable = ({ data }) => {
                                                 </MenuHandler>
                                                 <MenuList>
                                                     <MenuItem className="flex flex-col gap-3">
-                                                        <span className="cursor-pointer" onClick={() => navigate(`subcategories/view/${data.id}`)}>
-                                                            View SubCategories
-                                                        </span>
-                                                    </MenuItem>
-                                                    <MenuItem className="flex flex-col gap-3">
-                                                        <span className="cursor-pointer" onClick={() => navigate(`subcategories/create/${data.id}`)}>
+                                                        <span className="cursor-pointer" onClick={() => navigate(`sub-category/create/${plan.id}`)}>
                                                             Create SubCategories
                                                         </span>
                                                     </MenuItem>
