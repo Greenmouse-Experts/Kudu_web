@@ -10,7 +10,7 @@ function App() {
   const userData = accessType();
 
   if(tokenValid) {
-    if(userData.user.name === "Administrator") {
+    if(userData.user?.name === "Administrator") {
       if(!window.location.href.includes('admin')) {
         window.location.href = `/auth/admin/login`;
       }

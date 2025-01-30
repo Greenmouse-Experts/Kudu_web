@@ -22,6 +22,18 @@ export default function Header({ openMenu }) {
       slug: "profile/adverts",
     },
     {
+      value: "Cart",
+      slug: "cart",
+    },
+    {
+      value: "Masseges",
+      slug: "messages",
+    },
+    {
+      value: "Saved Items",
+      slug: "saved-items",
+    },
+    {
       value: "Logout",
       slug: "",
       modal: true,
@@ -324,7 +336,7 @@ export default function Header({ openMenu }) {
                                 >
                                     Register/Login
                                 </Link> */}
-                {user && (
+                {!user && (
                   <>
                     <Link
                       to="/cart"
