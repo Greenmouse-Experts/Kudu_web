@@ -150,150 +150,323 @@ const AddNewStore = () => {
             <div className="rounded-md pb-2 w-full gap-5">
                 <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Add New Store</h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="col-span-2 bg-white rounded-lg p-6">
-                    <div className="grid grid-cols-1 gap-6 mb-4">
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
+            <div className="w-full flex flex-grow mt-3">
+                <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
+
+                    <form
+                        className="w-full flex flex-col items-center justify-center p-4"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
+                        <div className="w-full p-6">
+                            {/* Plan Name */}
+                            <div className="mb-4">
+                                <label
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
+                                >
+                                    Store Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    {...register("name", { required: "Store name is required" })}
+                                    placeholder="Enter store's name"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    style={{ outline: "none" }}
+                                    required
+                                />
+                                {errors.name && (
+                                    <p className="text-red-500 text-sm">{errors.name.message}</p>
+                                )}
+                            </div>
+
+
+                            <div className="mb-4">
+                                <label
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
+                                >
+                                    Store Address
+                                </label>
+                                <input
+                                    type="text"
+                                    id="address"
+                                    {...register("address", { required: "Store address is required" })}
+                                    placeholder="Enter store address"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    style={{ outline: "none" }}
+                                    required
+                                />
+                                {errors.address && (
+                                    <p className="text-red-500 text-sm">{errors.address.message}</p>
+                                )}
+                            </div>
+
+
+                            <div className="mb-4">
+                                <div className='grid grid-cols-12 gap-3'>
+                                    <div className='col-span-6 gap-1'>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Country
+                                        </label>
+                                        <select
+                                            id='country'
+                                            {...register("country", { required: "Country is required" })}
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none" }}
+                                            onChange={(event) => handleCountryChange(event.target.value)}
+                                            required
+                                        >
+                                            <option value="" disabled selected hidden>
+                                                Select a country
+                                            </option>
+                                            {countries.map((country) => (
+                                                <option value={JSON.stringify(country)} key={country.isoCode}>{country.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+
+                                    <div className='col-span-6 gap-1'>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            State
+                                        </label>
+                                        <select
+                                            id='state'
+                                            {...register("state", { required: "State is required" })}
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none" }}
+                                            onChange={(event) => handleStateChange(event.target.value)}
+                                            required
+                                        >
+                                            <option value="" disabled selected hidden>
+                                                Select state
+                                            </option>
+                                            {states.map((state) => (
+                                                <option value={JSON.stringify(state)} key={state.isoCode}>{state.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+
+                                    <div className='col-span-6 gap-1'>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            City
+                                        </label>
+                                        <select
+                                            id='city'
+                                            {...register("city", { required: "City is required" })}
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none" }}
+                                            onChange={(event) => handleCityChange(event.target.value)}
+                                            required
+                                        >
+                                            <option value="" disabled selected hidden>
+                                                Select city
+                                            </option>
+                                            {cities.map((city) => (
+                                                <option value={JSON.stringify(city)} key={city.isoCode}>{city.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div className="mb-4">
+                                <label
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
+                                >
+                                    Tips for finding store
+                                </label>
+                                <input
+                                    type="text"
+                                    id="findStore"
+                                    {...register("tipsOnFinding", { required: "Tips on finding store is required" })}
+                                    placeholder="Tips on finding store"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    style={{ outline: "none" }}
+                                    required
+                                />
+                                {errors.tipsOnFinding && (
+                                    <p className="text-red-500 text-sm">{errors.tipsOnFinding.message}</p>
+                                )}
+                            </div>
+
+
+                            <div className='mb-4'>
+                                <div className='grid grid-cols-12 gap-3'>
+                                    <div className='col-span-6 gap-1'>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Store Currency
+                                        </label>
+                                        <select
+                                            id='currencyId'
+                                            {...register("currencyId", { required: "Currency is required" })}
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none" }}
+                                            required
+                                        >
+                                            {currencies.map((currency) => (
+                                                <option value={currency.id} key={currency.id}>{currency.name} ({currency.symbol})</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div className='mb-4'>
+                                <p className='text-sm font-semibold mb-4 uppercase'>Business Hours</p>
+                                <div className='grid grid-cols-12 gap-3'>
+                                    <div className='col-span-6 gap-1'>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Monday - Friday
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="monday_friday"
+                                            {...register("monday_friday", { required: "Business Hours are required" })}
+                                            placeholder="Start Time and End Time"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none" }}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className='col-span-6 gap-1'>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Saturday
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="saturday"
+                                            {...register("saturday", { required: "Business Hours are required" })}
+                                            placeholder="Start Time and End Time"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none" }}
+                                            required
+                                        />
+                                    </div>
+
+                                    <div className='col-span-6 gap-1'>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Sunday
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="sunday"
+                                            {...register("sunday", { required: "Business Hours are required" })}
+                                            placeholder="Start Time and End Time"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none" }}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div className='mb-4'>
+                                <p className='text-sm font-semibold mb-4 uppercase'>Delivery Options</p>
+                                {deliveryOptions.map((deliveryOption, index) => (
+                                    <div className='grid grid-cols-12 gap-3' key={index}>
+                                        <div className='col-span-6 gap-1'>
+                                            <label
+                                                className="block text-md font-semibold mb-3"
+                                                htmlFor="email"
+                                            >
+                                                City
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="city"
+                                                {...register(`city${index}`, { required: "Delivery City is required" })}
+                                                placeholder="Enter delivery city"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                style={{ outline: "none" }}
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className='col-span-6 gap-1'>
+                                            <label
+                                                className="block text-md font-semibold mb-3"
+                                                htmlFor="email"
+                                            >
+                                                Price
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="price"
+                                                {...register(`price${index}`, { required: "Price is required" })}
+                                                placeholder="Enter price"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                style={{ outline: "none" }}
+                                                required
+                                            />
+                                        </div>
+
+                                        <div className='col-span-6 gap-1'>
+                                            <label
+                                                className="block text-md font-semibold mb-3"
+                                                htmlFor="email"
+                                            >
+                                                Arrival Day
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="arrival_day"
+                                                {...register(`arrival_day${index}`, { required: "Arrival day is required" })}
+                                                placeholder="Enter arrival day"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                style={{ outline: "none" }}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                                <span className="bg-kuduOrange mt-2 hover:bg-blue-700 cursor-pointer text-white text-sm  py-2 px-4 rounded"
+                                    onClick={() => populateDeliveryOption()}>
+                                    + Add Delivery Option
+                                </span>
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                             >
-                                Store Name
-                            </label>
-                            <input
-                                type="text"
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-4"
-                                placeholder="Enter store name"
-                                style={{ outline: "none" }}
-                            />
-                        </div>
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
-                            >
-                                Store Address
-                            </label>
-                            <input
-                                type="text"
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-4"
-                                placeholder="Enter your store address"
-                                style={{ outline: "none" }}
-                            />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-6">
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
-                            >
-                                State
-                            </label>
-                            <select
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
-                                style={{ outline: "none" }}
-                            >
-                                <option value="">Choose the state </option>
-                                <option value="Lagos">Lagos</option>
-                                <option value="Ibadan">Ibadan</option>
-                                <option value="Ogun">Ogun</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
-                            >
-                                Country
-                            </label>
-                            <select
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
-                                style={{ outline: "none" }}
-                            >
-                                <option value="">Choose the Country </option>
-                                <option value="Lagos">Lagos</option>
-                                <option value="Ibadan">Ibadan</option>
-                                <option value="Ogun">Ogun</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 gap-6 mb-4">
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
-                            >
-                                Tips for finding store
-                            </label>
-                            <input
-                                type="text"
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-4"
-                                placeholder="Enter tips to find your store "
-                                style={{ outline: "none" }}
-                            />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-6">
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
-                            >
-                                Store Currency
-                            </label>
-                            <select
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-5"
-                                style={{ outline: "none" }}
-                            >
-                                <option value="">Select store currency </option>
-                                <option value="Lagos">Lagos</option>
-                                <option value="Ibadan">Ibadan</option>
-                                <option value="Ogun">Ogun</option>
-                            </select>
+                                Create New Store
+                            </button>
 
                         </div>
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
-                            >
-                                Country
-                            </label>
-                            <input
-                                type="text"
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-4"
-                                placeholder="Enter your business hours"
-                                style={{ outline: "none" }}
-                            />
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 gap-6 mb-4">
-                        <div>
-                            <label
-                                htmlFor="storeName"
-                                className="block text-sm font-medium text-gray-700 mb-4"
-                            >
-                                Delivery Option
-                            </label>
-                            <input
-                                type="text"
-                                className="border rounded-lg p-4 w-full bg-gray-50 mb-4"
-                                placeholder="Add delivery options"
-                                style={{ outline: "none" }}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex justify-end mt-4">
-                        <button
-                            className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
-                        >
-                            Cancel
-                        </button>
-                        <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded">
-                            Create New Store
-                        </button>
-                    </div>
+
+                    </form>
+
                 </div>
 
             </div>

@@ -22,6 +22,7 @@ import AddNewProduct from "../modules/SuperAdmin/Dashboard/newProduct.jsx"
 import AddProductSubCategory from "../modules/SuperAdmin/Dashboard/addProductSubCategory.jsx";
 import ProductSubCategories from "../modules/SuperAdmin/Dashboard/viewProductSubCategory.jsx";
 import UpdateProductSubCategory from "../modules/SuperAdmin/Dashboard/updateSubCategory.jsx";
+import UpdateStore from "../modules/SuperAdmin/Dashboard/updateStore.jsx";
 
 export const adminRoutes = [
     {
@@ -107,6 +108,10 @@ export const adminRoutes = [
             {
                 path: "my-stores",
                 element: <MyStores />,
+            },
+            {
+                path: "my-stores/update/:id",
+                element: <UpdateStore />,
             },
             {
                 path: "new-stores",
