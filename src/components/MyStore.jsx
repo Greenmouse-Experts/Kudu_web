@@ -1,11 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAppState from '../hooks/appState';
 import { dateFormat } from '../helpers/dateHelper';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
+import { useModal } from '../hooks/modal';
+import DeleteModal from './DeleteModal';
 
-const AllStore = ({ data }) => {
+const AllStore = ({ data, refetch }) => {
     const { user } = useAppState();
+    const navigate = useNavigate();
+
+    const { openModal } = useModal();
+
+
+    const handleRedirect = () => {
+        refetch();
+    };
+
+
+    const handleDeleteModal = (id) => {
+        openModal({
+            size: "sm",
+            content: <DeleteModal title={'Do you wish to delete this store?'} redirect={handleRedirect}
+                api={`/admin/store?storeId=${id}`} />
+        })
+    }
+
 
     return (
         <>
@@ -75,6 +95,11 @@ const AllStore = ({ data }) => {
                                                     <MenuItem className="flex flex-col gap-3">
                                                         <span className="cursor-pointer" onClick={() => navigate(`update/${store.id}`)}>
                                                             Update
+                                                        </span>
+                                                    </MenuItem>
+                                                    <MenuItem className="flex flex-col gap-3">
+                                                        <span className="cursor-pointer" onClick={() => handleDeleteModal(store.id)}>
+                                                            Delete
                                                         </span>
                                                     </MenuItem>
                                                 </MenuList>

@@ -8,6 +8,7 @@ const AddNewProduct = () => {
     const [currency, setCurrency] = useState(null);
     const [stores, setStores] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
     const [files, setFiles] = useState([]);
 
     const conditions = [
@@ -31,6 +32,7 @@ const AddNewProduct = () => {
 
     const onSubmit = (data) => {
         if (files.length > 0) {
+            delete data.category;
             const payload = {...data, image_url: files[0], additional_images: files}
             mutate({
                 url: "/admin/products",
@@ -94,6 +96,27 @@ const AddNewProduct = () => {
     }
 
 
+    const getSubCategories = (categoryId) => {
+        mutate({
+            url: `/admin/categories/sub/categories`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                console.log(response.data.data);
+                const findCategory = response.data.data.find((category) => category.id === categoryId);
+                const subCategories = findCategory.subCategories.map((subCategory) => ({
+                    id: subCategory.id,
+                    name: subCategory.name
+                }));
+                setSubCategories(subCategories);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
     return (
         <div className='All'>
             <div className="rounded-md pb-2 w-full gap-5">
@@ -140,14 +163,36 @@ const AddNewProduct = () => {
                                     Category
                                 </label>
                                 <select
-                                    id='categoryId'
-                                    {...register("categoryId", { required: "Category is required" })}
+                                    id='category'
+                                    {...register("category", { required: "Category is required" })}
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
+                                    onChange={(event) => getSubCategories(event.target.value)}
                                     required
                                 >
                                     <option value={null} disabled selected>Select Category</option>
                                     {categories.map((catgeory) => (
+                                        <option value={catgeory.id} key={catgeory.id}>{catgeory.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="mb-4">
+                                <label
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
+                                >
+                                    Sub Category
+                                </label>
+                                <select
+                                    id='categoryId'
+                                    {...register("categoryId", { required: "Sub Category is required" })}
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    style={{ outline: "none" }}
+                                    required
+                                >
+                                    <option value={null} disabled selected>Select Sub Category</option>
+                                    {subCategories.map((catgeory) => (
                                         <option value={catgeory.id} key={catgeory.id}>{catgeory.name}</option>
                                     ))}
                                 </select>
@@ -341,7 +386,7 @@ const AddNewProduct = () => {
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                             >
-                                Create New Store
+                                Create New Product
                             </button>
 
                         </div>
