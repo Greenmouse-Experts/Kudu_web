@@ -46,7 +46,7 @@ const AddProductCategory = () => {
                 <div className='All'>
 
                     <div className="rounded-md pb-2 w-full flex justify-between gap-5">
-                        <h2 className="text-lg font-semibold text-black-700 mt-4">Create Subscription Plan</h2>
+                        <h2 className="text-lg font-semibold text-black-700 mt-4">Create Product Category</h2>
                     </div>
                     <div className="w-full flex flex-grow mt-3">
                         <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
