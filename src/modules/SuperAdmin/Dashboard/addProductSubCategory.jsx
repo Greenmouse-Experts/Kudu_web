@@ -2,9 +2,12 @@ import { useForm } from "react-hook-form";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import DropZone from "../../../components/DropZone";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddProductCategory = () => {
+const AddProductSubCategory = () => {
     const [files, setFiles] = useState([]);
+    const { id } = useParams();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -25,13 +28,14 @@ const AddProductCategory = () => {
 
     const onSubmit = (data) => {
         if (files.length > 0) {
-            const payload = { ...data, image: files[0] };
+            const payload = { ...data, categoryId: id, image: files[0] };
             mutate({
-                url: "/admin/categories",
+                url: "/admin/sub/categories",
                 method: "POST",
                 data: payload,
                 headers: true,
                 onSuccess: (response) => {
+                    navigate(-1);
                 },
                 onError: () => {
                 },
@@ -46,7 +50,7 @@ const AddProductCategory = () => {
                 <div className='All'>
 
                     <div className="rounded-md pb-2 w-full flex justify-between gap-5">
-                        <h2 className="text-lg font-semibold text-black-700 mt-4">Create Product Category</h2>
+                        <h2 className="text-lg font-semibold text-black-700 mt-4">Create Product Sub Category</h2>
                     </div>
                     <div className="w-full flex flex-grow mt-3">
                         <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
@@ -62,7 +66,7 @@ const AddProductCategory = () => {
                                             className="block text-md font-semibold mb-3"
                                             htmlFor="email"
                                         >
-                                            Category Name
+                                            Sub Category Name
                                         </label>
                                         <input
                                             type="text"
@@ -82,7 +86,7 @@ const AddProductCategory = () => {
                                     <div className="w-full flex flex-col gap-2">
                                         <div className="flex flex-col md:w-1/2 w-full gap-6">
                                             <p className="-mb-3 text-mobiFormGray">
-                                                Category Icon
+                                                Sub Category Icon
                                             </p>
                                             <DropZone onUpload={handleDrop} text={'Upload Category Icons'} />
                                         </div>
@@ -105,7 +109,7 @@ const AddProductCategory = () => {
                                         type="submit"
                                         className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                                     >
-                                        Create New Category
+                                        Create New Sub Category
                                     </button>
                                 </div>
                             </form>
@@ -119,4 +123,4 @@ const AddProductCategory = () => {
     );
 };
 
-export default AddProductCategory;
+export default AddProductSubCategory;
