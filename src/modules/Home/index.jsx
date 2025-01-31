@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import ProductListing from "../../components/ProductsList";
 import CategoriesSection from "./components/CategoriesSection";
 import PhonesBanner from "./components/PhonesBanner";
@@ -9,17 +10,15 @@ import GetApp from "./components/GetApp";
 import PreviewSection from "./components/PreviewSection";
 import '../Home/components/style.css';
 import useApiMutation from "../../api/hooks/useApiMutation";
-import { useState } from "react";
-import { useEffect } from "react";
 import Loader from "../../components/Loader";
 
 export default function LandingHomepage() {
-
     const { mutate } = useApiMutation();
     const [products, setProducts] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch both products and categories and merge them
+    // Fetch products from API
     const fetchData = async () => {
         try {
             const productRequest = new Promise((resolve, reject) => {
@@ -27,14 +26,19 @@ export default function LandingHomepage() {
                     url: '/products',
                     method: 'GET',
                     hideToast: true,
-                    onSuccess: (response) => resolve(response.data.data),
+                    onSuccess: (response) => resolve(response.data?.data || []),
                     onError: reject,
                 });
             });
 
-            const [productsData] = await Promise.all([
-                productRequest,
-            ]);
+            const [productsData] = await Promise.all([productRequest]);
+
+            if (!productsData || productsData.length === 0) {
+                console.warn("No products found.");
+                setProducts([]);
+                setFilteredProducts([]);
+                return;
+            }
 
             setProducts(productsData);
         } catch (error) {
@@ -44,45 +48,28 @@ export default function LandingHomepage() {
         }
     };
 
+    // Fetch data on component mount
     useEffect(() => {
         fetchData();
-    }, []); // Only run once on mount
+    }, []);
 
-    const productsArr = [
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Used",
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/television_u0t8wb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426608/kudu_mart/sneakers_kfsmix.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/toyota_uoonig.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Used",
-        },
-    ];
+    // Filter brand-new products once products are updated
+    useEffect(() => {
+        if (products.length > 0) {
+            setFilteredProducts(products.filter(product => product.condition === 'brand_new'));
+        }
+    }, [products]);
+
+    // Function to filter products by condition
+    const filterProducts = (condition) => {
+        setFilteredProducts(products.filter((product) => product.condition === condition));
+    };
+
     return (
         <div className="w-full flex flex-col">
             <SearchSection />
+
+            {/* Main Product Section */}
             <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
                 <div className="w-full lg:flex md:flex gap-3 md:mt-3">
                     <PreviewSection />
@@ -95,55 +82,56 @@ export default function LandingHomepage() {
                         <div className="w-full h-screen flex items-center justify-center">
                             <Loader />
                         </div>
-                    )
-                        : (
-                            <ProductsSection data={products} />
-                        )}
+                    ) : (
+                        <ProductsSection data={products.slice(0, 10)} />
+                    )}
                 </div>
             </div>
+
+            {/* Filtered Products Section */}
             <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-black h-full">
-                <div className="w-full flex flex-col gap-5 mt-3 Justig">
-                    <ProductConditions />
+                <div className="w-full flex flex-col gap-5 mt-3">
+                    <ProductConditions condition={filterProducts} />
                     {loading ? (
                         <div className="w-full h-screen flex items-center justify-center">
                             <Loader />
                         </div>
-                    )
-                        : (
-                            <ProductListing productsArr={products} />
-                        )}
+                    ) : (
+                        <ProductListing productsArr={filteredProducts} />
+                    )}
                     <PhonesBanner />
                     {loading ? (
                         <div className="w-full h-screen flex items-center justify-center">
                             <Loader />
                         </div>
-                    )
-                        : (
-                            <ProductListing productsArr={products} />
-                        )
-                    }
-                </div>
-            </div>
-            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
-                <div className="w-full flex mt-3 Justing">
-                    <ShoppingExperience />
-                </div>
-            </div>
-            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 Amenn" style={{
-                backgroundImage: `
-                    url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737405367/Frame_1618873123_fy7sgx.png)
-                    `,
-                backgroundBlendMode: "overlay",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                width: "100%",
-                className: "sm-[70vh]",
-            }}>
-                <div className="w-full flex flex-col gap-5 ">
-                    <GetApp />
+                    ) : (
+                        <ProductListing productsArr={filteredProducts.slice(5, 10)} />
+                    )}
                 </div>
             </div>
 
-        </div >
-    )
-};
+            {/* Shopping Experience Section */}
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
+                <div className="w-full flex mt-3">
+                    <ShoppingExperience />
+                </div>
+            </div>
+
+            {/* GetApp Section with Background Image */}
+            <div
+                className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5"
+                style={{
+                    backgroundImage: `url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737405367/Frame_1618873123_fy7sgx.png)`,
+                    backgroundBlendMode: "overlay",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    width: "100%",
+                }}
+            >
+                <div className="w-full flex flex-col gap-5">
+                    <GetApp />
+                </div>
+            </div>
+        </div>
+    );
+}
