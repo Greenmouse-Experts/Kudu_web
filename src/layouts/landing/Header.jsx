@@ -331,12 +331,13 @@ export default function Header({ openMenu }) {
               {/* Right Buttons */}
               <div className="flex items-center space-x-4">
                 {/* <Link
-                                    to="/register"
-                                    className="text-kuduDarkGrey text-sm font-medium"
-                                >
-                                    Register/Login
-                                </Link> */}
-                {!user && (
+                      to="/register"
+                      className="text-kuduDarkGrey text-sm font-medium"
+                    >
+                      Register/Login
+                  </Link> */}
+                  
+                {/* {!user && (
                   <>
                     <Link
                       to="/cart"
@@ -398,7 +399,7 @@ export default function Header({ openMenu }) {
                       </span>
                     </a>
                   </>
-                )}
+                )} */}
 
                 {!user && (
                   <div className="flex items-center gap-1">
