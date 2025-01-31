@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { useGetAllStoreQuery } from "../../../reducers/storeSlice"
+import { useGetAllStoreQuery, useDeleteStoreMutation } from "../../../reducers/storeSlice"
 import { dateFormat } from "../../../helpers/dateHelper";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { toast } from "react-toastify";
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [storeId, setStoreId] = useState(null);
     const [delModal, setDelModal] = useState(false)
 
 
     const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery();
+    const [deleteSto] = useDeleteStoreMutation();
 
     const options = [
         'View/Edit',
@@ -41,10 +44,29 @@ function Stores() {
         setIsModalOpen(false);
     };
 
-    const handleAction = (option, id) => {
-        option === 'Delete' && setDelModal(true)
+    const handleAction = (option, id, index, name) => {
+        console.log(index)
+        console.log(name)
         console.log(id)
+        setStoreId(id)
+        option === 'Delete' && setDelModal(true)
     }
+
+    const handleCloseDelModal = () => {
+        setDelModal(false)
+    }
+
+    const deleteStore = async () => {
+        deleteSto(storeId)
+        .then(res => {
+            console.log(res)
+        }).catch(err => {
+            console.log(err)
+        })
+        setDelModal(false)
+    }
+
+    console.log(stores)
 
     return (
         <div className="bg-white rounded-lg w-full p-6">
@@ -126,7 +148,9 @@ function Stores() {
                                                         fontSize: '10px',
                                                       }}
                                                 >
-                                                    <li onClick={() => handleAction(option, store.id)}>{option}</li>
+                                                    <li onClick={() => handleAction(option, store.id, index, store.name)}>
+                                                        {option}
+                                                    </li>
                                                 </MenuItem>
                                             ))}
                                         </Menu>
@@ -282,7 +306,22 @@ function Stores() {
             {delModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
                     <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
-                        <h1>DELETE MODAL</h1>
+                        <h1 className="text-center font-large">
+                            Are you sure you want to delete this store
+                        </h1>
+                        <div className="flex justify-center mt-4">
+                            <button
+                                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
+                                onClick={handleCloseDelModal}
+                            >
+                                Cancel
+                            </button>
+                            <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
+                                onClick={deleteStore}
+                            >
+                                Delete Store
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// const BASE_URL = process.env.VITE_BASE_URL
-const BASE_URL = "https://kudumarts.victornwadinobi.com/api"
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const token = localStorage.getItem("kuduUserToken");
 const type = "GetStore"
@@ -13,8 +12,8 @@ const headers = {
 
 export const storeSlice = createApi({
   reducerPath: "store",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://kudumarts.victornwadinobi.com/api"}),
-//   tagTypes: [type],
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
+  tagTypes: [type],
 
   endpoints: (builder) => {
     return {
@@ -76,11 +75,3 @@ export const {
   useEditStoreMutation,
   useDeleteStoreMutation,
 } = storeSlice;
-
-
-// prepareHeaders: async (headers) => { 
-//     if (token) {
-//       headers.set("Authorization", `Bearer ${token}`);
-//     }
-//     return headers;
-//   },
