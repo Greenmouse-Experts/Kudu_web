@@ -21,6 +21,10 @@ body {
   font-size: 14px;
 }
 
+.kuduImage {
+  mix-blend-mode: multiply;
+}
+
 .font-sans {
   font-family: "Montserrat", sans-serif !important;
 }
