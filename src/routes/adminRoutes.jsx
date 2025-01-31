@@ -19,6 +19,10 @@ import AllStores from "../modules/SuperAdmin/Dashboard/stores.jsx";
 import MyStores from "../modules/SuperAdmin/Dashboard/mystores.jsx";
 import AddNewStore from "../modules/SuperAdmin/Dashboard/newStore.jsx";
 import AddNewProduct from "../modules/SuperAdmin/Dashboard/newProduct.jsx"
+import AddProductSubCategory from "../modules/SuperAdmin/Dashboard/addProductSubCategory.jsx";
+import ProductSubCategories from "../modules/SuperAdmin/Dashboard/viewProductSubCategory.jsx";
+import UpdateProductSubCategory from "../modules/SuperAdmin/Dashboard/updateSubCategory.jsx";
+import UpdateStore from "../modules/SuperAdmin/Dashboard/updateStore.jsx";
 
 export const adminRoutes = [
     {
@@ -52,6 +56,18 @@ export const adminRoutes = [
             {
                 path: "products-categories/add-category",
                 element: <AddProductCategory />,
+            },
+            {
+                path: "products-categories/sub-category/create/:id",
+                element: <AddProductSubCategory />,
+            },
+            {
+                path: "products-categories/sub-category",
+                element: <ProductSubCategories />,
+            },
+            {
+                path: "products-categories/sub-category/update/:id",
+                element: <UpdateProductSubCategory />,
             },
             {
                 path: "subscriptions",
@@ -92,6 +108,10 @@ export const adminRoutes = [
             {
                 path: "my-stores",
                 element: <MyStores />,
+            },
+            {
+                path: "my-stores/update/:id",
+                element: <UpdateStore />,
             },
             {
                 path: "new-stores",

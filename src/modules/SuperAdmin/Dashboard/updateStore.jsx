@@ -1,42 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { City, Country, State } from "country-state-city";
-import useApiMutation from '../api/hooks/useApiMutation';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import useApiMutation from '../../../api/hooks/useApiMutation';
+import { set } from 'date-fns';
+import Loader from '../../../components/Loader';
 
-const AddNewStore = () => {
-    const [countries, setCountries] = useState(Country.getAllCountries());
-    const [states, setStates] = useState([]);
-    const [cities, setCities] = useState([]);
-    const [selectedCountry, setSelectedCountry] = useState(null);
-    const [selectedState, setSelectedState] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
-    const [currencies, setCurrencies] = useState([]);
-    const [deliveryOptions, setDeliveryOptions] = useState([]);
-
-    const { mutate } = useApiMutation();
-    const navigate = useNavigate();
-
-    const handleCountryChange = (country) => {
-        const parsedCountry = JSON.parse(country);
-        setSelectedCountry(parsedCountry);
-        setSelectedState(null);
-        setCities([]);
-        setStates(State.getStatesOfCountry(parsedCountry.isoCode));
-    };
-
-    const handleStateChange = (state) => {
-        const parsedState = JSON.parse(state);
-        setSelectedState(parsedState);
-        setCities(City.getCitiesOfState(selectedCountry.isoCode, parsedState.isoCode));
-    };
-
-    const handleCityChange = (state) => {
-        const parsedCity = JSON.parse(state);
-        setSelectedCity(parsedCity)
-    }
-
-
+const UpdateStore = () => {
     const {
         register,
         handleSubmit,
@@ -46,9 +16,25 @@ const AddNewStore = () => {
         formState: { errors },
     } = useForm();
 
+    const [countries, setCountries] = useState(Country.getAllCountries());
+    const [states, setStates] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [selectedState, setSelectedState] = useState(null);
+    const [selectedCity, setSelectedCity] = useState(null);
+    const [currencies, setCurrencies] = useState([]);
+    const [deliveryOptions, setDeliveryOptions] = useState([]);
+    const [storeData, setStoreData] = useState({});
+    const countrySelected = watch("country");
+
+    const { mutate } = useApiMutation();
+    const navigate = useNavigate();
+    const { id } = useParams();
 
     const transformPayload = (input) => {
         return {
+            storeId: id,
             currencyId: input.currencyId,
             name: input.name,
             location: {
@@ -96,11 +82,11 @@ const AddNewStore = () => {
             }
         };
 
-        const reformedPayload = transformPayload(payload)
+        const reformedPayload = transformPayload(payload);
 
         mutate({
             url: '/admin/store',
-            method: 'POST',
+            method: 'PUT',
             data: reformedPayload,
             headers: true,
             onSuccess: (response) => {
@@ -128,9 +114,115 @@ const AddNewStore = () => {
     }
 
 
+    const getStoreData = (id) => {
+        mutate({
+            url: `/admin/store`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                const storeData = response.data.data.find((store) => store.id === id);
+                console.log(storeData)
+                setStoreData(storeData);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
     useEffect(() => {
-        getCurrency()
+        getCurrency();
+        getStoreData(id);
     }, []);
+
+
+
+    useEffect(() => {
+        if (!storeData || Object.keys(storeData || {}).length === 0) return;
+
+        setValue("name", storeData.name);
+        setValue("address", JSON.parse(storeData.location).address);
+
+        // Find country
+        const country = countries.find((c) => c.name === JSON.parse(storeData.location).country);
+        if (country) {
+            setValue("country", JSON.stringify(country));
+            setSelectedCountry(country);
+            setStates(State.getStatesOfCountry(country.isoCode));
+        }
+
+        setValue("tipsOnFinding", storeData.tipsOnFinding);
+        setValue("currencyId", storeData.currencyId);
+        setValue("monday_friday", JSON.parse(storeData.businessHours).monday_friday);
+        setValue("saturday", JSON.parse(storeData.businessHours).saturday);
+        setValue("sunday", JSON.parse(storeData.businessHours).sunday);
+
+        // Find State after Country is set
+        if (country) {
+            const state = State.getStatesOfCountry(country.isoCode).find((s) => s.name === JSON.parse(storeData.location).state);
+            if (state) {
+                setValue("state", JSON.stringify(state));
+                setSelectedState(state);
+                setCities(City.getCitiesOfState(country.isoCode, state.isoCode));
+            }
+        }
+
+        // Handle delivery options
+        JSON.parse(storeData.deliveryOptions).forEach((option, index) => {
+            setValue(`city${index}`, option.city);
+            setValue(`price${index}`, option.price);
+            setValue(`arrival_day${index}`, option.arrival_day);
+        });
+
+        setDeliveryOptions(JSON.parse(storeData.deliveryOptions));
+        setLoading(false);
+    }, [storeData, setValue]);
+
+    // When selectedState changes, update cities
+    useEffect(() => {
+        if (selectedState && selectedCountry) {
+            const citiesList = City.getCitiesOfState(selectedCountry.isoCode, selectedState.isoCode);
+            setCities(citiesList);
+
+            // Set default city if available
+            const foundCity = citiesList.find((c) => c.name === JSON.parse(storeData.location).city);
+            if (foundCity) {
+                setValue("city", JSON.stringify(foundCity));
+                setSelectedCity(foundCity);
+            }
+        }
+    }, [selectedState]);
+
+    // Ensure selectedCity is set in form before submission
+    useEffect(() => {
+        if (selectedCity) {
+            setValue("city", JSON.stringify(selectedCity));
+        }
+    }, [selectedCity]);
+
+
+    const handleCountryChange = (country) => {
+        const parsedCountry = JSON.parse(country);
+        setSelectedCountry(parsedCountry);
+        setSelectedState(null);
+        setSelectedCity(null);
+        setStates(State.getStatesOfCountry(parsedCountry.isoCode));
+        setCities([]);
+    };
+
+    const handleStateChange = (state) => {
+        const parsedState = JSON.parse(state);
+        setSelectedState(parsedState);
+        setCities(City.getCitiesOfState(selectedCountry?.isoCode, parsedState.isoCode));
+    };
+
+    const handleCityChange = (city) => {
+        const parsedCity = JSON.parse(city);
+        setSelectedCity(parsedCity);
+        setValue("city", JSON.stringify(parsedCity));
+    };
+
 
 
 
@@ -145,10 +237,18 @@ const AddNewStore = () => {
         ]);
     };
 
+
+    if (loading) {
+        return (<div className="w-full h-screen flex items-center justify-center">
+            <Loader />
+        </div>
+        )
+    }
+
     return (
         <div className='All'>
             <div className="rounded-md pb-2 w-full gap-5">
-                <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Add New Store</h2>
+                <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Update Store</h2>
             </div>
             <div className="w-full flex flex-grow mt-3">
                 <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
@@ -218,9 +318,10 @@ const AddNewStore = () => {
                                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             onChange={(event) => handleCountryChange(event.target.value)}
+                                            value={countrySelected}
                                             required
                                         >
-                                            <option value="" disabled selected hidden>
+                                            <option defaultValue="" disabled hidden>
                                                 Select a country
                                             </option>
                                             {countries.map((country) => (
@@ -460,7 +561,7 @@ const AddNewStore = () => {
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                             >
-                                Create New Store
+                                Update Store
                             </button>
 
                         </div>
@@ -476,4 +577,4 @@ const AddNewStore = () => {
     );
 };
 
-export default AddNewStore;
+export default UpdateStore;

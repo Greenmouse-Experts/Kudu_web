@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const MyProducts = ({ data }) => {
+    console.log(data);
     return (
         <>
             <div className='All'>
@@ -43,7 +44,7 @@ const MyProducts = ({ data }) => {
                                         <td className="py-6 px-4 text-left capitalize">{user.condition.replace(/_/g, ' ')}</td>
                                         <td className="py-6 px-4 text-left">{user.store.currency.symbol} {user.price}</td>
                                         <td className="py-6 px-4 text-left">{user.quantity || '---'}</td>
-                                        <td className="py-6 px-4 text-left">{user.vendor.firstName} {user.vendor.lastName}</td>
+                                        <td className="py-6 px-4 text-left">Administrator</td>
                                         <td className="py-3 px-4 text-left">
                                             <button className="text-gray-400 hover:text-gray-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="9" viewBox="0 0 32 9" fill="none">
