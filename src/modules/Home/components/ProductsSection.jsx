@@ -3,73 +3,10 @@ import ProductListing from "../../../components/ProductsList"
 import './style.css';
 
 export default function ProductsSection({data}) {
-    console.log(data);
-    const productsArr = [
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Used",
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/television_u0t8wb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426608/kudu_mart/sneakers_kfsmix.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/toyota_uoonig.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426608/kudu_mart/sneakers_kfsmix.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Used",
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/television_u0t8wb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426608/kudu_mart/sneakers_kfsmix.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/toyota_uoonig.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/television_u0t8wb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-    ]
     return (
         <>
             <div className="flex flex-col gap-8 w-full Justing">
-                <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Trending</span>
+                <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Products</span>
                 <ProductListing productsArr={data} />
                 <div className="flex w-full flex-col md:flex-row gap-4">
                     <div className="bg-kuduDarkBlue md:w-1/2 flex md:flex-row flex-col w-full py-2 px-4 lg:rounded-lg md:rounded-lg">
