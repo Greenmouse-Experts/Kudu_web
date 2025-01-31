@@ -3,7 +3,6 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const token = localStorage.getItem("kuduUserToken");
-const type = "GetStore"
 
 const headers = {
     "Content-Type": "application/json",
@@ -13,7 +12,7 @@ const headers = {
 export const storeSlice = createApi({
   reducerPath: "store",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
-  tagTypes: [type],
+  tagTypes: ["Stores"],
 
   endpoints: (builder) => {
     return {
@@ -23,6 +22,7 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
+        providesTags: ["Stores"],
       }),
           
       getSingleStore: builder.query({
@@ -31,6 +31,7 @@ export const storeSlice = createApi({
           method: "GET",
           headers: { ...headers },
         }),
+        providesTags: ["Stores"],
       }),
 
       createStore: builder.mutation({
@@ -40,7 +41,7 @@ export const storeSlice = createApi({
           headers: { ...headers },
           body: data,
         }),
-        invalidatesTags: [type],
+        invalidatesTags: ["Stores"],
       }),
 
       editStore: builder.mutation({
@@ -52,7 +53,7 @@ export const storeSlice = createApi({
               body: data,
             }
         },
-        invalidatesTags: [type],
+        invalidatesTags: ["Stores"],
       }),
 
       deleteStore: builder.mutation({
@@ -61,7 +62,34 @@ export const storeSlice = createApi({
           method: "DELETE",
           headers: { ...headers },
         }),
-        invalidatesTags: [type],
+        invalidatesTags: ["Stores"],
+      }),
+
+      getCurrencies: builder.query({
+        query: () => ({
+            url: `/vendor/currencies`,
+            method: "GET",
+            headers: { ...headers },
+        }),
+        providesTags: ["Stores"],
+      }),
+
+      getCountries: builder.query({
+        query: () => ({
+            url: "https://countriesnow.space/api/v0.1/countries/states",
+            method: "GET",
+            headers: { ...headers },
+        }),
+        providesTags: ["Stores"],
+      }),
+
+      getCategories: builder.query({
+        query: () => ({
+            url: `/vendor/categories`,
+            method: "GET",
+            headers: { ...headers },
+        }),
+        providesTags: ["Stores"],
       }),
 
     };
@@ -74,4 +102,7 @@ export const {
   useCreateStoreMutation,
   useEditStoreMutation,
   useDeleteStoreMutation,
+  useGetCurrenciesQuery,
+  useGetCountriesQuery,
+  useGetCategoriesQuery,
 } = storeSlice;

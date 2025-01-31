@@ -1,21 +1,47 @@
-import React, { useState } from 'react';
-import { useGetAllStoreQuery, useDeleteStoreMutation } from "../../../reducers/storeSlice"
+import React, { useState, useEffect } from 'react';
+import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCurrenciesQuery, useGetCountriesQuery, useGetCategoriesQuery } from "../../../reducers/storeSlice"
 import { dateFormat } from "../../../helpers/dateHelper";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { toast } from "react-toastify";
+import AddNewProduct from './AddNewProduct';
+import Axios from "axios";
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [storeId, setStoreId] = useState(null);
-    const [delModal, setDelModal] = useState(false)
+    const [delModal, setDelModal] = useState(false);
+    const [addNewModal, setAddNewModal] = useState(false);
+    const [currencies, setCurrencies] = useState([]);
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState([]);
+    const [xtates, setXtates] = useState([]);
 
 
     const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery();
     const [deleteSto] = useDeleteStoreMutation();
+    const {data} = useGetCurrenciesQuery();
+    const {data: countri} = useGetCountriesQuery();
+    const {data: categories} = useGetCategoriesQuery();
+
+    useEffect(() => {
+        if(data) setCurrencies(data)
+        if(countri) setCountries(countri)
+    }, [data, countri])
+
+    useEffect(() => {
+        var filteredCountry;
+        if(countries){
+            filteredCountry = countries?.data?.filter((countryData) => (
+                countryData.name ===  selectedCountry
+            ))
+        }
+        
+        filteredCountry && setXtates(filteredCountry[0].states)
+    },[selectedCountry])
 
     const options = [
         'View/Edit',
@@ -25,7 +51,6 @@ function Stores() {
 
     const ITEM_HEIGHT = 30;
 
-    
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -34,7 +59,7 @@ function Stores() {
 
     const handleClose = () => {
       setAnchorEl(null);
-    };
+    }; 
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -44,29 +69,34 @@ function Stores() {
         setIsModalOpen(false);
     };
 
-    const handleAction = (option, id, index, name) => {
-        console.log(index)
-        console.log(name)
-        console.log(id)
+    const handleAction = (option, id) => {
+        console.log("storeId", id)
         setStoreId(id)
-        option === 'Delete' && setDelModal(true)
+        option === "Delete" && setDelModal(true)
+        option === "Add Product" && setAddNewModal(true)
     }
 
     const handleCloseDelModal = () => {
         setDelModal(false)
     }
 
+    const closeAddNewModal = () => {
+        setAddNewModal(false)
+    }
+
     const deleteStore = async () => {
         deleteSto(storeId)
         .then(res => {
             console.log(res)
+            toast.success(res.data.message)
         }).catch(err => {
             console.log(err)
+            toast.error(err)
         })
         setDelModal(false)
     }
 
-    console.log(stores)
+    console.log(countries)
 
     return (
         <div className="bg-white rounded-lg w-full p-6">
@@ -220,9 +250,15 @@ function Stores() {
                                     id="country"
                                     className="border rounded p-2 w-full placeholder-gray-400 text-sm"
                                     style={{ outline: "none", }}
+                                    value={selectedCountry}
+                                    onChange={(e) => setSelectedCountry(e.target.value)}
                                 >
                                     <option value="">Tap to Select</option>
-                                    {/* Add country options here */}
+                                    {countries.data.map((count, index) => (
+                                        <option key={index}>
+                                            {count.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
 
@@ -236,7 +272,11 @@ function Stores() {
                                     className="border rounded p-2 w-full placeholder-gray-400 text-sm"
                                 >
                                     <option value="">Tap to Select</option>
-                                    {/* Add state options here */}
+                                    {xtates?.map((xtate, index) => (
+                                        <option key={index}>
+                                            {xtate.name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
 
@@ -262,8 +302,12 @@ function Stores() {
                                     className="border rounded p-2 w-full placeholder-gray-400 text-sm"
                                     style={{ outline: "none", }}
                                 >
-                                    <option value="">Tap to select currency</option>
-                                    
+                                    <option value="">Tap to Select a currency</option>
+                                    {currencies?.data?.map((curr) => (
+                                        <option key={curr.id} value={curr.id}>
+                                            {curr.name}
+                                        </option>
+                                     ))}
                                 </select>
                             </div>
 
@@ -299,6 +343,18 @@ function Stores() {
                                 Create Store
                             </button>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {addNewModal && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                        <AddNewProduct 
+                            closeAddNewModal={closeAddNewModal} 
+                            stores={stores}
+                            categories={categories}
+                        />
                     </div>
                 </div>
             )}
