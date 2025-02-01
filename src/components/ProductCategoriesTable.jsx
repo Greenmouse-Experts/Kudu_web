@@ -61,6 +61,11 @@ const ProductCategoriesTable = ({ data }) => {
                                                             Create SubCategories
                                                         </span>
                                                     </MenuItem>
+                                                    <MenuItem className="flex flex-col gap-3">
+                                                        <span className="cursor-pointer" onClick={() => navigate(`edit/${plan.id}`)}>
+                                                            Edit
+                                                        </span>
+                                                    </MenuItem>
                                                 </MenuList>
                                             </Menu>
                                         </td>
