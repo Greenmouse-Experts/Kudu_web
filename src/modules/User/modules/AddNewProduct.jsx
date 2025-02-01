@@ -1,26 +1,77 @@
 import React, { useEffect, useState } from 'react';
+import { useCreateProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import DropZone from '../../../components/DropZone';
 import { MdClose } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     const [currency, setCurrency] = useState(null);
     const [files, setFiles] = useState([]);
-    
+    // const [selectedCategory, setSelectedCategory] = useState(null)
+    const [subCategories, setSubCategories] = useState([]);
 
+    const [createProduct, { isLoading, isError, isSuccess, error }] = useCreateProductMutation();
+    
     const conditions = [
-        { id: 'brand_new', name: 'Brand New' },
-        { id: 'fairly_used', name: 'Fairly Used' },
-        { id: 'refurbished', name: 'Refurbished' },
+        { id: 'brand_new', name: 'brand_new' },
+        { id: 'fairly_used', name: 'fairly_used' },
+        { id: 'fairly_foreign', name: 'fairly_foreign'},
+        { id: 'refurbished', name: 'refurbished' },
     ]
+
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        watch
+    } = useForm();
 
     const navigate = useNavigate();
 
-    const handleDrop = () => {
+    const selectedId = watch("categoryId");
+    const selectedCategory = categories?.data?.find((cat) => cat.id === selectedId)?.name || "";
 
+    const handleCategoryChange = (e) => {
+        const selectedId = e.target.value;
+        setValue("categoryId", selectedId); 
+    };
+    
+    useEffect(() => {
+        if(selectedCategory){
+            const filteredCategories = categories?.data?.filter((categoryData) => (
+                categoryData.name === selectedCategory
+            ))
+
+            if (filteredCategories.length > 0 && filteredCategories[0]?.subCategories) {
+                setSubCategories(filteredCategories[0].subCategories);
+            } else {
+                setSubCategories([]); 
+            }
+        }
+    }, [selectedCategory])
+
+    const handleDrop = (data) => {
+        setFiles((prevFiles) => [...prevFiles, data]);
     }
-        console.log(categories)
+
+    const onSubmit = (data) => {
+        if (files.length > 0) {
+            const payload = { ...data, image: files[0]};
+            console.log("PAYLOAD: ", payload)
+            createProduct(payload)
+            .then(res => {
+                console.log(res);
+                // toast.success(res.data.message);
+                closeAddNewModal();
+            }).catch(error => {
+                console.log(error);
+                toast.error(error);
+            })
+        }
+    };
+    
     return (
         <div className='All'>
             <div className="rounded-md pb-2 px-9 gap-5 flex items-center justify-between">
@@ -34,12 +85,13 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
 
                     <form
                         className="w-full flex flex-col items-center justify-center p-4"
+                        onSubmit={handleSubmit(onSubmit)}
                     >
                         <div className="w-full p-6">
                             <div className="mb-3">
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="store"
                                 >
                                     Store
                                 </label>
@@ -47,6 +99,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     id='storeId'
                                     className="w-full p-1 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("storeId", { required: "Store is required" })}
                                     required
                                 >
                                     <option value={null} disabled selected>Select Store</option>
@@ -61,7 +114,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className="mb-3">
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="category"
                                 >
                                     Category
                                 </label>
@@ -69,49 +122,49 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     id='categoryId'
                                     className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("categoryId", { required: "Category is required" })}
+                                    onChange={handleCategoryChange}
                                     required
                                 >
-                                    <option value={null} disabled selected>Select Category</option>
+                                    <option value="" disabled selected>Select Category</option>
                                     {categories.data.map((category) => (
-                                        <option 
-                                            value={category.id} 
-                                            key={category.id}
-                                        >
+                                        <option key={category.id} value={category.id}>
                                             {category.name}
                                         </option>
                                     ))}
                                 </select>
                             </div>
 
-                            <div className="mb-3">
+                            {/* <div className="mb-3">
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="sub-category"
                                 >
                                     Sub Category
                                 </label>
                                 <select
-                                    id='categoryId'
+                                    id='subcategoryId'
                                     className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("subcategoryId", { required: "subcategory is required" })}
                                     required
                                 >
                                     <option value={null} disabled selected>Sub Category</option>
-                                    {/* {categories.data.map((category) => (
+                                    {subCategories.map((subCategory) => (
                                         <option 
-                                            value={category.id} 
-                                            key={category.id}
+                                            key={subCategory.id}
+                                            value={subCategory.id}
                                         >
-                                            {category.name}
+                                            {subCategory.name}
                                         </option>
-                                    ))} */}
+                                    ))}
                                 </select>
-                            </div>
+                            </div> */}
 
                             <div className="mb-3">
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="product-Name"
                                 >
                                     Product Name
                                 </label>
@@ -121,6 +174,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     placeholder="Enter name of product"
                                     className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("name", { required: "name is required" })}
                                     required
                                 />
                             </div>
@@ -128,7 +182,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className="mb-3">
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="condition"
                                 >
                                     Condition
                                 </label>
@@ -136,11 +190,12 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     id='condition'
                                     className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("condition", { required: "condition is required" })}
                                     required
                                 >
                                     <option value={null} disabled selected>Select Condition</option>
                                     {conditions.map((condition) => (
-                                        <option value={condition.id} key={condition.id}>{condition.name}</option>
+                                        <option value={condition.value} key={condition.id}>{condition.name}</option>
                                     ))}
                                 </select>
                             </div>
@@ -148,7 +203,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className='mb-3'>
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="description"
                                 >
                                     Description
                                 </label>
@@ -158,6 +213,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     placeholder="Describe your product"
                                     className="w-full p-1 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("description", { required: "description is required" })}
                                     required
                                 />
                             </div>
@@ -165,7 +221,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className='mb-3'>
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="specification"
                                 >
                                     Specifications
                                 </label>
@@ -175,6 +231,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     placeholder="Enter specification for your product"
                                     className="w-full p-1 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("specification", { required: "specification is required" })}
                                     required
                                 />
                             </div>
@@ -182,7 +239,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className='mb-3'>
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="price"
                                 >
                                     Price
                                 </label>
@@ -194,6 +251,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                         placeholder="Enter Price"
                                         className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                         style={{ outline: "none" }}
+                                        {...register("price", { required: "price is required" })}
                                         required
                                     />
                                 </div>
@@ -202,7 +260,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className='mb-3'>
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="discount_price"
                                 >
                                     Discount Price
                                 </label>
@@ -214,6 +272,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                         placeholder="Enter Discount Price"
                                         className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                         style={{ outline: "none" }}
+                                        {...register("discount_price", { required: "discount price is required" })}
                                         required
                                     />
                                 </div>
@@ -222,7 +281,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className='mb-3'>
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="warranty"
                                 >
                                     Warranty
                                 </label>
@@ -232,6 +291,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     placeholder="Enter Product Warranty"
                                     className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("warranty", { required: "warranty price is required" })}
                                     required
                                 />
                             </div>
@@ -239,7 +299,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className='mb-3'>
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="email"
+                                    htmlFor="return_policy"
                                 >
                                     Return policy
                                 </label>
@@ -249,6 +309,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                     placeholder="Return Policy"
                                     className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
+                                    {...register("return_policy", { required:"return policy price is required"})}
                                     required
                                 />
                             </div>

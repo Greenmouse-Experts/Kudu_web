@@ -44,6 +44,16 @@ export const storeSlice = createApi({
         invalidatesTags: ["Stores"],
       }),
 
+      createProduct: builder.mutation({
+        query: (data) => ({
+          url: `/vendor/products`,
+          method: "POST",
+          headers: { ...headers },
+          body: data,
+        }),
+        invalidatesTags: ["Stores"],
+      }),
+
       editStore: builder.mutation({
         query: (storeId) => {
             return{
@@ -85,7 +95,7 @@ export const storeSlice = createApi({
 
       getCategories: builder.query({
         query: () => ({
-            url: `/vendor/categories`,
+            url: `/categories/with/sub-categories`,
             method: "GET",
             headers: { ...headers },
         }),
@@ -100,6 +110,7 @@ export const {
   useGetAllStoreQuery,
   useGetSingleStoreQuery,
   useCreateStoreMutation,
+  useCreateProductMutation,
   useEditStoreMutation,
   useDeleteStoreMutation,
   useGetCurrenciesQuery,
