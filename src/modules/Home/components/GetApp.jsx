@@ -6,8 +6,6 @@ export default function GetApp() {
             <div className="relative flex flex-col md:flex-row w-full min-w-screen-xl mx-auto h-auto md:h-[400px] bg-transparent">
 
                 {/* Background section */}
-
-
                 {/* Foreground Content */}
                 <div className="relative flex flex-col md:flex-row items-center justify-between w-full h-full px-6 z-10">
                     {/* Left Section: Text & Button */}
