@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCurrenciesQuery, useGetCountriesQuery, useGetCategoriesQuery } from "../../../reducers/storeSlice"
+import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCurrenciesQuery, useGetCountriesQuery, useGetCategoriesQuery} from "../../../reducers/storeSlice"
 import { dateFormat } from "../../../helpers/dateHelper";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -73,6 +73,7 @@ function Stores() {
         setStoreId(id)
         option === "Delete" && setDelModal(true)
         option === "Add Product" && setAddNewModal(true)
+        option === "View/Edit" && setIsModalOpen(true)
     }
 
     const handleCloseDelModal = () => {
