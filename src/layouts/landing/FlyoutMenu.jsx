@@ -1,5 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  Home,
+  Info,
+  Mail,
+  HelpCircle,
+  Store,
+  Megaphone,
+  ShieldCheck,
+  ScrollText,
+  MessageSquareQuote,
+  Users,
+} from "lucide-react";
 
 const FlyoutMenu = () => {
   const [open, setOpen] = useState(false);
@@ -28,9 +40,8 @@ const FlyoutMenu = () => {
 
       {/* Flyout Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* Close Button */}
         <button
@@ -41,30 +52,73 @@ const FlyoutMenu = () => {
         </button>
 
         {/* Menu Items */}
-        <nav className="mt-12 text-center flex flex-col">
+        <nav className="mt-12 text-left flex flex-col">
           <Link
             to="/"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
           >
+            <Home size={20} style={{ color: "#ff6f22" }} />
             Home
           </Link>
           <Link
             to="/about"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
           >
+            <Users size={20} style={{ color: "#ff6f22" }} />
             About Us
           </Link>
           <Link
-            to="/contact"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            to="/testimonial"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
           >
+            <MessageSquareQuote size={20} style={{ color: "#ff6f22" }} />
+            Testimonial
+          </Link>
+          <Link
+            to="/contact"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+          >
+            <Mail size={20} style={{ color: "#ff6f22" }} />
             Contact
           </Link>
           <Link
             to="/faqs"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
           >
+            <HelpCircle size={20} style={{ color: "#ff6f22" }} />
             FAQs
+          </Link>
+
+          <Link
+            to="/"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+          >
+            <Store size={20} style={{ color: "#ff6f22" }} />
+            Become a Vendor
+          </Link>
+
+          <Link
+            to="/"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+          >
+            <Megaphone size={20} style={{ color: "#ff6f22" }} />
+            Advertise with Us
+          </Link>
+
+          <Link
+            to="/privacy"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+          >
+            <ShieldCheck size={20} style={{ color: "#ff6f22" }} />
+            Privacy Policy
+          </Link>
+
+          <Link
+            to="/terms-condition"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+          >
+            <ScrollText size={20} style={{ color: "#ff6f22" }} />
+            Terms and Conditions
           </Link>
         </nav>
       </div>

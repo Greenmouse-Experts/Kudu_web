@@ -151,7 +151,7 @@ export default function About() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                             {[
                                 {
-                                    title: "Transparency",
+                                    title: "Fairness",
                                     description:
                                         "We ensure equal opportunities for sellers and fair pricing for buyers, promoting a level playing field.",
                                     icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1738148097/balance_inrqke.png"

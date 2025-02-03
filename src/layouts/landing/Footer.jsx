@@ -26,7 +26,7 @@ export default function Footer() {
                                     Registration
                                 </Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
                                     Payment
                                 </Link>
@@ -40,14 +40,13 @@ export default function Footer() {
                                 <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
                                     Bulk Purchase
                                 </Link>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Sell</h3>
                         <ul className="space-y-3 text-sm">
                             <li><a href="#" className="text-gray-400">Become a Vendor</a></li>
-                            <li><a href="#" className="text-gray-400">Kudu Deliveries</a></li>
                             <li><a href="#" className="text-gray-400">Advertise with Us</a></li>
                         </ul>
                     </div>
@@ -97,7 +96,7 @@ export default function Footer() {
                             </li>
                             <li>
                                 <Link to="/testimonial" className="text-gray-400 hover:text-gray-600 transition">
-                                   Testimonail
+                                Testimonial
                                 </Link>
                             </li>
                         </ul>

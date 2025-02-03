@@ -1,6 +1,7 @@
 import Imgix from "react-imgix"
 import ProductListing from "../../../components/ProductsList"
 import './style.css';
+import { Link } from "react-router-dom";
 
 export default function ProductsSection({ data }) {
     return (
@@ -9,7 +10,7 @@ export default function ProductsSection({ data }) {
                 <div className="flex w-full items-center justify-between">
                     <h1 className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Products</h1>
                     <p className="sm:text-lg md:text-1xl  text-kuduOrange font-semibold cursor-pointer view">
-                        See All
+                        <Link to="/see-all">See All</Link>
                     </p>
                 </div>
                 {/* <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Products</span> */}
