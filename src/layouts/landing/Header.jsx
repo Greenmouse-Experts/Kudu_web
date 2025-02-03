@@ -335,11 +335,11 @@ export default function Header({ openMenu }) {
               {/* Right Buttons */}
               <div className="flex items-center space-x-4">
                 {/* <Link
-                                    to="/register"
-                                    className="text-kuduDarkGrey text-sm font-medium"
-                                >
-                                    Register/Login
-                                </Link> */}
+                        to="/register"
+                        className="text-kuduDarkGrey text-sm font-medium"
+                    >
+                        Register/Login
+                    </Link> */}
                 {/* {!user && (
                   <>
                     <Link
