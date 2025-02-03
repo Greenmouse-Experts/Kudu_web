@@ -13,7 +13,7 @@ const SearchBar = () => {
       <input
         type="text"
         placeholder="Search item"
-        className="flex-1 xl:py-4 xl:px-5 md:py-3 md:px-4 sm:py-2 text-sm text-black bg-[#FFF2EA] outline-none"
+        className="flex-1 xl:py-4 xl:px- md:py-3 md:px-4 sm:py-2 text-sm text-black bg-[#FFF2EA] outline-none"
       />
 
       {/* Filter Button & Dropdown */}
