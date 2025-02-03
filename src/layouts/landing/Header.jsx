@@ -340,7 +340,7 @@ export default function Header({ openMenu }) {
                                 >
                                     Register/Login
                                 </Link> */}
-                {!user && (
+                {/* {!user && (
                   <>
                     <Link
                       to="/cart"
@@ -402,7 +402,7 @@ export default function Header({ openMenu }) {
                       </span>
                     </a>
                   </>
-                )}
+                )} */}
 
                 {!user && (
                   <div className="flex items-center gap-1">
