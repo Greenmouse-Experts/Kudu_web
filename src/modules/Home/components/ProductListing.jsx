@@ -2,14 +2,14 @@ import { useState } from "react";
 
 const ProductListing = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [priceRange, setPriceRange] = useState(50000);
+    const [priceRange, setPriceRange] = useState(200000);
     const [sortBy, setSortBy] = useState("popularity");
 
     const categories = ['Laptops', 'Phones', 'Accessories', 'TVs', 'Home Appliances'];
     const products = [
         { id: 1, name: 'Hp STREAM 11, INTEL CELERON', price: 20000, category: 'Laptops', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602596/kuduMart/1_lqs83i.jpg' },
-        { id: 2, name: 'Product 2', price: 50000, category: 'Phones', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602919/kuduMart/1_1_qkerwy.jpg' },
-        { id: 3, name: 'Product 3', price: 100000, category: 'TVs', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602914/kuduMart/1_2_kqskze.jpg' },
+        { id: 2, name: 'Product 2', price: 2000, category: 'Phones', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602919/kuduMart/1_1_qkerwy.jpg' },
+        { id: 3, name: 'Product 3', price: 5000, category: 'TVs', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602914/kuduMart/1_2_kqskze.jpg' },
         { id: 4, name: 'Product 4', price: 110000, category: 'Laptops', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603087/kuduMart/1_4_aldb9b.jpg' },
         { id: 5, name: 'Product 5', price: 80000, category: 'Laptops', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603081/kuduMart/1_5_dtkkx6.jpg' },
         { id: 6, name: 'Product 6', price: 75000, category: 'Accessories', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603410/kuduMart/1_12_ka9cdu.jpg' },
@@ -53,7 +53,7 @@ const ProductListing = () => {
                     <input
                         type="range"
                         min="1000"
-                        max="500000"
+                        max="200000"
                         value={priceRange}
                         onChange={(e) => setPriceRange(e.target.value)}
                         className="w-full"
