@@ -25,9 +25,9 @@ const ProductListing = () => {
     );
 
     return (
-        <div className="flex w-full max-w-screen-xl mx-auto">
+        <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
             {/* Sidebar */}
-            <aside className="w-1/5 p-4  border rounded-lg shadow-sm bg-white">
+            <aside className="lg:w-1/5 p-4 border rounded-lg shadow-sm bg-white mb-6 lg:mb-0">
                 <h2 className="text-lg font-semibold mb-4">Filters</h2>
                 <div>
                     <h3 className="font-semibold mb-4">Category</h3>
@@ -74,7 +74,7 @@ const ProductListing = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="w-4/5 pl-6">
+            <main className="lg:w-4/5 lg:pl-6 sm:pl-0">
                 <div className="flex justify-between border items-center mb-6 bg-white p-5 rounded-md">
                     <h1 className="text-xl font-bold">All Products</h1>
                     <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="border p-2 rounded">
@@ -84,7 +84,7 @@ const ProductListing = () => {
                     </select>
                 </div>
 
-                <div className="grid grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredProducts.map(product => (
                         <div key={product.id} className="border p-4 rounded-md bg-white hover:shadow-md transition">
                             <img src={product.image} alt={product.name} className="w-full h-auto object-cover rounded-md" />
