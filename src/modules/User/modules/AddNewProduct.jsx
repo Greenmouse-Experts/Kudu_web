@@ -56,14 +56,37 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
         setFiles((prevFiles) => [...prevFiles, data]);
     }
 
+    const transformPayload = (data) => {
+        return{
+            storeId: data.storeId ,
+            categoryId: data.subcategoryId,
+            name: data.name,
+            condition: data.condition, 
+            description: data.description,
+            specification: data.specification,
+            price: data.price,
+            image_url: data.image,
+            discount_price: data.discount_price,
+            additional_images: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"],
+            warranty: data.warranty,
+            return_policy: data.return_policy,
+            seo_title: "",
+            meta_description: "",
+            keywords: ""
+        }
+    }
+
     const onSubmit = (data) => {
         if (files.length > 0) {
             const payload = { ...data, image: files[0]};
-            console.log("PAYLOAD: ", payload)
-            createProduct(payload)
+
+            const reformedPayload = transformPayload(payload);
+
+            console.log(reformedPayload)
+            createProduct(reformedPayload)
             .then(res => {
                 console.log(res);
-                // toast.success(res.data.message);
+                toast.success(res.data.message);
                 closeAddNewModal();
             }).catch(error => {
                 console.log(error);
@@ -135,7 +158,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                 </select>
                             </div>
 
-                            {/* <div className="mb-3">
+                            <div className="mb-3">
                                 <label
                                     className="block text-md font-semibold mb-1"
                                     htmlFor="sub-category"
@@ -159,7 +182,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                         </option>
                                     ))}
                                 </select>
-                            </div> */}
+                            </div>
 
                             <div className="mb-3">
                                 <label
