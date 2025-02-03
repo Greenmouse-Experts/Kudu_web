@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 
 
 const SearchBar = () => {
@@ -18,43 +17,40 @@ const SearchBar = () => {
       />
 
       {/* Filter Button & Dropdown */}
-      <div className="relative z-50">
-        <Menu>
-          <MenuHandler>
-            <button
-              className="bg-white border-gray-300 px-4 mr-4 py-1 text-xs font-fold rounded-full flex items-center gap-1"
-              onClick={() => setFilterOpen(!filterOpen)}
-            >
-              {selectedFilter}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                className="w-5 h-5"
+      <div className="relative">
+        <button
+          className="bg-white border-gray-300 px-4 mr-4 py-1 text-xs font-fold rounded-full flex items-center gap-1"
+          onClick={() => setFilterOpen(!filterOpen)}
+        >
+          {selectedFilter}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            className="w-5 h-5"
+          >
+            <path d="M7 10l5 5 5-5H7z" />
+          </svg>
+        </button>
+
+        {/* Dropdown Menu */}
+        {filterOpen && (
+          <div className="absolute top-full left-0 bg-white shadow-md border border-gray-200 rounded-md mt-1 w-28 z-50" style={{ zIndex: "9999 !important" }}>
+            {filters.map((filter, index) => (
+              <button
+                key={index}
+                className="w-full text-left px-3 py-2 text-xs hover:bg-gray-200 z-50" 
+                onClick={() => {
+                  setSelectedFilter(filter);
+                  setFilterOpen(false);
+                }}
+                style={{ zIndex: "9999 !important" }}
               >
-                <path d="M7 10l5 5 5-5H7z" />
-              </svg>
-            </button>
-          </MenuHandler>
-          <MenuList>
-            {/* Dropdown Menu */}
-            <div className="w-48" style={{ zIndex: "9999 !important" }}>
-              {filters.map((filter, index) => (
-                <button
-                  key={index}
-                  className="w-full text-left px-3 py-2 text-xs hover:bg-gray-200 z-50"
-                  onClick={() => {
-                    setSelectedFilter(filter);
-                    setFilterOpen(false);
-                  }}
-                  style={{ zIndex: "9999 !important" }}
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
-          </MenuList>
-        </Menu>
+                {filter}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Search Button */}

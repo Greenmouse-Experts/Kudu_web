@@ -340,7 +340,7 @@ export default function Header({ openMenu }) {
                                 >
                                     Register/Login
                                 </Link> */}
-                {/* {!user && (
+                {!user && (
                   <>
                     <Link
                       to="/cart"

@@ -33,7 +33,7 @@ const MyComponent = () => {
                 // navigation
                 autoplay={{ delay: 3000 }}
                 loop={true}
-                className="h-[70vh] md:h-[60vh] sm:h-[40vh] lg:h-[70vh]"
+                className="h-[70vh] md:h-[40vh] sm:h-[30vh] lg:h-[70vh]"
             >
                 {slides.map((slide, index) => (
                     <SwiperSlide key={index}>

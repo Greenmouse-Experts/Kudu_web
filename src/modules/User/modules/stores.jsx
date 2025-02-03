@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCurrenciesQuery, useGetCountriesQuery, useGetCategoriesQuery} from "../../../reducers/storeSlice"
+import React, { useState } from 'react';
+import { useGetAllStoreQuery, useDeleteStoreMutation } from "../../../reducers/storeSlice"
 import { dateFormat } from "../../../helpers/dateHelper";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -121,6 +121,8 @@ function Stores() {
         })
         setDelModal(false)
     }
+
+    console.log(stores)
 
     return (
         <div className="bg-white rounded-lg w-full p-6">
