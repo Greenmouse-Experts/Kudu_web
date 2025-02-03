@@ -8,6 +8,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { toast } from "react-toastify";
 import AddNewProduct from './AddNewProduct';
 import CreateNewStore from './CreateNewStore';
+import AddNewAuctionProduct from './AddNewAuctionProduct';
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,6 +20,8 @@ function Stores() {
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [xtates, setXtates] = useState([]);
+    const [productOptionModal, setProductOptionModal] = useState(null);
+    const [addNewAuctionModal, setAddNewAuctionModal] = useState(null);
 
     const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery();
     const [deleteSto] = useDeleteStoreMutation();
@@ -72,8 +75,18 @@ function Stores() {
     const handleAction = (option, id) => {
         setStoreId(id)
         option === "Delete" && setDelModal(true)
-        option === "Add Product" && setAddNewModal(true)
+        option === "Add Product" && setProductOptionModal(true)
         option === "View/Edit" && setIsModalOpen(true)
+    }
+
+    const openAddNewProductModal = () => {
+        setAddNewModal(true)
+        setProductOptionModal(false)
+    }
+
+    const openAddNewAuctionProductModal = () => {
+        setAddNewAuctionModal(true)
+        setProductOptionModal(false)
     }
 
     const handleCloseDelModal = () => {
@@ -82,6 +95,7 @@ function Stores() {
 
     const closeAddNewModal = () => {
         setAddNewModal(false)
+        setAddNewAuctionModal(false)
     }
 
     const submitNewStore = (e) => {
@@ -224,6 +238,18 @@ function Stores() {
                 </div>
             )}
 
+            {addNewAuctionModal && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                        <AddNewAuctionProduct 
+                            closeAddNewModal={closeAddNewModal} 
+                            stores={stores}
+                            categories={categories}
+                        />
+                    </div>
+                </div>
+            )}
+
             {delModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
                     <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
@@ -241,6 +267,29 @@ function Stores() {
                                 onClick={deleteStore}
                             >
                                 Delete Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {productOptionModal && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                    <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+                        <h1 className="text-center font-large">
+                            Product Type
+                        </h1>
+                        <div className="flex justify-center mt-4">
+                            <button
+                                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
+                                onClick={openAddNewAuctionProductModal}
+                            >
+                                Auction
+                            </button>
+                            <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
+                                onClick={openAddNewProductModal}
+                            >
+                                Non-Auction
                             </button>
                         </div>
                     </div>

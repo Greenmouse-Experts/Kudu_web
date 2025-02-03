@@ -2,11 +2,17 @@ import Imgix from "react-imgix"
 import ProductListing from "../../../components/ProductsList"
 import './style.css';
 
-export default function ProductsSection({data}) {
+export default function ProductsSection({ data }) {
     return (
         <>
             <div className="flex flex-col gap-8 w-full Justing">
-                <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Products</span>
+                <div className="flex w-full items-center justify-between">
+                    <h1 className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Products</h1>
+                    <p className="sm:text-lg md:text-1xl  text-kuduOrange font-semibold cursor-pointer view">
+                        See All
+                    </p>
+                </div>
+                {/* <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Products</span> */}
                 <ProductListing productsArr={data} />
                 <div className="flex w-full flex-col md:flex-row gap-4">
                     <div className="bg-kuduDarkBlue md:w-1/2 flex md:flex-row flex-col w-full py-2 px-4 lg:rounded-lg md:rounded-lg">
@@ -14,10 +20,10 @@ export default function ProductsSection({data}) {
                             <h2 className="md:text-2xl text-base font-semibold text-white">Boost Leads for Your Business</h2>
                             <p className="text-white text-sm mb-4">Place an advert on Kudu</p>
                             <div className="flex md:hidden -mt-3">
-                            <Imgix sizes="(max-width: 768px) 50px, 80px" 
-                            className="max-w-[250px] max-h-[200px] md:max-w-[80px] md:max-h-[80px] object-contain"
-                             src={'https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/user_phone_vwx3xd.png'} width={250} height={0} alt="user phone" />
-                        </div>
+                                <Imgix sizes="(max-width: 768px) 50px, 80px"
+                                    className="max-w-[250px] max-h-[200px] md:max-w-[80px] md:max-h-[80px] object-contain"
+                                    src={'https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/user_phone_vwx3xd.png'} width={250} height={0} alt="user phone" />
+                            </div>
                             <button className="bg-white shadow-sm flex gap-2 text-kuduDarkBlue justify-center md:text-sm text-xs uppercase font-semibold w-full px-4 py-3">Shop Tech
                                 <span className="flex flex-col justify-center mt-[7px]">
                                     <svg width="26" height="13" viewBox="0 0 26 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,7 +48,7 @@ export default function ProductsSection({data}) {
                                 60” LED Television</h2>
                             <button className="bg-white shadow-sm flex gap-2 mt-5 text-kuduDarkBlue font-semibold text-xs py-4 rounded-full sm:rounded-sm px-3 sm:px-11 md:w-1/2 ">
                                 Starting
-                                
+
                                 From
                                 <b className="">₦285,000</b>
                             </button>

@@ -48,7 +48,6 @@ export default function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li><a href="#" className="text-gray-400">Become a Vendor</a></li>
                             <li><a href="#" className="text-gray-400">Kudu Deliveries</a></li>
-                            <li><a href="#" className="text-gray-400">Flash Sales</a></li>
                             <li><a href="#" className="text-gray-400">Advertise with Us</a></li>
                         </ul>
                     </div>
@@ -75,11 +74,7 @@ export default function Footer() {
                                     Terms and Conditions
                                 </Link>
                             </li>
-                            <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Site Map
-                                </Link>
-                            </li>
+                            
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
@@ -90,11 +85,11 @@ export default function Footer() {
                                     Help Center
                                 </Link>
                             </li>
-                            <li>
+                            {/* <li>
                                 <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
                                     Chat with Us
                                 </Link>
-                            </li>
+                            </li> */}
                             <li>
                                 <Link to="/faqs" className="text-gray-400 hover:text-gray-600 transition">
                                     FAQs

@@ -6,6 +6,8 @@ import LogOutModal from "../../components/LogOut";
 import { useModal } from "../../hooks/modal"; // Adjust the path as needed
 import useAppState from "../../hooks/appState";
 import SwitchVendorModal from "../../modules/User/components/switchVendor";
+import FlyoutMenu from "./FlyoutMenu";
+import SearchBar from "./SearchBar";
 
 export default function Header({ openMenu }) {
   const { user } = useAppState();
@@ -310,7 +312,9 @@ export default function Header({ openMenu }) {
                 </Link>
               </div>
               {/* Search Bar */}
-              <div className="flex items-center w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden shadow-sm">
+  
+               <SearchBar />
+              {/* <div className="flex items-center w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden shadow-sm">
                 <input
                   type="text"
                   placeholder="Search item"
@@ -326,17 +330,16 @@ export default function Header({ openMenu }) {
                     <path d="M10 2a8 8 0 105.293 13.707l4.998 4.998a1 1 0 101.414-1.414l-4.998-4.998A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z" />
                   </svg>
                 </button>
-              </div>
+              </div> */}
 
               {/* Right Buttons */}
               <div className="flex items-center space-x-4">
                 {/* <Link
-                      to="/register"
-                      className="text-kuduDarkGrey text-sm font-medium"
+                        to="/register"
+                        className="text-kuduDarkGrey text-sm font-medium"
                     >
-                      Register/Login
-                  </Link> */}
-                  
+                        Register/Login
+                    </Link> */}
                 {/* {!user && (
                   <>
                     <Link
@@ -406,17 +409,8 @@ export default function Header({ openMenu }) {
                     <Menu>
                       <MenuHandler>
                         <span className="flex items-center cursor-pointer gap-1">
-                          <svg
-                            width="20"
-                            height="20"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M21.6488 19.875C20.2209 17.4066 18.0206 15.6366 15.4528 14.7975C16.723 14.0414 17.7098 12.8892 18.2618 11.5179C18.8137 10.1467 18.9003 8.63213 18.5082 7.2069C18.1161 5.78167 17.267 4.52456 16.0912 3.62862C14.9155 2.73268 13.4782 2.24745 12 2.24745C10.5218 2.24745 9.08451 2.73268 7.90878 3.62862C6.73306 4.52456 5.88394 5.78167 5.49183 7.2069C5.09971 8.63213 5.18629 10.1467 5.73825 11.5179C6.29021 12.8892 7.27704 14.0414 8.5472 14.7975C5.97938 15.6356 3.77907 17.4056 2.35126 19.875C2.2989 19.9604 2.26417 20.0554 2.24912 20.1544C2.23407 20.2534 2.239 20.3544 2.26363 20.4515C2.28825 20.5486 2.33207 20.6398 2.3925 20.7196C2.45293 20.7995 2.52874 20.8665 2.61547 20.9165C2.7022 20.9666 2.79808 20.9989 2.89745 21.0113C2.99683 21.0237 3.0977 21.0161 3.19409 20.989C3.29049 20.9618 3.38047 20.9156 3.45872 20.8531C3.53697 20.7906 3.6019 20.713 3.6497 20.625C5.41595 17.5725 8.53782 15.75 12 15.75C15.4622 15.75 18.5841 17.5725 20.3503 20.625C20.3981 20.713 20.4631 20.7906 20.5413 20.8531C20.6196 20.9156 20.7095 20.9618 20.8059 20.989C20.9023 21.0161 21.0032 21.0237 21.1026 21.0113C21.2019 20.9989 21.2978 20.9666 21.3845 20.9165C21.4713 20.8665 21.5471 20.7995 21.6075 20.7196C21.6679 20.6398 21.7118 20.5486 21.7364 20.4515C21.761 20.3544 21.766 20.2534 21.7509 20.1544C21.7358 20.0554 21.7011 19.9604 21.6488 19.875ZM6.75001 9C6.75001 7.96165 7.05792 6.94662 7.63479 6.08326C8.21167 5.2199 9.03161 4.54699 9.99092 4.14963C10.9502 3.75227 12.0058 3.64831 13.0242 3.85088C14.0426 4.05345 14.9781 4.55347 15.7123 5.28769C16.4465 6.02192 16.9466 6.95738 17.1491 7.97578C17.3517 8.99418 17.2477 10.0498 16.8504 11.0091C16.453 11.9684 15.7801 12.7883 14.9168 13.3652C14.0534 13.9421 13.0384 14.25 12 14.25C10.6081 14.2485 9.27359 13.6949 8.28934 12.7107C7.3051 11.7264 6.7515 10.3919 6.75001 9Z"
-                              fill="black"
-                            />
+                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4C5 2.93913 5.42143 1.92172 6.17157 1.17157C6.92172 0.421427 7.93913 0 9 0C10.0609 0 11.0783 0.421427 11.8284 1.17157C12.5786 1.92172 13 2.93913 13 4C13 5.06087 12.5786 6.07828 11.8284 6.82843C11.0783 7.57857 10.0609 8 9 8C7.93913 8 6.92172 7.57857 6.17157 6.82843C5.42143 6.07828 5 5.06087 5 4ZM5 10C3.67392 10 2.40215 10.5268 1.46447 11.4645C0.526784 12.4021 0 13.6739 0 15C0 15.7956 0.316071 16.5587 0.87868 17.1213C1.44129 17.6839 2.20435 18 3 18H15C15.7956 18 16.5587 17.6839 17.1213 17.1213C17.6839 16.5587 18 15.7956 18 15C18 13.6739 17.4732 12.4021 16.5355 11.4645C15.5979 10.5268 14.3261 10 13 10H5Z" fill="black" />
                           </svg>
                           <span className="mr-1 text-[15px] font-[500] mt-[4px]">
                             {" "}
@@ -505,52 +499,7 @@ export default function Header({ openMenu }) {
                   </span>
                 )}
                 {/* New Menu Button */}
-
-                <Menu>
-                  <MenuHandler>
-                    <button className="bg-[#FFF2EA] border border-black text-black py-2 px-2 rounded-full flex items-center gap-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                        className="w-7 h-7 stroke-black"
-                      >
-                        <path
-                          d="M4 6h16M4 12h16M4 18h16"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </button>
-                  </MenuHandler>
-                  <MenuList>
-                    <Link
-                      to="/"
-                      className="block px-4 py-4 text-sm text-black cursor-pointer hover:bg-gray-200"
-                    >
-                      Home
-                    </Link>
-                    <Link
-                      to="/about"
-                      className="block px-4 py-4 text-sm text-black cursor-pointer hover:bg-gray-200"
-                    >
-                      About Us
-                    </Link>
-                    <Link
-                      to="/contact"
-                      className="block px-4 py-4 text-sm text-black cursor-pointer hover:bg-gray-200"
-                    >
-                      Contact
-                    </Link>
-                    <Link
-                      to="/faq"
-                      className="block px-4 py-4 text-sm text-black cursor-pointer hover:bg-gray-200"
-                    >
-                      FAQ
-                    </Link>
-                  </MenuList>
-                </Menu>
+                <FlyoutMenu />
               </div>
             </div>
           </header>
