@@ -245,8 +245,8 @@ export default function About() {
                                     />
                                     <h3 className="text-lg font-semibold">{step.title}</h3>
                                     <li className="text-black text-base mt-2 leading-loose">{step.description}</li>
-                                    <li className="text-black text-base mt-2 leading-loose">{step.last}</li>
-                                    <li className="text-black text-base mt-2 leading-loose">{step.end}</li>
+                                    <p className="text-black text-base mt-2 leading-loose">{step.last}</p>
+                                    <p className="text-black text-base mt-2 leading-loose">{step.end}</p>
                                 </div>
                             ))}
                         </div>
