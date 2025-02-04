@@ -114,7 +114,7 @@ export default function Header({ openMenu }) {
               <Imgix
                 src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
                 sizes="20vw"
-                width={150}
+                width={200}
                 height={33}
               />
             </Link>
