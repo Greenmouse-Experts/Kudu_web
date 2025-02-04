@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const AdminAdverts = ({ data }) => {
-    console.log(data);
     const [dropdownOpen, setDropdownOpen] = useState(null);
 
     const toggleDropdown = (index) => {
