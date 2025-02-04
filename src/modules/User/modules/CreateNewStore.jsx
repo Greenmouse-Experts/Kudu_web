@@ -1,12 +1,25 @@
-import React, { useState  } from "react";
+import React, { useState, useEffect  } from "react";
 import { useForm } from 'react-hook-form';
-import { useCreateStoreMutation } from "../../../reducers/storeSlice";
+import { useCreateStoreMutation, useGetSingleStoreQuery } from "../../../reducers/storeSlice";
 import { toast } from "react-toastify";
 
 
-const CreateNewStore = ({ handleCloseModal, currencies, countries, selectedCountry, setSelectedCountry, xtates, submitNewStore}) => {
-    const [deliveryOptions, setDeliveryOptions] = useState([]);
+const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, currencies, countries, selectedCountry, setSelectedCountry, xtates, submitNewStore, editOrAddstore, storeId}) => {
+   
+    const [store, setStore] = useState(null);
+    
     const [createStore, { isLoading, isError, isSuccess, error }] = useCreateStoreMutation();
+    const { data } = useGetSingleStoreQuery(storeId);
+
+    useEffect(() => {
+        console.log(editOrAddstore)
+        if(editOrAddstore === "edit"){
+            setStore(data)
+        }
+    }, [])
+
+    console.log(storeId)
+    store && console.log("SINGLE STORE: ", store)
 
     const {
         register,

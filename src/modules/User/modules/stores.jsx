@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import AddNewProduct from './AddNewProduct';
 import AddNewAuctionProduct from './AddNewAuctionProduct';
 import CreateNewStore from './CreateNewStore';
+import ProductTypeModal from './ProductTypeModal';
+
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,6 +24,8 @@ function Stores() {
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [xtates, setXtates] = useState([]);
     const [openAddNewProductOptionModal, setOpenAddNewProductOptionModal] = useState(null);
+    const [editOrAddstore, setEditOrAddstore] = useState(null);
+    const [deliveryOptions, setDeliveryOptions] = useState([]);
 
     const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery();
     const [deleteSto] = useDeleteStoreMutation();
@@ -65,6 +69,7 @@ function Stores() {
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
+        setEditOrAddstore("add new")
     };
 
     const handleCloseModal = () => {
@@ -76,7 +81,10 @@ function Stores() {
         setStoreId(id)
         option === "Delete" && setDelModal(true)
         option === "Add Product" && setOpenAddNewProductOptionModal(true)
-        option === "View/Edit" && setIsModalOpen(true)
+        if(option === "View/Edit"){
+            setIsModalOpen(true)
+            setEditOrAddstore("edit")
+        }
     }
 
     const openAddNewProductForm = () => {
@@ -216,6 +224,8 @@ function Stores() {
 
             {isModalOpen && (
                 <CreateNewStore 
+                    deliveryOptions={deliveryOptions}
+                    setDeliveryOptions={setDeliveryOptions}
                     handleCloseModal={handleCloseModal} 
                     currencies={currencies}
                     countries={countries}
@@ -223,6 +233,8 @@ function Stores() {
                     setSelectedCountry={setSelectedCountry}
                     xtates={xtates}
                     submitNewStore={submitNewStore}
+                    editOrAddstore={editOrAddstore}
+                    storeId={storeId}
                 />
             )}
 
@@ -272,29 +284,16 @@ function Stores() {
                     </div>
                 </div>
             )}
-
             
             {openAddNewProductOptionModal && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                    <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
-                        <h1 className="text-center font-large">
-                            Product Type
-                        </h1>
-                        <div className="flex justify-center mt-4">
-                            <button
-                                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
-                                onClick={openAddNewAuctionProductForm}
-                            >
-                                Auction
-                            </button>
-                            <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
-                                onClick={openAddNewProductForm}
-                            >
-                                Non-Auction
-                            </button>
-                        </div>
-                    </div>
-                </div>
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                 <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+                    <ProductTypeModal 
+                        openAddNewAuctionProductForm={openAddNewAuctionProductForm}
+                        openAddNewProductForm={openAddNewProductForm}
+                    />
+                 </div>
+             </div>
             )}
         </div>
     );

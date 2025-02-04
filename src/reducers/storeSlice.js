@@ -26,8 +26,8 @@ export const storeSlice = createApi({
       }),
           
       getSingleStore: builder.query({
-        query: (dataId) => ({
-          url: `/vendor/store`,
+        query: (storeId) => ({
+          url: `/vendor/view/store?storeId=${storeId}`,
           method: "GET",
           headers: { ...headers },
         }),
@@ -84,6 +84,15 @@ export const storeSlice = createApi({
         providesTags: ["Stores"],
       }),
 
+      getMyProduct: builder.query({
+        query: () => ({
+            url: `/vendor/vendors/products`,
+            method: "GET",
+            headers: { ...headers },
+        }),
+        providesTags: ["Stores"],
+      }),
+
       getCountries: builder.query({
         query: () => ({
             url: "https://countriesnow.space/api/v0.1/countries/states",
@@ -116,4 +125,5 @@ export const {
   useGetCurrenciesQuery,
   useGetCountriesQuery,
   useGetCategoriesQuery,
+  useGetMyProductQuery
 } = storeSlice;
