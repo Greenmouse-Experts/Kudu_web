@@ -1,4 +1,6 @@
 import { Carousel, IconButton } from "@material-tailwind/react";
+import { useState, useEffect } from "react";
+
 import Imgix from "react-imgix";
 
 export default function CategoriesSection() {
