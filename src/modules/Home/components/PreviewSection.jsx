@@ -20,7 +20,7 @@ export default function PreviewSection() {
 
                 {/* Card Section */}
                 <div className="w-full flex md:flex-row flex-col gap-5 z-0 mt-5">
-                    <div className="grid grid-cols-1 md:grid-cols-3 mx-10 mt-14 md:mb-0 gap-8" style={{ position: "relative" }}>
+                    <div className="grid grid-cols-1 md:grid-cols-3 mt-14 md:mb-0 md:mx-2 gap-8" style={{ position: "relative" }}>
                         {/* Auction Card */}
                         <div
                             className="h-full w-full Box"

@@ -1,5 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  Home,
+  Mail,
+  HelpCircle,
+  Store,
+  Megaphone,
+  ShieldCheck,
+  ScrollText,
+  MessageSquareQuote,
+  Users,
+} from "lucide-react";
 
 const FlyoutMenu = () => {
   const [open, setOpen] = useState(false);

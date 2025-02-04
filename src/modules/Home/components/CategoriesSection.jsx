@@ -1,4 +1,6 @@
 import { Carousel, IconButton } from "@material-tailwind/react";
+import { useState, useEffect } from "react";
+
 import Imgix from "react-imgix";
 
 export default function CategoriesSection() {
@@ -30,8 +32,29 @@ export default function CategoriesSection() {
         return chunks;
     };
 
-    const slidesXS = chunkArray(categoriesArr, 3); // Smaller chunk for mobile
-    const slides = chunkArray(categoriesArr, 6); // Larger chunk for larger screens
+    const slidesXS = chunkArray(categoriesArr, 3); // 3 items per slide for mobile
+    const slidesMD = chunkArray(categoriesArr, 5); // 5 items per slide for medium screens
+    const slidesLG = chunkArray(categoriesArr, 6); // 6 items per slide for large screens
+
+    // Determine which slide array to use based on screen size
+    const [slides, setSlides] = useState(slidesLG);
+
+    useEffect(() => {
+        const updateSlides = () => {
+            if (window.innerWidth < 768) {
+                setSlides(slidesXS);
+            } else if (window.innerWidth >= 768 && window.innerWidth < 992) {
+                setSlides(slidesMD);
+            } else {
+                setSlides(slidesLG);
+            }
+        };
+
+        updateSlides();
+        window.addEventListener("resize", updateSlides);
+
+        return () => window.removeEventListener("resize", updateSlides);
+    }, []);
 
     return (
         <div className="flex w-full flex-col gap-5">
@@ -120,7 +143,7 @@ export default function CategoriesSection() {
                 </Carousel>
 
                 {/* Mobile Carousel */}
-                <Carousel  className="rounded-lg flex md:hidden"
+                <Carousel className="rounded-lg flex md:hidden"
                     prevArrow={({ handlePrev }) => (
                         <IconButton
                             variant="text"

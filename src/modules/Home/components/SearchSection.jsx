@@ -24,7 +24,7 @@ const MyComponent = () => {
         },
     ];
     return (
-        <div className="relative w-full z-50 bg-white py-4 lg:mt-10 md:mt-20 mt-10">
+        <div className="relative w-full z-50 bg-white py-4 md:mt-0 sm:mt-0">
             {/* Swiper Slider */}
             <Swiper
                 modules={[Autoplay]}
@@ -32,7 +32,7 @@ const MyComponent = () => {
                 // navigation
                 autoplay={{ delay: 3000 }}
                 loop={true}
-                className="h-[70vh] md:h-[40vh] sm:h-[30vh] lg:h-[70vh]"
+                className="h-[70vh] md:h-[70vh] sm:h-[60vh] lg:h-[70vh] xl:h-[70vh]"
             >
                 {slides.map((slide, index) => (
                     <SwiperSlide key={index}>
@@ -41,7 +41,7 @@ const MyComponent = () => {
                                 backgroundImage: `url(${slide.image})`,
                                 backgroundSize: "cover",
                                 backgroundPosition: "center",
-                                height: "70vh",
+                                height: "80vh",
                             }}
                             className="w-full flex items-center justify-between px-6 lg:px-20 md:px-1"
                         >
