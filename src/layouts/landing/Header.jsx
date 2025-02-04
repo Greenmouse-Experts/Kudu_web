@@ -8,6 +8,18 @@ import useAppState from "../../hooks/appState";
 import SwitchVendorModal from "../../modules/User/components/switchVendor";
 import FlyoutMenu from "./FlyoutMenu";
 import SearchBar from "./SearchBar";
+import {
+  Home,
+  Info,
+  Mail,
+  HelpCircle,
+  Store,
+  Megaphone,
+  ShieldCheck,
+  ScrollText,
+  MessageSquareQuote,
+  Users,
+} from "lucide-react";
 
 export default function Header({ openMenu }) {
   const { user } = useAppState();
@@ -95,7 +107,7 @@ export default function Header({ openMenu }) {
 
   return (
     <>
-      <div className="fixed w-full z-[95] py-1 lg:py-0 md:py-0">
+      <div className="fixed w-full z-[95] lg:py-0 md:py-0">
         {/* Main Header */}
         <div className="w-full flex items-center bg-white justify-between lg:px-28 md:gap-8 px-5">
 
@@ -104,7 +116,7 @@ export default function Header({ openMenu }) {
               <Imgix
                 src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
                 sizes="20vw"
-                width={180}
+                width={160}
                 height={33}
               />
             </Link>
@@ -134,30 +146,11 @@ export default function Header({ openMenu }) {
             </button>
           </div>
         </div>
-
       </div>
 
       <div className="bg-white fixed w-full z-[95] Desk">
         <div className="w-full flex items-center justify-between">
-          {/* Logo Section */}
-          {/* <div className="lg:flex md:flex hidden">
-                        <Link to="/">
-                            <Imgix src='https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png'
-                                sizes='20vw'
-                                width={200}
-                                height={70}
-                            />
-                        </Link>
-                    </div>
-                    <div className="lg:hidden md:hidden flex">
-                        <Link to="/">
-                            <Imgix src='https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png'
-                                sizes='20vw'
-                                width={150}
-                                height={33}
-                            />
-                        </Link>
-                    </div> */}
+       
           {/* Mobile Navigation Toggle */}
           <div className="md:hidden">
             <button
@@ -397,6 +390,7 @@ export default function Header({ openMenu }) {
                 {!user && (
                   <div className="flex items-center gap-1">
                     <Menu>
+                      
                       <MenuHandler>
                         <span className="flex items-center cursor-pointer gap-1">
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -470,7 +464,7 @@ export default function Header({ openMenu }) {
                     </Menu>
                   </div>
                 )}
-
+                
                 <Link
                   to={"/auction"}
                   className="bg-kuduDarkGrey text-white py-2 px-4 rounded-md"
