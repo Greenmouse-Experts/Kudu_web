@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const AdminAdverts = ({ data }) => {
+    console.log(data);
     const [dropdownOpen, setDropdownOpen] = useState(null);
 
     const toggleDropdown = (index) => {
@@ -52,16 +53,16 @@ const AdminAdverts = ({ data }) => {
                                     className={`${index % 2 === 0 ? 'bg-[#F6F7FB]' : 'bg-white'} text-gray-700`}
                                 >
                                     <td className="py-6 px-4 text-left">{String(index + 1).padStart(2, '0')}</td>
-                                    <td className="py-6 px-4 text-left">{ad.advertName}</td>
+                                    <td className="py-6 px-4 text-left">{ad.title}</td>
                                     <td className="py-6 px-4 text-center">
-                                        <img src={ad.advertImage} alt="Advert" className="w-10 h-10 object-cover mx-auto" />
+                                        <img src={ad.media_url} alt="Advert" className="w-10 h-10 object-cover mx-auto" />
                                     </td>
-                                    <td className="py-6 px-4 text-left">{ad.vendorName}</td>
-                                    <td className="py-6 px-4 text-left">{ad.advertCategory}</td>
-                                    <td className="py-6 px-4 text-left">{ad.duration}</td>
+                                    <td className="py-6 px-4 text-left">{'Administrator'}</td>
+                                    <td className="py-6 px-4 text-left">{ad.sub_category.name}</td>
+                                    <td className="py-6 px-4 text-left">{'---'}</td>
                                     <td className="py-6 px-4 text-left">
                                         <span
-                                            className={`py-2 px-4 rounded-md text-sm capitalize ${ad.status === 'Active'
+                                            className={`py-2 px-4 rounded-md text-sm capitalize ${ad.status === 'approved'
                                                 ? 'bg-green-100 text-green-600'
                                                 : 'bg-red-100 text-red-600'
                                                 }`}
