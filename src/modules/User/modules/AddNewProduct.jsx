@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useCreateProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import DropZone from '../../../components/DropZone';
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
+import { MdCancel } from "react-icons/md";
 
 const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     const [currency, setCurrency] = useState(null);
     const [files, setFiles] = useState([]);
-    // const [selectedCategory, setSelectedCategory] = useState(null)
     const [subCategories, setSubCategories] = useState([]);
 
     const [createProduct, { isLoading, isError, isSuccess, error }] = useCreateProductMutation();
@@ -27,8 +26,6 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
         setValue,
         watch
     } = useForm();
-
-    const navigate = useNavigate();
 
     const selectedId = watch("categoryId");
     const selectedCategory = categories?.data?.find((cat) => cat.id === selectedId)?.name || "";
@@ -55,6 +52,10 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     const handleDrop = (data) => {
         setFiles((prevFiles) => [...prevFiles, data]);
     }
+
+    const handleRemoveImage = (idx) => {
+        setFiles((prevFile) => prevFile.filter((_, index) => index !== idx));
+    };
 
     const transformPayload = (data) => {
         return{
@@ -338,20 +339,21 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             </div>
 
                             <div className="w-full flex flex-col gap-2">
-                                <div className="flex flex-col md:w-1/2 w-full gap-6">
+                                <div className="flex flex-col w-[16%] h-[25vh] gap-6">
                                     <p className="-mb-3 text-mobiFormGray">
                                         Product Images
                                     </p>
                                     <DropZone onUpload={handleDrop} text={'Upload Images of Product'} />
                                 </div>
-                                <div className="grid grid-cols-3 gap-4 my-4">
+                                <div className="flex my-4 flex-wrap">
                                     {files.map((fileObj, index) => (
-                                        <div key={index} className="relative">
+                                        <div key={index} className="relative w-[18%] mr-3 mt-4">
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
                                                 className="w-full h-24 object-cover rounded"
                                             />
+                                            <button type="button" className='absolute top-1 right-1 text-[red] text-[20px]' onClick={() => handleRemoveImage(index)}><MdCancel /></button>
                                         </div>
                                     ))}
                                 </div>

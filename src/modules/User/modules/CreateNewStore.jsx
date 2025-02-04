@@ -1,33 +1,74 @@
 import React, { useState, useEffect  } from "react";
 import { useForm } from 'react-hook-form';
-import { useCreateStoreMutation, useGetSingleStoreQuery } from "../../../reducers/storeSlice";
+import { useCreateStoreMutation, useEditStoreMutation } from "../../../reducers/storeSlice";
 import { toast } from "react-toastify";
 
 
-const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, currencies, countries, selectedCountry, setSelectedCountry, xtates, submitNewStore, editOrAddstore, storeId}) => {
+const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, currencies, countries, selectedCountry, setSelectedCountry, xtates, editOrAddstore, stores, storeId}) => {
    
     const [store, setStore] = useState(null);
     
     const [createStore, { isLoading, isError, isSuccess, error }] = useCreateStoreMutation();
-    const { data } = useGetSingleStoreQuery(storeId);
-
-    useEffect(() => {
-        console.log(editOrAddstore)
-        if(editOrAddstore === "edit"){
-            setStore(data)
-        }
-    }, [])
-
-    console.log(storeId)
-    store && console.log("SINGLE STORE: ", store)
+    const [editStore] = useEditStoreMutation();
 
     const {
         register,
         handleSubmit,
+        setValue,
     } = useForm();
 
+    console.log(store)
+
+    const populateDeliveryOption = () => {
+        setDeliveryOptions((prevOptions) => [
+            ...prevOptions,
+            {
+                city: null,
+                price: null,
+                arrival_day: null
+            }
+        ]);
+    };
+
+    useEffect(() => {
+        if(editOrAddstore === "edit"){
+            if(stores){
+                setStore(stores.data.find((store) => store.id === storeId))
+            }
+            if(store){
+                const locationData = JSON.parse(store.location);
+                const BusinessHourData = JSON.parse(store.businessHours);
+
+                setValue("name", store.name);  
+                setValue("address", locationData.address);  
+                setValue("country", locationData.country);  
+                setValue("state", locationData.state);  
+                setValue("city", locationData.city);  
+                setValue("monday_friday", BusinessHourData.monday_friday);  
+                setValue("saturday", BusinessHourData.saturday);  
+                setValue("sunday", BusinessHourData.sunday);   
+                setValue("tipsOnFinding", store.tipsOnFinding); 
+            } 
+
+            if(store){
+                const deliveryOptionData = JSON.parse(store.deliveryOptions);
+                deliveryOptionData !== null && populateDeliveryOption();
+
+                deliveryOptionData.map((deliveryOption, index) => {
+                    setValue(`city${index}`, deliveryOption.city)
+                    setValue(`price${index}`, deliveryOption.price)
+                    setValue(`arrival_day${index}`, deliveryOption.arrival_day)
+            })
+
+                
+            }
+        }
+    }, [editOrAddstore, setValue, store])
+
     const transformPayload = (input) => {
+        var id = editOrAddstore === "edit" ? storeId : ""
         return {
+            storeId: id,
             currencyId: input.currencyId,
             name: input.name,
             location: {
@@ -57,6 +98,7 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
     }
 
     const onSubmit = (data) => {
+        
         const { address, monday_friday, city, country, state, saturday, sunday, ...rest } = data;
 
         const payload = {
@@ -76,32 +118,27 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
 
         const reformedPayload = transformPayload(payload)
 
-        createStore(reformedPayload)
+        console.log(reformedPayload)
+
+        var submitStore;
+
+        editOrAddstore === "edit" ? submitStore = editStore : submitStore = createStore;
+        
+        submitStore(reformedPayload)
         .then(res => {
             console.log(res)
             toast.success(res.data.message)
             handleCloseModal()
         }).catch(error => {
-            console.log(err)
-            toast.error(error.data.message)
+            console.log(error)
+            toast.error(error.data.error.message)
         })
     }
-
-    const populateDeliveryOption = () => {
-        setDeliveryOptions((prevOptions) => [
-            ...prevOptions,
-            {
-                city: null,
-                price: null,
-                arrival_day: null
-            }
-        ]);
-    };
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
         <div className="bg-white p-8 rounded-lg w-11/12 h-[95%] max-w-screen-md mx-auto overflow-y-auto scrollbar-none">
-            <h2 className="text-lg font-bold mb-4">Create your Store</h2>
+            <h2 className="text-lg font-bold mb-4">{editOrAddstore === "edit" ? "Edit Store" : "Create your Store"}</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -353,9 +390,8 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
                         Cancel
                     </button>
                     <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
-                        onSubmit={submitNewStore}
                     >
-                        Create Store
+                        {editOrAddstore === "edit" ? "Update Store" : "Create Store"}
                     </button>
                 </div>
             </form>

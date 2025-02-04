@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useGetAllStoreQuery, useDeleteStoreMutation } from "../../../reducers/storeSlice"
+import React, { useState, useEffect } from 'react';
+import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCategoriesQuery, useGetCountriesQuery, useGetCurrenciesQuery } from "../../../reducers/storeSlice"
 import { dateFormat } from "../../../helpers/dateHelper";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -10,7 +10,7 @@ import AddNewProduct from './AddNewProduct';
 import AddNewAuctionProduct from './AddNewAuctionProduct';
 import CreateNewStore from './CreateNewStore';
 import ProductTypeModal from './ProductTypeModal';
-
+import { Option } from '@material-tailwind/react';
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,11 +27,11 @@ function Stores() {
     const [editOrAddstore, setEditOrAddstore] = useState(null);
     const [deliveryOptions, setDeliveryOptions] = useState([]);
 
-    const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery();
-    const [deleteSto] = useDeleteStoreMutation();
+    const { data: stores, isLoading, isSuccess, isError } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
+    const [deleteSto, error] = useDeleteStoreMutation();
     const {data} = useGetCurrenciesQuery();
     const {data: countri} = useGetCountriesQuery();
-    const {data: categories} = useGetCategoriesQuery();
+    const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
 
     useEffect(() => {
         if(data) setCurrencies(data)
@@ -59,12 +59,14 @@ function Stores() {
 
     const open = Boolean(anchorEl);
 
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+    const handleClick = (event, storeId) => {
+        setAnchorEl(event.currentTarget);
+        setStoreId(storeId);
     };
 
     const handleClose = () => {
       setAnchorEl(null);
+      setStoreId(null)
     }; 
 
     const handleOpenModal = () => {
@@ -77,14 +79,14 @@ function Stores() {
         setDeliveryOptions([])
     };
 
-    const handleAction = (option, id) => {
-        setStoreId(id)
+    const handleAction = (option) => {
         option === "Delete" && setDelModal(true)
         option === "Add Product" && setOpenAddNewProductOptionModal(true)
         if(option === "View/Edit"){
             setIsModalOpen(true)
             setEditOrAddstore("edit")
         }
+        setAnchorEl(null);
     }
 
     const openAddNewProductForm = () => {
@@ -113,16 +115,13 @@ function Stores() {
     const deleteStore = async () => {
         deleteSto(storeId)
         .then(res => {
-            console.log(res)
-            toast.success(res.data.message)
-        }).catch(err => {
-            console.log(err)
-            toast.error(err)
+            // console.log(res)
+            // toast.success(res.data.message)
+        }).catch(res => {
+            console.error(res)
         })
         setDelModal(false)
     }
-
-    console.log(stores)
 
     return (
         <div className="bg-white rounded-lg w-full p-6">
@@ -173,7 +172,7 @@ function Stores() {
                                             aria-controls={open ? 'long-menu' : undefined}
                                             aria-expanded={open ? 'true' : undefined}
                                             aria-haspopup="true"
-                                            onClick={handleClick}
+                                            onClick={(event) => handleClick(event, store.id)}
                                         >
                                             <MoreVertIcon />
                                         </IconButton>
@@ -195,16 +194,15 @@ function Stores() {
                                                 },
                                             }}
                                         >
-                                            {options.map((option) => (
+                                            {options.map((option, idx) => (
                                                 <MenuItem 
-                                                    key={option} 
-                                                    selected={option === 'Pyxis'} 
-                                                    onClick={handleClose}
+                                                    key={idx} 
+                                                    onClick={() => handleAction(option)}
                                                     sx={{
                                                         fontSize: '10px',
                                                       }}
                                                 >
-                                                    <li onClick={() => handleAction(option, store.id, index, store.name)}>
+                                                    <li>
                                                         {option}
                                                     </li>
                                                 </MenuItem>
@@ -236,6 +234,7 @@ function Stores() {
                     xtates={xtates}
                     submitNewStore={submitNewStore}
                     editOrAddstore={editOrAddstore}
+                    stores={stores}
                     storeId={storeId}
                 />
             )}

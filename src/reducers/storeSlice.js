@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const token = localStorage.getItem("kuduUserToken");
-
+console.log(token)
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -12,7 +12,8 @@ const headers = {
 export const storeSlice = createApi({
   reducerPath: "store",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
-  tagTypes: ["Stores"],
+  keepUnusedDataFor: 0,
+  tagTypes: ["Store", "Product", "Currencies", "Countries", "Categories"],
 
   endpoints: (builder) => {
     return {
@@ -22,7 +23,7 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Store"],
       }),
           
       getSingleStore: builder.query({
@@ -31,7 +32,7 @@ export const storeSlice = createApi({
           method: "GET",
           headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Store"],
       }),
 
       createStore: builder.mutation({
@@ -41,7 +42,7 @@ export const storeSlice = createApi({
           headers: { ...headers },
           body: data,
         }),
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Store"],
       }),
 
       createProduct: builder.mutation({
@@ -51,19 +52,19 @@ export const storeSlice = createApi({
           headers: { ...headers },
           body: data,
         }),
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Product"],
       }),
 
       editStore: builder.mutation({
-        query: (storeId) => {
+        query: (data) => {
             return{
-              url: `/vendor/store?storeId=${storeId}`,
+              url: `/vendor/store`,
               method: "PUT",
               headers: { ...headers },
               body: data,
             }
         },
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Store"],
       }),
 
       deleteStore: builder.mutation({
@@ -72,7 +73,7 @@ export const storeSlice = createApi({
           method: "DELETE",
           headers: { ...headers },
         }),
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Store"],
       }),
 
       getCurrencies: builder.query({
@@ -81,7 +82,7 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Currencies"],
       }),
 
       getMyProduct: builder.query({
@@ -90,7 +91,7 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Product"],
       }),
 
       getCountries: builder.query({
@@ -99,7 +100,7 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Countries"],
       }),
 
       getCategories: builder.query({
@@ -108,7 +109,7 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Categories"],
       }),
 
     };

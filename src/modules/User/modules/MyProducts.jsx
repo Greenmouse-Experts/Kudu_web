@@ -1,17 +1,40 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
-import { useGetMyProductQuery } from "../../../reducers/storeSlice"
+import { useGetMyProductQuery, useGetAllStoreQuery, useGetCategoriesQuery } from "../../../reducers/storeSlice"
+import ProductTypeModal from './ProductTypeModal';
+import AddNewProduct from './AddNewProduct';
+import AddNewAuctionProduct from './AddNewAuctionProduct';
 
 const MyProducts = () => {
     const [openAddNewProductOptionModal, setOpenAddNewProductOptionModal] = useState(false);
+    const [addNewModal, setAddNewModal] = useState(false);
+     const [addNewAuctionModal, setAddNewAuctionModal] = useState(false);
+
+    const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
+    const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
 
     const handleOpenModal = () => {
-
+        setOpenAddNewProductOptionModal(true)
     }
 
     const navigate = useNavigate();
-    const { data, isLoading, isSuccess, isError, error } = useGetMyProductQuery();
+    const { data } = useGetMyProductQuery();
+
+    const openAddNewProductForm = () => {
+        setAddNewModal(true)
+        setOpenAddNewProductOptionModal(false)
+    }
+
+    const openAddNewAuctionProductForm = () => {
+        setAddNewAuctionModal(true)
+        setOpenAddNewProductOptionModal(false)
+    }
+
+    const closeAddNewModal = () => {
+        setAddNewModal(false)
+        setAddNewAuctionModal(false)
+    }
     
     return (
         <>
@@ -85,6 +108,40 @@ const MyProducts = () => {
                         </table>
                     </div>
                 </div>
+                {addNewModal && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                        <AddNewProduct 
+                            closeAddNewModal={closeAddNewModal} 
+                            stores={stores}
+                            categories={categories}
+                        />
+                    </div>
+                </div>
+                )}
+
+                {addNewAuctionModal && (
+                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                        <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                            <AddNewAuctionProduct
+                                closeAddNewModal={closeAddNewModal} 
+                                stores={stores}
+                                categories={categories}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {openAddNewProductOptionModal && (
+                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                        <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+                            <ProductTypeModal 
+                                openAddNewAuctionProductForm={openAddNewAuctionProductForm}
+                                openAddNewProductForm={openAddNewProductForm}
+                            />
+                        </div>
+                   </div>
+                )}
             </div>
         </>
     );
