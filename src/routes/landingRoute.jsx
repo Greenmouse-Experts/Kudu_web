@@ -8,6 +8,7 @@ import Privacy from "../modules/Home/privacy";
 import Condititons from "../modules/Home/conditions";
 import Testimonial from "../modules/Home/testimonial";
 import About from "../modules/Home/about";
+import SellAll from "../modules/Home/SellAll";
 
 export const landingRooutes = [
     {
@@ -52,6 +53,11 @@ export const landingRooutes = [
           {
             path: 'about',
             element: <About/>
+          },
+
+          {
+            path: 'see-all',
+            element: <SellAll/>
           },
         ],
     },

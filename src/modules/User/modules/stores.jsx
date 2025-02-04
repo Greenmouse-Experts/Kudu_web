@@ -1,21 +1,49 @@
-import React, { useState } from 'react';
-import { useGetAllStoreQuery, useDeleteStoreMutation } from "../../../reducers/storeSlice"
+import React, { useState, useEffect } from 'react';
+import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCurrenciesQuery, useGetCountriesQuery, useGetCategoriesQuery} from "../../../reducers/storeSlice"
 import { dateFormat } from "../../../helpers/dateHelper";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { toast } from "react-toastify";
+import AddNewProduct from './AddNewProduct';
+import CreateNewStore from './CreateNewStore';
+import AddNewAuctionProduct from './AddNewAuctionProduct';
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [storeId, setStoreId] = useState(null);
-    const [delModal, setDelModal] = useState(false)
-
+    const [delModal, setDelModal] = useState(false);
+    const [addNewModal, setAddNewModal] = useState(false);
+    const [currencies, setCurrencies] = useState([]);
+    const [countries, setCountries] = useState([]);
+    const [selectedCountry, setSelectedCountry] = useState(null);
+    const [xtates, setXtates] = useState([]);
+    const [productOptionModal, setProductOptionModal] = useState(null);
+    const [addNewAuctionModal, setAddNewAuctionModal] = useState(null);
 
     const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery();
     const [deleteSto] = useDeleteStoreMutation();
+    const {data} = useGetCurrenciesQuery();
+    const {data: countri} = useGetCountriesQuery();
+    const {data: categories} = useGetCategoriesQuery();
+
+    useEffect(() => {
+        if(data) setCurrencies(data)
+        if(countri) setCountries(countri)
+    }, [data, countri])
+
+    useEffect(() => {
+        var filteredCountry;
+        if(selectedCountry !== null){
+            filteredCountry = countries?.data?.filter((countryData) => (
+                countryData.name ===  selectedCountry
+            ))
+        }
+        
+        filteredCountry && setXtates(filteredCountry[0].states)
+    },[selectedCountry])
 
     const options = [
         'View/Edit',
@@ -25,7 +53,6 @@ function Stores() {
 
     const ITEM_HEIGHT = 30;
 
-    
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -34,7 +61,7 @@ function Stores() {
 
     const handleClose = () => {
       setAnchorEl(null);
-    };
+    }; 
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -42,31 +69,50 @@ function Stores() {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setDeliveryOptions([])
     };
 
-    const handleAction = (option, id, index, name) => {
-        console.log(index)
-        console.log(name)
-        console.log(id)
+    const handleAction = (option, id) => {
         setStoreId(id)
-        option === 'Delete' && setDelModal(true)
+        option === "Delete" && setDelModal(true)
+        option === "Add Product" && setProductOptionModal(true)
+        option === "View/Edit" && setIsModalOpen(true)
+    }
+
+    const openAddNewProductModal = () => {
+        setAddNewModal(true)
+        setProductOptionModal(false)
+    }
+
+    const openAddNewAuctionProductModal = () => {
+        setAddNewAuctionModal(true)
+        setProductOptionModal(false)
     }
 
     const handleCloseDelModal = () => {
         setDelModal(false)
     }
 
+    const closeAddNewModal = () => {
+        setAddNewModal(false)
+        setAddNewAuctionModal(false)
+    }
+
+    const submitNewStore = (e) => {
+        e.preventDefault()
+    }
+
     const deleteStore = async () => {
         deleteSto(storeId)
         .then(res => {
             console.log(res)
+            toast.success(res.data.message)
         }).catch(err => {
             console.log(err)
+            toast.error(err)
         })
         setDelModal(false)
     }
-
-    console.log(stores)
 
     return (
         <div className="bg-white rounded-lg w-full p-6">
@@ -169,136 +215,37 @@ function Stores() {
             </button>
 
             {isModalOpen && (
+                <CreateNewStore 
+                    handleCloseModal={handleCloseModal} 
+                    currencies={currencies}
+                    countries={countries}
+                    selectedCountry={selectedCountry}
+                    setSelectedCountry={setSelectedCountry}
+                    xtates={xtates}
+                    submitNewStore={submitNewStore}
+                />
+            )}
+
+            {addNewModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                    <div className="bg-white p-8 rounded-lg w-11/12 max-w-screen-md mx-auto">
-                        <h2 className="text-lg font-bold mb-4">Create your Store</h2>
+                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                        <AddNewProduct 
+                            closeAddNewModal={closeAddNewModal} 
+                            stores={stores}
+                            categories={categories}
+                        />
+                    </div>
+                </div>
+            )}
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label htmlFor="storeName" className="block text-sm font-medium mb-4">
-                                    Store Name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="storeName"
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
-                                    placeholder="Enter your store name"
-                                    style={{ outline: "none", }}
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="address" className="block text-sm font-medium mb-4">
-                                    Address
-                                </label>
-                                <input
-                                    type="text"
-                                    id="address"
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
-                                    placeholder="Enter your address"
-                                    style={{ outline: "none", }}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="city" className="block text-sm font-medium mb-4">
-                                    City
-                                </label>
-                                <input
-                                    type="text"
-                                    id="city"
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
-                                    placeholder="Enter your city"
-                                    style={{ outline: "none", }}
-                                />
-                            </div>
-
-                            <div>
-                                <label htmlFor="country" className="block text-sm font-medium mb-4">
-                                    Country
-                                </label>
-                                <select
-                                    id="country"
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
-                                    style={{ outline: "none", }}
-                                >
-                                    <option value="">Tap to Select</option>
-                                    {/* Add country options here */}
-                                </select>
-                            </div>
-
-                            <div>
-                                <label htmlFor="state" className="block text-sm font-medium mb-4">
-                                    State
-                                </label>
-                                <select
-                                    id="state"
-                                    style={{ outline: "none", }}
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
-                                >
-                                    <option value="">Tap to Select</option>
-                                    {/* Add state options here */}
-                                </select>
-                            </div>
-
-                            <div>
-                            <label htmlFor="businessHours" className="block text-sm font-medium mb-4">
-                                Business Hours
-                            </label>
-                                <input
-                                    type="text"
-                                    id="businessHours"
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
-                                    placeholder="e.g., 9am - 6pm"
-                                    style={{ outline: "none", }}
-                                />
-                            </div>
-                            
-                            <div>
-                                <label htmlFor="currency" className="block text-sm font-medium mb-4">
-                                    Store Currency
-                                </label>
-                                <select
-                                    id="currency"
-                                    className="border rounded p-2 w-full placeholder-gray-400 text-sm"
-                                    style={{ outline: "none", }}
-                                >
-                                    <option value="">Tap to select currency</option>
-                                    
-                                </select>
-                            </div>
-
-                            <div>
-                            <label htmlFor="deliveryOptions" className="block text-sm font-medium mb-4">
-                                Delivery Options
-                            </label>
-                            <button className="bg-kuduOrange hover:bg-blue-700 text-white text-sm  py-2 px-4 rounded">
-                                + Add Delivery Option
-                            </button>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-5">
-                                <label htmlFor="tips" className="block text-sm font-medium">
-                                    Tips on Finding Store
-                                </label>
-                                <textarea
-                                    id="tips"
-                                    rows="4"
-                                    className="border p-2 placeholder-gray-400 text-sm"
-                                    placeholder="Enter tips to help customers find your store"
-                                    style={{ outline: "none", }}
-                                />
-                            </div>
-                        <div className="flex justify-end mt-4">
-                            <button
-                                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
-                                onClick={handleCloseModal}
-                            >
-                                Cancel
-                            </button>
-                            <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded">
-                                Create Store
-                            </button>
-                        </div>
+            {addNewAuctionModal && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                        <AddNewAuctionProduct 
+                            closeAddNewModal={closeAddNewModal} 
+                            stores={stores}
+                            categories={categories}
+                        />
                     </div>
                 </div>
             )}
@@ -320,6 +267,29 @@ function Stores() {
                                 onClick={deleteStore}
                             >
                                 Delete Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {productOptionModal && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                    <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+                        <h1 className="text-center font-large">
+                            Product Type
+                        </h1>
+                        <div className="flex justify-center mt-4">
+                            <button
+                                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
+                                onClick={openAddNewAuctionProductModal}
+                            >
+                                Auction
+                            </button>
+                            <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
+                                onClick={openAddNewProductModal}
+                            >
+                                Non-Auction
                             </button>
                         </div>
                     </div>

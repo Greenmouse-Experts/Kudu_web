@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 
-
 const SearchBar = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("FILTER");
 
-  const filters = ["All", "Name", "Category", "Price"];
+  const filters = ["All", "Brand New Products", "Refurbished Products", "Used Products"];
 
   return (
     <div className="flex items-center w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden bg-[#FFF2EA] relative">
@@ -22,7 +21,7 @@ const SearchBar = () => {
         <Menu>
           <MenuHandler>
             <button
-              className="bg-white border-gray-300 px-4 mr-4 py-1 text-xs font-fold rounded-full flex items-center gap-1"
+              className="bg-white px-4 mr-4 py-1 text-xs font-fold rounded-full flex items-center gap-1"
               onClick={() => setFilterOpen(!filterOpen)}
             >
               {selectedFilter}
@@ -38,16 +37,16 @@ const SearchBar = () => {
           </MenuHandler>
           <MenuList>
             {/* Dropdown Menu */}
-            <div className="w-48" style={{ zIndex: "9999 !important" }}>
+            <div className="w-48" style={{ zIndex: "9999 !important" , outline: "none !important" }}>
               {filters.map((filter, index) => (
                 <button
                   key={index}
-                  className="w-full text-left px-3 py-2 text-xs hover:bg-gray-200 z-50"
+                  className="w-full text-left px-3 py-2 text-sm  text-black hover:bg-gray-200 z-50"
                   onClick={() => {
                     setSelectedFilter(filter);
                     setFilterOpen(false);
                   }}
-                  style={{ zIndex: "9999 !important" }}
+                  style={{ zIndex: "9999 !important", outline: "none !important" }}
                 >
                   {filter}
                 </button>
