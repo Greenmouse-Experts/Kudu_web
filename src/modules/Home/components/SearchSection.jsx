@@ -23,7 +23,6 @@ const MyComponent = () => {
             placeholder: "Search for great deals...",
         },
     ];
-
     return (
         <div className="relative w-full z-50 bg-white py-4 lg:mt-10 md:mt-20 mt-10">
             {/* Swiper Slider */}
