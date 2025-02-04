@@ -97,24 +97,14 @@ export default function Header({ openMenu }) {
     <>
       <div className="fixed w-full z-[95] py-1 lg:py-0 md:py-0">
         {/* Main Header */}
-        <div className="w-full flex items-center bg-white justify-between lg:px-28 md:gap-8">
-          {/* Logo Section */}
-          {/* <div className="lg:flex md:flex hidden">
-                        <Link to="/">
-                            <Imgix
-                                src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
-                                sizes="20vw"
-                                width={200}
-                                height={70}
-                            />
-                        </Link>
-                    </div> */}
+        <div className="w-full flex items-center bg-white justify-between lg:px-28 md:gap-8 px-5">
+
           <div className="lg:hidden md:hidden flex">
             <Link to="/">
               <Imgix
-                src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
+                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
                 sizes="20vw"
-                width={200}
+                width={180}
                 height={33}
               />
             </Link>
@@ -123,28 +113,28 @@ export default function Header({ openMenu }) {
           {/* Mobile Navigation Toggle */}
           <div className="md:hidden">
             <button
-              className="text-black focus:outline-none pr-10"
+              className="bg-[#FFF2EA] border border-black text-black py-2 px-2 rounded-full flex items-center gap-2"
               aria-label="Open Menu"
               id="mobile-menu-button"
               onClick={() => toggleMenu()}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                fill="none"
+                fill="currentColor"
                 viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="w-8 h-8"
+                className="w-7 h-7 stroke-black"
               >
                 <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke="currentColor"
+                  strokeWidth="2"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16m-7 6h7"
                 />
               </svg>
             </button>
           </div>
         </div>
+
       </div>
 
       <div className="bg-white fixed w-full z-[95] Desk">
@@ -312,8 +302,8 @@ export default function Header({ openMenu }) {
                 </Link>
               </div>
               {/* Search Bar */}
-  
-               <SearchBar />
+
+              <SearchBar />
               {/* <div className="flex items-center w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden shadow-sm">
                 <input
                   type="text"
