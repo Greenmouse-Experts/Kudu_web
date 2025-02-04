@@ -16,7 +16,7 @@ export default function ProductsSection({ data }) {
                 {/* <span className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Products</span> */}
                 <ProductListing productsArr={data} />
                 <div className="flex w-full flex-col md:flex-row gap-4">
-                    <div className="bg-kuduDarkBlue md:w-1/2 flex md:flex-row flex-col w-full py-2 px-4 lg:rounded-lg md:rounded-lg">
+                    <div className="bg-kuduDarkBlue md:w-1/1 flex md:flex-row flex-col w-full py-2 px-4 lg:rounded-lg md:rounded-lg">
                         <div className="flex flex-col flex-grow gap-2 py-3">
                             <h2 className="md:text-2xl text-base font-semibold text-white">Boost Leads for Your Business</h2>
                             <p className="text-white text-sm mb-4">Place an advert on Kudu</p>
@@ -38,7 +38,7 @@ export default function ProductsSection({ data }) {
                         </div>
                     </div>
 
-                    <div className="md:w-1/2 relative lg:flex md:flex flex w-full lg:rounded-lg md:rounded-lg">
+                    <div className="md:w-1/1 relative lg:flex md:flex flex w-full lg:rounded-lg md:rounded-lg">
                         <div className="absolute w-full h-full z-0">
                             <Imgix src="https://res.cloudinary.com/do2kojulq/image/upload/v1735507193/kudu_mart/Group_48097070_f7dizd.jpg" sizes="100vw"
                                 className="w-full h-full object-cover"
@@ -47,10 +47,8 @@ export default function ProductsSection({ data }) {
                         <div className="flex flex-grow flex-col relative gap-2 px-4 py-5">
                             <h2 className="md:text-2xl text-base font-semibold text-white">Hisense Smart
                                 60” LED Television</h2>
-                            <button className="bg-white shadow-sm flex gap-2 mt-5 text-kuduDarkBlue font-semibold text-xs py-4 rounded-full sm:rounded-sm px-3 sm:px-11 md:w-1/2 ">
-                                Starting
-
-                                From
+                            <button className="bg-white shadow-sm flex gap-2 mt-5 text-kuduDarkBlue font-semibold text-xs py-4 rounded-full sm:rounded-sm px-3 sm:px-11 md:w-1/1 ">
+                                Startin From
                                 <b className="">₦285,000</b>
                             </button>
                         </div>

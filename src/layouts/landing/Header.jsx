@@ -198,7 +198,7 @@ export default function Header({ openMenu }) {
             {/* Top Bar */}
             <div className="w-full bg-kuduOrange text-white py-3 md:px-24">
               {/* Left Section */}
-              <div className="flex justify-center items-center  xl:space-x-52 md:space-x-36 sm:space-x-1">
+              <div className="flex justify-center items-center  xl:space-x-52 md:space-x-24">
                 {/* Swift Delivery Care */}
                 <span className="flex items-center space-x-4">
                   <svg
