@@ -146,6 +146,9 @@ export default function Header({ openMenu }) {
             </button>
           </div>
         </div>
+        <div className="w-full flex items-center bg-white justify-between py-2 px-5">
+        <SearchBar />
+        </div>
       </div>
 
       <div className="bg-white fixed w-full z-[95] Desk">

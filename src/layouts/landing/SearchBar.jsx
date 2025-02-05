@@ -8,12 +8,12 @@ const SearchBar = () => {
   const filters = ["All", "Brand New Products", "Refurbished Products", "Used Products"];
 
   return (
-    <div className="flex items-center w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden bg-[#FFF2EA] relative">
+    <div className="flex items-center w-full max-w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden bg-[#FFF2EA] relative">
       {/* Search Input */}
       <input
         type="text"
         placeholder="Search item"
-        className="flex-1 xl:py-4 xl:px- md:py-3 md:px-4 sm:py-2 text-sm text-black bg-[#FFF2EA] outline-none"
+        className="flex-1 py-3 px-4 text-sm text-black bg-[#FFF2EA] outline-none"
       />
 
       {/* Filter Button & Dropdown */}
@@ -21,7 +21,7 @@ const SearchBar = () => {
         <Menu>
           <MenuHandler>
             <button
-              className="bg-white px-4 mr-4 py-1 text-xs font-fold rounded-full flex items-center gap-1"
+              className="bg-white px-4 mr-4 py-1 text-xs font-sm rounded-full flex items-center gap-1"
               onClick={() => setFilterOpen(!filterOpen)}
             >
               {selectedFilter}
@@ -37,16 +37,15 @@ const SearchBar = () => {
           </MenuHandler>
           <MenuList>
             {/* Dropdown Menu */}
-            <div className="w-48" style={{ zIndex: "9999 !important" , outline: "none !important" }}>
+            <div className="w-48 z-[9999] outline-none">
               {filters.map((filter, index) => (
                 <button
                   key={index}
-                  className="w-full text-left px-3 py-2 text-sm  text-black hover:bg-gray-200 z-50"
+                  className="w-full text-left px-3 py-2 text-sm text-black hover:bg-gray-200"
                   onClick={() => {
                     setSelectedFilter(filter);
                     setFilterOpen(false);
                   }}
-                  style={{ zIndex: "9999 !important", outline: "none !important" }}
                 >
                   {filter}
                 </button>
@@ -57,7 +56,7 @@ const SearchBar = () => {
       </div>
 
       {/* Search Button */}
-      <button className="bg-kuduOrange text-white xl:py-4 xl:px-5 md:py-3 md:px-4 sm:py-2 flex items-center justify-center">
+      <button className="bg-kuduOrange text-white py-3 px-4 text-sm flex items-center justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -68,6 +67,7 @@ const SearchBar = () => {
         </svg>
       </button>
     </div>
+
   );
 };
 

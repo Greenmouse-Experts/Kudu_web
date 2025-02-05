@@ -75,13 +75,13 @@ export default function Sidebar({ onSelected }) {
     return (
         <div className={`h-full bg-white rounded-md flex-col w-full lg:hidden md:hidden flex overflow-auto bg-mobiDarkCloud transition-all mb-10`}>
             {/* Logo */}
-            <div className="py-6 px-4 flex gap-2 flex-col space-x-2 border-bottom">
+            <div className="py-2 px-4 flex gap-2 flex-col space-x-2 border-bottom">
                 <div className='flex px-3 justify-center'>
                     <Link to={'/'}>
                         <Imgix
                             src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
                             sizes="20vw"
-                            width={150}
+                            width={160}
                             height={33}
                         />
                     </Link>

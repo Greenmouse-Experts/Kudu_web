@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Imgix from "react-imgix";
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -52,6 +53,16 @@ const FlyoutMenu = () => {
 
         {/* Menu Items */}
         <nav className="mt-12 text-left flex flex-col">
+          <div className='flex justify-center'>
+                    <Link to={'/'}>
+                        <Imgix
+                            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
+                            sizes="20vw"
+                            width={160}
+                            height={33}
+                        />
+                    </Link>
+                </div>
           <Link
             to="/"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
