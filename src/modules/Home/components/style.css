@@ -1,6 +1,12 @@
 .Fonttin {
     line-height: 1.5 !important;
 }
+@media (max-width:520px) {
+    .Fonttin {
+        margin-top: 100px !important;
+    }
+    
+}
 
 .Justing {
     padding: 50px 0px;

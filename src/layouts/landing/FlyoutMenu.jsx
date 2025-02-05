@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Imgix from "react-imgix";
 import { Link } from "react-router-dom";
 import {
   Home,
@@ -52,30 +53,88 @@ const FlyoutMenu = () => {
         </button>
 
         {/* Menu Items */}
-        <nav className="mt-12 text-center flex flex-col">
+        <nav className="mt-12 text-left flex flex-col">
+          <div className='flex justify-center'>
+                    <Link to={'/'}>
+                        <Imgix
+                            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
+                            sizes="20vw"
+                            width={160}
+                            height={33}
+                        />
+                    </Link>
+                </div>
           <Link
             to="/"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             Home
           </Link>
           <Link
             to="/about"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             About Us
           </Link>
           <Link
+            to="/testimonial"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <MessageSquareQuote size={20} style={{ color: "#ff6f22" }} />
+            Testimonial
+          </Link>
+          <Link
             to="/contact"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             Contact
           </Link>
           <Link
             to="/faqs"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             FAQs
+          </Link>
+
+          <Link
+            to="/"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <Store size={20} style={{ color: "#ff6f22" }} />
+            Become a Vendor
+          </Link>
+
+          <Link
+            to="/"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <Megaphone size={20} style={{ color: "#ff6f22" }} />
+            Advertise with Us
+          </Link>
+
+          <Link
+            to="/privacy"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <ShieldCheck size={20} style={{ color: "#ff6f22" }} />
+            Privacy Policy
+          </Link>
+
+          <Link
+            to="/terms-condition"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <ScrollText size={20} style={{ color: "#ff6f22" }} />
+            Terms and Conditions
           </Link>
         </nav>
       </div>
