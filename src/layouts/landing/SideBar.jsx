@@ -95,6 +95,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <Home size={20} style={{ color: "#ff6f22" }} />
                         Home
@@ -102,6 +103,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/about"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <Users size={20} style={{ color: "#ff6f22" }} />
                         About Us
@@ -109,6 +111,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/testimonial"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <MessageSquareQuote size={20} style={{ color: "#ff6f22" }} />
                         Testimonial
@@ -116,6 +119,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/contact"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <Mail size={20} style={{ color: "#ff6f22" }} />
                         Contact
@@ -123,6 +127,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/faqs"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <HelpCircle size={20} style={{ color: "#ff6f22" }} />
                         FAQs
@@ -131,6 +136,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <Store size={20} style={{ color: "#ff6f22" }} />
                         Become a Vendor
@@ -139,6 +145,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <Megaphone size={20} style={{ color: "#ff6f22" }} />
                         Advertise with Us
@@ -147,6 +154,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/privacy"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <ShieldCheck size={20} style={{ color: "#ff6f22" }} />
                         Privacy Policy
@@ -155,6 +163,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/terms-condition"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <ScrollText size={20} style={{ color: "#ff6f22" }} />
                         Terms and Conditions
@@ -163,6 +172,7 @@ export default function Sidebar({ onSelected }) {
                     <Link
                         to="/login"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <UserPlus size={20} style={{ color: "#ff6f22" }} />
                         Register / Login
@@ -170,6 +180,7 @@ export default function Sidebar({ onSelected }) {
                     {/* <Link
                         to="/auction"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={() => setOpen(false)}
                     >
                         <Hammer size={20} style={{ color: "#ff6f22" }} />
                         Auction

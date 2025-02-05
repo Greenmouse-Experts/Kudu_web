@@ -2,6 +2,7 @@ import "animate.css";
 import { Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import Imgix from "react-imgix";
+import { useState } from "react";
 import LogOutModal from "../../components/LogOut";
 import { useModal } from "../../hooks/modal"; // Adjust the path as needed
 import useAppState from "../../hooks/appState";
@@ -21,7 +22,8 @@ import {
   Users,
 } from "lucide-react";
 
-export default function Header({ openMenu }) {
+export default Header = () => {
+  const [open, openMenu] = useState(false);
   const { user } = useAppState();
   const { openModal } = useModal();
   const navigate = useNavigate();
