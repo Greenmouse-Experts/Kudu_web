@@ -167,13 +167,13 @@ export default function Sidebar({ onSelected }) {
                         <UserPlus size={20} style={{ color: "#ff6f22" }} />
                         Register / Login
                     </Link>
-                    <Link
+                    {/* <Link
                         to="/auction"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                     >
                         <Hammer size={20} style={{ color: "#ff6f22" }} />
                         Auction
-                    </Link>
+                    </Link> */}
                     {/* <Accordion open={open} className="">
                     <AccordionHeader onClick={() => handleOpen()}>
                 
