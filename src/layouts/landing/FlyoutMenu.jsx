@@ -40,7 +40,8 @@ const FlyoutMenu = () => {
 
       {/* Flyout Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* Close Button */}
         <button
@@ -52,59 +53,101 @@ const FlyoutMenu = () => {
 
         {/* Menu Items */}
         <nav className="mt-12 text-left flex flex-col">
-          <div className="flex justify-center">
-            <Link to={"/"} onClick={() => setOpen(false)}>
-              <Imgix
-                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
-                sizes="20vw"
-                width={160}
-                height={33}
-              />
-            </Link>
-          </div>
-          
-          {/* All Links Close Menu on Click */}
-          <Link to="/" className="menu-item" onClick={() => setOpen(false)}>
+          <div className='flex justify-center'>
+                    <Link to={'/'}>
+                        <Imgix
+                            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
+                            sizes="20vw"
+                            width={160}
+                            height={33}
+                        />
+                    </Link>
+                </div>
+          <Link
+            to="/"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <Home size={20} style={{ color: "#ff6f22" }} />
             Home
           </Link>
-          <Link to="/about" className="menu-item" onClick={() => setOpen(false)}>
+          <Link
+            to="/about"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <Users size={20} style={{ color: "#ff6f22" }} />
             About Us
           </Link>
-          <Link to="/testimonial" className="menu-item" onClick={() => setOpen(false)}>
+          <Link
+            to="/testimonial"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <MessageSquareQuote size={20} style={{ color: "#ff6f22" }} />
             Testimonial
           </Link>
-          <Link to="/contact" className="menu-item" onClick={() => setOpen(false)}>
+          <Link
+            to="/contact"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <Mail size={20} style={{ color: "#ff6f22" }} />
             Contact
           </Link>
-          <Link to="/faqs" className="menu-item" onClick={() => setOpen(false)}>
+          <Link
+            to="/faqs"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <HelpCircle size={20} style={{ color: "#ff6f22" }} />
             FAQs
           </Link>
-          <Link to="/" className="menu-item" onClick={() => setOpen(false)}>
+
+          <Link
+            to="/"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <Store size={20} style={{ color: "#ff6f22" }} />
             Become a Vendor
           </Link>
-          <Link to="/" className="menu-item" onClick={() => setOpen(false)}>
+
+          <Link
+            to="/"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <Megaphone size={20} style={{ color: "#ff6f22" }} />
             Advertise with Us
           </Link>
-          <Link to="/privacy" className="menu-item" onClick={() => setOpen(false)}>
+
+          <Link
+            to="/privacy"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <ShieldCheck size={20} style={{ color: "#ff6f22" }} />
             Privacy Policy
           </Link>
-          <Link to="/terms-condition" className="menu-item" onClick={() => setOpen(false)}>
+
+          <Link
+            to="/terms-condition"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
             <ScrollText size={20} style={{ color: "#ff6f22" }} />
             Terms and Conditions
           </Link>
         </nav>
       </div>
 
-      {/* Background Overlay (Closes Menu) */}
-      {open && <div className="fixed inset-0 opacity-30" onClick={() => setOpen(false)}></div>}
+      {open && (
+        <div
+          className="fixed inset-0opacity-30"
+          onClick={() => setOpen(false)}
+        ></div>
+      )}
     </>
   );
 };
