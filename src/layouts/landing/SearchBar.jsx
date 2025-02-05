@@ -13,15 +13,15 @@ const SearchBar = () => {
       <input
         type="text"
         placeholder="Search item"
-        className="flex-1 py-3 px-4 text-sm text-black bg-[#FFF2EA] outline-none"
+        className="flex-1 py-3 px-4 text-sm text-black bg-[#FFF2EA] outline-none min-w-0"
       />
 
       {/* Filter Button & Dropdown */}
-      <div className="relative z-50">
+      <div className="relative z-50 flex-shrink-0">
         <Menu>
           <MenuHandler>
             <button
-              className="bg-white px-4 mr-4 py-1 text-xs font-sm rounded-full flex items-center gap-1"
+              className="bg-white px-3 sm:px-4 mr-2 sm:mr-4 py-1 text-xs font-sm rounded-full flex items-center gap-1"
               onClick={() => setFilterOpen(!filterOpen)}
             >
               {selectedFilter}
@@ -29,7 +29,7 @@ const SearchBar = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
                 viewBox="0 0 24 24"
-                className="w-5 h-5"
+                className="w-4 h-4 sm:w-5 sm:h-5"
               >
                 <path d="M7 10l5 5 5-5H7z" />
               </svg>
@@ -56,17 +56,18 @@ const SearchBar = () => {
       </div>
 
       {/* Search Button */}
-      <button className="bg-kuduOrange text-white py-3 px-4 text-sm flex items-center justify-center">
+      <button className="bg-kuduOrange text-white py-2 px-3 sm:py-3 sm:px-2 text-sm flex items-center justify-center flex-shrink-0">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
           viewBox="0 0 24 24"
-          className="w-5 h-5"
+          className="w-4 h-4 sm:w-5 sm:h-5"
         >
           <path d="M10 2a8 8 0 105.293 13.707l4.998 4.998a1 1 0 101.414-1.414l-4.998-4.998A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z" />
         </svg>
       </button>
     </div>
+
 
   );
 };

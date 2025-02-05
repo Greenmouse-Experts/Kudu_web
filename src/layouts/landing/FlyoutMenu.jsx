@@ -66,6 +66,7 @@ const FlyoutMenu = () => {
           <Link
             to="/"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <Home size={20} style={{ color: "#ff6f22" }} />
             Home
@@ -73,6 +74,7 @@ const FlyoutMenu = () => {
           <Link
             to="/about"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <Users size={20} style={{ color: "#ff6f22" }} />
             About Us
@@ -80,6 +82,7 @@ const FlyoutMenu = () => {
           <Link
             to="/testimonial"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <MessageSquareQuote size={20} style={{ color: "#ff6f22" }} />
             Testimonial
@@ -87,6 +90,7 @@ const FlyoutMenu = () => {
           <Link
             to="/contact"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <Mail size={20} style={{ color: "#ff6f22" }} />
             Contact
@@ -94,6 +98,7 @@ const FlyoutMenu = () => {
           <Link
             to="/faqs"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <HelpCircle size={20} style={{ color: "#ff6f22" }} />
             FAQs
@@ -102,6 +107,7 @@ const FlyoutMenu = () => {
           <Link
             to="/"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <Store size={20} style={{ color: "#ff6f22" }} />
             Become a Vendor
@@ -110,6 +116,7 @@ const FlyoutMenu = () => {
           <Link
             to="/"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <Megaphone size={20} style={{ color: "#ff6f22" }} />
             Advertise with Us
@@ -118,6 +125,7 @@ const FlyoutMenu = () => {
           <Link
             to="/privacy"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <ShieldCheck size={20} style={{ color: "#ff6f22" }} />
             Privacy Policy
@@ -126,6 +134,7 @@ const FlyoutMenu = () => {
           <Link
             to="/terms-condition"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
           >
             <ScrollText size={20} style={{ color: "#ff6f22" }} />
             Terms and Conditions
