@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import Imgix from "react-imgix";
 import Loader from "../../components/Loader";
 import useApiMutation from "../../api/hooks/useApiMutation";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { currencyFormat, formatString } from "../../helpers/helperFactory";
 import DOMPurify from 'dompurify';
 import { getDateDifference } from "../../helpers/dateHelper";
+import useAppState from "../../hooks/appState";
 
 
 function SafeHTML({ htmlContent }) {
@@ -19,10 +20,16 @@ export default function ViewProduct() {
     const labels = ["Brand New", "Fashion", "Watches"];
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
+    const [quantity, setQuantity] = useState(0);
+    const [disabled, setDisabled] = useState(true);
+
+    const { user } = useAppState();
 
     const { mutate } = useApiMutation();
 
     const { id } = useParams();
+
+    const navigate = useNavigate();
 
     const getProductDetails = async () => {
         try {
@@ -40,7 +47,6 @@ export default function ViewProduct() {
                 productRequest,
             ]);
             setProduct(product)
-            console.log(product)
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -51,6 +57,41 @@ export default function ViewProduct() {
     useEffect(() => {
         getProductDetails();
     }, []);
+
+
+    const addToCart = () => {
+        if (user) {
+            const payload = { productId: id, quantity };
+            mutate({
+                url: "/user/cart/add",
+                method: "POST",
+                data: payload,
+                headers: true,
+                onSuccess: (response) => {
+                },
+                onError: () => {
+                },
+            });
+        }
+        else {
+            navigate('/login')
+        }
+    }
+
+    const handleIncrease = () => {
+        setQuantity((prevState) => prevState + 1);
+        setDisabled(false);
+    };
+
+    const handleDecrease = () => {
+        if (quantity > 0) {
+            setQuantity((prevState) => prevState - 1);
+        }
+        if(quantity === 1) {
+            setDisabled(true)
+        }
+    };
+
 
 
     if (loading) {
@@ -287,8 +328,30 @@ export default function ViewProduct() {
                                 </div>
 
                                 <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
+                                    <div className="flex items-center gap-5">
+                                        <span className="flex flex-col justify-center h-full text-base font-[600]">Quantity</span>
+                                        <div className="flex items-center gap-2">
+                                            <button
+                                                onClick={handleDecrease}
+                                                className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
+                                            >
+                                                -
+                                            </button>
+                                            <span className="px-4 py-1 text-sm font-semibold rounded">
+                                                {quantity}
+                                            </span>
+                                            <button
+                                                onClick={handleIncrease}
+                                                className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
                                     <Button
                                         type="submit"
+                                        onClick={() => addToCart()}
+                                        disabled={disabled}
                                         className="w-full py-3 px-4 flex justify-center rounded-md gap-3 bg-kuduOrange text-white transition-colors"
                                     >
                                         <span className='flex mt-[2px]'>

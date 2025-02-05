@@ -22,7 +22,7 @@ import {
   Users,
 } from "lucide-react";
 
-export default Header = () => {
+const Header = () => {
   const [open, openMenu] = useState(false);
   const { user } = useAppState();
   const { openModal } = useModal();
@@ -496,6 +496,6 @@ export default Header = () => {
       </div>
     </>
   );
-}
+};
 
-Header;
+export default Header;
