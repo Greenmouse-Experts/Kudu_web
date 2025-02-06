@@ -48,7 +48,7 @@ const App = () => {
                     <Loader />
                 </div>
             ) : (
-                <AdminAdverts data={advertData} />
+                <AdminAdverts data={advertData} refetch={fetchData} />
             )
             }
         </div>
