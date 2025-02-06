@@ -120,8 +120,8 @@ export default function About() {
             <div className="w-full flex flex-col bg-white items-center">
                 {/* Hero Section */}
                 <section className="w-full Ju mt-16">
-                    <div className="container mx-auto flex flex-col md:flex-row lg:px-20 sm:px-1 gap-8">
-                        <div className="flex-[1] text-center md:text-left sm:text-left">
+                    <div className="container mx-auto flex flex-col md:flex-row xl:px-20 lg:px-20 md:px-2 sm:px-1 gap-8">
+                        <div className="flex-[2] md:text-left">
                             <h1 className="text-4xl font-medium text-black leading-snug mb-4">
                                 Welcome to Kudu Mart, your ultimate destination for secure and seamless online shopping
                             </h1>
@@ -143,12 +143,12 @@ export default function About() {
 
                 {/* Core Principles Section */}
                 <section className="w-full bg-white py-16">
-                    <div className="container mx-auto flex flex-col md:flex-row lg:px-20 sm:px-1 gap-8">
-                        <h2 className="text-3xl font-medium text-black text-left leading-relaxed mb-8">
+                    <div className="container mx-auto px-6 lg:px-20 text-left">
+                        <h2 className="text-3xl font-medium text-black text-center leading-relaxed mb-12">
                             At KUDU, we prioritize trust, safety, and customer <br></br> satisfaction. Here are Our Core Principles
                         </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 mt-14 md:mb-0 md:mx-2 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                             {[
                                 {
                                     title: "Fairness",
@@ -183,7 +183,7 @@ export default function About() {
                             ].map((principle, index) => (
                                 <div
                                     key={index}
-                                    className="bg-white p-4 sm:p-6 md:p-8 gap-2 sm:gap-3 md:gap-4 rounded-lg border hover:shadow-xl transition-shadow"
+                                    className="bg-white p-8 gap-4 rounded-lg border hover:shadow-xl transition-shadow"
                                 >
                                     <img
                                         src={principle.icon}
@@ -201,7 +201,7 @@ export default function About() {
                 </section>
 
                 <div className="w-full Ju mt-12">
-                    <div className="container mx-auto flex flex-col md:flex-row lg:px-20 sm:px-1 gap-8">
+                    <div className="container mx-auto md:flex-row px-6 lg:px-20 gap-8">
                         <h2 className="text-3xl font-medium leading-relaxed text-center mb-12">
                             We make internet purchasing simple, <br></br> dependable, and fulfilling.
                         </h2>
@@ -252,7 +252,7 @@ export default function About() {
                         </div>
                     </div>
                 </div>
-                <div className="container mx-auto flex flex-col md:flex-row lg:px-20 sm:px-1 gap-8 Juppp">
+                <div className="container mx-auto px-6 lg:px-20 text-left Juppp">
                     <div className="relative w-full mx-auto">
                         {/* Background Image */}
                         <div className="relative h-72 md:h-96 w-full rounded-2xl overflow-hidden">

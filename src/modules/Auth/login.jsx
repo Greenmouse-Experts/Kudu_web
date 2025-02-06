@@ -41,8 +41,7 @@ function Login() {
         setIsLoading(false);
       },
       onError: (error) => {
-        if(error.response.data.message === 'Your email is not verified. A verification email has been sent to your email address.')
-        {
+        if (error.response.data.message === 'Your email is not verified. A verification email has been sent to your email address.') {
           localStorage.setItem("kuduEmail", JSON.stringify(data.email));
           navigate('/verify-account')
         }
@@ -65,20 +64,22 @@ function Login() {
         height: "100vh"
       }}
     >
-      {/* Logo Section */}
-      <div className="my-6">
-        <Link to={'/'}>
-          <img
-            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
-            alt="Kudu Logo"
-            className="h-12"
-          />
-        </Link>
-      </div>
 
       {/* Form Card */}
       <div className="w-full max-w-lg px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
-        <div className="w-full max-w-lg px-8 py-10 bg-white rounded-lg ">
+        <div className="w-full max-w-lg px-4 py-4 bg-white rounded-lg ">
+          {/* Logo Section */}
+          <div className="flex justify-center">
+            <Link to={'/'}>
+              <img
+                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
+                alt="Kudu Logo"
+                sizes="20vw"
+                width={250}
+                height={33}
+              />
+            </Link>
+          </div>
           <h2 className="text-2xl font-bold mb-6 text-black-800">Sign In</h2>
           <form
             className="flex flex-col gap-4"

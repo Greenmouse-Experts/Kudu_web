@@ -42,7 +42,6 @@ const Testimonials = () => {
             </div>
             <div className="container mx-auto flex flex-col md:flex-row lg:px-20 md:px-2 sm:px-1 gap-8">
                 <div className="py-12 px-6 bg-white">
-                   
                     <div className="text-center mb-16 mt-8">
                         <h2 className="text-2xl md:text-2xl font-bold text-black mb-4">
                             Don't Just Take Our Word For It,

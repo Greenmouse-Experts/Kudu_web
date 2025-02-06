@@ -59,20 +59,22 @@ function SignUp() {
                 height: "100vh",
             }}
         >
-            {/* Logo Section */}
-            <div className="mb-6 pt-4">
-            <Link to={'/'}>
-               <img
-                    src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
-                    alt="Kudu Logo"
-                    className="h-12"
-                />
-               </Link>
-            </div>
 
             {/* Form Card */}
             <div className="w-full max-w-screen-md mx-auto px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
-                <div className="w-full px-8 py-10 bg-white rounded-lg">
+                <div className="w-full px-4 py-4 bg-white rounded-lg">
+                    {/* Logo Section */}
+                    <div className="mb-6 flex justify-center">
+                        <Link to={'/'}>
+                            <img
+                                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
+                                alt="Kudu Logo"
+                                sizes="20vw"
+                                width={250}
+                                height={33}
+                            />
+                        </Link>
+                    </div>
                     <h2 className="text-2xl font-bold mb-6 text-black-800">Sign Up</h2>
                     <form
                         onSubmit={handleSubmit(onSubmit)}
@@ -228,11 +230,11 @@ function SignUp() {
 
                         {/* Submit Button */}
                         <div>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full py-3 bg-kuduOrange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
-                        >
+                            <button
+                                type="submit"
+                                disabled={isLoading}
+                                className="w-full py-3 bg-kuduOrange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+                            >
                                 Sign Up →
                             </button>
                         </div>
