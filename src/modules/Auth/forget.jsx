@@ -91,21 +91,22 @@ function Forget() {
             width: "100%",
             height: "100vh"
         }}>
-            {/* Logo Section */}
-            <div className="mb-6">
-                <Link to={'/'}>
-                    <img
-                        src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
-                        alt="Kudu Logo"
-                        className="h-12"
-                    />
-                </Link>
-            </div>
-
             {/* Form Card */}
             <div className="w-full max-w-lg px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
                 {!passwordBlock ?
-                    <div className="w-full max-w-lg px-8 py-10 bg-white rounded-lg ">
+                    <div className="w-full max-w-lg px-4 py-4 bg-white rounded-lg">
+                        {/* Logo Section */}
+                    <div className="mb-6 flex justify-center">
+                        <Link to={'/'}>
+                            <img
+                                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
+                                alt="Kudu Logo"
+                                sizes="20vw"
+                                width={250}
+                                height={33}
+                            />
+                        </Link>
+                    </div>
                         <h2 className="text-2xl font-bold mb-3 text-black-800">Reset Password </h2>
                         <p className='leading-loose text-sm mb-3'>
                             Enter the email address associated with your account and we’ll send a link to reset your password
