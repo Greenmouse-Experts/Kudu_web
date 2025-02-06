@@ -38,7 +38,6 @@ export const storeSlice = createApi({
       createStore: builder.mutation({
         query: (data) => ({
           url: `/vendor/store`,
-          // url: `/vendor/stor`,
           method: "POST",
           headers: { ...headers },
           body: data,
@@ -132,6 +131,25 @@ export const storeSlice = createApi({
         providesTags: ["Categories"],
       }),
 
+      updateKyc: builder.mutation({
+        query: (data) => ({
+          url: `/vendor/kyc`,
+          method: "POST",
+          headers: { ...headers },
+          body: data,
+        }),
+        invalidatesTags: ["Kyc"],
+      }),
+
+      getSubcriptionsPlan: builder.query({
+        query: () => ({
+            url: `/vendor/subscription/plans`,
+            method: "GET",
+            headers: { ...headers },
+        }),
+        providesTags: ["Subcriptions"],
+      }),
+
     };
   },
 });
@@ -148,5 +166,7 @@ export const {
   useGetCurrenciesQuery,
   useGetCountriesQuery,
   useGetCategoriesQuery,
-  useGetMyProductQuery
+  useGetMyProductQuery,
+  useUpdateKycMutation,
+  useGetSubcriptionsPlanQuery
 } = storeSlice;

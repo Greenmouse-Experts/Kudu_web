@@ -1,245 +1,173 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import PulseLoader from "react-spinners/PulseLoader";
+import { useUpdateKycMutation } from "../../../reducers/storeSlice";
+import { toast } from "react-toastify";
 
 export default function UpdatedKYC() {
-  const [formData, setFormData] = useState({
-    storeName: '',
-    cacRegistrationNumber: '',
-    ninId: '',
-    businessLocation: '',
-    officeContactPhone: '',
-    officeContactEmail: '',
-    vatRates: '',
-    state: '',
-    currency: '',
-    dateFormat: '',
-    language: '',
-    bankName: '',
-    accountNumber: '',
-    accountHolderName: '',
-    accountType: '',
-    logo: null,
-  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const [updatedKYC] = useUpdateKycMutation();
 
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, logo: e.target.files[0] });
-  };
+  const {
+    register,
+    handleSubmit,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    setIsLoading(true)
+
+    const { name, number, ...rest } = data;
+
+    const payload = {
+      ...rest,
+      idVerification: {
+          name,
+          number,
+      }
+    };
+
+    updatedKYC(payload)
+    .then((res) => {
+        if(res.status !== 200) throw res
+
+        toast.success(res.data.message);
+        setIsLoading(false)
+    }).catch((error) => {
+        toast.error(error.error.data.message);
+        setIsLoading(false)
+    })
+};
 
   return (
     <div className="bg-white rounded-lg w-full p-6">
       <h2 className="text-lg font-bold mb-2">Updated KYC</h2>
       <div className='w-full h-[5px] mb-4 border' />
-      {/* Store Information */}
+      
+      <form onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-8">
-        <h3 className="font-semibold text-black-500 mb-4">Store Information</h3>
+        <h3 className="font-semibold text-black-500 mb-4">Business Information</h3>
        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-          <div>
-            <label className="block text-sm font-medium mb-3">Store Name</label>
-            <input
-              type="text"
-              name="storeName"
-              value={formData.storeName}
-              onChange={handleChange}
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-3">CAC Registration Number</label>
-            <input
-              type="text"
-              name="cacRegistrationNumber"
-              value={formData.cacRegistrationNumber}
-              onChange={handleChange}
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-3">NIN ID</label>
-            <input
-              type="text"
-              name="ninId"
-              value={formData.ninId}
-              onChange={handleChange}
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-3">Business Location</label>
-            <input
-              type="text"
-              name="businessLocation"
-              value={formData.businessLocation}
-              onChange={handleChange}
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-            />
-          </div>
-          <div>
-          <label className="block text-sm font-medium mb-3">VAT Rates</label>
-            <input
-              type="text"
-              name="vatRates"
-              value={formData.vatRates}
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-           {/* Upload Logo */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-3">Upload Your Logo</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="border rounded p-2 w-full"
-            style={{ outline: "none", }}
-          />
-          {formData.logo && (
-            <p className="text-sm text-gray-600 mt-2">Selected file: {formData.logo.name}</p>
-          )}
-        </div>
-        </div>
-      </div>
 
-      {/* Contact Information */}
-      <div className="mb-8">
-        <h3 className="font-semibold text-black-500 mb-4">Contact Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
           <div>
-            <label className="block text-sm font-medium mb-3">Office Contact Phone</label>
+            <label className="block text-sm font-medium mb-3">Business Name</label>
             <input
               type="text"
-              name="officeContactPhone"
-              value={formData.officeContactPhone}
-              onChange={handleChange}
+              name="businessName"
               className="border rounded p-2 w-full"
               style={{ outline: "none", }}
+              {...register("businessName", { required: "Business name is required" })}
+              required
             />
           </div>
+
           <div>
-            <label className="block text-sm font-medium mb-3">Office Contact Email</label>
+            <label className="block text-sm font-medium mb-3">Contact Email</label>
             <input
               type="email"
-              name="officeContactEmail"
-              value={formData.officeContactEmail}
-              onChange={handleChange}
+              name="contactEmail"
               className="border rounded p-2 w-full"
               style={{ outline: "none", }}
+              {...register("contactEmail", { required: "Contact email is required" })}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-3">Contact Phone Number</label>
+            <input
+              type="number"
+              name="contactPhoneNumber"
+              className="border rounded p-2 w-full"
+              style={{ outline: "none", }}
+              {...register("contactPhoneNumber", { required: "Contact Phone Number is required" })}
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-3">Business Description</label>
+            <input
+              type="text"
+              name="businessDescription"
+              className="border rounded p-2 w-full"
+              style={{ outline: "none", }}
+              {...register("businessDescription", { required: "Business Description is required" })}
+              required
+            />
+          </div>
+
+          <div>
+          <label className="block text-sm font-medium mb-3">Business Link</label>
+            <input
+              type="text"
+              name="businessLink"
+              style={{ outline: "none", }}
+              className="border rounded p-2 w-full"
+              {...register("businessLink", { required: "Business link is required" })}
+              required
+            />
+          </div>
+
+          <div>
+          <label className="block text-sm font-medium mb-3">Business Address</label>
+            <input
+              type="text"
+              name="businessAddress"
+              style={{ outline: "none", }}
+              className="border rounded p-2 w-full"
+              {...register("businessAddress", { required: "Business address is required" })}
+              required
+            />
+          </div>
+
+          <div>
+          <label className="block text-sm font-medium mb-3">Business Registration Number</label>
+            <input
+              type="text"
+              name="businessRegistrationNumber"
+              style={{ outline: "none", }}
+              className="border rounded p-2 w-full"
+              {...register("businessRegistrationNumber", { required: "Business Registration Number is required" })}
+              required
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-2">
-          <div>
-            <label className="block text-sm font-medium mb-3">State</label>
-            <input
-              type="text"
-              name="state"
-              value={formData.state}
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-            />
+
+        <div className="mt-4">
+          <h3 className="font-semibold text-black-500 mb-4">ID Verification</h3>
+
+          <div className='flex justify-between'>
+            <div className='w-[49%]'>
+              <label className="block text-sm font-medium mb-3">Card Name</label>
+              <input
+                type="text"
+                name="name"
+                style={{ outline: "none", }}
+                className="border rounded p-2 w-full"
+                {...register("name", { required: "Name is required" })}
+                required
+              />
+            </div>
+
+            <div className='w-[49%]'>
+              <label className="block text-sm font-medium mb-3">Card Number</label>
+              <input
+                type="number"
+                name="number"
+                style={{ outline: "none", }}
+                className="border rounded p-2 w-full"
+                {...register("number", { required: "Number is required" })}
+                required
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Regional Information */}
-      <div className="mb-6">
-        <h3 className="font-semibold text-black-500 mb-4">Regional Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-          <div>
-            <label className="block text-sm font-medium mb-3">Currency</label>
-            <input
-              type="text"
-              name="currency"
-              value={formData.currency}
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-3">Date Format</label>
-            <input
-              type="text"
-              name="dateFormat"
-              value={formData.dateFormat}
-              onChange={handleChange}
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-2">
-        <div>
-            <label className="block text-sm font-medium mb-3">Language</label>
-            <input
-              type="text"
-              name="language"
-              value={formData.language}
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Bank Information */}
-      <div className="mb-6">
-        <h3 className="font-semibold text-black-500 mb-4">Bank Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-          <div>
-            <label className="block text-sm font-medium mb-3">Bank Name</label>
-            <input
-              type="text"
-              name="bankName"
-              value={formData.bankName}
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-4">Account Number</label>
-            <input
-              type="text"
-              name="accountNumber"
-              value={formData.accountNumber}
-              onChange={handleChange}
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-3">Account Holder Name</label>
-            <input
-              type="text"
-              name="accountHolderName"
-              value={formData.accountHolderName}
-              onChange={handleChange}
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-3">Account Type</label>
-            <input
-              type="text"
-              name="accountType"
-              value={formData.accountType}
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-            />
-          </div>
-        </div>
-      </div>
-
-      <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg">Submit</button>
+      <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff"  size={5}/> : "Submit"}</button>
+      </form>
     </div>
   );
 }

@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useCreateProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
 import DropZone from '../../../components/DropZone';
-import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdClose } from "react-icons/md";
 import PulseLoader from "react-spinners/PulseLoader";
 
 const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
