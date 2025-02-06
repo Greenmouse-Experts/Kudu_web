@@ -5,13 +5,15 @@ import DropZone from '../../../components/DropZone';
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
 import { MdCancel } from "react-icons/md";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     const [currency, setCurrency] = useState(null);
     const [files, setFiles] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [createProduct, { isLoading, isError, isSuccess, error }] = useCreateProductMutation();
+    const [createProduct] = useCreateProductMutation();
     
     const conditions = [
         { id: 'brand_new', name: 'brand_new' },
@@ -78,6 +80,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     }
 
     const onSubmit = (data) => {
+        setIsLoading(true)
         if (files.length > 0) {
             const payload = { ...data, image: files[0]};
 
@@ -85,13 +88,16 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
 
             console.log(reformedPayload)
             createProduct(reformedPayload)
-            .then(res => {
-                console.log(res);
+            .then((res) => {
+                if(res.status !== 200) throw res
+
                 toast.success(res.data.message);
+                setIsLoading(false)
                 closeAddNewModal();
-            }).catch(error => {
-                console.log(error);
-                toast.error(error);
+            }).catch((error) => {
+                toast.error(error.error.data.message);
+                setIsLoading(false)
+                closeAddNewModal();
             })
         }
     };
@@ -364,7 +370,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                             >
-                                Add New Product
+                                {isLoading ? <PulseLoader color="#ffffff"  size={10}/> : "Add New Product"} 
                             </button>
 
                         </div>

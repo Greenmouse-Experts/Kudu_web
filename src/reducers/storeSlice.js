@@ -38,6 +38,7 @@ export const storeSlice = createApi({
       createStore: builder.mutation({
         query: (data) => ({
           url: `/vendor/store`,
+          // url: `/vendor/stor`,
           method: "POST",
           headers: { ...headers },
           body: data,
@@ -48,6 +49,16 @@ export const storeSlice = createApi({
       createProduct: builder.mutation({
         query: (data) => ({
           url: `/vendor/products`,
+          method: "POST",
+          headers: { ...headers },
+          body: data,
+        }),
+        invalidatesTags: ["Product"],
+      }),
+
+      createAuctionProduct: builder.mutation({
+        query: (data) => ({
+          url: `/vendor/auction/products`,
           method: "POST",
           headers: { ...headers },
           body: data,
@@ -74,6 +85,15 @@ export const storeSlice = createApi({
           headers: { ...headers },
         }),
         invalidatesTags: ["Store"],
+      }),
+
+      deleteProduct: builder.mutation({
+        query: (productId) => ({
+          url: `/vendor/products?productId=${productId}`,
+          method: "DELETE",
+          headers: { ...headers },
+        }),
+        invalidatesTags: ["Product"],
       }),
 
       getCurrencies: builder.query({
@@ -121,8 +141,10 @@ export const {
   useGetSingleStoreQuery,
   useCreateStoreMutation,
   useCreateProductMutation,
+  useCreateAuctionProductMutation,
   useEditStoreMutation,
   useDeleteStoreMutation,
+  useDeleteProductMutation,
   useGetCurrenciesQuery,
   useGetCountriesQuery,
   useGetCategoriesQuery,

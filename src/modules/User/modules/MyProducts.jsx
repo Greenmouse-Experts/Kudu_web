@@ -1,25 +1,27 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
-import { useGetMyProductQuery, useGetAllStoreQuery, useGetCategoriesQuery } from "../../../reducers/storeSlice"
+import { useGetMyProductQuery, useGetAllStoreQuery, useGetCategoriesQuery, useDeleteProductMutation } from "../../../reducers/storeSlice"
 import ProductTypeModal from './ProductTypeModal';
 import AddNewProduct from './AddNewProduct';
 import AddNewAuctionProduct from './AddNewAuctionProduct';
+import { toast } from "react-toastify";
 
 const MyProducts = () => {
     const [openAddNewProductOptionModal, setOpenAddNewProductOptionModal] = useState(false);
     const [addNewModal, setAddNewModal] = useState(false);
-     const [addNewAuctionModal, setAddNewAuctionModal] = useState(false);
+    const [addNewAuctionModal, setAddNewAuctionModal] = useState(false);
+    const [delModal, setDelModal] = useState(false);
+    const [productId, setProductId] = useState(null);
 
-    const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
+    const { data } = useGetMyProductQuery();
+    const { data: stores } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
     const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
+    const [deleteProd] = useDeleteProductMutation();
 
     const handleOpenModal = () => {
         setOpenAddNewProductOptionModal(true)
     }
-
-    const navigate = useNavigate();
-    const { data } = useGetMyProductQuery();
 
     const openAddNewProductForm = () => {
         setAddNewModal(true)
@@ -34,6 +36,26 @@ const MyProducts = () => {
     const closeAddNewModal = () => {
         setAddNewModal(false)
         setAddNewAuctionModal(false)
+    }
+
+    const handleCloseDelModal = () => {
+        setDelModal(false)
+    }
+
+    const openDelModal = (id) => {
+        setProductId(id)
+        setDelModal(true)
+    }
+
+    const deleteProduct = () => {
+        deleteProd(productId)
+        .then((res) => {
+            console.log(res)
+            toast.success(res.data.message)
+        }).catch((err) => {
+            console.error(err)
+        })
+        setDelModal(false)
     }
     
     return (
@@ -63,17 +85,17 @@ const MyProducts = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data?.data?.map((user, index) => (
+                                {data?.data?.map((product, index) => (
                                     <tr
-                                        key={user.id}
+                                        key={product.id}
                                         className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                                             } text-gray-700 text-sm`}
                                     >
                                         <td className="py-6 px-4 text-left">{index + 1}</td>
-                                        <td className="py-6 px-4 text-left capitalize">{user.name}</td>
-                                        <td className="py-6 px-4 text-left">{user.sub_category.name}</td>
-                                        <td className="py-6 px-4 text-left capitalize">{user.condition.replace(/_/g, ' ')}</td>
-                                        <td className="py-6 px-4 text-left">{user.store.currency.symbol} {user.price}</td>
+                                        <td className="py-6 px-4 text-left capitalize">{product.name}</td>
+                                        <td className="py-6 px-4 text-left">{product.sub_category.name}</td>
+                                        <td className="py-6 px-4 text-left capitalize">{product.condition.replace(/_/g, ' ')}</td>
+                                        <td className="py-6 px-4 text-left">{product.store.currency.symbol} {product.price}</td>
                                         <td className="py-3 px-4 text-left">
                                             <Menu placement="left">
                                                 <MenuHandler>
@@ -90,12 +112,12 @@ const MyProducts = () => {
                                                 </MenuHandler>
                                                 <MenuList>
                                                     <MenuItem className="flex flex-col gap-3">
-                                                        <span className="cursor-pointer w-full" onClick={() => navigate(`edit/${user.id}`)}>
+                                                        <span className="cursor-pointer w-full">
                                                             View/Edit
                                                         </span>
                                                     </MenuItem>
-                                                    <MenuItem className="flex flex-col gap-3">
-                                                        <span className="cursor-pointer w-full" onClick={() => navigate(`edit/${user.id}`)}>
+                                                    <MenuItem onClick={() => openDelModal(product.id)} className="flex flex-col gap-3">
+                                                        <span className="cursor-pointer w-full">
                                                             Delete
                                                         </span>
                                                     </MenuItem>
@@ -141,6 +163,29 @@ const MyProducts = () => {
                             />
                         </div>
                    </div>
+                )}
+
+                {delModal && (
+                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                        <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+                            <h1 className="text-center font-large">
+                                Are you sure you want to delete this product
+                            </h1>
+                            <div className="flex justify-center mt-4">
+                                <button
+                                    className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
+                                    onClick={handleCloseDelModal}
+                                >
+                                    Cancel
+                                </button>
+                                <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
+                                    onClick={deleteProduct}
+                                >
+                                    Delete Product
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </>

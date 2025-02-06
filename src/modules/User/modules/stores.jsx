@@ -27,8 +27,8 @@ function Stores() {
     const [editOrAddstore, setEditOrAddstore] = useState(null);
     const [deliveryOptions, setDeliveryOptions] = useState([]);
 
-    const { data: stores, isLoading, isSuccess, isError } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
-    const [deleteSto, error] = useDeleteStoreMutation();
+    const { data: stores } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
+    const [deleteSto] = useDeleteStoreMutation();
     const {data} = useGetCurrenciesQuery();
     const {data: countri} = useGetCountriesQuery();
     const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
@@ -112,13 +112,13 @@ function Stores() {
         e.preventDefault()
     }
 
-    const deleteStore = async () => {
+    const deleteStore = () => {
         deleteSto(storeId)
         .then(res => {
             // console.log(res)
             // toast.success(res.data.message)
-        }).catch(res => {
-            console.error(res)
+        }).catch(err => {
+            console.error(err)
         })
         setDelModal(false)
     }

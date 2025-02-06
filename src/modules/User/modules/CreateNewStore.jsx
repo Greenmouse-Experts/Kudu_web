@@ -2,13 +2,15 @@ import React, { useState, useEffect  } from "react";
 import { useForm } from 'react-hook-form';
 import { useCreateStoreMutation, useEditStoreMutation } from "../../../reducers/storeSlice";
 import { toast } from "react-toastify";
+import PulseLoader from "react-spinners/PulseLoader";
 
 
 const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, currencies, countries, selectedCountry, setSelectedCountry, xtates, editOrAddstore, stores, storeId}) => {
    
     const [store, setStore] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     
-    const [createStore, { isLoading, isError, isSuccess, error }] = useCreateStoreMutation();
+    const [createStore] = useCreateStoreMutation();
     const [editStore] = useEditStoreMutation();
 
     const {
@@ -16,8 +18,6 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
         handleSubmit,
         setValue,
     } = useForm();
-
-    console.log(store)
 
     const populateDeliveryOption = () => {
         setDeliveryOptions((prevOptions) => [
@@ -98,7 +98,7 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
     }
 
     const onSubmit = (data) => {
-        
+        setIsLoading(true)
         const { address, monday_friday, city, country, state, saturday, sunday, ...rest } = data;
 
         const payload = {
@@ -118,20 +118,23 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
 
         const reformedPayload = transformPayload(payload)
 
-        console.log(reformedPayload)
-
         var submitStore;
 
         editOrAddstore === "edit" ? submitStore = editStore : submitStore = createStore;
         
         submitStore(reformedPayload)
-        .then(res => {
-            console.log(res)
+        .then((res) => {
+            // if(res.data.message !== "Store created successfully") throw res
+            
+            console.log("RESPONSE: ", res)
             toast.success(res.data.message)
+            setIsLoading(false)
             handleCloseModal()
-        }).catch(error => {
-            console.log(error)
-            toast.error(error.data.error.message)
+        }).catch((error) => {
+            console.log("ERROR: ", error)
+            // toast.error(error.error.data.message)
+            setIsLoading(false)
+            handleCloseModal()
         })
     }
 
@@ -389,9 +392,9 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
                     >
                         Cancel
                     </button>
-                    <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
+                    <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 w-[15%] rounded"
                     >
-                        {editOrAddstore === "edit" ? "Update Store" : "Create Store"}
+                        {isLoading ? <PulseLoader color="#ffffff"  size={5}/> : <p>{editOrAddstore === "edit" ? "Update Store" : "Create Store"}</p>}
                     </button>
                 </div>
             </form>
