@@ -86,10 +86,9 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
 
             const reformedPayload = transformPayload(payload);
 
-            console.log(reformedPayload)
             createProduct(reformedPayload)
             .then((res) => {
-                if(res.status !== 200) throw res
+                if(res.data.message !== "Product created successfully") throw res
 
                 toast.success(res.data.message);
                 setIsLoading(false)

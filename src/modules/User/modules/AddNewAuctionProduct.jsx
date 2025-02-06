@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useCreateProductMutation } from "../../../reducers/storeSlice";
+import { useCreateAuctionProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import DropZone from '../../../components/DropZone';
@@ -14,7 +14,7 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
     const [subCategories, setSubCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [createProduct] = useCreateProductMutation();
+    const [createAuctionProduct] = useCreateAuctionProductMutation();
     
     const conditions = [
         { id: 'brand_new', name: 'brand_new' },
@@ -69,14 +69,13 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
             description: data.description,
             specification: data.specification,
             price: data.price,
+            bidIncrement: data.bidIncrement,
+            maxBidsPerUser: data.maxBidsPerUser,
+            participantsInterestFee: data.participantsInterestFee,
             image_url: data.image,
-            discount_price: data.discount_price,
             additional_images: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"],
-            warranty: data.warranty,
-            return_policy: data.return_policy,
-            seo_title: "",
-            meta_description: "",
-            keywords: ""
+            startDate: data.startDate,
+            endDate: data.endDate,
         }
     }
 
@@ -88,7 +87,7 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
             const reformedPayload = transformPayload(payload);
 
             console.log(reformedPayload)
-            createProduct(reformedPayload)
+            createAuctionProduct(reformedPayload)
             .then((res) => {
                 if(res.status !== 200) throw res
 
@@ -96,6 +95,7 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                 setIsLoading(false)
                 closeAddNewModal();
             }).catch((error) => {
+                console.log(error)
                 toast.error(error.error.data.message);
                 setIsLoading(false)
                 closeAddNewModal();
@@ -304,7 +304,6 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                             style={{ outline: "none" }}
                                             {...register("bidIncrement", { required: "bid increment is required" })}
                                             min={0}
-                                            required
                                         />
                                     </div>
                                 </div>
@@ -324,7 +323,6 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                         style={{ outline: "none" }}
                                         {...register("maxBidsPerUser", { required: "max bid is required" })}
                                         min={0}
-                                        required
                                     />
                                 </div>
                             </div>
