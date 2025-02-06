@@ -63,7 +63,7 @@ export default function UserProfile() {
     return (
         <>
             <div className="w-full flex flex-col h-full bg-kuduLightBlue">
-                <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 mt-24 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
+                <div className="w-full flex flex-col xl:px-40 lg:pl-20 mt-24 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
                     <div className="w-full flex md:flex-row flex-col h-full relative gap-8 items-start">
                         <div className="w-[35%] md:flex hidden flex-col">
                             <ProfileSideBar />
