@@ -120,8 +120,8 @@ export default function About() {
             <div className="w-full flex flex-col bg-white items-center">
                 {/* Hero Section */}
                 <section className="w-full Ju mt-16">
-                    <div className="container mx-auto flex flex-col md:flex-row lg:px-20 sm:px-3 gap-8">
-                        <div className="flex-[1] text-center md:text-left">
+                    <div className="container mx-auto flex flex-col md:flex-row xl:px-20 lg:px-20 md:px-2 sm:px-1 gap-8">
+                        <div className="flex-[2] md:text-left">
                             <h1 className="text-4xl font-medium text-black leading-snug mb-4">
                                 Welcome to Kudu Mart, your ultimate destination for secure and seamless online shopping
                             </h1>
