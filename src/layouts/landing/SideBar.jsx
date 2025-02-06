@@ -29,7 +29,7 @@ export default function Sidebar({ onSelected }) {
     const handleClose = () => {
         setOpen(false);
         if (onSelected) onSelected(); // Call parent handler if passed
-      };
+    };
 
     const handleOpen = () => setOpen(!open);
 
@@ -98,7 +98,7 @@ export default function Sidebar({ onSelected }) {
                 <nav className="text-left flex flex-col">
                     <Link
                         to="/"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
                     >
                         <Home size={20} style={{ color: "#ff6f22" }} />
@@ -106,7 +106,7 @@ export default function Sidebar({ onSelected }) {
                     </Link>
                     <Link
                         to="/about"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -115,7 +115,7 @@ export default function Sidebar({ onSelected }) {
                     </Link>
                     <Link
                         to="/testimonial"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -124,7 +124,7 @@ export default function Sidebar({ onSelected }) {
                     </Link>
                     <Link
                         to="/contact"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -133,7 +133,7 @@ export default function Sidebar({ onSelected }) {
                     </Link>
                     <Link
                         to="/faqs"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -143,7 +143,7 @@ export default function Sidebar({ onSelected }) {
 
                     <Link
                         to="/"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -153,7 +153,7 @@ export default function Sidebar({ onSelected }) {
 
                     <Link
                         to="/"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -163,7 +163,7 @@ export default function Sidebar({ onSelected }) {
 
                     <Link
                         to="/privacy"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -173,7 +173,7 @@ export default function Sidebar({ onSelected }) {
 
                     <Link
                         to="/terms-condition"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
@@ -183,7 +183,7 @@ export default function Sidebar({ onSelected }) {
 
                     <Link
                         to="/login"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3" 
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}
 
                     >
