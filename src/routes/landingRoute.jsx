@@ -9,6 +9,9 @@ import Condititons from "../modules/Home/conditions";
 import Testimonial from "../modules/Home/testimonial";
 import About from "../modules/Home/about";
 import SellAll from "../modules/Home/SellAll";
+import Careers from "../modules/Home/Careers";
+import JobDetails from "../modules/Home/JobDetails";
+
 
 export const landingRooutes = [
     {
@@ -58,6 +61,16 @@ export const landingRooutes = [
           {
             path: 'see-all',
             element: <SellAll/>
+          },
+
+          {
+            path: 'career',
+            element: <Careers/>
+          },
+
+          {
+            path: 'jobs-details',
+            element: <JobDetails/>
           },
         ],
     },

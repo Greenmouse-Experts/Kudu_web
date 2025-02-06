@@ -132,6 +132,15 @@ export default function Sidebar({ onSelected }) {
                         Contact
                     </Link>
                     <Link
+                        to="/career"
+                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                        onClick={handleClose}
+
+                    >
+                        <Hammer size={20} style={{ color: "#ff6f22" }} />
+                        Careers
+                    </Link>
+                    <Link
                         to="/faqs"
                         className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
                         onClick={handleClose}

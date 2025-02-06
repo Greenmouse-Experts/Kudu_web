@@ -11,6 +11,7 @@ import {
   ScrollText,
   MessageSquareQuote,
   Users,
+  Hammer,
 } from "lucide-react";
 
 const FlyoutMenu = () => {
@@ -99,6 +100,15 @@ const FlyoutMenu = () => {
             onClick={() => setOpen(false)}
           >
             FAQs
+          </Link>
+
+          <Link
+            to="/career"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <Hammer size={20} style={{ color: "#ff6f22" }} />
+            Careers
           </Link>
 
           <Link
