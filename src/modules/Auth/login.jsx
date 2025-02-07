@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import useApiMutation from "../../api/hooks/useApiMutation";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
+import { Button, Checkbox } from "@material-tailwind/react";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -177,6 +178,34 @@ function Login() {
             >
               Sign In →
             </button>
+            <div className="flex flex-col sm:flex-row gap-4 w-full">
+            {/* Google Button */}
+            <Button
+              type="submit"
+              className="w-full bg-white border border-gray-300 text-black px-4 flex items-center justify-center gap-2 rounded-lg"
+              style={{ outline: "none", boxShadow: "none" }}
+            >
+              <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25.3136 13.7623C25.3136 12.7911 25.2332 12.0823 25.0592 11.3474H13.7422V15.7311H20.385C20.2511 16.8205 19.5279 18.4611 17.9207 19.5635L17.8982 19.7103L21.4764 22.4269L21.7243 22.4511C24.0011 20.3905 25.3136 17.3586 25.3136 13.7623Z" fill="#4285F4" />
+                <path d="M13.7415 25.3125C16.9959 25.3125 19.728 24.2625 21.7236 22.4513L17.92 19.5636C16.9022 20.2593 15.536 20.7449 13.7415 20.7449C10.554 20.7449 7.84869 18.6843 6.88431 15.8362L6.74296 15.8479L3.02229 18.6698L2.97363 18.8024C4.95575 22.6612 9.02719 25.3125 13.7415 25.3125Z" fill="#34A853" />
+                <path d="M6.8851 15.8363C6.63064 15.1013 6.48337 14.3138 6.48337 13.5C6.48337 12.6862 6.63064 11.8988 6.87171 11.1638L6.86497 11.0072L3.09766 8.14001L2.97441 8.19747C2.15748 9.79877 1.68872 11.5969 1.68872 13.5C1.68872 15.4031 2.15748 17.2012 2.97441 18.8025L6.8851 15.8363Z" fill="#FBBC05" />
+                <path d="M13.7416 6.25497C16.0049 6.25497 17.5317 7.21309 18.4023 8.01377L21.804 4.75875C19.7148 2.85563 16.996 1.6875 13.7416 1.6875C9.02719 1.6875 4.95576 4.33873 2.97363 8.19745L6.87095 11.1637C7.84872 8.31562 10.554 6.25497 13.7416 6.25497Z" fill="#EB4335" />
+              </svg>
+              <span className="text-dark text-sm font-semibold">Google</span>
+            </Button>
+
+            {/* Facebook Button */}
+            <Button
+              type="submit"
+              className="w-full bg-blue-600 border-gray-300 text-white px-4 flex items-center justify-center gap-2 rounded-lg"
+              style={{ outline: "none", boxShadow: "none" }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.675 0H1.325C0.593 0 0 0.593 0 1.325V22.675C0 23.407 0.593 24 1.325 24H12.819V14.708H9.692V11.087H12.819V8.408C12.819 5.34 14.72 3.669 17.409 3.669C18.698 3.669 19.812 3.767 20.138 3.808V7.004L18.329 7.005C16.841 7.005 16.508 7.74 16.508 8.809V11.086H20.048L19.525 14.707H16.507V24H22.675C23.407 24 24 23.407 24 22.675V1.325C24 0.593 23.407 0 22.675 0Z" />
+              </svg>
+              <span className="text-white text-sm font-semibold">Facebook</span>
+            </Button>
+          </div>
           </form>
 
           {/* Sign Up Link */}
