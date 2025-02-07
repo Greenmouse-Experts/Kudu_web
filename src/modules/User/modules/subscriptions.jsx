@@ -28,7 +28,7 @@ const Subscription = () => {
     }
     
       return (
-        <div className="min-h-screen">
+        <div className="min-h-screen w-full">
           <div>
             {loading ?
               <div className="w-full h-screen flex items-center justify-center">
