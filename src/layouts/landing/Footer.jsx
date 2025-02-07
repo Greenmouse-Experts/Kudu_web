@@ -19,13 +19,78 @@ export default function Footer() {
 
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-4 w-full mt-10 md:mt-14">
                     <div className="flex flex-col space-y-2">
-                        <h3 className="md:text-lg text-base text-white font-semibold">Buy</h3>
+                        <h3 className="md:text-lg text-base text-white font-semibold">Useful Links</h3>
+                        <ul className="space-y-3 text-sm">
+                            <li>
+                                <Link to="/about" className="text-gray-400 hover:text-gray-600 transition">
+                                    About Us
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/contact" className="text-gray-400 hover:text-gray-600 transition">
+                                    Contact Us
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/testimonial" className="text-gray-400 hover:text-gray-600 transition">
+                                    Testimonials
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/career" className="text-gray-400 hover:text-gray-600 transition">
+                                    Kudu Careers
+                                </Link>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                    <div className="flex flex-col space-y-2">
+                        <h3 className="md:text-lg text-base text-white font-semibold">Support</h3>
                         <ul className="space-y-3 text-sm">
                             <li>
                                 <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Registration
+                                    Return Policy
                                 </Link>
                             </li>
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Help Center
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Chat with Us
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to="/faqs" className="text-gray-400 hover:text-gray-600 transition">
+                                    FAQs
+                                </Link>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div className="flex flex-col space-y-2">
+                        <h3 className="md:text-lg text-base text-white font-semibold">Legal</h3>
+                        <ul className="space-y-3 text-sm">
+                            <li>
+                                <Link to="/privacy" className="text-gray-400 hover:text-gray-600 transition">
+                                    Privacy Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/terms-conditions" className="text-gray-400 hover:text-gray-600 transition">
+                                    Terms and Conditions
+                                </Link>
+                            </li>
+                            {/* <li>
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
+                                    Registration
+                                </Link>
+                            </li> */}
                             {/* <li>
                                 <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
                                     Payment
@@ -44,67 +109,19 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
-                        <h3 className="md:text-lg text-base text-white font-semibold">Sell</h3>
+                        <h3 className="md:text-lg text-base text-white font-semibold">Stay Connected</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="text-gray-400">Become a Vendor</a></li>
-                            <li><a href="#" className="text-gray-400">Advertise with Us</a></li>
+                            <li><a href="#" className="text-gray-400">Instagram</a></li>
+                            <li><a href="#" className="text-gray-400">Twitter</a></li>
+                            <li><a href="#" className="text-gray-400">Facebook</a></li>
+                            <li><a href="#" className="text-gray-400">LinkedIn</a></li>
                         </ul>
                     </div>
-                    <div className="flex flex-col space-y-2">
-                        <h3 className="md:text-lg text-base text-white font-semibold">Useful Links</h3>
-                        <ul className="space-y-3 text-sm">
-                            <li>
-                                <Link to="/about" className="text-gray-400 hover:text-gray-600 transition">
-                                    About Us
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/contact" className="text-gray-400 hover:text-gray-600 transition">
-                                    Contact Us
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/privacy" className="text-gray-400 hover:text-gray-600 transition">
-                                    Privacy Policy
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/terms-conditions" className="text-gray-400 hover:text-gray-600 transition">
-                                    Terms and Conditions
-                                </Link>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                    <div className="flex flex-col space-y-2">
-                        <h3 className="md:text-lg text-base text-white font-semibold">Support</h3>
-                        <ul className="space-y-3 text-sm">
-                            <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Help Center
-                                </Link>
-                            </li>
-                            {/* <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Chat with Us
-                                </Link>
-                            </li> */}
-                            <li>
-                                <Link to="/faqs" className="text-gray-400 hover:text-gray-600 transition">
-                                    FAQs
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/testimonial" className="text-gray-400 hover:text-gray-600 transition">
-                                Testimonial
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
+
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Reach Out</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="text-gray-400">+234 000 000 0000</a></li>
+                            <li><a href="#" className="text-gray-400">09234551774</a></li>
                             <li><a href="#" className="text-gray-400">help@kudu.com</a></li>
                             <li><a href="#" className="text-gray-400">support@kudu.com</a></li>
                         </ul>
