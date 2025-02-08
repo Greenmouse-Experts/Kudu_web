@@ -223,7 +223,6 @@ export default function Sidebar({ onSelected }) {
                         </div>
                     </AccordionBody>
                 </Accordion> */}
-
                     {/* <Link
                         to={"/auction"}
                         className="bg-kuduDarkGrey text-white py-2 px-4 rounded-md"
