@@ -1,6 +1,5 @@
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import "../Home/components/style.css";
-import ShoppingExperience from "./components/ShoppingExperience";
 
 export default function JobDetails() {
     return (
