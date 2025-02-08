@@ -1,6 +1,13 @@
 import { Button } from "@material-tailwind/react";
 
-const CartSummary = () => {
+const CartSummary = ({cart}) => {
+
+    let totalPrice = 0;
+
+    cart.forEach(item => {
+        totalPrice += item.totalPrice;
+    });
+
     return (
         <>
             <div className="w-full flex flex-col gap-2 py-4 rounded-lg bg-white">
@@ -11,10 +18,10 @@ const CartSummary = () => {
                 <div className="w-full flex flex-col px-4 gap-10">
                     <div className="w-full flex justify-between items-center">
                         <div className="w-full flex">
-                            <span className="text-sm text-[rgba(178,178,178,1)]">Item’s Total (7)</span>
+                            <span className="text-sm text-[rgba(178,178,178,1)]">Item’s Total ({cart.length})</span>
                         </div>
                        <div className="w-full flex justify-end">
-                        <span className="text-sm text-[rgba(178,178,178,1)]"> ₦75,5090,000 </span>
+                        <span className="text-sm text-[rgba(178,178,178,1)]"> {totalPrice} </span>
                         </div>
                     </div>
 
@@ -32,7 +39,7 @@ const CartSummary = () => {
 
                 <div className="flex justify-center mt-2 w-full">
                     <Button className="w-3/4 py-3 px-4 flex justify-center gap-2 bg-kuduOrange text-white rounded-lg font-[500] transition-colors">
-                        <span className="text-sm font-[500] normal-case">Checkout ₦75,5090,000</span>
+                        <span className="text-sm font-[500] normal-case">Checkout ₦{totalPrice}</span>
                     </Button>
                 </div>
             </div>

@@ -12,7 +12,8 @@ const headers = {
 export const storeSlice = createApi({
   reducerPath: "store",
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
-  tagTypes: ["Stores"],
+  keepUnusedDataFor: 0,
+  tagTypes: ["Store", "Product", "Currencies", "Countries", "Categories"],
 
   endpoints: (builder) => {
     return {
@@ -22,16 +23,16 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Store"],
       }),
           
       getSingleStore: builder.query({
-        query: (dataId) => ({
-          url: `/vendor/store`,
+        query: (storeId) => ({
+          url: `/vendor/view/store?storeId=${storeId}`,
           method: "GET",
           headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Store"],
       }),
 
       createStore: builder.mutation({
@@ -41,7 +42,7 @@ export const storeSlice = createApi({
           headers: { ...headers },
           body: data,
         }),
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Store"],
       }),
 
       createProduct: builder.mutation({
@@ -51,19 +52,29 @@ export const storeSlice = createApi({
           headers: { ...headers },
           body: data,
         }),
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Product"],
+      }),
+
+      createAuctionProduct: builder.mutation({
+        query: (data) => ({
+          url: `/vendor/auction/products`,
+          method: "POST",
+          headers: { ...headers },
+          body: data,
+        }),
+        invalidatesTags: ["Product"],
       }),
 
       editStore: builder.mutation({
-        query: (storeId) => {
+        query: (data) => {
             return{
-              url: `/vendor/store?storeId=${storeId}`,
+              url: `/vendor/store`,
               method: "PUT",
               headers: { ...headers },
               body: data,
             }
         },
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Store"],
       }),
 
       deleteStore: builder.mutation({
@@ -72,7 +83,16 @@ export const storeSlice = createApi({
           method: "DELETE",
           headers: { ...headers },
         }),
-        invalidatesTags: ["Stores"],
+        invalidatesTags: ["Store"],
+      }),
+
+      deleteProduct: builder.mutation({
+        query: (productId) => ({
+          url: `/vendor/products?productId=${productId}`,
+          method: "DELETE",
+          headers: { ...headers },
+        }),
+        invalidatesTags: ["Product"],
       }),
 
       getCurrencies: builder.query({
@@ -81,7 +101,16 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Currencies"],
+      }),
+
+      getMyProduct: builder.query({
+        query: () => ({
+            url: `/vendor/vendors/products`,
+            method: "GET",
+            headers: { ...headers },
+        }),
+        providesTags: ["Product"],
       }),
 
       getCountries: builder.query({
@@ -90,7 +119,7 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Countries"],
       }),
 
       getCategories: builder.query({
@@ -99,7 +128,26 @@ export const storeSlice = createApi({
             method: "GET",
             headers: { ...headers },
         }),
-        providesTags: ["Stores"],
+        providesTags: ["Categories"],
+      }),
+
+      updateKyc: builder.mutation({
+        query: (data) => ({
+          url: `/vendor/kyc`,
+          method: "POST",
+          headers: { ...headers },
+          body: data,
+        }),
+        invalidatesTags: ["Kyc"],
+      }),
+
+      getSubcriptionsPlan: builder.query({
+        query: () => ({
+            url: `/vendor/subscription/plans`,
+            method: "GET",
+            headers: { ...headers },
+        }),
+        providesTags: ["Subcriptions"],
       }),
 
     };
@@ -111,9 +159,14 @@ export const {
   useGetSingleStoreQuery,
   useCreateStoreMutation,
   useCreateProductMutation,
+  useCreateAuctionProductMutation,
   useEditStoreMutation,
   useDeleteStoreMutation,
+  useDeleteProductMutation,
   useGetCurrenciesQuery,
   useGetCountriesQuery,
   useGetCategoriesQuery,
+  useGetMyProductQuery,
+  useUpdateKycMutation,
+  useGetSubcriptionsPlanQuery
 } = storeSlice;

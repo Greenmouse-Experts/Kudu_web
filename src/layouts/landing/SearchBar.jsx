@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Menu, MenuHandler, MenuList } from "@material-tailwind/react";
 
+
 const SearchBar = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("FILTER");
 
-  const filters = ["All", "Brand New Products", "Refurbished Products", "Used Products"];
+  const filters = ["All", "Name", "Category", "Price"];
 
   return (
     <div className="flex items-center w-full max-w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden bg-[#FFF2EA] relative">

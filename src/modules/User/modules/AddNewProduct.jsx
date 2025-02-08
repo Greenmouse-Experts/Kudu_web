@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useCreateProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import DropZone from '../../../components/DropZone';
-import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
+import { MdCancel, MdClose } from "react-icons/md";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     const [currency, setCurrency] = useState(null);
     const [files, setFiles] = useState([]);
-    // const [selectedCategory, setSelectedCategory] = useState(null)
     const [subCategories, setSubCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [createProduct, { isLoading, isError, isSuccess, error }] = useCreateProductMutation();
+    const [createProduct] = useCreateProductMutation();
     
     const conditions = [
         { id: 'brand_new', name: 'brand_new' },
@@ -27,8 +27,6 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
         setValue,
         watch
     } = useForm();
-
-    const navigate = useNavigate();
 
     const selectedId = watch("categoryId");
     const selectedCategory = categories?.data?.find((cat) => cat.id === selectedId)?.name || "";
@@ -56,6 +54,10 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
         setFiles((prevFiles) => [...prevFiles, data]);
     }
 
+    const handleRemoveImage = (idx) => {
+        setFiles((prevFile) => prevFile.filter((_, index) => index !== idx));
+    };
+
     const transformPayload = (data) => {
         return{
             storeId: data.storeId ,
@@ -77,20 +79,23 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     }
 
     const onSubmit = (data) => {
+        setIsLoading(true)
         if (files.length > 0) {
             const payload = { ...data, image: files[0]};
 
             const reformedPayload = transformPayload(payload);
 
-            console.log(reformedPayload)
             createProduct(reformedPayload)
-            .then(res => {
-                console.log(res);
+            .then((res) => {
+                if(res.data.message !== "Product created successfully") throw res
+
                 toast.success(res.data.message);
+                setIsLoading(false)
                 closeAddNewModal();
-            }).catch(error => {
-                console.log(error);
-                toast.error(error);
+            }).catch((error) => {
+                toast.error(error.error.data.message);
+                setIsLoading(false)
+                closeAddNewModal();
             })
         }
     };
@@ -338,20 +343,21 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                             </div>
 
                             <div className="w-full flex flex-col gap-2">
-                                <div className="flex flex-col md:w-1/2 w-full gap-6">
+                                <div className="flex flex-col w-[16%] h-[25vh] gap-6">
                                     <p className="-mb-3 text-mobiFormGray">
                                         Product Images
                                     </p>
                                     <DropZone onUpload={handleDrop} text={'Upload Images of Product'} />
                                 </div>
-                                <div className="grid grid-cols-3 gap-4 my-4">
+                                <div className="flex my-4 flex-wrap">
                                     {files.map((fileObj, index) => (
-                                        <div key={index} className="relative">
+                                        <div key={index} className="relative w-[18%] mr-3 mt-4">
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
                                                 className="w-full h-24 object-cover rounded"
                                             />
+                                            <button type="button" className='absolute top-1 right-1 text-[red] text-[20px]' onClick={() => handleRemoveImage(index)}><MdCancel /></button>
                                         </div>
                                     ))}
                                 </div>
@@ -362,7 +368,7 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                             >
-                                Add New Product
+                                {isLoading ? <PulseLoader color="#ffffff"  size={10}/> : "Add New Product"} 
                             </button>
 
                         </div>

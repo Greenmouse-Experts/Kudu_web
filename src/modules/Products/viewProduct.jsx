@@ -8,13 +8,16 @@ import { currencyFormat, formatString } from "../../helpers/helperFactory";
 import DOMPurify from 'dompurify';
 import { getDateDifference } from "../../helpers/dateHelper";
 import useAppState from "../../hooks/appState";
+import { useAddToCartMutation } from "../../reducers/cartApi";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../../reducers/cartSlice';
 
 
 function SafeHTML({ htmlContent }) {
     const cleanHTML = DOMPurify.sanitize(htmlContent);
     return <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />;
 }
-
 
 export default function ViewProduct() {
     const labels = ["Brand New", "Fashion", "Watches"];
@@ -26,6 +29,8 @@ export default function ViewProduct() {
     const { user } = useAppState();
 
     const { mutate } = useApiMutation();
+
+    const dispatch = useDispatch();
 
     const { id } = useParams();
 
@@ -58,20 +63,10 @@ export default function ViewProduct() {
         getProductDetails();
     }, []);
 
-
-    const addToCart = () => {
+    const handleAddToCart = () => {
         if (user) {
             const payload = { productId: id, quantity };
-            mutate({
-                url: "/user/cart/add",
-                method: "POST",
-                data: payload,
-                headers: true,
-                onSuccess: (response) => {
-                },
-                onError: () => {
-                },
-            });
+            dispatch(addToCart(payload))
         }
         else {
             navigate('/login')
@@ -350,7 +345,7 @@ export default function ViewProduct() {
                                     </div>
                                     <Button
                                         type="submit"
-                                        onClick={() => addToCart()}
+                                        onClick={() => handleAddToCart()}
                                         disabled={disabled}
                                         className="w-full py-3 px-4 flex justify-center rounded-md gap-3 bg-kuduOrange text-white transition-colors"
                                     >

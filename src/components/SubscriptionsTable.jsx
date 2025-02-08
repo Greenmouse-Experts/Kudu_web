@@ -1,17 +1,16 @@
 import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
-import { useNavigate } from 'react-router-dom';
 
-const SubscriptionTable = ({ data }) => {
-    const navigate = useNavigate();
+const SubscriptionTable = ({data, openAddNewSubModal}) => {
 
+    console.log(data)
     return (
         <>
             <div className='All'>
                 <div className="rounded-md pb-2 w-full flex justify-between gap-5">
                     <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">Subscriptions</h2>
                     <span className="text-white flex items-start h-auto">
-                        <span className="mr-1 text-sm bg-kuduOrange py-2 px-4 cursor-pointer rounded-lg font-[500]" onClick={() => navigate('create')}>
+                        <span className="mr-1 text-sm bg-kuduOrange py-2 px-4 cursor-pointer rounded-lg font-[500]" onClick={openAddNewSubModal}>
                             Add New Subscription
                         </span>
                     </span>
@@ -32,7 +31,7 @@ const SubscriptionTable = ({ data }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((plan, index) => (
+                                {data.data.map((plan, index) => (
                                     <tr
                                         key={plan.id}
                                         className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'

@@ -41,8 +41,9 @@ const FlyoutMenu = () => {
 
       {/* Flyout Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         {/* Close Button */}
         <button
@@ -69,7 +70,6 @@ const FlyoutMenu = () => {
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
             onClick={() => setOpen(false)}
           >
-            <Home size={20} style={{ color: "#ff6f22" }} />
             Home
           </Link>
           <Link
@@ -77,7 +77,6 @@ const FlyoutMenu = () => {
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
             onClick={() => setOpen(false)}
           >
-            <Users size={20} style={{ color: "#ff6f22" }} />
             About Us
           </Link>
           <Link
@@ -93,7 +92,6 @@ const FlyoutMenu = () => {
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
             onClick={() => setOpen(false)}
           >
-            <Mail size={20} style={{ color: "#ff6f22" }} />
             Contact
           </Link>
           <Link
@@ -101,7 +99,6 @@ const FlyoutMenu = () => {
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
             onClick={() => setOpen(false)}
           >
-            <HelpCircle size={20} style={{ color: "#ff6f22" }} />
             FAQs
           </Link>
 

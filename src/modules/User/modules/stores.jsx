@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCurrenciesQuery, useGetCountriesQuery, useGetCategoriesQuery} from "../../../reducers/storeSlice"
+import { useGetAllStoreQuery, useDeleteStoreMutation, useGetCategoriesQuery, useGetCountriesQuery, useGetCurrenciesQuery } from "../../../reducers/storeSlice"
 import { dateFormat } from "../../../helpers/dateHelper";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -7,8 +7,10 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { toast } from "react-toastify";
 import AddNewProduct from './AddNewProduct';
-import CreateNewStore from './CreateNewStore';
 import AddNewAuctionProduct from './AddNewAuctionProduct';
+import CreateNewStore from './CreateNewStore';
+import ProductTypeModal from './ProductTypeModal';
+import { Option } from '@material-tailwind/react';
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -16,18 +18,20 @@ function Stores() {
     const [storeId, setStoreId] = useState(null);
     const [delModal, setDelModal] = useState(false);
     const [addNewModal, setAddNewModal] = useState(false);
+    const [addNewAuctionModal, setAddNewAuctionModal] = useState(false);
     const [currencies, setCurrencies] = useState([]);
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [xtates, setXtates] = useState([]);
-    const [productOptionModal, setProductOptionModal] = useState(null);
-    const [addNewAuctionModal, setAddNewAuctionModal] = useState(null);
+    const [openAddNewProductOptionModal, setOpenAddNewProductOptionModal] = useState(null);
+    const [editOrAddstore, setEditOrAddstore] = useState(null);
+    const [deliveryOptions, setDeliveryOptions] = useState([]);
 
-    const { data: stores, isLoading, isSuccess, isError, error } = useGetAllStoreQuery();
+    const { data: stores } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
     const [deleteSto] = useDeleteStoreMutation();
     const {data} = useGetCurrenciesQuery();
     const {data: countri} = useGetCountriesQuery();
-    const {data: categories} = useGetCategoriesQuery();
+    const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
 
     useEffect(() => {
         if(data) setCurrencies(data)
@@ -55,16 +59,19 @@ function Stores() {
 
     const open = Boolean(anchorEl);
 
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+    const handleClick = (event, storeId) => {
+        setAnchorEl(event.currentTarget);
+        setStoreId(storeId);
     };
 
     const handleClose = () => {
       setAnchorEl(null);
+      setStoreId(null)
     }; 
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
+        setEditOrAddstore("add new")
     };
 
     const handleCloseModal = () => {
@@ -72,21 +79,24 @@ function Stores() {
         setDeliveryOptions([])
     };
 
-    const handleAction = (option, id) => {
-        setStoreId(id)
+    const handleAction = (option) => {
         option === "Delete" && setDelModal(true)
-        option === "Add Product" && setProductOptionModal(true)
-        option === "View/Edit" && setIsModalOpen(true)
+        option === "Add Product" && setOpenAddNewProductOptionModal(true)
+        if(option === "View/Edit"){
+            setIsModalOpen(true)
+            setEditOrAddstore("edit")
+        }
+        setAnchorEl(null);
     }
 
-    const openAddNewProductModal = () => {
+    const openAddNewProductForm = () => {
         setAddNewModal(true)
-        setProductOptionModal(false)
+        setOpenAddNewProductOptionModal(false)
     }
 
-    const openAddNewAuctionProductModal = () => {
+    const openAddNewAuctionProductForm = () => {
         setAddNewAuctionModal(true)
-        setProductOptionModal(false)
+        setOpenAddNewProductOptionModal(false)
     }
 
     const handleCloseDelModal = () => {
@@ -102,14 +112,13 @@ function Stores() {
         e.preventDefault()
     }
 
-    const deleteStore = async () => {
+    const deleteStore = () => {
         deleteSto(storeId)
         .then(res => {
-            console.log(res)
-            toast.success(res.data.message)
+            // console.log(res)
+            // toast.success(res.data.message)
         }).catch(err => {
-            console.log(err)
-            toast.error(err)
+            console.error(err)
         })
         setDelModal(false)
     }
@@ -163,7 +172,7 @@ function Stores() {
                                             aria-controls={open ? 'long-menu' : undefined}
                                             aria-expanded={open ? 'true' : undefined}
                                             aria-haspopup="true"
-                                            onClick={handleClick}
+                                            onClick={(event) => handleClick(event, store.id)}
                                         >
                                             <MoreVertIcon />
                                         </IconButton>
@@ -185,16 +194,15 @@ function Stores() {
                                                 },
                                             }}
                                         >
-                                            {options.map((option) => (
+                                            {options.map((option, idx) => (
                                                 <MenuItem 
-                                                    key={option} 
-                                                    selected={option === 'Pyxis'} 
-                                                    onClick={handleClose}
+                                                    key={idx} 
+                                                    onClick={() => handleAction(option)}
                                                     sx={{
                                                         fontSize: '10px',
                                                       }}
                                                 >
-                                                    <li onClick={() => handleAction(option, store.id, index, store.name)}>
+                                                    <li>
                                                         {option}
                                                     </li>
                                                 </MenuItem>
@@ -216,6 +224,8 @@ function Stores() {
 
             {isModalOpen && (
                 <CreateNewStore 
+                    deliveryOptions={deliveryOptions}
+                    setDeliveryOptions={setDeliveryOptions}
                     handleCloseModal={handleCloseModal} 
                     currencies={currencies}
                     countries={countries}
@@ -223,6 +233,9 @@ function Stores() {
                     setSelectedCountry={setSelectedCountry}
                     xtates={xtates}
                     submitNewStore={submitNewStore}
+                    editOrAddstore={editOrAddstore}
+                    stores={stores}
+                    storeId={storeId}
                 />
             )}
 
@@ -241,7 +254,7 @@ function Stores() {
             {addNewAuctionModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
                     <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
-                        <AddNewAuctionProduct 
+                        <AddNewAuctionProduct
                             closeAddNewModal={closeAddNewModal} 
                             stores={stores}
                             categories={categories}
@@ -272,28 +285,16 @@ function Stores() {
                     </div>
                 </div>
             )}
-
-            {productOptionModal && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                    <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
-                        <h1 className="text-center font-large">
-                            Product Type
-                        </h1>
-                        <div className="flex justify-center mt-4">
-                            <button
-                                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
-                                onClick={openAddNewAuctionProductModal}
-                            >
-                                Auction
-                            </button>
-                            <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
-                                onClick={openAddNewProductModal}
-                            >
-                                Non-Auction
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            
+            {openAddNewProductOptionModal && (
+              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                 <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+                    <ProductTypeModal 
+                        openAddNewAuctionProductForm={openAddNewAuctionProductForm}
+                        openAddNewProductForm={openAddNewProductForm}
+                    />
+                 </div>
+             </div>
             )}
         </div>
     );
