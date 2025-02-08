@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const token = localStorage.getItem("kuduUserToken");
-console.log(token)
+
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
