@@ -112,7 +112,7 @@ const FlyoutMenu = () => {
           </Link>
 
           <Link
-            to="/"
+            to="/become-a-vendor"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
             onClick={() => setOpen(false)}
           >
@@ -121,7 +121,7 @@ const FlyoutMenu = () => {
           </Link>
 
           <Link
-            to="/"
+            to="/advertise-with-us"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
             onClick={() => setOpen(false)}
           >
