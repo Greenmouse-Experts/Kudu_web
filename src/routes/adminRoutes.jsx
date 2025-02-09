@@ -26,6 +26,7 @@ import UpdateStore from "../modules/SuperAdmin/Dashboard/updateStore.jsx";
 import UpdateProductCategory from "../modules/SuperAdmin/Dashboard/updateProductCategory.jsx";
 import UpdateProduct from "../modules/SuperAdmin/Dashboard/updateProducts.jsx";
 import UpdateAdvert from "../modules/SuperAdmin/Dashboard/updateNewAdvert.jsx";
+import ViewKYC from "../modules/SuperAdmin/Dashboard/viewKyc.jsx";
 
 export const adminRoutes = [
     {
@@ -135,6 +136,10 @@ export const adminRoutes = [
             {
                 path: "new-product",
                 element: <AddNewProduct />,
+            },
+            {
+                path: "all-vendors/kyc/:id",
+                element: <ViewKYC />
             },
         ],
     },

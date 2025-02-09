@@ -9,7 +9,7 @@ const UpdateAdvert = () => {
     const [categories, setCategories] = useState([]);
     const [files, setFiles] = useState([]);
     const { id } = useParams();
-    const [advert, setAdvert] = useState({});
+    const [advert, setViewedAdvert] = useState({});
     const [loading, setLoading] = useState(true);
 
     const { mutate } = useApiMutation();
@@ -28,10 +28,10 @@ const UpdateAdvert = () => {
     const onSubmit = (data) => {
         if (files.length > 0) {
             delete data.category;
-            const payload = { ...data, showOnHomepage: data.showOnHomepage === 'true', media_url: files[0] }
+            const payload = { ...data, advertId: id, showOnHomepage: data.showOnHomepage === 'true', media_url: files[0] }
             mutate({
                 url: "/admin/adverts",
-                method: "POST",
+                method: "PUT",
                 data: payload,
                 headers: true,
                 onSuccess: (response) => {
@@ -61,12 +61,16 @@ const UpdateAdvert = () => {
 
     const getAdvert = () => {
         mutate({
-            url: `/admin/advert?advertId=${id}`,
+            url: `/admin/general/adverts`,
             method: "GET",
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                setAdvert(response.data.data);
+                const adverts = response.data.data;
+                // Find the advert whose id matches the id from the URL.
+                // Note: Make sure both values are of the same type (string vs number).
+                const foundAdvert = adverts.find((advert) => String(advert.id) === id);
+                setViewedAdvert(foundAdvert);
             },
             onError: () => {
             }
@@ -90,8 +94,9 @@ const UpdateAdvert = () => {
 
         setValue("title", advert.title);
         setValue("description", advert.description);
-        setValue("showOnHomepage", advert.specification);
-        // setFiles(JSON.parse(advert.additional_images));
+        setValue("showOnHomepage", advert.showOnHomepage.toString());
+        setValue("categoryId", advert.categoryId);
+        setFiles([advert.media_url]);
         setLoading(false);
     }, [advert, setValue]);
 

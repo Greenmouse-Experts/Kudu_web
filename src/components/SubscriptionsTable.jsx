@@ -3,7 +3,6 @@ import { dateFormat } from '../helpers/dateHelper';
 
 const SubscriptionTable = ({data, openAddNewSubModal}) => {
 
-    console.log(data)
     return (
         <>
             <div className='All'>
@@ -31,7 +30,7 @@ const SubscriptionTable = ({data, openAddNewSubModal}) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.data.map((plan, index) => (
+                                {data.map((plan, index) => (
                                     <tr
                                         key={plan.id}
                                         className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
