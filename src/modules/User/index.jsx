@@ -73,9 +73,7 @@ export default function UserProfile() {
                         </div>
                     </div>
 
-                    <div className="w-full flex flex-col gap-6 items-start my-20">
-                        <p className="text-xl uppercase font-semibold">More Like this</p>
-                        {/*<ProductListing productsArr={productsArr} />*/}
+                    <div className="w-full flex flex-col gap-6 items-start my-10">
                     </div>
                 </div>
             </div>
