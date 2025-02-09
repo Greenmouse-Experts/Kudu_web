@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { useCreateProductMutation } from "../../../reducers/storeSlice";
+import { useCreateAuctionProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import DropZone from '../../../components/DropZone';
 import { MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
+import { MdCancel } from "react-icons/md";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
     const [currency, setCurrency] = useState(null);
     const [files, setFiles] = useState([]);
-    // const [selectedCategory, setSelectedCategory] = useState(null)
     const [subCategories, setSubCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const [createProduct, { isLoading, isError, isSuccess, error }] = useCreateProductMutation();
+    const [createAuctionProduct] = useCreateAuctionProductMutation();
     
     const conditions = [
         { id: 'brand_new', name: 'brand_new' },
@@ -27,8 +29,6 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
         setValue,
         watch
     } = useForm();
-
-    const navigate = useNavigate();
 
     const selectedId = watch("categoryId");
     const selectedCategory = categories?.data?.find((cat) => cat.id === selectedId)?.name || "";
@@ -56,6 +56,10 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
         setFiles((prevFiles) => [...prevFiles, data]);
     }
 
+    const handleRemoveImage = (idx) => {
+        setFiles((prevFile) => prevFile.filter((_, index) => index !== idx));
+    };
+
     const transformPayload = (data) => {
         return{
             storeId: data.storeId ,
@@ -65,32 +69,36 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
             description: data.description,
             specification: data.specification,
             price: data.price,
+            bidIncrement: data.bidIncrement,
+            maxBidsPerUser: data.maxBidsPerUser,
+            participantsInterestFee: data.participantsInterestFee,
             image_url: data.image,
-            discount_price: data.discount_price,
             additional_images: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"],
-            warranty: data.warranty,
-            return_policy: data.return_policy,
-            seo_title: "",
-            meta_description: "",
-            keywords: ""
+            startDate: data.startDate,
+            endDate: data.endDate,
         }
     }
 
     const onSubmit = (data) => {
+        setIsLoading(true)
         if (files.length > 0) {
             const payload = { ...data, image: files[0]};
 
             const reformedPayload = transformPayload(payload);
 
             console.log(reformedPayload)
-            createProduct(reformedPayload)
-            .then(res => {
-                console.log(res);
+            createAuctionProduct(reformedPayload)
+            .then((res) => {
+                if(res.status !== 200) throw res
+
                 toast.success(res.data.message);
+                setIsLoading(false)
                 closeAddNewModal();
-            }).catch(error => {
-                console.log(error);
-                toast.error(error);
+            }).catch((error) => {
+                console.log(error)
+                toast.error(error.error.data.message);
+                setIsLoading(false)
+                closeAddNewModal();
             })
         }
     };
@@ -279,24 +287,42 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                     />
                                 </div>
                             </div>
+                            <div className='flex justify-between'>
+                                <div className='mb-3 w-[49%]'>
+                                    <label
+                                        className="block text-md font-semibold mb-1"
+                                        htmlFor="bid_increment"
+                                    >
+                                        Bid Increment
+                                    </label>
+                                    <div className='flex'>
+                                        <input
+                                            type="number"
+                                            id="bid_increment"
+                                            placeholder="Enter Bid Increment"
+                                            className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                            style={{ outline: "none" }}
+                                            {...register("bidIncrement", { required: "bid increment is required" })}
+                                            min={0}
+                                        />
+                                    </div>
+                                </div>
 
-                            <div className='mb-3'>
-                                <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="discount_price"
-                                >
-                                    Discount Price
-                                </label>
-                                <div className='flex'>
-                                    <span className='flex flex-col justify-center'>{currency}</span>
+                                <div className='mb-3 w-[49%]'>
+                                    <label
+                                        className="block text-md font-semibold mb-1"
+                                        htmlFor="max_bid"
+                                    >
+                                        Max Bids Per User
+                                    </label>
                                     <input
-                                        type="text"
-                                        id="discount_price"
-                                        placeholder="Enter Discount Price"
+                                        type="number"
+                                        id="max_bid"
+                                        placeholder="Enter Max Bid"
                                         className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                         style={{ outline: "none" }}
-                                        {...register("discount_price", { required: "discount price is required" })}
-                                        required
+                                        {...register("maxBidsPerUser", { required: "max bid is required" })}
+                                        min={0}
                                     />
                                 </div>
                             </div>
@@ -304,54 +330,75 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                             <div className='mb-3'>
                                 <label
                                     className="block text-md font-semibold mb-1"
-                                    htmlFor="warranty"
+                                    htmlFor="participant_interest_fee"
                                 >
-                                    Warranty
+                                    Participants Interest Fee
                                 </label>
                                 <input
                                     type="text"
-                                    id="warranty"
-                                    placeholder="Enter Product Warranty"
+                                    id="participant_interest_fee"
+                                    placeholder="Enter Participant Interest Fee"
                                     className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                                     style={{ outline: "none" }}
-                                    {...register("warranty", { required: "warranty price is required" })}
+                                    {...register("participantsInterestFee", { required:"participant interest fee is required"})}
                                     required
                                 />
                             </div>
 
-                            <div className='mb-3'>
-                                <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="return_policy"
-                                >
-                                    Return policy
-                                </label>
-                                <input
-                                    type="text"
-                                    id="return_policy"
-                                    placeholder="Return Policy"
-                                    className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
-                                    style={{ outline: "none" }}
-                                    {...register("return_policy", { required:"return policy price is required"})}
-                                    required
-                                />
+                            <div className='flex justify-between'>
+                                <div className='mb-3 w-[49%]'>
+                                    <label
+                                        className="block text-md font-semibold mb-1"
+                                        htmlFor="start_date"
+                                    >
+                                        Start Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="start_date"
+                                        placeholder="Enter Start Date"
+                                        className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                        style={{ outline: "none" }}
+                                        {...register("startDate", { required:"start date is required"})}
+                                        required
+                                    />
+                                </div>
+
+                                <div className='mb-3 w-[49%]'>
+                                    <label
+                                        className="block text-md font-semibold mb-1"
+                                        htmlFor="end_date"
+                                    >
+                                        End Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        id="end_date"
+                                        placeholder="Enter Start Date"
+                                        className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                        style={{ outline: "none" }}
+                                        {...register("endDate", { required:"end date is required"})}
+                                        required
+                                    />
+                                </div>
                             </div>
 
                             <div className="w-full flex flex-col gap-2">
-                                <div className="flex flex-col md:w-1/2 w-full gap-6">
+                                <div className="flex flex-col w-[16%] h-[25vh] gap-6">
                                     <p className="-mb-3 text-mobiFormGray">
                                         Product Images
                                     </p>
                                     <DropZone onUpload={handleDrop} text={'Upload Images of Product'} />
                                 </div>
-                                <div className="grid grid-cols-3 gap-4 my-4">
+                                <div className="flex my-4 flex-wrap">
                                     {files.map((fileObj, index) => (
-                                        <div key={index} className="relative">
+                                        <div key={index} className="relative w-[18%] mr-3 mt-4">
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
                                                 className="w-full h-24 object-cover rounded"
                                             />
+                                            <button type="button" className='absolute top-1 right-1 text-[red] text-[20px]' onClick={() => handleRemoveImage(index)}><MdCancel /></button>
                                         </div>
                                     ))}
                                 </div>
@@ -362,7 +409,7 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                             >
-                                Add New Product
+                                {isLoading ? <PulseLoader color="#ffffff"  size={10}/> : "Add Auction Product"} 
                             </button>
 
                         </div>

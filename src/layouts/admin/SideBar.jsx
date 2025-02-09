@@ -105,8 +105,8 @@ const Sidebar = () => {
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                                     <Link to={'products-sell'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Products</Link>
                                     <Link to={'my-products'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">My Products</Link>
-                                    <Link to={'products-categories'} onClick={() =>handleChildren('')}  className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Categories</Link>
-                                    <Link to={'products-categories/sub-category'} onClick={() =>handleChildren('')}  className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link>
+                                    <Link to={'products-categories'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Categories</Link>
+                                    <Link to={'products-categories/sub-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link>
                                 </div>
                             )}
                         </div>
@@ -128,9 +128,9 @@ const Sidebar = () => {
                             {dropdownStates.stores && (
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                                     <Link to={'/admin/all-stores'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/all-stores') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
-                            }`}>All Stores</Link>
+                                        }`}>All Stores</Link>
                                     <Link to={'/admin/my-stores'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/my-stores') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
-                            }`}>My Stores</Link>
+                                        }`}>My Stores</Link>
                                 </div>
                             )}
                         </div>
@@ -176,7 +176,7 @@ const Sidebar = () => {
                         </Link>
 
 
-                      {/*  <Link to={'#'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
+                        {/*  <Link to={'#'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
                             <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M14 21H10M18 8C18 6.4087 17.3679 4.88258 16.2427 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.8826 2.63214 7.75738 3.75736C6.63216 4.88258 6.00002 6.4087 6.00002 8C6.00002 11.0902 5.22049 13.206 4.34968 14.6054C3.61515 15.7859 3.24788 16.3761 3.26134 16.5408C3.27626 16.7231 3.31488 16.7926 3.46179 16.9016C3.59448 17 4.19261 17 5.38887 17H18.6112C19.8074 17 20.4056 17 20.5382 16.9016C20.6852 16.7926 20.7238 16.7231 20.7387 16.5408C20.7522 16.3761 20.3849 15.7859 19.6504 14.6054C18.7795 13.206 18 11.0902 18 8Z"
@@ -186,7 +186,7 @@ const Sidebar = () => {
                             <span className={`text-md font-[600]`}>Notification</span>
                         </Link> */}
 
-                        <Link to={'/admin/sublevel'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/sublevel') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        {/*<Link to={'/admin/sublevel'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/sublevel') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className="mr-5">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -196,7 +196,7 @@ const Sidebar = () => {
                                 </svg>
                             </i>
                             <span className={`text-md font-[600]`}>Sub Admins</span>
-                        </Link>
+                        </Link>*/}
 
                         <div className='w-full h-[1px] px-4 border-mobiSilverDivider border-bottom border'></div>
                     </nav>

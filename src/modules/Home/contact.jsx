@@ -99,7 +99,7 @@ export default function Contact() {
                 </div>
                 <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full bg-white ">
                     {/* Map and Contact Form */}
-                    <div className="grid md:grid-cols-2 gap-9 Justig">
+                    <div className="grid md:grid-cols-2 gap-9">
                         <div className="bg-white rounded-lg overflow-hidden">
                             <iframe
                                 title="Office Location"
