@@ -12,8 +12,6 @@ export default function Cart() {
         dispatch(getCart());
     }, [dispatch, cart]);
 
-    console.log(cart)
-
     return (
         <>
             <div className="w-full flex flex-col h-full bg-kuduLightBlue">

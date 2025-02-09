@@ -5,13 +5,22 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 const token = localStorage.getItem("kuduUserToken");
 console.log("token: ", token)
 const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${token}`,
 };
 
 export const cartApi = createApi({
   reducerPath: "cart",
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
+  baseQuery: fetchBaseQuery({
+    baseUrl: BASE_URL,
+    prepareHeaders: (headers) => {
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      headers.set('Content-Type', 'application/json');
+      return headers;
+    },
+  }),
   keepUnusedDataFor: 0,
   tagTypes: ["Cart"],
 
@@ -22,7 +31,6 @@ export const cartApi = createApi({
         query: (data) => ({
           url: `/user/cart/add`,
           method: "POST",
-          headers: { ...headers },
           body: data,
         }),
         invalidatesTags: ["Cart"],

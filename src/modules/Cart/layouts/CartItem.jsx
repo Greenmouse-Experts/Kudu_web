@@ -41,7 +41,7 @@ const CartItem = ({ item, removeFromCart }) => {
                     <div className="flex flex-col items-center gap-4 md:ml-10">
                         <div>
                             <p className="font-bold text-lg text-black">
-                                {item.product.price.toLocaleString("en-NG", {
+                               {item.product.store.currency.symbol} {item.product.price.toLocaleString("en-NG", {
                                     style: "currency",
                                     currency: "NGN",
                                 })}
