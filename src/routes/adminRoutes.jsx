@@ -1,13 +1,13 @@
 import React from "react";
 import AdminLayout from "../layouts/admin";
 import Dashboard from "../modules/SuperAdmin/Dashboard";
-import Users from '../modules/SuperAdmin/Dashboard/users.jsx'; 
-import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx'; 
-import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx'; 
+import Users from '../modules/SuperAdmin/Dashboard/users.jsx';
+import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx';
+import Products from '../modules/SuperAdmin/Dashboard/productsA.jsx';
 import MyProducts from '../modules/SuperAdmin/Dashboard/myProducts.jsx';
 import Subscription from "../modules/SuperAdmin/Dashboard/subscriptions.jsx";
-import Orders from '../modules/SuperAdmin/Dashboard/order.jsx'; 
-import Transactions from '../modules/SuperAdmin/Dashboard/transactions.jsx'; 
+import Orders from '../modules/SuperAdmin/Dashboard/order.jsx';
+import Transactions from '../modules/SuperAdmin/Dashboard/transactions.jsx';
 import CreateSubscription from "../modules/SuperAdmin/Dashboard/createSubscription.jsx";
 import ProductCategories from "../modules/SuperAdmin/Dashboard/productCategories.jsx";
 import AddProductCategory from "../modules/SuperAdmin/Dashboard/addProductCategory.jsx";
@@ -25,6 +25,8 @@ import UpdateProductSubCategory from "../modules/SuperAdmin/Dashboard/updateSubC
 import UpdateStore from "../modules/SuperAdmin/Dashboard/updateStore.jsx";
 import UpdateProductCategory from "../modules/SuperAdmin/Dashboard/updateProductCategory.jsx";
 import UpdateProduct from "../modules/SuperAdmin/Dashboard/updateProducts.jsx";
+import UpdateAdvert from "../modules/SuperAdmin/Dashboard/updateNewAdvert.jsx";
+import ViewKYC from "../modules/SuperAdmin/Dashboard/viewKyc.jsx";
 
 export const adminRoutes = [
     {
@@ -112,6 +114,10 @@ export const adminRoutes = [
                 element: <PostNewAdvert />,
             },
             {
+                path: "adverts/edit/:id",
+                element: <UpdateAdvert />,
+            },
+            {
                 path: "all-stores",
                 element: <AllStores />,
             },
@@ -130,6 +136,10 @@ export const adminRoutes = [
             {
                 path: "new-product",
                 element: <AddNewProduct />,
+            },
+            {
+                path: "all-vendors/kyc/:id",
+                element: <ViewKYC />
             },
         ],
     },

@@ -11,7 +11,15 @@ const headers = {
 
 export const storeSlice = createApi({
   reducerPath: "store",
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL}),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL, 
+    prepareHeaders: (headers) => {
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      headers.set('Content-Type', 'application/json');
+      return headers;
+    },
+  }),
   keepUnusedDataFor: 0,
   tagTypes: ["Store", "Product", "Currencies", "Countries", "Categories"],
 
@@ -135,7 +143,6 @@ export const storeSlice = createApi({
         query: (data) => ({
           url: `/vendor/kyc`,
           method: "POST",
-          headers: { ...headers },
           body: data,
         }),
         invalidatesTags: ["Kyc"],
