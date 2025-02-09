@@ -57,7 +57,7 @@ export default function AdvertiseOnKudu() {
                             </div>
                         ))}
                     </div>
-                    <div className="mx-auto mt-12 flex flex-col md:flex-row items-center px-4 text-center md:text-left mb-20">
+                    <div className="mx-auto mt-12 flex flex-col md:flex-row items-center px-4 md:text-left mb-20">
                         <div className="flex-1">
                             <h3 className="text-2xl font-medium mb-6">Our Advertising Options</h3>
                             <ul className="list-decimal pl-6 space-y-4 text-black text-lg leading-loose">
@@ -73,7 +73,7 @@ export default function AdvertiseOnKudu() {
                     </div>
                     {/* Why Advertise Section */}
                     <div className="mx-auto mt-16 mb-20">
-                        <h3 className="text-2xl font-bold text-center mb-16">Why you should advertise on Kudu Mart</h3>
+                        <h3 className="text-2xl font-bold text-center mb-16 px-3">Why you should advertise on Kudu Mart</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
                                 { title: "Extensive Audience", description: "It allows you to connect with a diverse and engaged audience locally and internationally.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739011008/kuduMart/globe_scsnkz.png" },

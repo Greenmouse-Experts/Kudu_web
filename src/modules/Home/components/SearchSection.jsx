@@ -4,6 +4,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 const MyComponent = () => {
     const slides = [
@@ -63,7 +64,8 @@ const MyComponent = () => {
                                         </div> */}
                                         <div className="flex sm:justify-start">
                                             <button className="bg-kuduOrange text-white text-sm sm:text-base px-10 py-5 sm:py-3 md:py-4 rounded-md transition duration-300 hover:bg-opacity-90">
-                                                Shop Now
+                                            <Link
+                                        to="/sign-up">Shop Now</Link>
                                             </button>
                                         </div>
                                     </div>
