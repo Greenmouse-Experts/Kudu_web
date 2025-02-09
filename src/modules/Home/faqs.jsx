@@ -35,7 +35,7 @@ const FAQs = () => {
             { id: 6, question: "Q: Can I edit or delete my listings?", answer: "A: Yes, you can edit or delete your product or service listings anytime from your seller dashboard." },
             { id: 7, question: "Q: How can I manage inquiries from buyers?", answer: "A: Buyers can contact you via chat or text feature. Make sure to respond swiftly to finalize sales." },
             { id: 8, question: "Q: Can I sell physical products through an auction?", answer: "A: Yes, you can list physical products for auction by setting a starting price, and auction time frame." },
-            { id: 9, question: "Q: What types of items or services are prohibited on Kudu?", answer: "A: Illegal or barred items and services are allowed on Kudu. Ensure your listing adheres to our terms and conditions." },
+            { id: 9, question: "Q: What types of items or services are prohibited on Kudu?", answer: "A: Illegal or barred items and services are not allowed on Kudu. Ensure your listing adheres to our terms and conditions." },
             { id: 10, question: "Q: Are there additional fees apart from the subscription?", answer: "A: While the subscription covers listing products or services, additional fees may apply for premium features or successful transactions." },
         ],
         "Auction": [
