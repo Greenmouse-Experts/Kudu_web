@@ -73,7 +73,7 @@ const CartSummary = ({ cart }) => {
             <div className="flex flex-col px-4 gap-4">
                 <h1 className="text-lg font-semibold mb-6 mt-4 uppercase">CART Summary</h1>
             </div>
-            <div className="w-full h-[1px] -mt-4 border border-[1.5px]" />
+            <div className="w-full h-[1px] -mt-4 border-[1.5px]" />
             <div className="w-full flex flex-col px-4 gap-10">
                 <div className="w-full flex justify-between items-center">
                     <div className="w-full flex">
@@ -94,7 +94,7 @@ const CartSummary = ({ cart }) => {
                     </div>
                 </div>
             </div>
-            <div className="w-full h-[1px] mt-1 border border-[1.5px]" />
+            <div className="w-full h-[1px] mt-1 border-[1.5px]" />
             <div className="flex justify-center mt-2 w-full">
                 <PaymentButton config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
                     <span className="text-sm font-[500] normal-case">

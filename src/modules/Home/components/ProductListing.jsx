@@ -76,7 +76,7 @@ const ProductListing = () => {
             {/* Main Content */}
             <main className="lg:w-4/5 lg:pl-6 sm:pl-0">
                 <div className="flex justify-between border items-center mb-6 bg-white p-5 rounded-md">
-                    <h1 className="text-xl font-bold">All Products</h1>
+                    <h1 className="text-xl font-bold">Products</h1>
                     <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="border p-2 rounded">
                         <option value="popularity">Sort by Popularity</option>
                         <option value="priceLow">Price: Low to High</option>

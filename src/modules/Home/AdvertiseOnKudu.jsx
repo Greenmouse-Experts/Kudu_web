@@ -1,4 +1,5 @@
 import "../Home/components/style.css";
+import { Link } from "react-router-dom";
 
 export default function AdvertiseOnKudu() {
     return (
@@ -18,7 +19,7 @@ export default function AdvertiseOnKudu() {
                 <div className="w-full flex flex-col md:flex-row xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap- gap-5 h-full bg-white">
                     <div className="max-w-4xl gap-10 my-12">
                         <h2 className="text-2xl font-medium leading-loose">At Kudu Mart, we offer businesses, brands, creators and artisans an exceptional opportunity to showcase their products and services to a global audience.</h2>
-                       
+
                     </div>
                     <div className="max-w-4xl gap-10 my-12">
                         <p className="text-base leading-loose">Whether you're a small business owner, a large corporation, or a solo artisan, our platform helps you reach the right customers at the right time.</p>
@@ -48,11 +49,15 @@ export default function AdvertiseOnKudu() {
                                     className="w-24 h-24 rounded-lg object-cover mb-4"
                                 /></span>
                                 <p className="font-semibold mt-4">{item.title}</p>
-                                <button className="mt-4 bg-[#FF6F22] text-white py-3 rounded-md w-full hover:bg-orange-600 transition">Join Now</button>
+                                <button className="mt-4 bg-[#FF6F22] text-white py-3 rounded-md w-full hover:bg-orange-600 transition">
+                                    <Link
+                                        to="/sign-up"> Join Now</Link>
+
+                                </button>
                             </div>
                         ))}
                     </div>
-                    <div className="mx-auto mt-12 flex flex-col md:flex-row items-center px-4 text-center md:text-left mb-20">
+                    <div className="mx-auto mt-12 flex flex-col md:flex-row items-center px-4 md:text-left mb-20">
                         <div className="flex-1">
                             <h3 className="text-2xl font-medium mb-6">Our Advertising Options</h3>
                             <ul className="list-decimal pl-6 space-y-4 text-black text-lg leading-loose">
@@ -68,7 +73,7 @@ export default function AdvertiseOnKudu() {
                     </div>
                     {/* Why Advertise Section */}
                     <div className="mx-auto mt-16 mb-20">
-                        <h3 className="text-2xl font-bold text-center mb-16">Why you should advertise on Kudu Mart</h3>
+                        <h3 className="text-2xl font-bold text-center mb-16 px-3">Why you should advertise on Kudu Mart</h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
                                 { title: "Extensive Audience", description: "It allows you to connect with a diverse and engaged audience locally and internationally.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739011008/kuduMart/globe_scsnkz.png" },
@@ -90,30 +95,30 @@ export default function AdvertiseOnKudu() {
                     </div>
                 </div>
                 <div className="w-full flex flex-col md:flex-row xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap- gap-5 h-full  bg-[#F3F5FF]">
-                        {/* How to Get Started Section */}
-                        <div className="mx-auto mt-16 px-4 text-center py-20 bg-white mb-20">
-                            <h3 className="text-2xl font-bold mb-3">How to Get Started</h3>
-                            <p className="text-black text-base mb-8">Advertising with Kudu is simple and seamless:</p>
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                {[
-                                    { step: "1", title: "Register Your Account", description: "Create an advertiser account on Kudu.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003835/kuduMart/Group_1321314956_l1yjd7.png" },
-                                    { step: "2", title: "Choose a Package", description: "Select from our range of flexible advertising packages that suit your needs.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003835/kuduMart/Group_1321314958_rldf9o.png" },
-                                    { step: "3", title: "Design Your Ad", description: "Upload your creative materials or let our team assist you in creating impactful ads.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003835/kuduMart/Group_1321314959_gvaxtj.png" },
-                                    { step: "4", title: "Launch Your Campaign", description: "Start reaching your target audience and watch your business grow.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003836/kuduMart/Group_1321314960_rsmf2i.png" }
-                                ].map((item, index) => (
-                                    <div key={index} className="bg-white p-6 border rounded-lg">
-                                        <span className="text-4xl font-bold text-end text-[#F2F0F0]">{item.step}</span>
-                                        <span className="text-5xl block text-left"><img
+                    {/* How to Get Started Section */}
+                    <div className="mx-auto mt-16 px-4 text-center py-20 bg-white mb-20">
+                        <h3 className="text-2xl font-bold mb-3">How to Get Started</h3>
+                        <p className="text-black text-base mb-8">Advertising with Kudu is simple and seamless:</p>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                            {[
+                                { step: "1", title: "Register Your Account", description: "Create an advertiser account on Kudu.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003835/kuduMart/Group_1321314956_l1yjd7.png" },
+                                { step: "2", title: "Choose a Package", description: "Select from our range of flexible advertising packages that suit your needs.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003835/kuduMart/Group_1321314958_rldf9o.png" },
+                                { step: "3", title: "Design Your Ad", description: "Upload your creative materials or let our team assist you in creating impactful ads.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003835/kuduMart/Group_1321314959_gvaxtj.png" },
+                                { step: "4", title: "Launch Your Campaign", description: "Start reaching your target audience and watch your business grow.", image: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739003836/kuduMart/Group_1321314960_rsmf2i.png" }
+                            ].map((item, index) => (
+                                <div key={index} className="bg-white p-6 border rounded-lg">
+                                    <span className="text-4xl font-bold text-end text-[#F2F0F0]">{item.step}</span>
+                                    <span className="text-5xl block text-left"><img
                                         src={item.image}
                                         className="w-24 h-auto rounded-lg object-cover mb-4"
                                     /></span>
-                                        <h1 className="font-semibold  text-lg text-left mt-3 mb-4">{item.title}</h1>
-                                        <p className="text-black text-left leading-loose mt-2">{item.description}</p>
-                                    </div>
-                                ))}
-                            </div>
+                                    <h1 className="font-semibold  text-lg text-left mt-3 mb-4">{item.title}</h1>
+                                    <p className="text-black text-left leading-loose mt-2">{item.description}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
+                </div>
             </div>
         </>
     );
