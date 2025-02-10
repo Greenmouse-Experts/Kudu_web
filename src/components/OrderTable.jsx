@@ -1,4 +1,5 @@
 import React from 'react';
+import { dateFormat } from '../helpers/dateHelper';
 
 const OrderTable = ({ data }) => {
     return (
@@ -12,8 +13,9 @@ const OrderTable = ({ data }) => {
                         <thead>
                             <tr className=" text-black-300 text-md font-medium">
                                 <th className="py-6 px-4 text-left">#</th>
-                                <th className="py-6 px-4 text-left">Customer Name</th>
                                 <th className="py-6 px-4 text-left">Order ID</th>
+                                <th className="py-6 px-4 text-left">Tracking Number</th>
+                                <th className="py-6 px-4 text-left">Order Items</th>
                                 <th className="py-6 px-4 text-left">Price</th>
                                 <th className="py-6 px-4 text-left">Date</th>
                                 <th className="py-6 px-4 text-left">Status</th>
@@ -21,27 +23,26 @@ const OrderTable = ({ data }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.map((user, index) => (
+                            {data.map((order, index) => (
                                 <tr
-                                    key={user.id}
+                                    key={order.id}
                                     className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                                         } text-gray-700 text-sm`}
                                 >
                                     <td className="py-6 px-4 text-left">{index + 1}</td>
-                                    <td className="py-6 px-4 text-left">{user.customerName}</td>
-                                    <td className="py-6 px-4 text-left">{user.orderId}</td>
-                                    <td className="py-6 px-4 text-left">{user.price}</td>
-                                    <td className="py-6 px-4 text-left">{user.dateJoined}</td>
+                                    <td className="py-6 px-4 text-left">{order.refId}</td>
+                                    <td className="py-6 px-4 text-left">{order.trackingNumber}</td>
+                                    <td className="py-6 px-4 text-left">{order.orderItemsCount}</td>
+                                    <td className="py-6 px-4 text-left">{order.totalAmount}</td>
+                                    <td className="py-6 px-4 text-left">{dateFormat(order.createdAt, "dd-MM-YYY")}</td>
                                     <td className="py-6 px-4 text-left">
                                         <span
-                                            className={`py-2 px-4 rounded-md text-sm ${user.status === 'Completed'
+                                            className={`py-2 px-4 rounded-md capitalize text-sm ${order.status === 'Completed'
                                                     ? 'bg-green-100 text-green-600'
-                                                    : user.status === 'Ongoing'
-                                                        ? 'bg-[#F9EFCE] text-[#D88912]'
-                                                        : 'bg-red-100 text-red-600'
+                                                    : 'bg-[#F9EFCE] text-[#D88912]'
                                                 }`}
                                         >
-                                            {user.status}
+                                            {order.status}
                                         </span>
 
                                     </td>

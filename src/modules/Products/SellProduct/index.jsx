@@ -44,6 +44,7 @@ export default function PostProduct() {
     const [cities, setCities] = useState([]);
 
     const handleCountryChange = (country) => {
+        console.log(country)
         setSelectedCountry(country);
         setSelectedState(null);
         setCities([]);

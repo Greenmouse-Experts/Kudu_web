@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useApiMutation from '../api/hooks/useApiMutation';
 import useFileUpload from '../api/hooks/useFileUpload';
@@ -6,10 +6,12 @@ import { useDispatch } from 'react-redux';
 import { setKuduUser } from '../reducers/userSlice';
 import useAppState from '../hooks/appState';
 import { useNavigate } from 'react-router-dom';
+import PaymentGateway from '../modules/SuperAdmin/Dashboard/PaymentGateway';
 
 const Setting = () => {
     const { user } = useAppState();
     const [activeTab, setActiveTab] = useState("profile");
+    const [gateway, setGateway] = useState([]);
     const [profilePicture, setProfilePicture] = useState(
         user.photo ? `${user.photo}` : "https://res.cloudinary.com/greenmouse-tech/image/upload/v1737659699/kuduMart/Ellipse_1004_ouet7u.png"
     );
@@ -83,6 +85,27 @@ const Setting = () => {
     }
 
 
+    const getGateways = () => {
+        mutate({
+            url: `/admin/payment-gateways`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+               setGateway(response.data.data);
+            },
+            onError: () => {
+                setIsLoading(false)
+            }
+        });
+    }
+
+
+    useEffect(() => {
+        getGateways()
+    }, []);
+
+
     return (
         <div className="min-h-screen">
             <div className="All">
@@ -102,6 +125,12 @@ const Setting = () => {
                                 onClick={() => setActiveTab("security")}
                             >
                                 Security
+                            </button>
+                            <button
+                                className={`px-4 py-4 rounded-md ${activeTab === "paymentGateway" ? "bg-[#FFF1E9] text-black font-semibold" : "bg-gray-100"}`}
+                                onClick={() => setActiveTab("paymentGateway")}
+                            >
+                                Payment Gateway
                             </button>
                         </div>
                     </div>
@@ -250,6 +279,10 @@ const Setting = () => {
                                     </div>
                                 </form>
                             </>
+                        )}
+
+                        {activeTab === 'paymentGateway' && (
+                            <PaymentGateway data={gateway} refetch={getGateways} />
                         )}
                     </div>
                 </div>

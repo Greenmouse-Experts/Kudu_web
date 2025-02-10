@@ -10,10 +10,6 @@ const CartBlock = ({cart, removeFromCart}) => {
         cart && setIsLoading(false)
     }, [cart])
   
-    const handleRemove = (id) => {
-        console.log("Remove item with id:", id);
-    };
-
     return (
         <div className="w-full flex flex-col gap-2 py-4 rounded-lg bg-white">
             {isLoading ? 
@@ -30,13 +26,20 @@ const CartBlock = ({cart, removeFromCart}) => {
                 </div>
                 <div className="w-full h-[1px] -mt-4 border border-[1.5px]" />
                 <div className="w-full flex flex-col gap-5 md:px-10 px-3 bg-white">
-                    {cart.map((item) => (
+                    {cart.length > 0 && cart.map((item) => (
                         <CartItem
                             key={item.id}
                             item={item}
                             removeFromCart={removeFromCart}
                         />
                     ))}
+                    {
+                        cart.length === 0 && (
+                            <div className="flex w-full justify-center">
+                            <h1 className="text-lg font-semibold mb-6 mt-4">NO ITEM FOUND</h1>
+                        </div>        
+                        )
+                    }
                 </div>
             </div>
             )}
