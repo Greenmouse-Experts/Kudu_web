@@ -14,7 +14,7 @@ export default function About() {
                 }}>
                     <div className="flex flex-col py-12">
                         <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
-                            <h1 className="text-4xl font-bold">See All Available Products</h1>
+                            <h1 className="text-4xl font-bold">Products</h1>
                         </div>
                     </div>
                 </section>
