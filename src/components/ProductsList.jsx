@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Badge from "./Badge";
 
 export default function ProductListing({ productsArr }) {
+    console.log(productsArr)
     const capitalizeEachWord = (str) => {
         return str
             .split(" ")
@@ -11,10 +12,10 @@ export default function ProductListing({ productsArr }) {
     }
 
     return (
-        <div className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-2 lg:gap-y-14 gap-y-8 bg-white p-3 shadow-sm">
+        <div className="grid w-full grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-4 lg:gap-y-14 gap-y-8 bg-white p-3 shadow-sm">
             {productsArr.map((product, index) => (
-                <Link to={`/product/${product.id}`} key={`${index}0`}>
-                    <div className="flex flex-col gap-4">
+                <Link to={`/product/${product.id}`} key={`${index}0`} className="bg-white shadow-lg rounded-lg">
+                    <div className="flex flex-col">
                         <div className="flex justify-center relative md:h-[200px] h-[150px]">
                             <Imgix src={product.image_url} width={650} height={650} sizes="20vw" className="object-cover" alt={product.meta_description} />
                             <span className="absolute top-1 right-1">
@@ -23,7 +24,7 @@ export default function ProductListing({ productsArr }) {
                                 />
                             </span>
                         </div>
-                        <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-4 p-4 border-t-2">
                             <p className="text-xs font-semibold capitalize">
                                 {product.name}
                             </p>

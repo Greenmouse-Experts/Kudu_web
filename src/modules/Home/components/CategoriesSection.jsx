@@ -1,28 +1,8 @@
 import { Carousel, IconButton } from "@material-tailwind/react";
 import { useState, useEffect } from "react";
-
 import Imgix from "react-imgix";
 
-export default function CategoriesSection() {
-    const categoriesArr = [
-        { name: "Trending", color: "bg-kuduStrayBlue", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/trending_fire_ivir2f.png", active: true },
-        { name: "Vehicles", color: "bg-kuduPink", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/car_wosdu8.png", active: false },
-        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
-        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
-        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
-        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
-        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
-        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
-        { name: "Beauty", color: "bg-kuduStrayBlue", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/beauty_wt1imb.png", active: false },
-        { name: "Trending", color: "bg-kuduStrayBlue", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/trending_fire_ivir2f.png", active: true },
-        { name: "Vehicles", color: "bg-kuduPink", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/car_wosdu8.png", active: false },
-        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
-        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
-        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
-        { name: "Property", color: "bg-kuduOrangeLight", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481489/kudu_mart/house_gcwp8t.png", active: false },
-        { name: "Sports", color: "bg-kuduLightGreen", img: "https://res.cloudinary.com/do2kojulq/image/upload/c_fill,w_360,h_360,g_auto/v1735481489/kudu_mart/sports_konvsu.png", active: false },
-        { name: "Devices", color: "bg-kuduPurple", img: "https://res.cloudinary.com/do2kojulq/image/upload/v1735481488/kudu_mart/phone_mahapu.png", active: false },
-    ];
+export default function CategoriesSection({data}) {
 
     const chunkArray = (arr, size) => {
         const chunks = [];
@@ -32,9 +12,9 @@ export default function CategoriesSection() {
         return chunks;
     };
 
-    const slidesXS = chunkArray(categoriesArr, 3); // 3 items per slide for mobile
-    const slidesMD = chunkArray(categoriesArr, 5); // 5 items per slide for medium screens
-    const slidesLG = chunkArray(categoriesArr, 6); // 6 items per slide for large screens
+    const slidesXS = chunkArray(data, 3); // 3 items per slide for mobile
+    const slidesMD = chunkArray(data, 5); // 5 items per slide for medium screens
+    const slidesLG = chunkArray(data, 6); // 6 items per slide for large screens
 
     // Determine which slide array to use based on screen size
     const [slides, setSlides] = useState(slidesLG);
@@ -56,14 +36,12 @@ export default function CategoriesSection() {
         return () => window.removeEventListener("resize", updateSlides);
     }, []);
 
+
     return (
         <div className="flex w-full flex-col gap-5">
             {/* Heading Section */}
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Explore Popular Categories</h1>
-                <p className="sm:text-lg md:text-1xl  text-kuduOrange font-semibold cursor-pointer underline view">
-                    View all Categories
-                </p>
             </div>
 
             {/* Carousel Section */}
