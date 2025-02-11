@@ -3,12 +3,12 @@ import './style.css';
 export default function PreviewSection() {
     return (
         <>
-            <div className="relative w-full overflow-hidden bg-white Ju">
+            <div className="relative w-full overflow-hidden bg-white">
                 <div className="w-full flex flex-col gap-2 justify-center items-center">
                     {/* Header Section */}
                     <div className="md:w-1/2 w-full flex flex-col gap-5 z-10">
                         <img src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737059210/Screenshot_2025-01-16_at_9.26.37_PM_mv3pvc.png" alt="" width="100%"
-                            className="w-full h-full object-cover Justting"
+                            className="w-full h-full object-cover"
                             draggable="false" />
                     </div>
                     <div className="md:w-[40%] flex">
