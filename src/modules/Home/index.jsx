@@ -13,6 +13,21 @@ import useApiMutation from "../../api/hooks/useApiMutation";
 import Loader from "../../components/Loader";
 
 export default function LandingHomepage() {
+    const colorMap = [
+        "bg-kuduStrayBlue",
+        "bg-kuduPink",
+        "bg-kuduOrangeLight",
+        "bg-kuduLightGreen",
+        "bg-kuduPurple",
+        "bg-kuduStrayBlue",
+        "bg-kuduPink",
+        "bg-kuduOrangeLight",
+        "bg-kuduLightGreen",
+        "bg-kuduPurple",
+        "bg-kuduStrayBlue",
+    ];
+
+    const [categoriesArr, setCategoriesArr] = useState([]);
     const { mutate } = useApiMutation();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -30,8 +45,21 @@ export default function LandingHomepage() {
                     onError: reject,
                 });
             });
+                
+            const categoriesRequest = new Promise((resolve, reject) => {
+                mutate({
+                    url: `/categories`,
+                    method: "GET",
+                    headers: true,
+                    hideToast: true,
+                    onSuccess: (response) => resolve(response.data?.data || []),
+                    onError: reject,
+                });
+            });
+        
 
             const [productsData] = await Promise.all([productRequest]);
+            const [categoriesData] = await Promise.all([categoriesRequest]);
 
             if (!productsData || productsData.length === 0) {
                 console.warn("No products found.");
@@ -41,6 +69,24 @@ export default function LandingHomepage() {
             }
 
             setProducts(productsData);
+
+
+            if (!categoriesData || categoriesData.length === 0) {
+                console.warn("No categries found.");
+                setCategoriesArr([]);
+                return;
+            }
+
+            const formattedCategories = categoriesData.map((category, index) => ({
+                id: category.id,
+                name: category.name,
+                color: colorMap[index] || "bg-gray-200", // Default color
+                img: category.image,
+                active: index === 0, // First item is active, others are false
+            }));
+
+            setCategoriesArr(formattedCategories)
+
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -65,6 +111,17 @@ export default function LandingHomepage() {
         setFilteredProducts(products.filter((product) => product.condition === condition));
     };
 
+
+
+    if (loading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <Loader />
+            </div>
+        )
+    }
+
+
     return (
         <div className="w-full flex flex-col">
             <SearchSection />
@@ -75,7 +132,7 @@ export default function LandingHomepage() {
                     <PreviewSection />
                 </div>
                 <div className="w-full flex mt-3">
-                    <CategoriesSection />
+                    <CategoriesSection data={categoriesArr} />
                 </div>
                 <div className="w-full flex mt-3">
                     {loading ? (
@@ -100,13 +157,6 @@ export default function LandingHomepage() {
                         <ProductListing productsArr={filteredProducts} />
                     )}
                     <PhonesBanner />
-                    {loading ? (
-                        <div className="w-full h-screen flex items-center justify-center">
-                            <Loader />
-                        </div>
-                    ) : (
-                        <ProductListing productsArr={filteredProducts.slice(5, 10)} />
-                    )}
                 </div>
             </div>
 

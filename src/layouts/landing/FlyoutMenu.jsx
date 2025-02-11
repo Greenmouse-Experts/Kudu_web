@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Imgix from "react-imgix";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Home,
   Mail,

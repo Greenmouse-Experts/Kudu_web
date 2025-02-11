@@ -155,8 +155,10 @@ const AccountProfile = () => {
         renderModal();
     };
 
+    console.log(user)
+
     return (
-        <div className="bg-white rounded-lg">
+        <div className="bg-white w-full rounded-lg">
             <h2 className="text-lg font-bold p-6">Profile</h2>
             <div className="w-full h-[1px] border" />
 
@@ -181,7 +183,12 @@ const AccountProfile = () => {
                     <div className="w-full h-[1px] -mt-3 border" />
                     <div className="flex flex-col gap-2 p-4">
                         <p className="text-base font-semibold">Your default shipping address:</p>
-                        <p className="text-gray-500 font-[500]">{user.location ? `${user.location.city} ${user.location.state}, ${user.location.country}` : 'No default shipping address available.'}</p>
+                        <p className="text-gray-500 font-[500]">{user.location ?
+                            typeof user.location === "string" ? `${JSON.parse(user.location).city} ${JSON.parse(user.location).state}, ${JSON.parse(user.location).country}`
+                                :
+                                `${user.location.city} ${user.location.state}, ${user.location.country}`
+                            :
+                            'No default shipping address available.'}</p>
                     </div>
                     <div className="p-4">
                         <button className="text-sm text-kuduOrange font-semibold underline" onClick={handleModal}>

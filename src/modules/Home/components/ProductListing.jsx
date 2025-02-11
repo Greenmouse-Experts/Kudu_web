@@ -1,28 +1,60 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Badge from "../../../components/Badge";
+import useApiMutation from "../../../api/hooks/useApiMutation";
 
-const ProductListing = () => {
+const ProductListing = ({ data, categories }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
+    const [subCategoriesId, selectedSubCategoryIds] = useState([]);
     const [priceRange, setPriceRange] = useState(200000);
     const [sortBy, setSortBy] = useState("popularity");
+    const [filteredProducts, setFilteredProducts] = useState(data);
 
-    const categories = ['Laptops', 'Phones', 'Accessories', 'TVs', 'Home Appliances'];
-    const products = [
-        { id: 1, name: 'Hp STREAM 11, INTEL CELERON', price: 20000, category: 'Laptops', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602596/kuduMart/1_lqs83i.jpg' },
-        { id: 2, name: 'Product 2', price: 2000, category: 'Phones', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602919/kuduMart/1_1_qkerwy.jpg' },
-        { id: 3, name: 'Product 3', price: 5000, category: 'TVs', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738602914/kuduMart/1_2_kqskze.jpg' },
-        { id: 4, name: 'Product 4', price: 110000, category: 'Laptops', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603087/kuduMart/1_4_aldb9b.jpg' },
-        { id: 5, name: 'Product 5', price: 80000, category: 'Laptops', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603081/kuduMart/1_5_dtkkx6.jpg' },
-        { id: 6, name: 'Product 6', price: 75000, category: 'Accessories', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603410/kuduMart/1_12_ka9cdu.jpg' },
-        { id: 7, name: 'Product 7', price: 120000, category: 'TVs', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603410/kuduMart/1_10_vtc3gg.jpg' },
-        { id: 8, name: 'Product 8', price: 45000, category: 'Phones', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603410/kuduMart/1_11_rbwu2m.jpg' },
-        { id: 9, name: 'Product 9', price: 90000, category: 'Home Appliances', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603409/kuduMart/1_9_gxsngx.jpg' },
-        { id: 10, name: 'Product 10', price: 30000, category: 'Laptops', image: 'https://res.cloudinary.com/greenmouse-tech/image/upload/v1738603409/kuduMart/1_8_ckcpds.jpg' },
-    ];
+    useEffect(() => {
+        setFilteredProducts(data);
+    }, [data]);
 
-    const filteredProducts = products.filter(product =>
-        (selectedCategories.length === 0 || selectedCategories.includes(product.category)) &&
-        product.price <= priceRange
-    );
+
+    const { mutate } = useApiMutation();
+
+    const capitalizeEachWord = (str) => {
+        return str
+            .split(" ")
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(" ");
+    }
+
+
+    const handleSelectedId = (category) => {
+        setSelectedCategories(prev => prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]);
+
+        mutate({
+            url: `/category/sub-categories?categoryId=${category}`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => setSubCategories(response.data?.data || []),
+        });
+    }
+
+
+    const handleSelectedSubId = (category) => {
+        selectedSubCategoryIds(prev => prev.includes(category) ? prev.filter(c => c !== category) : [...prev, category]);
+    }
+
+
+    useEffect(() => {
+        const filteredProducts = data.filter(product =>
+            selectedCategories.includes(product.categoryId) &&
+            subCategoriesId.includes(product.sub_category.id) &&
+            priceRange === product.price
+        );
+
+        if (filteredProducts.length > 0)
+            setFilteredProducts(filteredProducts);
+
+    }, [selectedCategories, subCategoriesId]);
+
 
     return (
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
@@ -33,21 +65,44 @@ const ProductListing = () => {
                     <h3 className="font-semibold mb-4">Category</h3>
                     <ul>
                         {categories.map(category => (
-                            <li key={category} className="mb-4">
+                            <li key={category.id} className="mb-4">
                                 <input
                                     type="checkbox"
-                                    id={category}
+                                    id={category.id}
                                     onChange={(e) => {
                                         const value = e.target.value;
-                                        setSelectedCategories(prev => prev.includes(value) ? prev.filter(c => c !== value) : [...prev, value]);
+                                        handleSelectedId(value)
                                     }}
-                                    value={category}
+                                    value={category.id}
                                 />
-                                <label htmlFor={category} className="ml-2">{category}</label>
+                                <label htmlFor={category.name} className="ml-2">{category.name}</label>
                             </li>
                         ))}
                     </ul>
                 </div>
+
+                {subCategories.length > 0 &&
+                    <div>
+                        <h3 className="font-semibold mb-4">Sub Category</h3>
+                        <ul>
+                            {subCategories.map(category => (
+                                <li key={category.id} className="mb-4">
+                                    <input
+                                        type="checkbox"
+                                        id={category.id}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            handleSelectedSubId(value)
+                                        }}
+                                        value={category.id}
+                                    />
+                                    <label htmlFor={category.name} className="ml-2">{category.name}</label>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                }
+
                 <div className="mt-4">
                     <h3 className="font-semibold mb-4">Price Range</h3>
                     <input
@@ -60,7 +115,7 @@ const ProductListing = () => {
                     />
                     <p>₦{priceRange}</p>
                 </div>
-                <div className="mt-4">
+                {/*<div className="mt-4">
                     <h3 className="font-semibold mb-4">Product Rating</h3>
                     <ul>
                         {[4, 3, 2, 1].map(stars => (
@@ -70,7 +125,7 @@ const ProductListing = () => {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div>*/}
             </aside>
 
             {/* Main Content */}
@@ -84,12 +139,19 @@ const ProductListing = () => {
                     </select>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {filteredProducts.map(product => (
-                        <div key={product.id} className="border p-4 rounded-md bg-white hover:shadow-md transition">
-                            <img src={product.image} alt={product.name} className="w-full h-auto object-cover rounded-md" />
-                            <h2 className="text-lg font-medium mt-3 mb-2">{product.name}</h2>
-                            <p className="text-gray-600 font-medium">₦{product.price}</p>
+                        <div key={product.id} className="border rounded-md bg-white hover:shadow-md shadow-lg transition">
+                            <div className="flex justify-center relative md:h-[200px] h-[200px]">
+                                <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] h-[200px] object-cover rounded-md" />
+                                <span className="absolute top-1 right-1">
+                                    <Badge bgColor={capitalizeEachWord(product.condition.replace(/_/g, ' ')) === 'Brand New' ? 'bg-kuduGreen' : 'bg-kuduRed'} text={capitalizeEachWord(product.condition.replace(/_/g, ' '))}
+                                        textColor={'text-white'}
+                                    />
+                                </span>
+                            </div>
+                            <h2 className="text-lg p-4 font-medium mt-3 mb-2">{product.name}</h2>
+                            <p className="text-gray-600 p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
                         </div>
                     ))}
                 </div>

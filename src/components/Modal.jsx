@@ -1,22 +1,19 @@
-import { useDispatch } from 'react-redux';
+import useApiMutation from '../api/hooks/useApiMutation';
 import { Button } from '@material-tailwind/react';
-import { useModal } from '../../../hooks/modal';
-import useApiMutation from '../../../api/hooks/useApiMutation';
+import { useModal } from '../hooks/modal';
 
-const SwitchVendorModal = ({ children, redirect }) => {
-    const dispatch = useDispatch();
+const Modal = ({redirect, title, api, method}) => {
     const { closeModal } = useModal();
+
     const { mutate } = useApiMutation();
 
-    const switchVendor = () => {
+    const deleteAction = () => {
         mutate({
-            url: "/user/become/vendor",
-            method: "POST",
+            url: `${api}`,
+            method: `${method}`,
             headers: true,
             onSuccess: (response) => {
-                if (redirect) {
-                    redirect();
-                }
+                redirect();
                 closeModal();
             },
             onError: () => {
@@ -25,21 +22,21 @@ const SwitchVendorModal = ({ children, redirect }) => {
         });
     }
 
+
     return (
         <>
             <div className="w-full flex h-auto flex-col px-3 py-6 gap-3 -mt-3">
                 <div className="flex gap-5 justify-center w-full">
                     <p className="font-semibold text-center text-lg">
-                        Switch to Vendor?
+                        {title}
                     </p>
                 </div>
-                {children}
                 <div className="flex justify-center mt-5 gap-4">
                     <Button
-                        onClick={() => switchVendor()}
-                        className="bg-kuduOrange text-white outline-none px-4 py-2 rounded-lg"
+                        onClick={deleteAction}
+                        className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
                     >
-                        Yes, Switch to Vendor
+                        Yes
                     </Button>
                     <button
                         onClick={closeModal}
@@ -53,4 +50,4 @@ const SwitchVendorModal = ({ children, redirect }) => {
     );
 }
 
-export default SwitchVendorModal;
+export default Modal;

@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import "../Home/components/style.css";
-import ProductListing from "./components/ProductListing";
-import ShoppingExperience from "./components/ShoppingExperience";
 import useApiMutation from "../../api/hooks/useApiMutation";
+import { useParams } from "react-router-dom";
+import ShoppingExperience from "../Home/components/ShoppingExperience";
+import ProductListing from "../Home/components/ProductListing";
 
-const About = () => {
+const CategoriesProduct = () => {
     const [products, setProducts] = useState([]);
     const [categoriesArr, setCategoriesArr] = useState([]);
+
+    const { id } = useParams();
 
     const { mutate } = useApiMutation();
 
@@ -44,7 +47,7 @@ const About = () => {
             }
 
             setProducts(productsData);
-            
+
             if (!categoriesData || categoriesData.length === 0) {
                 console.warn("No categries found.");
                 setCategoriesArr([]);
@@ -76,7 +79,7 @@ const About = () => {
                 }}>
                     <div className="flex flex-col py-12">
                         <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
-                            <h1 className="text-4xl font-bold">Products</h1>
+                            <h1 className="text-4xl font-bold">{id}</h1>
                         </div>
                     </div>
                 </section>
@@ -99,4 +102,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default CategoriesProduct;
