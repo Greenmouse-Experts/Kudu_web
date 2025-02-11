@@ -41,8 +41,16 @@ export default function Footer() {
                                     Kudu Careers
                                 </Link>
                             </li>
-
-
+                            <li>
+                                <Link to="/become-a-vendor" className="text-gray-400 hover:text-gray-600 transition">
+                                Become a Vendor
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/advertise-with-us" className="text-gray-400 hover:text-gray-600 transition">
+                                Advertise with Us
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
