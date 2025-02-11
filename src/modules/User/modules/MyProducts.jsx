@@ -60,7 +60,7 @@ const MyProducts = () => {
     
     return (
         <>
-            <div className='All'>
+            <div className='w-full'>
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">My Products</h2>
                     <button

@@ -78,6 +78,7 @@ export default function LandingHomepage() {
             }
 
             const formattedCategories = categoriesData.map((category, index) => ({
+                id: category.id,
                 name: category.name,
                 color: colorMap[index] || "bg-gray-200", // Default color
                 img: category.image,

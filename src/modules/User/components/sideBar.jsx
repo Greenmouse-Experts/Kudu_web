@@ -4,7 +4,7 @@ import useAppState from "../../../hooks/appState";
 import { useModal } from "../../../hooks/modal";
 import SwitchVendorModal from "./switchVendor";
 
-const ProfileSideBar = () => {
+const ProfileSideBar = ({close}) => {
     const { user } = useAppState();
     const { openModal } = useModal();
 
@@ -116,6 +116,11 @@ const ProfileSideBar = () => {
     }
 
 
+    const closeModal = () =>  {
+        close()
+    }
+
+
     return (
         <div className="w-full bg-white rounded-lg p-4">
             {/* Profile Section */}
@@ -166,6 +171,7 @@ const ProfileSideBar = () => {
                         <Link
                             key={index}
                             to={`${item.route}`}
+                            onClick={() => closeModal()}
                             className="flex items-center py-3 px-3 border-b border-gray-200 last:border-0 hover:bg-gray-100 cursor-pointer"
                         >
                             <span className="text-xl mr-4">{item.icon}</span>

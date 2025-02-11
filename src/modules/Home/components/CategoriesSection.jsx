@@ -1,8 +1,9 @@
 import { Carousel, IconButton } from "@material-tailwind/react";
 import { useState, useEffect } from "react";
 import Imgix from "react-imgix";
+import { Link } from "react-router-dom";
 
-export default function CategoriesSection({data}) {
+export default function CategoriesSection({ data }) {
 
     const chunkArray = (arr, size) => {
         const chunks = [];
@@ -95,8 +96,9 @@ export default function CategoriesSection({data}) {
                     {slides.map((slide, slideIndex) => (
                         <div className="flex gap-10 mt-10 py-2 justify-center" key={`slide-${slideIndex}`}>
                             {slide.map((category, index) => (
-                                <div
+                                <Link
                                     key={`slide-desktop-${index}`}
+                                    to={`products/categories/${category.id}/${category.name}`}
                                     className="w-[140px] flex flex-col items-center gap-4"
                                 >
                                     <div
@@ -114,7 +116,7 @@ export default function CategoriesSection({data}) {
                                     >
                                         {category.name}
                                     </span>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     ))}
