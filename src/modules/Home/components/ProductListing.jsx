@@ -137,22 +137,38 @@ const ProductListing = ({ data, categories }) => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {filteredProducts.map(product => (
-                        <div key={product.id} className="border rounded-md bg-white hover:shadow-sm shadow-sm transition">
-                            <div className="flex justify-center relative md:h-[200px] h-[200px]">
-                                <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] h-[200px] object-cover rounded-md" />
-                                <span className="absolute top-1 right-1">
-                                    <Badge bgColor={capitalizeEachWord(product.condition.replace(/_/g, ' ')) === 'Brand New' ? 'bg-kuduGreen' : 'bg-kuduRed'} text={capitalizeEachWord(product.condition.replace(/_/g, ' '))}
-                                        textColor={'text-white'}
-                                    />
-                                </span>
+                    {filteredProducts.map(product => {
+                        // Split product name into words
+                        const nameParts = product.name.split(" ");
+
+                        // Set a word limit that fits in two lines (adjust if needed)
+                        const wordLimit = 5;
+
+                        // Trim the name to fit two lines
+                        const truncatedName = nameParts.length > wordLimit
+                            ? `${nameParts.slice(0, wordLimit).join(" ")}...`
+                            : product.name;
+
+                        return (
+                            <div key={product.id} className="border rounded-md bg-white hover:shadow-sm shadow-sm transition">
+                                <div className="flex justify-center relative md:h-[200px] h-[200px]">
+                                    <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] h-[200px] object-cover rounded-md" />
+                                    <span className="absolute top-1 right-1">
+                                        <Badge
+                                            bgColor={capitalizeEachWord(product.condition.replace(/_/g, ' ')) === 'Brand New' ? 'bg-kuduGreen' : 'bg-kuduRed'}
+                                            text={capitalizeEachWord(product.condition.replace(/_/g, ' '))}
+                                            textColor={'text-white'}
+                                        />
+                                    </span>
+                                </div>
+                                <h2 className="text-base p-4 font-medium mt-3">{truncatedName}</h2>
+                                <p className="text-black text-sm p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
                             </div>
-                            <h2 className="text-base p-4 font-medium mt-3">{product.name}</h2>
-                            <p className="text-black text-sm p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </main>
+
         </div>
     );
 };
