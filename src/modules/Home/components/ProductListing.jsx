@@ -59,7 +59,8 @@ const ProductListing = ({ data, categories }) => {
     return (
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
             {/* Sidebar */}
-            <aside className="lg:w-1/5 p-4 border rounded-lg shadow-sm bg-white mb-6 lg:mb-0">
+            {/* Sidebar */}
+            <aside className="lg:w-1/5 p-4 border rounded-lg shadow-sm bg-white mb-6 lg:mb-0 lg:sticky lg:top-1 lg:h-[90vh] overflow-y-auto">
                 <h2 className="text-lg font-semibold mb-4">Filters</h2>
                 <div>
                     <h3 className="font-semibold mb-4">Category</h3>
@@ -69,19 +70,16 @@ const ProductListing = ({ data, categories }) => {
                                 <input
                                     type="checkbox"
                                     id={category.id}
-                                    onChange={(e) => {
-                                        const value = e.target.value;
-                                        handleSelectedId(value)
-                                    }}
+                                    onChange={(e) => handleSelectedId(e.target.value)}
                                     value={category.id}
                                 />
-                                <label htmlFor={category.name} className="ml-2">{category.name}</label>
+                                <label htmlFor={category.id} className="ml-2">{category.name}</label>
                             </li>
                         ))}
                     </ul>
                 </div>
 
-                {subCategories.length > 0 &&
+                {subCategories.length > 0 && (
                     <div>
                         <h3 className="font-semibold mb-4">Sub Category</h3>
                         <ul>
@@ -90,18 +88,15 @@ const ProductListing = ({ data, categories }) => {
                                     <input
                                         type="checkbox"
                                         id={category.id}
-                                        onChange={(e) => {
-                                            const value = e.target.value;
-                                            handleSelectedSubId(value)
-                                        }}
+                                        onChange={(e) => handleSelectedSubId(e.target.value)}
                                         value={category.id}
                                     />
-                                    <label htmlFor={category.name} className="ml-2">{category.name}</label>
+                                    <label htmlFor={category.id} className="ml-2">{category.name}</label>
                                 </li>
                             ))}
                         </ul>
                     </div>
-                }
+                )}
 
                 <div className="mt-4">
                     <h3 className="font-semibold mb-4">Price Range</h3>
@@ -115,7 +110,8 @@ const ProductListing = ({ data, categories }) => {
                     />
                     <p>₦{priceRange}</p>
                 </div>
-                {/*<div className="mt-4">
+
+                <div className="mt-4">
                     <h3 className="font-semibold mb-4">Product Rating</h3>
                     <ul>
                         {[4, 3, 2, 1].map(stars => (
@@ -125,8 +121,9 @@ const ProductListing = ({ data, categories }) => {
                             </li>
                         ))}
                     </ul>
-                </div>*/}
+                </div>
             </aside>
+
 
             {/* Main Content */}
             <main className="lg:w-4/5 lg:pl-6 sm:pl-0">
@@ -140,22 +137,38 @@ const ProductListing = ({ data, categories }) => {
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {filteredProducts.map(product => (
-                        <div key={product.id} className="border rounded-md bg-white hover:shadow-md shadow-lg transition">
-                            <div className="flex justify-center relative md:h-[200px] h-[200px]">
-                                <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] h-[200px] object-cover rounded-md" />
-                                <span className="absolute top-1 right-1">
-                                    <Badge bgColor={capitalizeEachWord(product.condition.replace(/_/g, ' ')) === 'Brand New' ? 'bg-kuduGreen' : 'bg-kuduRed'} text={capitalizeEachWord(product.condition.replace(/_/g, ' '))}
-                                        textColor={'text-white'}
-                                    />
-                                </span>
+                    {filteredProducts.map(product => {
+                        // Split product name into words
+                        const nameParts = product.name.split(" ");
+
+                        // Set a word limit that fits in two lines (adjust if needed)
+                        const wordLimit = 5;
+
+                        // Trim the name to fit two lines
+                        const truncatedName = nameParts.length > wordLimit
+                            ? `${nameParts.slice(0, wordLimit).join(" ")}...`
+                            : product.name;
+
+                        return (
+                            <div key={product.id} className="border rounded-md bg-white hover:shadow-sm shadow-sm transition">
+                                <div className="flex justify-center relative md:h-[200px] h-[200px]">
+                                    <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] h-[200px] object-cover rounded-md" />
+                                    <span className="absolute top-1 right-1">
+                                        <Badge
+                                            bgColor={capitalizeEachWord(product.condition.replace(/_/g, ' ')) === 'Brand New' ? 'bg-kuduGreen' : 'bg-kuduRed'}
+                                            text={capitalizeEachWord(product.condition.replace(/_/g, ' '))}
+                                            textColor={'text-white'}
+                                        />
+                                    </span>
+                                </div>
+                                <h2 className="text-base p-4 font-medium mt-3">{truncatedName}</h2>
+                                <p className="text-black text-sm p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
                             </div>
-                            <h2 className="text-lg p-4 font-medium mt-3 mb-2">{product.name}</h2>
-                            <p className="text-gray-600 p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </main>
+
         </div>
     );
 };
