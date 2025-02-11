@@ -1,5 +1,24 @@
 import { Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import {
+    Mail,
+    HelpCircle,
+    Store,
+    Megaphone,
+    ShieldCheck,
+    ScrollText,
+    MessageSquareQuote,
+    Users,
+    Hammer,
+    Phone,
+    Facebook,
+    Twitter,
+    Linkedin,
+    Instagram,
+    MapPin,
+    ShoppingBag
+  } from "lucide-react";
+  
 
 export default function Footer() {
     return (
@@ -22,33 +41,33 @@ export default function Footer() {
                         <h3 className="md:text-lg text-base text-white font-semibold">Useful Links</h3>
                         <ul className="space-y-3 text-sm">
                             <li>
-                                <Link to="/about" className="text-gray-400 hover:text-gray-600 transition">
+                                <Link to="/about" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
+                                <Users size={15} style={{ color: "#ff6f22" }} />
                                     About Us
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/contact" className="text-gray-400 hover:text-gray-600 transition">
-                                    Contact Us
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/testimonial" className="text-gray-400 hover:text-gray-600 transition">
+                                <Link to="/testimonial" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                <MessageSquareQuote size={15} style={{ color: "#ff6f22" }} />
                                     Testimonials
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/career" className="text-gray-400 hover:text-gray-600 transition">
+                                <Link to="/see-all" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                <ShoppingBag size={15} style={{ color: "#ff6f22" }} />
+                                    Products
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/career" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                <Hammer size={15} style={{ color: "#ff6f22" }} />
                                     Kudu Careers
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/become-a-vendor" className="text-gray-400 hover:text-gray-600 transition">
+                                <Link to="/become-a-vendor" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                <Store size={15} style={{ color: "#ff6f22" }} />
                                 Become a Vendor
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/advertise-with-us" className="text-gray-400 hover:text-gray-600 transition">
-                                Advertise with Us
                                 </Link>
                             </li>
                         </ul>
@@ -57,81 +76,66 @@ export default function Footer() {
                         <h3 className="md:text-lg text-base text-white font-semibold">Support</h3>
                         <ul className="space-y-3 text-sm">
                             <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Return Policy
+                                <Link to="/advertise-with-us" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                <Megaphone size={15} style={{ color: "#ff6f22" }} />
+                                Advertise with Us
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Help Center
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Chat with Us
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link to="/faqs" className="text-gray-400 hover:text-gray-600 transition">
+                                <Link to="/faqs" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
+                                <HelpCircle size={15} style={{ color: "#ff6f22" }} />
                                     FAQs
                                 </Link>
                             </li>
-
+                            <li>
+                                <Link to="/contact" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                    <Mail size={15} style={{ color: "#ff6f22" }} />
+                                    Contact Us
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Legal</h3>
                         <ul className="space-y-3 text-sm">
                             <li>
-                                <Link to="/privacy" className="text-gray-400 hover:text-gray-600 transition">
+                                <Link to="/" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
+                                    Return Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/privacy" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
+                                     <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/terms-conditions" className="text-gray-400 hover:text-gray-600 transition">
+                                <Link to="/terms-conditions" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
+                                <ScrollText size={15} style={{ color: "#ff6f22" }} />
                                     Terms and Conditions
                                 </Link>
                             </li>
-                            {/* <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Registration
-                                </Link>
-                            </li> */}
-                            {/* <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Payment
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Delivery
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 transition">
-                                    Bulk Purchase
-                                </Link>
-                            </li> */}
+                          
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Stay Connected</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="text-gray-400">Instagram</a></li>
-                            <li><a href="#" className="text-gray-400">Twitter</a></li>
-                            <li><a href="#" className="text-gray-400">Facebook</a></li>
-                            <li><a href="#" className="text-gray-400">LinkedIn</a></li>
+                            <li><a href="#" className="text-gray-400 transition flex items-center gap-3"> <Instagram size={15} style={{ color: "#ff6f22" }} />Instagram</a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Twitter size={15} style={{ color: "#ff6f22" }} /> Twitter</a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Facebook size={15} style={{ color: "#ff6f22" }} /> Facebook</a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Linkedin size={15} style={{ color: "#ff6f22" }} /> LinkedIn</a></li>
                         </ul>
                     </div>
 
                     <div className="flex flex-col space-y-2">
                         <h3 className="md:text-lg text-base text-white font-semibold">Reach Out</h3>
                         <ul className="space-y-3 text-sm">
-                            <li><a href="#" className="text-gray-400">09234551774</a></li>
-                            <li><a href="#" className="text-gray-400">help@kudu.com</a></li>
-                            <li><a href="#" className="text-gray-400">support@kudu.com</a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Phone size={15} style={{ color: "#ff6f22" }} />09234551774 </a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Mail size={15} style={{ color: "#ff6f22" }} /> help@kudu.com </a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Mail size={15} style={{ color: "#ff6f22" }} /> support@kudu.com</a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><MapPin size={20} style={{ color: "#ff6f22" }} />1648 McLean Avenue Saint Paul, Minnesota</a></li>
                         </ul>
                     </div>
                 </div>
