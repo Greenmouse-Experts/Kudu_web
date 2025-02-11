@@ -3,10 +3,20 @@ import { Link } from "react-router-dom";
 import useAppState from "../../../hooks/appState";
 import { useModal } from "../../../hooks/modal";
 import SwitchVendorModal from "./switchVendor";
+import { useDispatch } from "react-redux";
+import { setKuduUser } from "../../../reducers/userSlice";
 
-const ProfileSideBar = ({close}) => {
+const ProfileSideBar = ({ close }) => {
     const { user } = useAppState();
     const { openModal } = useModal();
+
+    const { dispatch } = useDispatch();
+
+    const handleRedirect = () => {
+        const updatedUser = { ...user, accountType: 'Vendor' };
+        dispatch(setKuduUser(updatedUser))
+        window.location.reload();
+    }
 
     const isVendor = user.accountType !== 'Customer';
 
@@ -104,25 +114,25 @@ const ProfileSideBar = ({close}) => {
     const handleVendorModal = () => {
         openModal({
             size: 'sm',
-            content: <SwitchVendorModal>
+            content: <SwitchVendorModal redirect={handleRedirect}>
                 <div className='flex'>
-                <p className='text-sm gap-2 leading-[1.7rem]'>
-                    Ready to grow your business? By switching to a vendor account,
-                    you'll unlock tools to showcase your products, manage sales, and connect with customers.
-                </p>
-            </div>
+                    <p className='text-sm gap-2 leading-[1.7rem]'>
+                        Ready to grow your business? By switching to a vendor account,
+                        you'll unlock tools to showcase your products, manage sales, and connect with customers.
+                    </p>
+                </div>
             </SwitchVendorModal>
         })
     }
 
 
-    const closeModal = () =>  {
+    const closeModal = () => {
         close()
     }
 
 
     return (
-        <div className="w-full bg-white rounded-lg p-4">
+        <div className="w-full bg-white rounded-lg z-[-1] All p-4">
             {/* Profile Section */}
             <div className="flex flex-col gap-3 items-center">
                 <Imgix

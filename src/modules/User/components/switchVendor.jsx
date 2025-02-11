@@ -11,10 +11,9 @@ const SwitchVendorModal = ({ children, redirect }) => {
     const switchVendor = () => {
         mutate({
             url: "/user/become/vendor",
-            method: "PATCH",
+            method: "POST",
             headers: true,
             onSuccess: (response) => {
-                console.log(response.data);
                 if (redirect) {
                     redirect();
                 }
