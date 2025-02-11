@@ -147,7 +147,7 @@ const ProductListing = ({ data, categories }) => {
                                     />
                                 </span>
                             </div>
-                            <h2 className="text-base p-4 font-medium mt-3 mb-2">{product.name}</h2>
+                            <h2 className="text-base p-4 font-medium mt-3">{product.name}</h2>
                             <p className="text-black text-sm p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
                         </div>
                     ))}
