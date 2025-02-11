@@ -63,7 +63,7 @@ const MyComponent = () => {
                                 backgroundImage: `url(${slide.mobileImage})`,
                                 backgroundSize: "contain",
                                 backgroundPosition: "center",
-                                height: "90vh",
+                                height: "80vh",
                                 backgroundRepeat:"no-repeat",
                             }}
                             className="block md:hidden w-full bg-cover bg-center bg-no-repeat h-[60vh] flex items-center justify-between px-6"
