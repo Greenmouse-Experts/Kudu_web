@@ -1,9 +1,26 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
+import { useModal } from '../hooks/modal';
+import Modal from './Modal';
 
-const MyProducts = ({ data }) => {
+const MyProducts = ({ data, refetch }) => {
     const navigate = useNavigate();
+
+    const { openModal } = useModal();
+
+    const handleRedirect = () => {
+        refetch();
+    };
+
+    const handlePublishModal = (user) => {
+        openModal({
+            size: "sm",
+            content: <Modal title={`Do you wish to ${user.status === 'inactive' ? 'publish' : 'unpublish'} this product?`} redirect={handleRedirect}
+                api={`/admin/general/product/unpublished?productId=${user.id}`} method={'PUT'} />
+        })
+    }
+
     return (
         <>
             <div className='All'>
@@ -64,6 +81,11 @@ const MyProducts = ({ data }) => {
                                                     <MenuItem className="flex flex-col gap-3">
                                                         <span className="cursor-pointer w-full" onClick={() => navigate(`edit/${user.id}`)}>
                                                             Edit
+                                                        </span>
+                                                    </MenuItem>
+                                                    <MenuItem className="flex flex-col gap-3">
+                                                        <span className="cursor-pointer w-full" onClick={() => handlePublishModal(user)}>
+                                                            {user.status === 'inactive' ? `Publish` : `Unpublish`}
                                                         </span>
                                                     </MenuItem>
                                                 </MenuList>
