@@ -11,14 +11,14 @@ const App = () => {
   const [customers, setCustomersData] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
-  const getCustomers = () => {
+  const getCustomers = (page) => {
     mutate({
-      url: `/admin/customers`,
+      url: `/admin/customers?page=${page}`,
       method: "GET",
       headers: true,
       hideToast: true,
       onSuccess: (response) => {
-        setCustomersData(response.data.data);
+        setCustomersData(response.data);
         setIsLoading(false);
       },
       onError: () => {
@@ -28,7 +28,7 @@ const App = () => {
 
 
   useEffect(() => {
-    getCustomers();
+    getCustomers(1);
   }, []);
 
   return (
@@ -38,7 +38,7 @@ const App = () => {
           <Loader />
         </div>
         :
-        <UserTable data={customers} />
+        <UserTable data={customers} refetch={(page) => getCustomers(page)} />
       }
     </div>
   );

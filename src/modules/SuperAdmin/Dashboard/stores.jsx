@@ -5,19 +5,20 @@ import Loader from '../../../components/Loader';
 
 const App = () => {
     const [storesData, setAllStores] = useState([]);
+    const [pagination, setPagination] = useState({});
     const [loading, setLoading] = useState(true);
 
     const { mutate } = useApiMutation();
 
-    const fetchData = async () => {
+    const fetchData = async (page) => {
         try {
             const storesRequest = new Promise((resolve, reject) => {
                 mutate({
-                    url: '/admin/general/stores',
+                    url: `/admin/general/stores?page=${page}`,
                     method: 'GET',
                     headers: true,
                     hideToast: true,
-                    onSuccess: (response) => resolve(response.data.data),
+                    onSuccess: (response) => resolve(response.data),
                     onError: reject,
                 });
             });
@@ -25,7 +26,8 @@ const App = () => {
                 storesRequest,
             ]);
 
-            setAllStores(stores)
+            setAllStores(stores.data)
+            setPagination(stores.pagination);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -35,7 +37,7 @@ const App = () => {
 
 
     useEffect(() => {
-        fetchData();
+        fetchData(1);
     }, []);
 
     return (
@@ -45,7 +47,7 @@ const App = () => {
                     <Loader />
                 </div>
             ) : (
-                <AllStores data={storesData} refetch={fetchData} />
+                <AllStores data={storesData} paginate={pagination} refetch={(page) => fetchData(page)} />
             )
             }
         </div>

@@ -8,18 +8,19 @@ const App = () => {
 
     const [advertData, setAllAdverts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [pagination, setPagination] = useState({});
 
     const { mutate } = useApiMutation();
 
-    const fetchData = async () => {
+    const fetchData = async (page) => {
         try {
             const advertRequest = new Promise((resolve, reject) => {
                 mutate({
-                    url: '/admin/general/adverts',
+                    url: `/admin/general/adverts?page=${page}`,
                     method: 'GET',
                     headers: true,
                     hideToast: true,
-                    onSuccess: (response) => resolve(response.data.data),
+                    onSuccess: (response) => resolve(response.data),
                     onError: reject,
                 });
             });
@@ -27,7 +28,8 @@ const App = () => {
                 advertRequest,
             ]);
 
-            setAllAdverts(adverts)
+            setAllAdverts(adverts.data)
+            setPagination(adverts.pagination);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
@@ -37,7 +39,7 @@ const App = () => {
 
 
     useEffect(() => {
-        fetchData();
+        fetchData(1);
     }, []);
 
 
@@ -48,7 +50,7 @@ const App = () => {
                     <Loader />
                 </div>
             ) : (
-                <AdminAdverts data={advertData} refetch={fetchData} />
+                <AdminAdverts data={advertData} paginate={pagination} refetch={(page) => fetchData(page)} />
             )
             }
         </div>

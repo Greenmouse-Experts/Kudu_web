@@ -1,4 +1,4 @@
-import Table from "../../../components/Tables";
+import Table from "../../../components/ReviewTable";
 import DashboardStats from "./layouts/DashboardStats";
 import Greeting from "./layouts/Greetings";
 import UserAnalysis from "./layouts/UserAnalysis";
