@@ -3,6 +3,7 @@ import { routes } from "./routes";
 import { ModalProvider } from "./hooks/modal";
 import ReusableModal from "./components/ReusableModal";
 import { accessType, isTokenValid } from "./helpers/tokenValidator";
+import Chat from "./modules/Chatbot/Chat";
 
 function App() {
   const router = createBrowserRouter(routes);
