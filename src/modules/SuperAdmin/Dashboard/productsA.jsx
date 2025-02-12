@@ -7,17 +7,18 @@ const App = () => {
   const { mutate } = useApiMutation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({});
 
   // Fetch both products and categories and merge them
-  const fetchData = async () => {
+  const fetchData = async (page) => {
     try {
       const productRequest = new Promise((resolve, reject) => {
         mutate({
-          url: '/admin/general/products',
+          url: `/admin/general/products?page=${page}`,
           method: 'GET',
           headers: true,
           hideToast: true,
-          onSuccess: (response) => resolve(response.data.data),
+          onSuccess: (response) => resolve(response.data),
           onError: reject,
         });
       });
@@ -39,7 +40,7 @@ const App = () => {
       ]);
 
       // Merge categories with products
-      const mergedData = productsData.map((product) => {
+      const mergedData = productsData.data.map((product) => {
         const category = categories.find(
           (cat) => cat.id === product.sub_category?.categoryId
         );
@@ -50,6 +51,7 @@ const App = () => {
       });
 
       setProducts(mergedData);
+      setPagination(productsData.pagination);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -58,7 +60,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(1);
   }, []); // Only run once on mount
 
   return (
@@ -68,7 +70,7 @@ const App = () => {
           <Loader />
         </div>
       ) : (
-        <PostProducts data={products} refetch={() => fetchData()} />
+        <PostProducts data={products} paginate={pagination} refetch={(page) => fetchData(page)} />
       )}
     </div>
   );

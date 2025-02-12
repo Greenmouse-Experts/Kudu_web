@@ -20,11 +20,14 @@ import {
   MessageSquareQuote,
   Users,
 } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { setKuduUser } from "../../reducers/userSlice";
 
 export default function Header({ openMenu }) {
   const { user } = useAppState();
   const { openModal } = useModal();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const arrOptions = [
     {
@@ -70,7 +73,9 @@ export default function Header({ openMenu }) {
   };
 
   const handleRedirect = () => {
-    navigate("/sell-product");
+    const updatedUser = { ...user, accountType: 'Vendor' };
+    dispatch(setKuduUser(updatedUser))
+    navigate("/profile/products");
   };
 
   const logOutRedirect = () => {
@@ -147,13 +152,13 @@ export default function Header({ openMenu }) {
           </div>
         </div>
         <div className="w-full flex items-center bg-white justify-between py-2 px-5">
-        <SearchBar />
+          <SearchBar />
         </div>
       </div>
 
       <div className="bg-white fixed w-full z-[95] Desk">
         <div className="w-full flex items-center justify-between">
-       
+
           {/* Mobile Navigation Toggle */}
           <div className="md:hidden">
             <button
@@ -393,7 +398,7 @@ export default function Header({ openMenu }) {
                 {!user && (
                   <div className="flex items-center gap-1">
                     <Menu>
-                      
+
                       <MenuHandler>
                         <span className="flex items-center cursor-pointer gap-1">
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -467,7 +472,7 @@ export default function Header({ openMenu }) {
                     </Menu>
                   </div>
                 )}
-                
+
                 <Link
                   to={"/auction"}
                   className="bg-kuduDarkGrey text-white py-2 px-4 rounded-md"

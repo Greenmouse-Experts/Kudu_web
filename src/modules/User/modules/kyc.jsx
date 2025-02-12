@@ -3,15 +3,23 @@ import { useForm } from 'react-hook-form';
 import PulseLoader from "react-spinners/PulseLoader";
 import { useUpdateKycMutation } from "../../../reducers/storeSlice";
 import { toast } from "react-toastify";
+import { useEffect } from 'react';
+import useApiMutation from '../../../api/hooks/useApiMutation';
+import Loader from '../../../components/Loader';
 
 export default function UpdatedKYC() {
   const [isLoading, setIsLoading] = useState(false);
+  const [loader, setLoader] = useState(true);
+  const [kycData, setKYCData] = useState({});
+
+  const { mutate } = useApiMutation();
 
   const [updatedKYC] = useUpdateKycMutation();
 
   const {
     register,
     handleSubmit,
+    setValue
   } = useForm();
 
   const onSubmit = (data) => {
@@ -22,151 +30,199 @@ export default function UpdatedKYC() {
     const payload = {
       ...rest,
       idVerification: {
-          name,
-          number,
+        name,
+        number,
       }
     };
 
     updatedKYC(payload)
-    .then((res) => {
-        if(res.status !== 200) throw res
+      .then((res) => {
+        if (res.status !== 200) throw res
 
         toast.success(res.data.message);
         setIsLoading(false)
-    }).catch((error) => {
+      }).catch((error) => {
         toast.error(error.error.data.message);
         setIsLoading(false)
-    })
-};
+      })
+  };
+
+
+  const getKYC = () => {
+    mutate({
+      url: `/vendor/kyc`,
+      method: "GET",
+      headers: true,
+      hideToast: true,
+      onSuccess: (response) => {
+        const userKYC = response.data.data;
+        setKYCData(userKYC);
+      },
+      onError: () => {
+        setIsLoading(false)
+      }
+    });
+  }
+
+
+  useEffect(() => {
+    getKYC();
+  }, []);
+
+
+  useEffect(() => {
+    if (!kycData || Object.keys(kycData || {}).length === 0) return;
+
+    setValue("businessName", kycData.businessName);
+    setValue("contactEmail", kycData.contactEmail);
+    setValue("contactPhoneNumber", kycData.contactPhoneNumber);
+    setValue("businessDescription", kycData.businessDescription);
+    setValue("businessLink", kycData.businessLink);
+    setValue("businessAddress", kycData.businessAddress);
+    setValue("businessRegistrationNumber", kycData.businessRegistrationNumber);
+    setValue("name", JSON.parse(kycData.idVerification).name);
+    setValue("number", JSON.parse(kycData.idVerification).number);
+    setLoader(false)
+  }, [kycData, setValue]);
+
+
+  if (loader) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    )
+  }
+
 
   return (
     <div className="bg-white rounded-lg w-full p-6">
-      <h2 className="text-lg font-bold mb-2">Updated KYC</h2>
+      <h2 className="text-lg font-bold mb-2">KYC</h2>
       <div className='w-full h-[5px] mb-4 border' />
-      
+
       <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-8">
-        <h3 className="font-semibold text-black-500 mb-4">Business Information</h3>
-       
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+        <div className="mb-8">
+          <h3 className="font-semibold text-black-500 mb-4">Business Information</h3>
 
-          <div>
-            <label className="block text-sm font-medium mb-3">Business Name</label>
-            <input
-              type="text"
-              name="businessName"
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-              {...register("businessName", { required: "Business name is required" })}
-              required
-            />
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
 
-          <div>
-            <label className="block text-sm font-medium mb-3">Contact Email</label>
-            <input
-              type="email"
-              name="contactEmail"
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-              {...register("contactEmail", { required: "Contact email is required" })}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-3">Contact Phone Number</label>
-            <input
-              type="number"
-              name="contactPhoneNumber"
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-              {...register("contactPhoneNumber", { required: "Contact Phone Number is required" })}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-3">Business Description</label>
-            <input
-              type="text"
-              name="businessDescription"
-              className="border rounded p-2 w-full"
-              style={{ outline: "none", }}
-              {...register("businessDescription", { required: "Business Description is required" })}
-              required
-            />
-          </div>
-
-          <div>
-          <label className="block text-sm font-medium mb-3">Business Link</label>
-            <input
-              type="text"
-              name="businessLink"
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-              {...register("businessLink", { required: "Business link is required" })}
-              required
-            />
-          </div>
-
-          <div>
-          <label className="block text-sm font-medium mb-3">Business Address</label>
-            <input
-              type="text"
-              name="businessAddress"
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-              {...register("businessAddress", { required: "Business address is required" })}
-              required
-            />
-          </div>
-
-          <div>
-          <label className="block text-sm font-medium mb-3">Business Registration Number</label>
-            <input
-              type="text"
-              name="businessRegistrationNumber"
-              style={{ outline: "none", }}
-              className="border rounded p-2 w-full"
-              {...register("businessRegistrationNumber", { required: "Business Registration Number is required" })}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="mt-4">
-          <h3 className="font-semibold text-black-500 mb-4">ID Verification</h3>
-
-          <div className='flex justify-between'>
-            <div className='w-[49%]'>
-              <label className="block text-sm font-medium mb-3">Card Name</label>
+            <div>
+              <label className="block text-sm font-medium mb-3">Business Name</label>
               <input
                 type="text"
-                name="name"
-                style={{ outline: "none", }}
+                name="businessName"
                 className="border rounded p-2 w-full"
-                {...register("name", { required: "Name is required" })}
+                style={{ outline: "none", }}
+                {...register("businessName", { required: "Business name is required" })}
                 required
               />
             </div>
 
-            <div className='w-[49%]'>
-              <label className="block text-sm font-medium mb-3">Card Number</label>
+            <div>
+              <label className="block text-sm font-medium mb-3">Contact Email</label>
+              <input
+                type="email"
+                name="contactEmail"
+                className="border rounded p-2 w-full"
+                style={{ outline: "none", }}
+                {...register("contactEmail", { required: "Contact email is required" })}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-3">Contact Phone Number</label>
               <input
                 type="number"
-                name="number"
+                name="contactPhoneNumber"
+                className="border rounded p-2 w-full"
+                style={{ outline: "none", }}
+                {...register("contactPhoneNumber", { required: "Contact Phone Number is required" })}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-3">Business Description</label>
+              <input
+                type="text"
+                name="businessDescription"
+                className="border rounded p-2 w-full"
+                style={{ outline: "none", }}
+                {...register("businessDescription", { required: "Business Description is required" })}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-3">Business Link</label>
+              <input
+                type="text"
+                name="businessLink"
                 style={{ outline: "none", }}
                 className="border rounded p-2 w-full"
-                {...register("number", { required: "Number is required" })}
+                {...register("businessLink", { required: "Business link is required" })}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-3">Business Address</label>
+              <input
+                type="text"
+                name="businessAddress"
+                style={{ outline: "none", }}
+                className="border rounded p-2 w-full"
+                {...register("businessAddress", { required: "Business address is required" })}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-3">Business Registration Number</label>
+              <input
+                type="text"
+                name="businessRegistrationNumber"
+                style={{ outline: "none", }}
+                className="border rounded p-2 w-full"
+                {...register("businessRegistrationNumber", { required: "Business Registration Number is required" })}
                 required
               />
             </div>
           </div>
-        </div>
-      </div>
 
-      <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff"  size={5}/> : "Submit"}</button>
+          <div className="mt-4">
+            <h3 className="font-semibold text-black-500 mb-4">ID Verification</h3>
+
+            <div className='flex justify-between'>
+              <div className='w-[49%]'>
+                <label className="block text-sm font-medium mb-3">Card Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  style={{ outline: "none", }}
+                  className="border rounded p-2 w-full"
+                  {...register("name", { required: "Name is required" })}
+                  required
+                />
+              </div>
+
+              <div className='w-[49%]'>
+                <label className="block text-sm font-medium mb-3">Card Number</label>
+                <input
+                  type="number"
+                  name="number"
+                  style={{ outline: "none", }}
+                  className="border rounded p-2 w-full"
+                  {...register("number", { required: "Number is required" })}
+                  required
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff" size={5} /> : "Submit"}</button>
       </form>
     </div>
   );

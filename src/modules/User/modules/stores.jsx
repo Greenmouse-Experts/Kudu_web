@@ -11,9 +11,11 @@ import AddNewAuctionProduct from './AddNewAuctionProduct';
 import CreateNewStore from './CreateNewStore';
 import ProductTypeModal from './ProductTypeModal';
 import { Option } from '@material-tailwind/react';
+import Loader from '../../../components/Loader';
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [anchorEl, setAnchorEl] = useState(null);
     const [storeId, setStoreId] = useState(null);
     const [delModal, setDelModal] = useState(false);
@@ -27,33 +29,33 @@ function Stores() {
     const [editOrAddstore, setEditOrAddstore] = useState(null);
     const [deliveryOptions, setDeliveryOptions] = useState([]);
 
-    const { data: stores } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
+    const { data: stores } = useGetAllStoreQuery({ refetchOnMountOrArgChange: true });
     const [deleteSto] = useDeleteStoreMutation();
-    const {data} = useGetCurrenciesQuery();
-    const {data: countri} = useGetCountriesQuery();
-    const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
+    const { data } = useGetCurrenciesQuery();
+    const { data: countri } = useGetCountriesQuery();
+    const { data: categories } = useGetCategoriesQuery({ refetchOnMountOrArgChange: true });
 
     useEffect(() => {
-        if(data) setCurrencies(data)
-        if(countri) setCountries(countri)
+        if (data) { setCurrencies(data); setLoading(false) }
+        if (countri) setCountries(countri)
     }, [data, countri])
 
     useEffect(() => {
         var filteredCountry;
-        if(selectedCountry !== null){
+        if (selectedCountry !== null) {
             filteredCountry = countries?.data?.filter((countryData) => (
-                countryData.name ===  selectedCountry
+                countryData.name === selectedCountry
             ))
         }
-        
+
         filteredCountry && setXtates(filteredCountry[0].states)
-    },[selectedCountry])
+    }, [selectedCountry])
 
     const options = [
         'View/Edit',
         'Add Product',
         'Delete',
-      ];
+    ];
 
     const ITEM_HEIGHT = 30;
 
@@ -65,9 +67,9 @@ function Stores() {
     };
 
     const handleClose = () => {
-      setAnchorEl(null);
-      setStoreId(null)
-    }; 
+        setAnchorEl(null);
+        setStoreId(null)
+    };
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -82,7 +84,7 @@ function Stores() {
     const handleAction = (option) => {
         option === "Delete" && setDelModal(true)
         option === "Add Product" && setOpenAddNewProductOptionModal(true)
-        if(option === "View/Edit"){
+        if (option === "View/Edit") {
             setIsModalOpen(true)
             setEditOrAddstore("edit")
         }
@@ -114,13 +116,22 @@ function Stores() {
 
     const deleteStore = () => {
         deleteSto(storeId)
-        .then(res => {
-            // console.log(res)
-            // toast.success(res.data.message)
-        }).catch(err => {
-            console.error(err)
-        })
+            .then(res => {
+                // console.log(res)
+                // toast.success(res.data.message)
+            }).catch(err => {
+                console.error(err)
+            })
         setDelModal(false)
+    }
+
+
+    if (loading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <Loader />
+            </div>
+        )
     }
 
     return (
@@ -140,8 +151,8 @@ function Stores() {
                     <div className="text-center text-black-100 mb-6 leading-loose text-sm">
                         Want to reach more customers? <br></br>Kudu lets you create and manage your own store.
                     </div>
-                </div> 
-            ):(
+                </div>
+            ) : (
                 <div className="overflow-x-auto mt-5">
                     <table className="w-full border-collapse">
                         <thead>
@@ -164,9 +175,9 @@ function Stores() {
                                     <td className="py-6 px-4 text-left">{store.name}</td>
                                     <td className="py-6 px-4 text-left">{store.totalProducts}</td>
                                     <td className="py-6 px-4 text-left">{dateFormat(store.createdAt, "dd-MM-YYY")}</td>
-                              
+
                                     <td className="py-3 px-4 text-left">
-                                         <IconButton
+                                        <IconButton
                                             aria-label="more"
                                             id="long-button"
                                             aria-controls={open ? 'long-menu' : undefined}
@@ -195,12 +206,12 @@ function Stores() {
                                             }}
                                         >
                                             {options.map((option, idx) => (
-                                                <MenuItem 
-                                                    key={idx} 
+                                                <MenuItem
+                                                    key={idx}
                                                     onClick={() => handleAction(option)}
                                                     sx={{
                                                         fontSize: '10px',
-                                                      }}
+                                                    }}
                                                 >
                                                     <li>
                                                         {option}
@@ -223,10 +234,10 @@ function Stores() {
             </button>
 
             {isModalOpen && (
-                <CreateNewStore 
+                <CreateNewStore
                     deliveryOptions={deliveryOptions}
                     setDeliveryOptions={setDeliveryOptions}
-                    handleCloseModal={handleCloseModal} 
+                    handleCloseModal={handleCloseModal}
                     currencies={currencies}
                     countries={countries}
                     selectedCountry={selectedCountry}
@@ -241,9 +252,9 @@ function Stores() {
 
             {addNewModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
-                        <AddNewProduct 
-                            closeAddNewModal={closeAddNewModal} 
+                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none">
+                        <AddNewProduct
+                            closeAddNewModal={closeAddNewModal}
                             stores={stores}
                             categories={categories}
                         />
@@ -253,9 +264,9 @@ function Stores() {
 
             {addNewAuctionModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none">
                         <AddNewAuctionProduct
-                            closeAddNewModal={closeAddNewModal} 
+                            closeAddNewModal={closeAddNewModal}
                             stores={stores}
                             categories={categories}
                         />
@@ -285,16 +296,16 @@ function Stores() {
                     </div>
                 </div>
             )}
-            
+
             {openAddNewProductOptionModal && (
-              <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                 <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
-                    <ProductTypeModal 
-                        openAddNewAuctionProductForm={openAddNewAuctionProductForm}
-                        openAddNewProductForm={openAddNewProductForm}
-                    />
-                 </div>
-             </div>
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                    <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+                        <ProductTypeModal
+                            openAddNewAuctionProductForm={openAddNewAuctionProductForm}
+                            openAddNewProductForm={openAddNewProductForm}
+                        />
+                    </div>
+                </div>
             )}
         </div>
     );

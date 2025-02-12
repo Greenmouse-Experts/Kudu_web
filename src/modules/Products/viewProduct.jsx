@@ -146,6 +146,23 @@ export default function ViewProduct() {
             </div>
         )
     }
+    else {
+        if(Object.keys(product).length === 0)  {
+            return (<div className="w-full h-screen flex items-center justify-center">
+                <div className="empty-store">
+                    <div className="text-center">
+                        <img
+                            src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
+                            alt="Empty Store Illustration"
+                            className="w-80 h-80 mx-auto"
+                        />
+                    </div>
+                    <h1 className="text-center text-lg font-bold mb-4">Product Not Found</h1>
+                </div>
+            </div>
+            )
+        }
+    }
 
     return (
         <>

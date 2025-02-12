@@ -11,6 +11,7 @@ import PreviewSection from "./components/PreviewSection";
 import '../Home/components/style.css';
 import useApiMutation from "../../api/hooks/useApiMutation";
 import Loader from "../../components/Loader";
+import Imgix from "react-imgix";
 
 export default function LandingHomepage() {
     const colorMap = [
@@ -31,6 +32,7 @@ export default function LandingHomepage() {
     const { mutate } = useApiMutation();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [ads, setAds] = useState([]);
     const [loading, setLoading] = useState(true);
 
     // Fetch products from API
@@ -45,7 +47,7 @@ export default function LandingHomepage() {
                     onError: reject,
                 });
             });
-                
+
             const categoriesRequest = new Promise((resolve, reject) => {
                 mutate({
                     url: `/categories`,
@@ -56,7 +58,7 @@ export default function LandingHomepage() {
                     onError: reject,
                 });
             });
-        
+
 
             const [productsData] = await Promise.all([productRequest]);
             const [categoriesData] = await Promise.all([categoriesRequest]);
@@ -94,9 +96,26 @@ export default function LandingHomepage() {
         }
     };
 
+
+
+    const fetchAds = () => {
+        mutate({
+            url: '/adverts?showOnHomePage=true',
+            method: 'GET',
+            hideToast: true,
+            onSuccess: (response) => {
+                setAds(response.data.data);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
     // Fetch data on component mount
     useEffect(() => {
         fetchData();
+        fetchAds();
     }, []);
 
     // Filter brand-new products once products are updated
@@ -140,7 +159,7 @@ export default function LandingHomepage() {
                             <Loader />
                         </div>
                     ) : (
-                        <ProductsSection data={products.slice(0, 10)} />
+                        <ProductsSection data={products.slice(0, 10)} ads={ads.slice(0, 2)} />
                     )}
                 </div>
             </div>
@@ -156,7 +175,18 @@ export default function LandingHomepage() {
                     ) : (
                         <ProductListing productsArr={filteredProducts} />
                     )}
-                    <PhonesBanner />
+                    {/* <PhonesBanner /> */}
+                    <div className="flex w-full flex-col md:flex-row gap-4">
+                        {ads.slice(2, 4).map((ad, index) => (
+                            <div className="md:w-1/1 flex md:flex-row flex-col relative w-full pt-64 px-4 lg:rounded-lg md:rounded-lg" key={index}>
+                                <div className="absolute inset-0 w-full h-full">
+                                    <Imgix src={`${ad.media_url}`} sizes="100vw"
+                                        className="w-full h-full"
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
