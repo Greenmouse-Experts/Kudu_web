@@ -20,7 +20,7 @@ export default function PreviewSection() {
 
                 {/* Card Section */}
                 <div className="w-full flex md:flex-row flex-col gap-5 z-0 mt-5">
-                    <div className="grid grid-cols-1 md:grid-cols-3 mt-14 md:mb-0 md:mx-2 gap-8" style={{ position: "relative" }}>
+                    <div className="grid grid-cols-1 md:grid-cols-3 mt-14 md:mb-10 md:mx-2 gap-8" style={{ position: "relative" }}>
                         {/* Auction Card */}
                         <div
                             className="h-full w-full Box"
@@ -39,7 +39,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center">AUCTION</p>
+                                    <p className="md:text-2xl text-center font-medium">Auction</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -64,7 +64,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center">SELL ANYTHING</p>
+                                    <p className="md:text-2xl text-center font-medium">Sell Anything</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -90,7 +90,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center">BID YOUR PRICE</p>
+                                    <p className="md:text-2xl text-center font-medium">Bid Your Price</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">

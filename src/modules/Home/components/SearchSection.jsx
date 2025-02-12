@@ -52,9 +52,10 @@ const MyComponent = () => {
                                 backgroundSize: "contain",
                                 backgroundPosition: "center",
                                 height: "75vh",
+                                width:" 100%",
                                 backgroundRepeat:"no-repeat",
                             }}
-                            className="hidden md:block w-full bg-cover bg-center bg-no-repeat h-[70vh] flex items-center justify-between px-6 lg:px-20"
+                            className="hidden md:block w-full bg-cover bg-center bg-no-repeat h-[70vh] items-center justify-between px-6 lg:px-20"
                         >
                             {/* Content */}
                         </div>
@@ -65,8 +66,9 @@ const MyComponent = () => {
                                 backgroundPosition: "center",
                                 height: "80vh",
                                 backgroundRepeat:"no-repeat",
+                                 width:" 100%",
                             }}
-                            className="block md:hidden w-full bg-cover bg-center bg-no-repeat h-[60vh] flex items-center justify-between px-6"
+                            className="block md:hidden w-full bg-cover bg-center bg-no-repeat h-[60vh] items-center justify-between px-6"
                         >
                             {/* Content */}
                         </div>
