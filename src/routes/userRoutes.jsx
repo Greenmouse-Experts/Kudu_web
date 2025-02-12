@@ -6,6 +6,7 @@ import Stores from "../modules/User/modules/stores";
 import AccountProfile from "../modules/User/modules/profile";
 import MyProducts from "../modules/User/modules/MyProducts";
 import Subscription from "../modules/User/modules/subscriptions";
+import OrderDetails from "../modules/User/modules/ViewOrders";
 
 export const userRoutes = [
     {
@@ -23,6 +24,10 @@ export const userRoutes = [
                     {
                         path: 'orders',
                         element: <ProfileOrders />
+                    },
+                    {
+                        path: 'view-orders',
+                        element: <OrderDetails />
                     },
                     {
                         path: 'updated-kyc',

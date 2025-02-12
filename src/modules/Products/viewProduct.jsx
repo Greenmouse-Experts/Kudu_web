@@ -297,7 +297,7 @@ export default function ViewProduct() {
                                         </div>
                                         <div className="w-full h-[1px] border" />
 
-                                        {(product.vendor && !product.vendor.isVerified) || !product.admin ? (
+                                        {(product.vendor && !product.vendor.isVerified && !product.admin) ? (
                                             <div className="w-full flex">
                                                 <Button
                                                     type="submit"
@@ -400,7 +400,7 @@ export default function ViewProduct() {
                                         <li>Make sure that the packed item is the one you&apos;ve inspected</li>
                                     </ul>
                                 </div>
-                                {product.vendor?.isVerified || product.admin &&
+                                {product.vendor?.isVerified || product.admin ?
                                     <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
                                         <>
                                             <div className="flex items-center gap-5">
@@ -440,6 +440,8 @@ export default function ViewProduct() {
                                             </Button>
                                         </>
                                     </div>
+                                    :
+                                    <></>
                                 }
 
                             </div>
