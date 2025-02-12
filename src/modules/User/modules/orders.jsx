@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import useAppState from '../../../hooks/appState';
 import useApiMutation from '../../../api/hooks/useApiMutation';
 import Loader from '../../../components/Loader';
+import Table from '../../../components/Tables';
+import { dateFormat } from '../../../helpers/dateHelper';
 
 export default function ProfileOrders() {
 
@@ -16,9 +18,9 @@ export default function ProfileOrders() {
     const { mutate } = useApiMutation();
 
 
-    const getVendorOrders = () => {
+    const getOrders = () => {
         mutate({
-            url: `/vendor/order/items`,
+            url: `/user/orders`,
             method: "GET",
             headers: true,
             hideToast: true,
@@ -34,9 +36,7 @@ export default function ProfileOrders() {
 
 
     useEffect(() => {
-        if (user.accountType === 'Vendor') {
-            getVendorOrders();
-        }
+        getOrders();
     }, []);
 
 
@@ -54,59 +54,38 @@ export default function ProfileOrders() {
                 <h2 className="text-lg font-bold p-6">Orders</h2>
                 <div className='w-full h-[1px] border' />
                 {orders.length > 0 ?
-                    <div className="py-5 px-4 w-full">
-                        {/* Tabs */}
-                        <div className="flex border-b-2 border-gray-200">
-                            <div className='flex flex-grow'>
-                                <button
-                                    onClick={() => setActiveTab('ongoing')}
-                                    className={`px-4 py-2 flex text-sm font-semibold ${activeTab === 'ongoing' ? 'text-kuduOrange border-kuduOrange border-b-2' : 'text-gray-500'
-                                        }`}
-                                >
-                                    ONGOING / DELIVERED ({orders.filter(order => order.status === 'ongoing').length})
-                                </button>
-                            </div>
-                            <div className='flex'>
-                                <button
-                                    onClick={() => setActiveTab('cancelled')}
-                                    className={`px-4 py-2 text-sm font-semibold ${activeTab === 'cancelled' ? 'text-kuduOrange border-kuduOrange border-b-2' : 'text-gray-500'
-                                        }`}
-                                >
-                                    CANCELLED / RETURNED (0)
-                                </button>
-                            </div>
-                        </div>
 
-                        {/* Orders List */}
-                        <div className="mt-4">
-                            {filteredOrders.length > 0 ? (
-                                filteredOrders.map(order => (
-                                    <div key={order.id} className="flex items-center justify-between p-4 border-b border-gray-200">
-                                        <div className="flex items-center space-x-4">
-                                            <Imgix src={order.image} alt={order.name} width={50} height={50} sizes='30vw' className="w-16 h-16 rounded-md object-cover" />
-                                            <div className='flex flex-col gap-1'>
-                                                <h2 className="font-semibold text-[rgba(120,120,120,1)]">{order.name}</h2>
-                                                <div className='flex gap-1'>
-                                                    <div className='w-2 h-2 mt-[4px] rounded-full bg-[rgba(3,168,78,1)]' />
-                                                    <p className="text-xs text-[rgba(3,168,78,1)] font-[500]">Order {order.id}</p>
-                                                </div>
-                                                <div className='flex gap-2'>
-                                                    <p className="text-lg font-bold text-gray-800">${order.price}</p>
-                                                    <span className="px-1 flex flex-col items-center py-[6px] text-xs font-medium text-white bg-kuduOrange rounded-lg">
-                                                        ONGOING
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center space-x-4">
-                                            <Link to={'/profile/view-orders'} className="text-kuduOrange font-semibold text-sm hover:underline">SEE DETAILS</Link>
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-center text-gray-500 text-sm mt-8">No orders found in this category.</p>
-                            )}
-                        </div>
+                    <div className="overflow-x-auto mt-5">
+                        <Table
+                            headers={[
+                                { key: 'refId', label: 'Order ID' },
+                                { key: 'trackingNumber', label: 'Tracking Number' },
+                                { key: 'orderItemsCount', label: 'Order Items' },
+                                { key: 'totalAmount', label: 'Price' },
+                                {
+                                    key: 'createdAt', label: 'Date', render: (value) => (
+                                        <span>
+                                            {dateFormat(value, "dd-MM-YYY")}
+                                        </span>
+                                    )
+                                },
+                                { key: 'shippingAddress', label: 'Shipping Address' },
+                                {
+                                    key: 'status',
+                                    label: 'Status',
+                                    render: (value) => (
+                                        <span className={`py-1 px-3 rounded-full text-sm capitalize ${value === 'active'
+                                            ? 'bg-green-100 text-green-600'
+                                            : 'bg-kuduOrange text-white'
+                                            }`}>
+                                            {value}
+                                        </span>
+                                    )
+                                }
+                            ]}
+                            data={orders}
+                            actions={[]}
+                        />
                     </div>
                     :
 
