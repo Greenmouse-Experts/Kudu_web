@@ -4,6 +4,7 @@ import { Drawer } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Footer from "./Footer";
+import Chat from "../../modules/Chatbot/Chat";
 
 
 const LandingLayout = () => {
@@ -43,6 +44,7 @@ const LandingLayout = () => {
                 <Header openMenu={toggleMenu} />
                 <div className={`${hideFooter ? 'pt-[2%]' : 'pt-[4%]'}`}>
                     <Outlet />
+                    <Chat/>
                     {!hideFooter &&
                         <Footer />
                     }

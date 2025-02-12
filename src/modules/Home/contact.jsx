@@ -1,6 +1,7 @@
 import "../Home/components/style.css";
 import ShoppingExperience from "./components/ShoppingExperience";
 import GetApp from "./components/GetApp";
+import { Link } from "react-router-dom";
 
 export default function Contact() {
     return (
@@ -44,7 +45,9 @@ export default function Contact() {
                                         Visit our FAQ to see answers to our most asked questions
                                     </p>
                                     <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                                        See FAQs
+                                    <Link
+                                to="/faqs">  See FAQs</Link>
+                                       
                                     </button>
                                 </div>
 
@@ -67,7 +70,8 @@ export default function Contact() {
                                         info@kudu.com
                                     </p>
                                     <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                                        Email Now
+                                    <Link
+                                 to="/sign-up">Email Now</Link>
                                     </button>
                                 </div>
 
@@ -90,7 +94,8 @@ export default function Contact() {
                                         0700 000 0000
                                     </p>
                                     <button className="mt-6 border text-black py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                                        Call Now
+                                    <Link
+                                 to="/sign-up">Call Now</Link> 
                                     </button>
                                 </div>
                             </div>

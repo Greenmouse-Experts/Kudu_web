@@ -3,12 +3,12 @@ import './style.css';
 export default function PreviewSection() {
     return (
         <>
-            <div className="relative w-full overflow-hidden bg-white Ju">
+            <div className="relative w-full overflow-hidden bg-white">
                 <div className="w-full flex flex-col gap-2 justify-center items-center">
                     {/* Header Section */}
                     <div className="md:w-1/2 w-full flex flex-col gap-5 z-10">
                         <img src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737059210/Screenshot_2025-01-16_at_9.26.37_PM_mv3pvc.png" alt="" width="100%"
-                            className="w-full h-full object-cover Justting"
+                            className="w-full h-full object-cover"
                             draggable="false" />
                     </div>
                     <div className="md:w-[40%] flex">
@@ -20,7 +20,7 @@ export default function PreviewSection() {
 
                 {/* Card Section */}
                 <div className="w-full flex md:flex-row flex-col gap-5 z-0 mt-5">
-                    <div className="grid grid-cols-1 md:grid-cols-3 mt-14 md:mb-0 md:mx-2 gap-8" style={{ position: "relative" }}>
+                    <div className="grid grid-cols-1 md:grid-cols-3 mt-14 md:mb-10 md:mx-2 gap-8" style={{ position: "relative" }}>
                         {/* Auction Card */}
                         <div
                             className="h-full w-full Box"
@@ -39,7 +39,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center">AUCTION</p>
+                                    <p className="md:text-2xl text-lg text-center font-bold">Auction</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -64,7 +64,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center">SELL ANYTHING</p>
+                                    <p className="md:text-2xl text-lg text-center font-bold">Sell Anything</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -90,7 +90,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center">BID YOUR PRICE</p>
+                                    <p className="md:text-2xl text-lg text-center font-bold">Bid Your Price</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">

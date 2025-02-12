@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../Home/components/style.css";
 import ShoppingExperience from "./components/ShoppingExperience";
+import { Link } from "react-router-dom";
 
 export default function About() {
     const [activeTab, setActiveTab] = useState("sell");
@@ -122,10 +123,10 @@ export default function About() {
                 <section className="w-full Ju mt-16">
                     <div className="container mx-auto flex flex-col md:flex-row xl:px-20 lg:px-20 md:px-2 sm:px-1 gap-8">
                         <div className="flex-[2] md:text-left">
-                            <h1 className="text-4xl font-medium text-black leading-snug mb-4">
+                            <h1 className="text-xl sm:text-4xl font-bold text-black leading-loose mb-4">
                                 Welcome to Kudu Mart, your ultimate destination for secure and seamless online shopping
                             </h1>
-                            <p className="text-black text-lg mb-6 leading-loose">
+                            <p className="text-black text-sm mb-6 sm:text-lg leading-loose">
                                 We are an innovative online marketplace connecting individuals and businesses worldwide.
                                 Whether you're looking to buy quality products, sell stuff online, or participate in live online auctions,
                                 Kudu Mart provides a reliable platform built on trust and reliability.
@@ -135,20 +136,21 @@ export default function About() {
                             </button>
                         </div>
                         <div className="flex-[1] rounded-lg">
-                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1738147549/Group_1321314967_dopyks.png" className="Justtt" draggable="false" alt="" />
+                            <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1738147549/Group_1321314967_dopyks.png" className="" draggable="false" alt="" />
                         </div>
                     </div>
 
                 </section>
 
                 {/* Core Principles Section */}
-                <section className="w-full bg-white py-16">
-                    <div className="container mx-auto px-6 lg:px-20 text-left">
-                        <h2 className="text-3xl font-medium text-black text-center leading-relaxed mb-12">
-                            At KUDU, we prioritize trust, safety, and customer <br></br> satisfaction. Here are Our Core Principles
+                <section className="w-full bg-white py-4 sm:py-16">
+                    <div className="container mx-auto md:flex-row xl:px-20 lg:px-20 md:px-2 sm:px-1 gap-8">
+                        <h2 className="text-xl sm:text-3xl font-medium text-black text-center leading-relaxed mb-12">
+                            At KUDU, we prioritize trust, safety, and customer <br className="hidden sm:block" /> satisfaction. Here are Our Core Principles
                         </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[
                                 {
                                     title: "Fairness",
@@ -201,35 +203,37 @@ export default function About() {
                 </section>
 
                 <div className="w-full Ju mt-12">
-                    <div className="container mx-auto md:flex-row px-6 lg:px-20 gap-8">
-                        <h2 className="text-3xl font-medium leading-relaxed text-center mb-12">
-                            We make internet purchasing simple, <br></br> dependable, and fulfilling.
+                    <div className="container mx-auto md:flex-row xl:px-20 lg:px-20 md:px-2 sm:px-1 gap-8">
+                        <h2 className="text-xl sm:text-3xl font-medium text-black text-center leading-relaxed mb-12">
+                            We make internet purchasing simple, <br className="hidden sm:block" /> dependable, and fulfilling.
                         </h2>
 
-                        <div className="flex justify-center lg:space-x-12 sm:space-x-8 space-x-4 mb-12">
+                        <div className="flex flex-wrap justify-center lg:space-x-12 sm:space-x-8 space-x-2 mb-12">
                             {tabs.map((tab, index) => (
-                                <div key={tab.id} className="flex items-center space-x-4">
+                                <div key={tab.id} className="flex items-center space-x-2 sm:space-x-4">
                                     <button
-                                        className={`px-8 py-5 rounded-lg font-medium transition-all ${activeTab === tab.id
-                                            ? "bg-[#FF6F22] text-white shadow-lg"
-                                            : "bg-gray-200 text-gray-600"
+                                        className={`px-6 sm:px-6 mb-4 py-3 sm:py-5 rounded-lg font-medium transition-all text-sm sm:text-base
+                    ${activeTab === tab.id
+                                                ? "bg-[#FF6F22] text-white shadow-lg"
+                                                : "bg-gray-200 text-gray-600"
                                             }`}
                                         onClick={() => setActiveTab(tab.id)}
                                     >
                                         {tab.label}
                                     </button>
 
-                                    {/* Image between tabs, except after the last tab */}
+                                    {/* Hide separator image on small screens */}
                                     {index < tabs.length - 1 && (
                                         <img
                                             src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1738178221/Line_3_tq4kun.png"
                                             alt="separator"
-                                            className="h-12 w-44 object-contain"
+                                            className="h-12 w-44 object-contain hidden sm:block"
                                         />
                                     )}
                                 </div>
                             ))}
                         </div>
+
 
                         <p className="mb-10 text-base">
                             A little guide on how to sell your product her on Kudu
@@ -252,7 +256,7 @@ export default function About() {
                         </div>
                     </div>
                 </div>
-                <div className="container mx-auto px-6 lg:px-20 text-left Juppp">
+                <div className="container mx-auto md:flex-row xl:px-20 lg:px-20 md:px-2 sm:px-1 gap-8">
                     <div className="relative w-full mx-auto">
                         {/* Background Image */}
                         <div className="relative h-72 md:h-96 w-full rounded-2xl overflow-hidden">

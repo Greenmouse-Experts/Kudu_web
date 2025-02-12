@@ -50,9 +50,7 @@ export default function AdvertiseOnKudu() {
                                 /></span>
                                 <p className="font-semibold mt-4">{item.title}</p>
                                 <button className="mt-4 bg-[#FF6F22] text-white py-3 rounded-md w-full hover:bg-orange-600 transition">
-                                    <Link
-                                        to="/sign-up"> Join Now</Link>
-
+                                    <Link to="/sign-up"> Join Now</Link>
                                 </button>
                             </div>
                         ))}
