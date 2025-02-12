@@ -57,9 +57,10 @@ export default function UpdatedKYC() {
       onSuccess: (response) => {
         const userKYC = response.data.data;
         setKYCData(userKYC);
+        setLoader(false)
       },
       onError: () => {
-        setIsLoading(false)
+        setLoader(false)
       }
     });
   }
