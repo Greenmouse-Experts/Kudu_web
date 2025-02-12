@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../../api/hooks/useApiMutation";
+import { useState } from "react";
 
 const CreateSubscription = () => {
     const {
@@ -12,6 +13,9 @@ const CreateSubscription = () => {
     } = useForm();
 
     const { mutate } = useApiMutation();
+
+    const [hideAuctions, setAuctions] = useState(false);
+    const [hideAdverts, setAdverts] = useState(false);
 
 
     const onSubmit = (data) => {
@@ -31,6 +35,26 @@ const CreateSubscription = () => {
             },
         });
     };
+
+
+    const handleAllowAuctions = (value) => {
+        if (value === 'true') {
+            setAuctions(false)
+        }
+        else {
+            setAuctions(true)
+        }
+    }
+
+
+    const handleAllowAdverts = (value) => {
+        if (value === 'true') {
+            setAdverts(false)
+        }
+        else {
+            setAdverts(true)
+        }
+    }
 
 
     return (
@@ -99,28 +123,6 @@ const CreateSubscription = () => {
                                             className="block text-md font-semibold mb-3"
                                             htmlFor="email"
                                         >
-                                            Auction Product Limit
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="auctionProductLimit"
-                                            {...register("auctionProductLimit", { required: "Auction Product Limit is required" })}
-                                            placeholder="Enter auction product limit"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                            style={{ outline: "none" }}
-                                            required
-                                        />
-                                        {errors.auctionProductLimit && (
-                                            <p className="text-red-500 text-sm">{errors.auctionProductLimit.message}</p>
-                                        )}
-                                    </div>
-
-
-                                    <div className="mb-4">
-                                        <label
-                                            className="block text-md font-semibold mb-3"
-                                            htmlFor="email"
-                                        >
                                             Allow Auctions
                                         </label>
                                         <select
@@ -128,6 +130,7 @@ const CreateSubscription = () => {
                                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
                                             {...register("allowsAuction", { required: "This field is required" })}
+                                            onChange={(e) => handleAllowAuctions(e.target.value)}
                                         >
                                             <option value="" disabled>Tap to Select</option>
                                             <option value={'true'}>True</option>
@@ -139,9 +142,115 @@ const CreateSubscription = () => {
                                     </div>
 
 
+                                    {!hideAuctions &&
+                                        <div className="mb-4">
+                                            <label
+                                                className="block text-md font-semibold mb-3"
+                                                htmlFor="email"
+                                            >
+                                                Auction Product Limit
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="auctionProductLimit"
+                                                {...register("auctionProductLimit", { required: "Auction Product Limit is required" })}
+                                                placeholder="Enter auction product limit"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                style={{ outline: "none" }}
+                                                required
+                                            />
+                                            {errors.auctionProductLimit && (
+                                                <p className="text-red-500 text-sm">{errors.auctionProductLimit.message}</p>
+                                            )}
+                                        </div>
+                                    }
+
+
+
+                                    <div className="mb-4">
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Allow Adverts
+                                        </label>
+                                        <select
+                                            id="allowsAuction"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none", }}
+                                            onChange={(e) => handleAllowAdverts(e.target.value)}
+                                        >
+                                            <option value="" disabled>Tap to Select</option>
+                                            <option value={'true'}>True</option>
+                                            <option value={'false'}>False</option>
+                                        </select>
+                                    </div>
+
+                                    {!hideAdverts &&
+                                        <>
+                                            <div className="mb-4">
+                                                <label
+                                                    className="block text-md font-semibold mb-3"
+                                                    htmlFor="email"
+                                                >
+                                                    Maximum Number of Ads
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    id="auctionProductLimit"
+                                                    name="maxAds"
+                                                    {...register("maxAds", { required: "Maximum number of ads is required" })}
+                                                    placeholder="Enter number of Ads"
+                                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                    style={{ outline: "none" }}
+                                                    required
+                                                />
+                                                {errors.maxAds && (
+                                                    <p className="text-red-500 text-sm">{errors.maxAds.message}</p>
+                                                )}
+                                            </div>
+
+                                            <div>
+                                                <label
+                                                    className="block text-md font-semibold mb-3"
+                                                    htmlFor="email"
+                                                >
+                                                    Advert Duration
+                                                </label>
+                                                <div className="mb-4 flex gap-4">
+                                                    <input
+                                                        type="text"
+                                                        name="adsDurationDays"
+                                                        {...register("adsDurationDays", { required: "Advert duration is required" })}
+                                                        placeholder="Enter duration"
+                                                        className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                        required
+                                                    />
+                                                    <select
+                                                        name="billingCycle"
+                                                        disabled
+                                                        className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                    >
+                                                        <option value="Monthly">Days</option>
+                                                    </select>
+                                                </div>
+                                                {errors.adsDurationDays && (
+                                                    <p className="text-red-500 text-sm">{errors.adsDurationDays.message}</p>
+                                                )}
+                                            </div>
+                                        </>
+
+                                    }
+
 
                                     {/* Email Address and Billing Cycle */}
                                     <div>
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Plan Duration
+                                        </label>
                                         <div className="mb-4 flex gap-4">
                                             <input
                                                 type="text"

@@ -155,8 +155,6 @@ const AccountProfile = () => {
         renderModal();
     };
 
-    console.log(user)
-
     return (
         <div className="bg-white w-full rounded-lg">
             <h2 className="text-lg font-bold p-6">Profile</h2>
