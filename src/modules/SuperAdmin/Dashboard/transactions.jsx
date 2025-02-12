@@ -1,20 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Transactions from "../../../components/Transaction";
-
-const data = [
-    { id: 1, transactionId: 'WSX-12345364', transactionType: 'Product Purchase', price: 'N10,000', dateJoined: '30-21-25', status: 'Ongoing' },
-    { id: 2, transactionId: 'WSX-12345364', transactionType: 'Subscription', price: 'N20,000', dateJoined: '30-21-25', status: 'Completed' },
-    { id: 3, transactionId: 'WSX-12345364', transactionType: 'Product Purchase', price: 'N10,000', dateJoined: '30-21-25', status: 'Completed' },
-    { id: 4, transactionId: 'WSX-12345364', transactionType: 'Subscription', price: 'N50,000', dateJoined: '30-21-25', status: 'Completed' },
-    { id: 5, transactionId: 'WSX-12345364', transactionType: 'Data Plan', price: 'N10,000', dateJoined: '30-21-25', status: 'Completed' },
-    { id: 6, transactionId: 'WSX-12345364', transactionType: 'Airtime Plan', price: '100,000', dateJoined: '30-21-25', status: 'Cancelled' },
-];
+import useApiMutation from '../../../api/hooks/useApiMutation';
+import Loader from '../../../components/Loader';
 
 const App = () => {
 
+    const { mutate } = useApiMutation();
+    const [transactions, setTransactions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+
+    const getTransactions = (page) => {
+        mutate({
+            url: `/admin/transactions?page=${page}`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setTransactions(response.data);
+                setLoading(false);
+            },
+            onError: () => {
+                setLoading(false)
+            }
+        });
+    }
+
+    useEffect(() => {
+        getTransactions(1);
+    }, []);
+
     return (
         <div className="min-h-screen">
-            <Transactions data={data} />
+            {loading ?
+                <div className="w-full h-screen flex items-center justify-center">
+                    <Loader />
+                </div>
+                :
+                <Transactions data={transactions.data} paginate={transactions.pagination} fetchNew={(page) => getTransactions(page)} />
+            }
         </div>
     );
 };
