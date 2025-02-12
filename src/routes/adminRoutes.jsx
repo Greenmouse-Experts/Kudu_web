@@ -27,6 +27,7 @@ import UpdateProductCategory from "../modules/SuperAdmin/Dashboard/updateProduct
 import UpdateProduct from "../modules/SuperAdmin/Dashboard/updateProducts.jsx";
 import UpdateAdvert from "../modules/SuperAdmin/Dashboard/updateNewAdvert.jsx";
 import ViewKYC from "../modules/SuperAdmin/Dashboard/viewKyc.jsx";
+import EditSubscription from "../modules/SuperAdmin/Dashboard/editSubscription.jsx";
 
 export const adminRoutes = [
     {
@@ -88,6 +89,10 @@ export const adminRoutes = [
             {
                 path: "subscriptions/create",
                 element: <CreateSubscription />
+            },
+            {
+                path: "subscriptions/edit/:id",
+                element: <EditSubscription />
             },
             {
                 path: "orders",
