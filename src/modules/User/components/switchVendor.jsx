@@ -14,9 +14,7 @@ const SwitchVendorModal = ({ children, redirect }) => {
             method: "POST",
             headers: true,
             onSuccess: (response) => {
-                if (redirect) {
-                    redirect();
-                }
+                redirect();
                 closeModal();
             },
             onError: () => {
