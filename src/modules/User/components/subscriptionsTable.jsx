@@ -114,6 +114,96 @@ const SubscriptionTable = ({ data, refetch }) => {
 
 
 
+    const handleViewModal = (plan) => {
+        openModal({
+            size: "md",
+            content: (
+                <>
+                    <div className="grid grid-cols-2 gap-1 px-4">
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Plan Name</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.name}
+                            </div>
+                        </div>
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Plan Amount</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.price}
+                            </div>
+                        </div>
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Plan Validity</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.duration} month(s)
+                            </div>
+                        </div>
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Product Limit</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.productLimit}
+                            </div>
+                        </div>
+
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Allows Auction</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.allowsAuction ? 'Yes' : 'No'}
+                            </div>
+                        </div>
+
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Auction Product Limit</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.auctionProductLimit}
+                            </div>
+                        </div>
+
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Maximum Number of Ads</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.maxAds}
+                            </div>
+                        </div>
+
+                        <div className="">
+                            <label className="block text-sm font-medium mt-4">Ads duration days</label>
+                            <div
+                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                            >
+                                {plan.adsDurationDays}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex justify-end w-full mt-5 gap-4">
+                        <button
+                            onClick={closeModal}
+                            className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </>
+            )
+        })
+    }
+
+
+
     return (
         <>
             <div className='All'>
@@ -170,6 +260,11 @@ const SubscriptionTable = ({ data, refetch }) => {
                                                         </button>
                                                     </MenuHandler>
                                                     <MenuList>
+                                                        <MenuItem className="flex flex-col gap-3">
+                                                            <span className="cursor-pointer w-full" onClick={() => handleViewModal(plan)}>
+                                                                View Plan
+                                                            </span>
+                                                        </MenuItem>
                                                         <MenuItem className="flex flex-col gap-3">
                                                             <span className="cursor-pointer w-full" onClick={() => handleSubscribeModal(plan)}>
                                                                 Subscribe
