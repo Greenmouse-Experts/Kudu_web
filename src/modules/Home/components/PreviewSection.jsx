@@ -39,7 +39,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center font-medium">Auction</p>
+                                    <p className="md:text-2xl text-lg text-center font-bold">Auction</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -64,7 +64,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center font-medium">Sell Anything</p>
+                                    <p className="md:text-2xl text-lg text-center font-bold">Sell Anything</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">
@@ -90,7 +90,7 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-center font-medium">Bid Your Price</p>
+                                    <p className="md:text-2xl text-lg text-center font-bold">Bid Your Price</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
                                     <p className="text-sm leading-loose text-center">

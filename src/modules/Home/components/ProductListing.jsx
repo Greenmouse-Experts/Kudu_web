@@ -60,10 +60,27 @@ const ProductListing = ({ data, categories }) => {
     return (
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
             {/* Sidebar */}
-            {/* Sidebar */}
             <aside className="lg:w-1/5 p-4 border rounded-lg shadow-sm bg-white mb-6 lg:mb-0 lg:sticky lg:top-1 lg:h-[90vh] overflow-y-auto">
                 <h2 className="text-lg font-semibold mb-4">Filters</h2>
-                <div>
+
+                {/* Category Dropdown on mobile */}
+                <div className="block sm:hidden">
+                    <h3 className="font-semibold mb-4">Category</h3>
+                    <select
+                        onChange={(e) => handleSelectedId(e.target.value)}
+                        className="w-full p-2 border rounded-lg bg-white"
+                    >
+                        <option value="">Select Category</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Category checkboxes on larger screens */}
+                <div className="hidden sm:block">
                     <h3 className="font-semibold mb-4">Category</h3>
                     <ul>
                         {categories.map(category => (
@@ -124,6 +141,7 @@ const ProductListing = ({ data, categories }) => {
                     </ul>
                 </div>
             </aside>
+
 
 
             {/* Main Content */}
