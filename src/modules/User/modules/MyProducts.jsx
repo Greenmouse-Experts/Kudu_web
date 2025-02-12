@@ -20,7 +20,12 @@ const MyProducts = () => {
     const [deleteProd] = useDeleteProductMutation();
 
     const handleOpenModal = () => {
+        if(stores) {
         setOpenAddNewProductOptionModal(true)
+        }
+        else {
+            toast.error('No stores found for this vendor')
+        }
     }
 
     const openAddNewProductForm = () => {

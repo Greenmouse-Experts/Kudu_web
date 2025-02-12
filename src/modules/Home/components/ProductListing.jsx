@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Badge from "../../../components/Badge";
 import useApiMutation from "../../../api/hooks/useApiMutation";
+import { Link } from "react-router-dom";
 
 const ProductListing = ({ data, categories }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -150,7 +151,7 @@ const ProductListing = ({ data, categories }) => {
                             : product.name;
 
                         return (
-                            <div key={product.id} className="border rounded-md bg-white hover:shadow-sm shadow-sm transition">
+                            <Link to={`/product/${product.id}`} key={product.id} className="border rounded-md bg-white hover:shadow-sm shadow-sm transition">
                                 <div className="flex justify-center relative md:h-[200px] h-[200px]">
                                     <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] h-[200px] object-cover rounded-md" />
                                     <span className="absolute top-1 right-1">
@@ -163,7 +164,7 @@ const ProductListing = ({ data, categories }) => {
                                 </div>
                                 <h2 className="text-base p-4 font-medium mt-3">{truncatedName}</h2>
                                 <p className="text-black text-sm p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
-                            </div>
+                            </Link>
                         );
                     })}
                 </div>
