@@ -147,7 +147,7 @@ export default function ViewProduct() {
         )
     }
     else {
-        if(Object.keys(product).length === 0)  {
+        if (Object.keys(product).length === 0) {
             return (<div className="w-full h-screen flex items-center justify-center">
                 <div className="empty-store">
                     <div className="text-center">
@@ -297,7 +297,7 @@ export default function ViewProduct() {
                                         </div>
                                         <div className="w-full h-[1px] border" />
 
-                                        {!product.vendor?.isVerified || !product.admin ? 
+                                        {(product.vendor && !product.vendor.isVerified) || !product.admin ? (
                                             <div className="w-full flex">
                                                 <Button
                                                     type="submit"
@@ -314,6 +314,7 @@ export default function ViewProduct() {
                                                     </span>
                                                 </Button>
                                             </div>
+                                        )
                                             :
                                             <></>
                                         }

@@ -10,12 +10,14 @@ const ProfileSideBar = ({ close }) => {
     const { user } = useAppState();
     const { openModal } = useModal();
 
-    const { dispatch } = useDispatch();
+    const dispatch = useDispatch();
 
     const handleRedirect = () => {
         const updatedUser = { ...user, accountType: 'Vendor' };
         dispatch(setKuduUser(updatedUser))
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload()
+        }, 200);
     }
 
     const isVendor = user.accountType !== 'Customer';
