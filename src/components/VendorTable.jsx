@@ -107,7 +107,9 @@ const VendorTable = ({ data, refetch }) => {
                             dateJoined: dateFormat(item.createdAt, 'dd-MM-yyyy'),
                         }))}
                         actions={[
-                            { label: 'View KYC', onClick: (row) => routeKYC(row.id) },
+                            { label: (row) => {
+                                return 'View KYC';
+                            }, onClick: (row) => routeKYC(row.id) },
                         ]}
                         currentPage={data.meta.currentPage}
                         totalPages={data.meta.totalPages}
