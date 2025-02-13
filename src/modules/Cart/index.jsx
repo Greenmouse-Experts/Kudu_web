@@ -10,7 +10,7 @@ export default function Cart() {
 
     useEffect(() => {
         dispatch(getCart());
-    }, [dispatch, cart]);
+    }, [dispatch]);
 
     return (
         <>

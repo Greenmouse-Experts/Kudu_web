@@ -133,8 +133,8 @@ export default function Footer() {
                         <h3 className="md:text-lg text-base text-white font-semibold">Reach Out</h3>
                         <ul className="space-y-3 text-sm">
                             <li><a href="#" className="text-gray-400 flex items-center gap-3"><Phone size={15} style={{ color: "#ff6f22" }} />09234551774 </a></li>
-                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Mail size={15} style={{ color: "#ff6f22" }} /> help@kudu.com </a></li>
-                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Mail size={15} style={{ color: "#ff6f22" }} /> support@kudu.com</a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Mail size={15} style={{ color: "#ff6f22" }} /> help@kudumart.com </a></li>
+                            <li><a href="#" className="text-gray-400 flex items-center gap-3"><Mail size={15} style={{ color: "#ff6f22" }} /> support@kudumart.com</a></li>
                             <li><a href="#" className="text-gray-400 flex items-center gap-3"><MapPin size={20} style={{ color: "#ff6f22" }} />1648 McLean Avenue Saint Paul, Minnesota</a></li>
                         </ul>
                     </div>

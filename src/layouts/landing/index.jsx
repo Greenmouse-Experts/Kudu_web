@@ -6,55 +6,50 @@ import SideBar from "./SideBar";
 import Footer from "./Footer";
 import Chat from "../../modules/Chatbot/Chat";
 
-
 const LandingLayout = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [hideFooter, setHideFooter] = useState(false);
-    const location = useLocation();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [hideFooter, setHideFooter] = useState(false);
+  const location = useLocation();
 
-    const urlExceptions = ['/messages'];
+  const urlExceptions = ["/messages"];
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-    useEffect(() => {
-        if (urlExceptions.some((url) => location.pathname.includes(url))) {
-            // remove footer
-            setHideFooter(true);
-        }
-        else {
-            setHideFooter(false);
-        }
-    }, [location.pathname]); // Trigger this effect whenever the pathname changes
+  useEffect(() => {
+    if (urlExceptions.some((url) => location.pathname.includes(url))) {
+      // remove footer
+      setHideFooter(true);
+    } else {
+      setHideFooter(false);
+    }
+  }, [location.pathname]); // Trigger this effect whenever the pathname changes
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
 
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
+    document.documentElement.style.position = null;
+  }, [location]);
 
-        document.documentElement.style.position = null;
-    }, [location]);
-
-    return (
-        <>
-            <div>
-                <Header openMenu={toggleMenu} />
-                <div className={`${hideFooter ? 'pt-[2%]' : 'pt-[4%]'}`}>
-                    <Outlet />
-                    <Chat/>
-                    {!hideFooter &&
-                        <Footer />
-                    }
-                </div>
-            </div>
-            <Drawer open={isMenuOpen} onClose={toggleMenu} placement="left">
-                <SideBar onSelected={toggleMenu} />
-            </Drawer>
-        </>
-    );
+  return (
+    <>
+      <div>
+        <Header openMenu={toggleMenu} />
+        <div className={`${hideFooter ? "pt-[2%]" : "pt-[4%]"}`}>
+          <Outlet />
+          <Chat />
+          {!hideFooter && <Footer />}
+        </div>
+      </div>
+      <Drawer open={isMenuOpen} onClose={toggleMenu} placement="left">
+        <SideBar onSelected={toggleMenu} />
+      </Drawer>
+    </>
+  );
 };
 
 export default LandingLayout;

@@ -7,6 +7,8 @@ import AccountProfile from "../modules/User/modules/profile";
 import MyProducts from "../modules/User/modules/MyProducts";
 import Subscription from "../modules/User/modules/subscriptions";
 import OrderDetails from "../modules/User/modules/ViewOrders";
+import VendorAdverts from "../modules/User/modules/VendorAdverts";
+import Notification from "../modules/Notification/Notification";
 
 export const userRoutes = [
     {
@@ -44,6 +46,14 @@ export const userRoutes = [
                     {
                         path: 'subscription',
                         element: <Subscription />
+                    }, 
+                    {
+                        path: 'adverts',
+                        element: <VendorAdverts />
+                    }, 
+                    {
+                        path: 'notification',
+                        element: <Notification />
                     }, 
                 ]
             },
