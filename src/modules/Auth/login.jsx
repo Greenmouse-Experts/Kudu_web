@@ -5,6 +5,7 @@ import useApiMutation from "../../api/hooks/useApiMutation";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
 import { Button, Checkbox } from "@material-tailwind/react";
+import { auth, provider, fbprovider, signInWithPopup, signOut } from "../../config/firebaseConfig";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,6 +51,45 @@ function Login() {
       },
     });
   };
+
+
+  const handleSignInGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+     /* const idToken = await result.user.getIdToken();
+
+      // Send the token to your backend
+     /* const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/google?account_type=Customer`, {
+        method: "GET",  // If your backend expects a GET request
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      }); */
+      console.log("User authenticated:", result.user);
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
+  };
+  
+
+  const handleSignInFacebook = async () => {
+    try {
+      const result = await signInWithPopup(auth, fbprovider);
+     /* const idToken = await result.user.getIdToken();
+
+      // Send the token to your backend
+     /* const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/google?account_type=Customer`, {
+        method: "GET",  // If your backend expects a GET request
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      }); */
+      console.log("User authenticated:", result.user);
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
+  };
+
 
   return (
     <div
@@ -178,10 +218,12 @@ function Login() {
             >
               Sign In →
             </button>
-            <div className="flex flex-col sm:flex-row gap-4 w-full">
+          </form>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full">
             {/* Google Button */}
             <Button
               type="submit"
+              onClick={() => handleSignInGoogle()}
               className="w-full bg-white border border-gray-300 text-black px-4 flex items-center justify-center gap-2 rounded-lg"
               style={{ outline: "none", boxShadow: "none" }}
             >
@@ -197,6 +239,7 @@ function Login() {
             {/* Facebook Button */}
             <Button
               type="submit"
+              onClick={() => handleSignInFacebook()}
               className="w-full bg-blue-600 border-gray-300 text-white px-4 flex items-center justify-center gap-2 rounded-lg"
               style={{ outline: "none", boxShadow: "none" }}
             >
@@ -206,7 +249,6 @@ function Login() {
               <span className="text-white text-sm font-semibold">Facebook</span>
             </Button>
           </div>
-          </form>
 
           {/* Sign Up Link */}
           <div className="mt-6 text-center">
