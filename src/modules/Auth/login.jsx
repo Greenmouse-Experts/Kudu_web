@@ -5,6 +5,7 @@ import useApiMutation from "../../api/hooks/useApiMutation";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
 import { Button, Checkbox } from "@material-tailwind/react";
+import { auth, provider, signInWithPopup, signOut } from "../../config/firebaseConfig";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,6 +51,27 @@ function Login() {
       },
     });
   };
+
+
+  const handleSignInGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+     /* const idToken = await result.user.getIdToken();
+
+      // Send the token to your backend
+     /* const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/google?account_type=Customer`, {
+        method: "GET",  // If your backend expects a GET request
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      }); */
+      console.log("User authenticated:", result.user);
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+    }
+  };
+  
+
 
   return (
     <div
@@ -178,10 +200,12 @@ function Login() {
             >
               Sign In →
             </button>
-            <div className="flex flex-col sm:flex-row gap-4 w-full">
+          </form>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4 w-full">
             {/* Google Button */}
             <Button
               type="submit"
+              onClick={() => handleSignInGoogle()}
               className="w-full bg-white border border-gray-300 text-black px-4 flex items-center justify-center gap-2 rounded-lg"
               style={{ outline: "none", boxShadow: "none" }}
             >
@@ -193,20 +217,7 @@ function Login() {
               </svg>
               <span className="text-dark text-sm font-semibold">Google</span>
             </Button>
-
-            {/* Facebook Button */}
-            <Button
-              type="submit"
-              className="w-full bg-blue-600 border-gray-300 text-white px-4 flex items-center justify-center gap-2 rounded-lg"
-              style={{ outline: "none", boxShadow: "none" }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.675 0H1.325C0.593 0 0 0.593 0 1.325V22.675C0 23.407 0.593 24 1.325 24H12.819V14.708H9.692V11.087H12.819V8.408C12.819 5.34 14.72 3.669 17.409 3.669C18.698 3.669 19.812 3.767 20.138 3.808V7.004L18.329 7.005C16.841 7.005 16.508 7.74 16.508 8.809V11.086H20.048L19.525 14.707H16.507V24H22.675C23.407 24 24 23.407 24 22.675V1.325C24 0.593 23.407 0 22.675 0Z" />
-              </svg>
-              <span className="text-white text-sm font-semibold">Facebook</span>
-            </Button>
           </div>
-          </form>
 
           {/* Sign Up Link */}
           <div className="mt-6 text-center">

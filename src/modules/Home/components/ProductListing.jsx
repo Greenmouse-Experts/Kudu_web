@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import Badge from "../../../components/Badge";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import { Link } from "react-router-dom";
+import { Range } from 'react-range';
 
-const ProductListing = ({ data, categories }) => {
+
+const ProductListing = ({ data, categories, hideCategory }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [subCategories, setSubCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState(hideCategory ? categories : []);
     const [subCategoriesId, selectedSubCategoryIds] = useState([]);
-    const [priceRange, setPriceRange] = useState(200000);
+    const [values, setValues] = useState([1000, 200000]);
     const [sortBy, setSortBy] = useState("popularity");
     const [filteredProducts, setFilteredProducts] = useState(data);
 
@@ -45,40 +47,65 @@ const ProductListing = ({ data, categories }) => {
 
 
     useEffect(() => {
-        const filteredProducts = data.filter(product =>
-            selectedCategories.includes(product.categoryId) &&
-            subCategoriesId.includes(product.sub_category.id) &&
-            priceRange === product.price
-        );
+        const filteredProducts = data.filter(product => {
+            const matchCategory = subCategories.length === 0 ||
+                subCategories.includes(product.sub_category.categoryId);
 
-        if (filteredProducts.length > 0)
-            setFilteredProducts(filteredProducts);
+            const matchSubcategory = subCategoriesId.length === 0 ||
+                subCategoriesId.includes(product.sub_category.id);
 
-    }, [selectedCategories, subCategoriesId]);
+            const matchPrice = product.price >= values[0] &&
+                product.price <= values[1];
+
+            return matchCategory && matchSubcategory && matchPrice;
+        });
+
+        setFilteredProducts(filteredProducts);
+
+    }, [selectedCategories, subCategoriesId, values]);
 
 
     return (
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
             {/* Sidebar */}
-            {/* Sidebar */}
             <aside className="lg:w-1/5 p-4 border rounded-lg shadow-sm bg-white mb-6 lg:mb-0 lg:sticky lg:top-1 lg:h-[90vh] overflow-y-auto">
                 <h2 className="text-lg font-semibold mb-4">Filters</h2>
-                <div>
+
+                {/* Category Dropdown on mobile */}
+                <div className="block sm:hidden">
                     <h3 className="font-semibold mb-4">Category</h3>
-                    <ul>
+                    <select
+                        onChange={(e) => handleSelectedId(e.target.value)}
+                        className="w-full p-2 border rounded-lg bg-white"
+                    >
+                        <option value="">Select Category</option>
                         {categories.map(category => (
-                            <li key={category.id} className="mb-4">
-                                <input
-                                    type="checkbox"
-                                    id={category.id}
-                                    onChange={(e) => handleSelectedId(e.target.value)}
-                                    value={category.id}
-                                />
-                                <label htmlFor={category.id} className="ml-2">{category.name}</label>
-                            </li>
+                            <option key={category.id} value={category.id}>
+                                {category.name}
+                            </option>
                         ))}
-                    </ul>
+                    </select>
                 </div>
+
+                {/* Category checkboxes on larger screens */}
+                {!hideCategory &&
+                    <div className="hidden sm:block">
+                        <h3 className="font-semibold mb-4">Category</h3>
+                        <ul>
+                            {categories.map(category => (
+                                <li key={category.id} className="mb-4">
+                                    <input
+                                        type="checkbox"
+                                        id={category.id}
+                                        onChange={(e) => handleSelectedId(e.target.value)}
+                                        value={category.id}
+                                    />
+                                    <label htmlFor={category.id} className="ml-2">{category.name}</label>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                }
 
                 {subCategories.length > 0 && (
                     <div>
@@ -99,20 +126,43 @@ const ProductListing = ({ data, categories }) => {
                     </div>
                 )}
 
-                <div className="mt-4">
+                <div className="mt-8">
                     <h3 className="font-semibold mb-4">Price Range</h3>
-                    <input
-                        type="range"
-                        min="1000"
-                        max="200000"
-                        value={priceRange}
-                        onChange={(e) => setPriceRange(e.target.value)}
-                        className="w-full"
+                    <Range
+                        step={1000}
+                        min={1000}
+                        max={200000}
+                        values={values}
+                        onChange={(values) => setValues(values)}
+                        renderTrack={({ props, children }) => (
+                            <div
+                                {...props}
+                                className="h-1.5 bg-gray-200 rounded-full"
+                            >
+                                <div
+                                    className="h-full bg-kuduOrange rounded-full"
+                                    style={{
+                                        width: `${((values[1] - values[0]) / (200000 - 1000)) * 100}%`,
+                                        left: `${((values[0] - 1000) / (200000 - 1000)) * 100}%`
+                                    }}
+                                />
+                                {children}
+                            </div>
+                        )}
+                        renderThumb={({ props }) => (
+                            <div
+                                {...props}
+                                className="h-5 w-5 bg-kuduOrange rounded-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                            />
+                        )}
                     />
-                    <p>₦{priceRange}</p>
+                    <div className="flex justify-between mt-2">
+                        <span>{values[0]}</span>
+                        <span>{values[1]}</span>
+                    </div>
                 </div>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                     <h3 className="font-semibold mb-4">Product Rating</h3>
                     <ul>
                         {[4, 3, 2, 1].map(stars => (
@@ -122,8 +172,9 @@ const ProductListing = ({ data, categories }) => {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div>*/}
             </aside>
+
 
 
             {/* Main Content */}

@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../../api/hooks/useApiMutation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import Loader from "../../../components/Loader";
 
-const CreateSubscription = () => {
+const EditSubscription = () => {
     const {
         register,
         handleSubmit,
@@ -16,17 +18,23 @@ const CreateSubscription = () => {
 
     const [hideAuctions, setAuctions] = useState(false);
     const [hideAdverts, setAdverts] = useState(false);
+    const { id } = useParams();
+    const [plans, setPlans] = useState([]);
+    const [loading, setLoading] = useState(true);
 
 
     const onSubmit = (data) => {
+        data.planId = plans[0].id;
         data.duration = Number(data.duration);
         data.productLimit = Number(data.productLimit);
         data.auctionProductLimit = Number(data.auctionProductLimit);
         data.price = Number(data.price);
         data.allowsAuction = data.allowsAuction === 'true';
+        delete data.allowsAdvert;
+
         mutate({
-            url: "/admin/subscription/plan/create",
-            method: "POST",
+            url: "/admin/subscription/plan/update",
+            method: "PUT",
             data: data,
             headers: true,
             onSuccess: (response) => {
@@ -57,13 +65,72 @@ const CreateSubscription = () => {
     }
 
 
+
+    const getPlan = () => {
+        mutate({
+            url: `admin/subscription/plans?name=${id}`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                /* const filteredData = response.data.data.find((item) => item.id === id);
+                 setCategories(filteredData)
+                 setFiles([filteredData.image]);
+                 setLoading(false); */
+                setPlans(response.data.data);
+                setLoading(false);
+            },
+            onError: () => {
+                setLoading(false)
+            }
+        });
+    }
+
+
+
+    useEffect(() => {
+        getPlan();
+    }, []);
+
+
+
+
+
+    useEffect(() => {
+        if (plans.length === 0) return;
+
+        setValue("name", plans[0].name);
+        setValue("duration", plans[0].duration);
+        setValue("productLimit", plans[0].productLimit);
+        setValue("auctionProductLimit", plans[0].auctionProductLimit);
+        setValue("allowsAuction", plans[0].allowsAuction);
+        setValue("allowsAdvert", (plans[0].maxAds !== 0).toString());
+        setAdverts(plans[0].maxAds === 0);
+        setAuctions(!plans[0].allowsAuction);
+        setValue("maxAds", plans[0].maxAds);
+        setValue("adsDurationDays", plans[0].adsDurationDays);
+        setValue("price", plans[0].price);
+        setLoading(false);
+    }, [plans, setValue]);
+
+
+
+    if (loading) {
+        return (<div className="w-full h-screen flex items-center justify-center">
+            <Loader />
+        </div>
+        )
+    }
+
+
+
     return (
         <>
             <div className="min-h-screen">
                 <div className='All'>
 
                     <div className="rounded-md pb-2 w-full flex justify-between gap-5">
-                        <h2 className="text-lg font-semibold text-black-700 mt-4">Create Subscription Plan</h2>
+                        <h2 className="text-lg font-semibold text-black-700 mt-4">Edit Subscription Plan</h2>
                     </div>
                     <div className="w-full flex flex-grow mt-3">
                         <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
@@ -178,6 +245,7 @@ const CreateSubscription = () => {
                                             id="allowsAuction"
                                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
+                                            {...register("allowsAdvert", { required: "Allow Adverts is required" })}
                                             onChange={(e) => handleAllowAdverts(e.target.value)}
                                         >
                                             <option value="" disabled>Tap to Select</option>
@@ -301,7 +369,7 @@ const CreateSubscription = () => {
                                         type="submit"
                                         className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                                     >
-                                        Create New Subscription Plan
+                                        Edit Subscription Plan
                                     </button>
                                 </div>
                             </form>
@@ -315,4 +383,4 @@ const CreateSubscription = () => {
     );
 };
 
-export default CreateSubscription;
+export default EditSubscription;

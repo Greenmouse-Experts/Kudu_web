@@ -4,7 +4,6 @@ import { usePaystackPayment } from "react-paystack";
 import { toast } from "react-toastify";
 
 const PaymentButton = ({ config, onSuccess, user, onClose, children, noWidth }) => {
-    console.log(user)
     // Initialize the payment function with the latest config.
     const initializePayment = usePaystackPayment(config);
 

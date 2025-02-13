@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../reducers/cartSlice';
 import { useModal } from "../../hooks/modal";
+import { Carousel } from "@material-tailwind/react";
 
 
 function SafeHTML({ htmlContent }) {
@@ -181,9 +182,34 @@ export default function ViewProduct() {
                         <div className="w-full flex md:flex-row flex-col gap-4">
                             <div className="lg:w-[65%] md:w-[55%] w-full flex flex-col gap-4">
                                 <div className="flex w-full h-[26rem]">
-                                    <Imgix
-                                        src={product.image_url}
-                                        sizes="100vw" width={800} height={500} alt='main-product' className="rounded-md w-full h-full object-cover" />
+
+                                    <Carousel
+                                        className="rounded-xl"
+                                        autoplay
+                                        loop
+                                        navigation={({ setActiveIndex, activeIndex, length }) => (
+                                            <div className="absolute bottom-4 left-2/4 z-50 flex -translate-x-2/4 gap-2">
+                                                {new Array(length).fill("").map((_, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i ? "w-8 bg-white" : "w-4 bg-white/50"
+                                                            }`}
+                                                        onClick={() => setActiveIndex(i)}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    >
+                                        {JSON.parse(product.additional_images).map((image, index) => (
+                                            <>
+                                                <img
+                                                    src={image}
+                                                    alt="image 1"
+                                                    className="h-full w-full object-cover"
+                                                />
+                                            </>
+                                        ))}
+                                    </Carousel>
                                 </div>
                                 <div className="flex w-full overflow-x">
                                     <div className="flex w-full gap-2">
@@ -297,7 +323,7 @@ export default function ViewProduct() {
                                         </div>
                                         <div className="w-full h-[1px] border" />
 
-                                        {(product.vendor && !product.vendor.isVerified) || !product.admin ? (
+                                        {(product.vendor && !product.vendor.isVerified && !product.admin) ? (
                                             <div className="w-full flex">
                                                 <Button
                                                     type="submit"
@@ -400,7 +426,7 @@ export default function ViewProduct() {
                                         <li>Make sure that the packed item is the one you&apos;ve inspected</li>
                                     </ul>
                                 </div>
-                                {product.vendor?.isVerified || product.admin &&
+                                {product.vendor?.isVerified || product.admin ?
                                     <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
                                         <>
                                             <div className="flex items-center gap-5">
@@ -440,6 +466,8 @@ export default function ViewProduct() {
                                             </Button>
                                         </>
                                     </div>
+                                    :
+                                    <></>
                                 }
 
                             </div>

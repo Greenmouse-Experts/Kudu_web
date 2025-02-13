@@ -4,7 +4,7 @@ import useAppState from "../../../hooks/appState";
 import PaymentButton from "../../../components/PaymentButton";
 
 const CartSummary = ({ cart }) => {
-    const {user} = useAppState();
+    const { user } = useAppState();
     const [paymentKey, setPaymentKey] = useState({});
     const { mutate } = useApiMutation();
 
@@ -20,7 +20,7 @@ const CartSummary = ({ cart }) => {
             reference: new Date().getTime().toString(),
             email: "greenmousedev@gmail.com", // or use user.email if available.
             amount: effectiveTotalPrice * 100, // Amount in kobo.
-            publicKey: paymentKey.publicKey,
+            publicKey: paymentKey?.publicKey,
             currency: "NGN", // Specify the currency.
         }),
         [paymentKey, effectiveTotalPrice]
@@ -49,17 +49,22 @@ const CartSummary = ({ cart }) => {
 
     // Callback when the payment is successful.
     const onSuccess = (reference) => {
-        const payload = {refId: reference.reference, shippingAddress: `${user.location.city} ${user.location.state} ${user.location.state}`};
-            mutate({
-                url: "/user/checkout",
-                method: "POST",
-                data: payload,
-                headers: true,
-                onSuccess: (response) => {
-                },
-                onError: (error) => {
-                },
-            });
+        const payload = {
+            refId: reference.reference,
+            shippingAddress: typeof user.location === "string" ? `${JSON.parse(user.location).city} ${JSON.parse(user.location).state}, ${JSON.parse(user.location).country}`
+                :
+                `${user.location.city} ${user.location.state} ${user.location.state}`
+        };
+        mutate({
+            url: "/user/checkout",
+            method: "POST",
+            data: payload,
+            headers: true,
+            onSuccess: (response) => {
+            },
+            onError: (error) => {
+            },
+        });
     };
 
     // Callback when the payment modal is closed.

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../Home/components/style.css";
 import ShoppingExperience from "./components/ShoppingExperience";
+import { Link } from "react-router-dom";
 
 export default function About() {
     const [activeTab, setActiveTab] = useState("sell");

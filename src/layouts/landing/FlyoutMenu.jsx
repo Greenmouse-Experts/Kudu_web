@@ -12,6 +12,7 @@ import {
   MessageSquareQuote,
   Users,
   Hammer,
+  ShoppingBag,
 } from "lucide-react";
 
 const FlyoutMenu = () => {
@@ -41,9 +42,8 @@ const FlyoutMenu = () => {
 
       {/* Flyout Menu */}
       <div
-        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${
-          open ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-[300px] bg-white transition-transform duration-300 ${open ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* Close Button */}
         <button
@@ -56,15 +56,15 @@ const FlyoutMenu = () => {
         {/* Menu Items */}
         <nav className="mt-12 text-left flex flex-col">
           <div className='flex justify-center'>
-                    <Link to={'/'}>
-                        <Imgix
-                            src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
-                            sizes="20vw"
-                            width={160}
-                            height={33}
-                        />
-                    </Link>
-                </div>
+            <Link to={'/'}>
+              <Imgix
+                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
+                sizes="20vw"
+                width={160}
+                height={33}
+              />
+            </Link>
+          </div>
           <Link
             to="/"
             className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
@@ -95,7 +95,7 @@ const FlyoutMenu = () => {
             onClick={() => setOpen(false)}
           >
             <Mail size={20} style={{ color: "#ff6f22" }} />
-            
+
             Contact
           </Link>
           <Link
@@ -105,6 +105,15 @@ const FlyoutMenu = () => {
           >
             <HelpCircle size={20} style={{ color: "#ff6f22" }} />
             FAQs
+          </Link>
+
+          <Link
+            to="/see-all"
+            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+            onClick={() => setOpen(false)}
+          >
+            <ShoppingBag size={20} style={{ color: "#ff6f22" }} />
+            Products
           </Link>
 
           <Link

@@ -4,7 +4,6 @@ import './style.css';
 import { Link } from "react-router-dom";
 
 export default function ProductsSection({ data, ads }) {
-    console.log(ads)
     return (
         <>
             <div className="flex flex-col gap-8 w-full Justing">

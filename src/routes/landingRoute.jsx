@@ -13,17 +13,95 @@ import Careers from "../modules/Home/Careers";
 import JobDetails from "../modules/Home/JobDetails";
 import BecomeAvendor from "../modules/Home/BecomeAvendor";
 import AdvertiseOnKudu from "../modules/Home/AdvertiseOnKudu"
+import SearchProduct from "../modules/Products/searchProduct";
+import UserSettings from "../modules/Settings";
+import ProfileSettings from "../modules/Settings/modules/profile";
+import Notification from "../modules/Notification/Notification";
 
 
 export const landingRooutes = [
-    {
-        path: '/',
-        element: <LandingLayout />,
+  {
+    path: '/',
+    element: <LandingLayout />,
+    children: [
+      {
+        index: true,
+        element: <LandingHomepage />,
+      },
+      {
+        path: 'cart',
+        element: <Cart />
+      },
+      {
+        path: 'messages',
+        element: <Messages />
+      },
+      {
+        path: 'contact',
+        element: <Contact />
+      },
+      {
+        path: 'faqs',
+        element: < Faqs />
+      },
+      {
+        path: 'privacy',
+        element: <Privacy />
+      },
+
+      {
+        path: 'terms-condition',
+        element: <Condititons />
+      },
+
+      {
+        path: 'testimonial',
+        element: <Testimonial />
+      },
+
+      {
+        path: 'about',
+        element: <About />
+      },
+
+      {
+        path: 'see-all',
+        element: <SellAll />
+      },
+
+      {
+        path: 'career',
+        element: <Careers />
+      },
+
+      {
+        path: 'jobs-details',
+        element: <JobDetails />
+      },
+
+      {
+        path: 'become-a-vendor',
+        element: <BecomeAvendor />
+      },
+
+      {
+        path: 'advertise-with-us',
+        element: <AdvertiseOnKudu />
+      },
+      {
+        path: 'catalog',
+        element: <SearchProduct />
+      },
+      {
+        path: 'settings',
+        element: <UserSettings />,
         children: [
           {
-            index: true,
-            element: <LandingHomepage />,
+            path: 'profile',
+            element: <ProfileSettings />,
           },
+        ]
+      },
           {
             path: 'cart',
             element: <Cart />
@@ -31,6 +109,10 @@ export const landingRooutes = [
           {
             path: 'messages',
             element: <Messages />
+          },
+          {
+            path: 'notification',
+            element: <Notification />
           },
           {
             path: 'contact',
@@ -86,5 +168,5 @@ export const landingRooutes = [
           },
 
         ],
-    },
-];
+      }
+    ];

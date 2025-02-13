@@ -4,12 +4,14 @@ import useApiMutation from "../../api/hooks/useApiMutation";
 import { useParams } from "react-router-dom";
 import ShoppingExperience from "../Home/components/ShoppingExperience";
 import ProductListing from "../Home/components/ProductListing";
+import Loader from "../../components/Loader";
 
 const CategoriesProduct = () => {
     const [products, setProducts] = useState([]);
     const [categoriesArr, setCategoriesArr] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const { id } = useParams();
+    const { id, name } = useParams();
 
     const { mutate } = useApiMutation();
 
@@ -18,7 +20,7 @@ const CategoriesProduct = () => {
         try {
             const productRequest = new Promise((resolve, reject) => {
                 mutate({
-                    url: '/products',
+                    url: `/products?categoryId=${id}`,
                     method: 'GET',
                     hideToast: true,
                     onSuccess: (response) => resolve(response.data?.data || []),
@@ -28,7 +30,7 @@ const CategoriesProduct = () => {
 
             const categoriesRequest = new Promise((resolve, reject) => {
                 mutate({
-                    url: `/categories`,
+                    url: `/category/sub-categories?categoryId=${id}`,
                     method: "GET",
                     headers: true,
                     hideToast: true,
@@ -79,7 +81,7 @@ const CategoriesProduct = () => {
                 }}>
                     <div className="flex flex-col py-12">
                         <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
-                            <h1 className="text-4xl font-bold">{id}</h1>
+                            <h1 className="text-4xl font-bold">{name}</h1>
                         </div>
                     </div>
                 </section>
@@ -87,9 +89,15 @@ const CategoriesProduct = () => {
             <div className="w-full flex flex-col bg-white items-center">
                 {/* Hero Section */}
                 <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-20 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
-                    <div className="w-full flex mt-20">
-                        <ProductListing data={products} categories={categoriesArr} />
-                    </div>
+                    {loading ?
+                        <div className="w-full h-screen flex items-center justify-center">
+                            <Loader />
+                        </div>
+                        :
+                        <div className="w-full flex mt-20">
+                            <ProductListing data={products} categories={categoriesArr} hideCategory />
+                        </div>
+                    }
                 </div>
 
                 <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">

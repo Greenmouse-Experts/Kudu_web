@@ -22,7 +22,7 @@ export const productRoutes = [
                 element: <ViewProduct />
             },
             {
-                path: 'products/categories/:id/:id',
+                path: 'products/categories/:id/:name',
                 element: <CategoriesProduct />
             }        
         ],
