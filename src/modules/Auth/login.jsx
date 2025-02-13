@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../api/hooks/useApiMutation";
@@ -38,7 +38,7 @@ function Login() {
       onSuccess: (response) => {
         delete response.data.data.password;
         localStorage.setItem("kuduUserToken", response.data.data.token);
-        dispatch(setKuduUser(response.data.data))
+        dispatch(setKuduUser(response.data.data));
         navigate("/profile");
         setIsLoading(false);
       },
@@ -71,6 +71,12 @@ function Login() {
     }
   };
   
+
+
+  useEffect(() => {
+    dispatch(setKuduUser(null));
+    localStorage.removeItem("kuduUserToken");
+  }, []);
 
 
   return (

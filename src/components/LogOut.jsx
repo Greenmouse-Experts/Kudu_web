@@ -19,6 +19,7 @@ const LogOutModal = ({redirect, mode}) => {
             onSuccess: (response) => {
                 dispatch(setKuduUser(null));
                 localStorage.removeItem('kuduUserToken');
+                localStorage.removeItem('kuduUserType');
                 redirect();
                 closeModal();
             },

@@ -35,7 +35,7 @@ function AdminLogin() {
       data: data,
       onSuccess: (response) => {
         localStorage.setItem("kuduUserToken", response.data.token);
-        dispatch(setKuduUser(response.data.data))
+        dispatch(setKuduUser(response.data.data));
         navigate("/admin/dashboard");
         setIsLoading(false);
       },

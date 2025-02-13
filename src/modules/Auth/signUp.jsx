@@ -261,18 +261,6 @@ function SignUp() {
                             </svg>
                             <span className="text-dark text-sm font-semibold">Continue with Google</span>
                         </Button>
-
-                        {/* Facebook Button */}
-                        <Button
-                            type="submit"
-                            className="w-full bg-blue-600 border-gray-300 text-white px-4 flex items-center justify-center gap-2 rounded-lg"
-                            style={{ outline: "none", boxShadow: "none" }}
-                        >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M22.675 0H1.325C0.593 0 0 0.593 0 1.325V22.675C0 23.407 0.593 24 1.325 24H12.819V14.708H9.692V11.087H12.819V8.408C12.819 5.34 14.72 3.669 17.409 3.669C18.698 3.669 19.812 3.767 20.138 3.808V7.004L18.329 7.005C16.841 7.005 16.508 7.74 16.508 8.809V11.086H20.048L19.525 14.707H16.507V24H22.675C23.407 24 24 23.407 24 22.675V1.325C24 0.593 23.407 0 22.675 0Z" />
-                            </svg>
-                            <span className="text-white text-sm font-semibold">Continue with Facebook</span>
-                        </Button>
                     </div>
 
 
