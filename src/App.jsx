@@ -14,27 +14,31 @@ function App() {
   const dispatch = useDispatch();
 
   setInterval(() => {
-    if(tokenValid) {
-      if(userData.user?.name === "Administrator") {
-        if(!window.location.href.includes('admin')) {
+    if (tokenValid) {
+      if (userData.user?.name === "Administrator") {
+        if (!window.location.href.includes('admin')) {
           window.location.href = `/auth/admin/login`;
         }
       } else {
-        if(window.location.href.includes('admin')) {
+        if (window.location.href.includes('admin')) {
           window.history.back();
         }
       }
     }
     else {
-      if(userData.user?.name === "Administrator") {
+      if (userData.user?.name === "Administrator") {
+        if (window.location.pathname !== '/auth/admin/login') {
           window.location.href = `/auth/admin/login`;
+        }
       } else {
-        window.location.href = `/login`;
+        if (window.location.pathname !== '/login') {
+          window.location.href = `/login`;
+        }
       }
       localStorage.removeItem('kuduUserToken');
       dispatch(setKuduUser(null))
     }
-    }, 1000)
+  }, 1000)
 
   return (
     <ModalProvider>
