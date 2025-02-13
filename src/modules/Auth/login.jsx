@@ -5,7 +5,7 @@ import useApiMutation from "../../api/hooks/useApiMutation";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
 import { Button, Checkbox } from "@material-tailwind/react";
-import { auth, provider, fbprovider, signInWithPopup, signOut } from "../../config/firebaseConfig";
+import { auth, provider, signInWithPopup, signOut } from "../../config/firebaseConfig";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -71,24 +71,6 @@ function Login() {
     }
   };
   
-
-  const handleSignInFacebook = async () => {
-    try {
-      const result = await signInWithPopup(auth, fbprovider);
-     /* const idToken = await result.user.getIdToken();
-
-      // Send the token to your backend
-     /* const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/google?account_type=Customer`, {
-        method: "GET",  // If your backend expects a GET request
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
-      }); */
-      console.log("User authenticated:", result.user);
-    } catch (error) {
-      console.error("Google Sign-In Error:", error);
-    }
-  };
 
 
   return (
@@ -234,19 +216,6 @@ function Login() {
                 <path d="M13.7416 6.25497C16.0049 6.25497 17.5317 7.21309 18.4023 8.01377L21.804 4.75875C19.7148 2.85563 16.996 1.6875 13.7416 1.6875C9.02719 1.6875 4.95576 4.33873 2.97363 8.19745L6.87095 11.1637C7.84872 8.31562 10.554 6.25497 13.7416 6.25497Z" fill="#EB4335" />
               </svg>
               <span className="text-dark text-sm font-semibold">Google</span>
-            </Button>
-
-            {/* Facebook Button */}
-            <Button
-              type="submit"
-              onClick={() => handleSignInFacebook()}
-              className="w-full bg-blue-600 border-gray-300 text-white px-4 flex items-center justify-center gap-2 rounded-lg"
-              style={{ outline: "none", boxShadow: "none" }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.675 0H1.325C0.593 0 0 0.593 0 1.325V22.675C0 23.407 0.593 24 1.325 24H12.819V14.708H9.692V11.087H12.819V8.408C12.819 5.34 14.72 3.669 17.409 3.669C18.698 3.669 19.812 3.767 20.138 3.808V7.004L18.329 7.005C16.841 7.005 16.508 7.74 16.508 8.809V11.086H20.048L19.525 14.707H16.507V24H22.675C23.407 24 24 23.407 24 22.675V1.325C24 0.593 23.407 0 22.675 0Z" />
-              </svg>
-              <span className="text-white text-sm font-semibold">Facebook</span>
             </Button>
           </div>
 

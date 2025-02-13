@@ -13,6 +13,7 @@ import Careers from "../modules/Home/Careers";
 import JobDetails from "../modules/Home/JobDetails";
 import BecomeAvendor from "../modules/Home/BecomeAvendor";
 import AdvertiseOnKudu from "../modules/Home/AdvertiseOnKudu"
+import SearchProduct from "../modules/Products/searchProduct";
 
 
 export const landingRooutes = [
@@ -84,6 +85,10 @@ export const landingRooutes = [
             path: 'advertise-with-us',
             element: <AdvertiseOnKudu/>
           },
+          {
+            path: 'catalog',
+            element: <SearchProduct />
+          }
 
         ],
     },
