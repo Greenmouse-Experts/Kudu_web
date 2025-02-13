@@ -31,7 +31,7 @@ export default function Header({ openMenu }) {
   const dispatch = useDispatch();
 
   const { cart } = useSelector((state) => state.cart);
-  const { data, isLoading, error } = useNotification();
+  // const { data, isLoading, error } = useNotification();
 
 
   const arrOptions = [
@@ -56,7 +56,7 @@ export default function Header({ openMenu }) {
     {
       value: "Notification",
       slug: "profile/notification",
-      info: data?.length,
+      info: 0,
     },
     {
       value: "Saved Items",

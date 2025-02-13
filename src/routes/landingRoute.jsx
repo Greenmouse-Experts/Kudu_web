@@ -17,6 +17,7 @@ import SearchProduct from "../modules/Products/searchProduct";
 import UserSettings from "../modules/Settings";
 import ProfileSettings from "../modules/Settings/modules/profile";
 import Notification from "../modules/Notification/Notification";
+import ProfileSecurity from "../modules/Settings/modules/security";
 
 
 export const landingRooutes = [
@@ -99,6 +100,10 @@ export const landingRooutes = [
           {
             path: 'profile',
             element: <ProfileSettings />,
+          },
+          {
+            path: 'security',
+            element: <ProfileSecurity />,
           },
         ]
       },
