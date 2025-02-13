@@ -16,6 +16,7 @@ const Notification = () => {
     );
 
   const unreadNotification = data?.filter((item) => item.isRead === false);
+  const readNotification = data?.filter((item) => item.isRead === true);
   return (
     <section className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full bg-white pt-40">
       {/* <div className="flex gap-5 border-b border-black overflow-hidden">
@@ -30,6 +31,7 @@ const Notification = () => {
         <TabList>
           <Tab>All Notifications</Tab>
           <Tab>Unread</Tab>
+          <Tab>Read</Tab>
         </TabList>
 
         <TabPanel>
@@ -37,6 +39,9 @@ const Notification = () => {
         </TabPanel>
         <TabPanel>
           <NotificationList data={unreadNotification} />
+        </TabPanel>
+        <TabPanel>
+          <NotificationList data={readNotification} />
         </TabPanel>
       </Tabs>
     </section>
