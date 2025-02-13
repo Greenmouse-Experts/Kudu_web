@@ -1,7 +1,5 @@
 import LandingLayout from "../layouts/landing";
-import Cart from "../modules/Cart";
 import LandingHomepage from "../modules/Home";
-import Messages from "../modules/Messages";
 import Contact from "../modules/Home/contact";
 import Faqs from "../modules/Home/faqs";
 import Privacy from "../modules/Home/privacy";
@@ -18,6 +16,10 @@ import UserSettings from "../modules/Settings";
 import ProfileSettings from "../modules/Settings/modules/profile";
 import Notification from "../modules/Notification/Notification";
 import ProfileSecurity from "../modules/Settings/modules/security";
+import ViewProduct from "../modules/Products/viewProduct";
+import CategoryProduct from "../modules/Products/categoriesProduct";
+import Cart from "../modules/Cart";
+import Messages from "../modules/Messages";
 
 
 export const landingRooutes = [
@@ -28,14 +30,6 @@ export const landingRooutes = [
       {
         index: true,
         element: <LandingHomepage />,
-      },
-      {
-        path: 'cart',
-        element: <Cart />
-      },
-      {
-        path: 'messages',
-        element: <Messages />
       },
       {
         path: 'contact',
@@ -49,7 +43,14 @@ export const landingRooutes = [
         path: 'privacy',
         element: <Privacy />
       },
-
+      {
+        path: 'product/:id',
+        element: <ViewProduct />
+    },
+    {
+        path: 'products/categories/:id/:name',
+        element: <CategoryProduct />
+    },
       {
         path: 'terms-condition',
         element: <Condititons />
