@@ -2,8 +2,20 @@ import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import NotificationList from "./components/NotificationList";
 import NotificationItem from "./components/NotificationItem";
+import { useNotification } from "../../api/notification";
+import Loader from "../../components/Loader";
 
 const Notification = () => {
+  const { data, isLoading, error } = useNotification();
+
+  if (isLoading)
+    return (
+      <div className="py-40">
+        <Loader />
+      </div>
+    );
+
+  const unreadNotification = data?.filter((item) => item.isRead === false);
   return (
     <section className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full bg-white pt-40">
       {/* <div className="flex gap-5 border-b border-black overflow-hidden">
@@ -21,13 +33,10 @@ const Notification = () => {
         </TabList>
 
         <TabPanel>
-          <NotificationList />
+          <NotificationList data={data} />
         </TabPanel>
         <TabPanel>
-          <div className="gap-4 flex flex-col mt-5">
-            <NotificationItem isRead={false} />
-            <NotificationItem isRead={false} />
-          </div>
+          <NotificationList data={unreadNotification} />
         </TabPanel>
       </Tabs>
     </section>

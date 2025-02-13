@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
+import { useNotification } from "../../api/notification";
 
 export default function Header({ openMenu }) {
   const { user } = useAppState();
@@ -30,8 +31,8 @@ export default function Header({ openMenu }) {
   const dispatch = useDispatch();
 
   const { cart } = useSelector((state) => state.cart);
+  const { data, isLoading, error } = useNotification();
 
-  console.log(cart.length)
 
   const arrOptions = [
     {
@@ -55,7 +56,7 @@ export default function Header({ openMenu }) {
     {
       value: "Notification",
       slug: "notification",
-      info: 3,
+      info: data?.length,
     },
     {
       value: "Saved Items",

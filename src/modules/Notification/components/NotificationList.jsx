@@ -1,11 +1,12 @@
 import React from "react";
 import NotificationItem from "./NotificationItem";
 
-const NotificationList = () => {
+const NotificationList = ({ data }) => {
   return (
     <div className="gap-4 flex flex-col mt-5">
-      <NotificationItem />
-      <NotificationItem isRead={true} />
+      {data.map((notification) => (
+        <NotificationItem key={notification.id} notification={notification} />
+      ))}
     </div>
   );
 };

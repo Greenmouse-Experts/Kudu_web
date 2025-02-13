@@ -1,9 +1,21 @@
 import React from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { useMarkNotificationAsRead } from "../../../api/notification";
+import Loader from "../../../components/Loader";
 
-const NotificationItem = ({isRead=false}) => {
+const NotificationItem = ({ notification }) => {
+  const { mutate: markAsRead, isLoading } = useMarkNotificationAsRead();
+
+  const handleMarkAsRead = (notificationId) => {
+    markAsRead(notificationId);
+  };
   return (
-    <div className={`flex items-start p-4 cursor-pointer rounded-lg ${ isRead ? "bg-white" : "bg-[#cf5a1c4d]"}`}>
+    <div
+      onClick={() => handleMarkAsRead(notification?.id)}
+      className={`flex items-start p-4 cursor-pointer rounded-lg shadow-md ${
+        notification?.isRead ? "bg-white" : "bg-[#cf5a1c4d]"
+      }`}
+    >
       <div>
         <img
           src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
@@ -13,15 +25,15 @@ const NotificationItem = ({isRead=false}) => {
       </div>
       <div className="flex-1 ml-4">
         <div>
-          <p className="font-medium">Kudumart Admin</p>
-          <p className="text-gray-600">
-            A message has been sent to you from the admin. Hello daniel...
-          </p>
+          <p className="font-medium">{notification?.title}</p>
+          <p className="text-gray-600">{notification?.message}</p>
         </div>
       </div>
-      <div>
-        <div className=" bg-gray-700 w-10 h-10 rounded-full flex items-center  justify-center">
-          <RiDeleteBin5Line />
+      <div className="w-fit">
+        <div className=" ">
+          {/* <RiDeleteBin5Line /> */}
+
+          {isLoading && <Loader size={10} />}
         </div>
       </div>
     </div>
