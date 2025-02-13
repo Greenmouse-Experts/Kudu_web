@@ -92,7 +92,7 @@ const ProfileSideBar = ({ close }) => {
         },
         {
             label: "Notification", icon: <VscBell color="#FF6F22"  size={23}/>,
-            route: '/notification',
+            route: 'notification',
             vendor: null
         },
         {
