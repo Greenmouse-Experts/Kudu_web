@@ -6,9 +6,16 @@ import ChatForm from './ChatForm';
 import ChatMessage from './ChatMessage';
 import { BiSolidMessageSquareDots } from "react-icons/bi";
 import { MdOutlineClose } from "react-icons/md";
+import { companyInfo } from './CompanyInfo';
 
 const Chat = () => {
-  const [ chatHistory, setChatHistory ] = useState([]);
+  const [ chatHistory, setChatHistory ] = useState([
+    {
+        hideInChat: true,
+        role: "model",
+        text: companyInfo,
+    },
+  ]);
   const [ showChatbot, setShowChatbot ] = useState(false);
   const chatBodyRef = useRef();
 
