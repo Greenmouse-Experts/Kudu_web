@@ -57,6 +57,27 @@ const SearchProduct = () => {
     return (
         <>
             <div className="w-full flex flex-col">
+                <div className="w-full flex gap-2 md:px-20 py-5 px-5 mt-14">
+                    <div className="flex flex-wrap gap-4">
+                        <div className="flex gap-2 font-semibold text-sm">
+                            <span className="flex flex-col pt-1">
+                                Home
+                            </span>
+                            <span className="pt-[5px]">{">"}</span>
+                        </div>
+                        <div className="flex gap-2 font-semibold text-sm">
+                            <span className="flex flex-col pt-1">
+                                Search
+                            </span>
+                            <span className="pt-[5px]">{">"}</span>
+                        </div>
+                        <div className="flex gap-2 font-semibold text-sm">
+                            <span className="flex flex-col pt-1">
+                                {searchQuery}
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className="w-full flex flex-col bg-white items-center">
                 {/* Hero Section */}
@@ -67,7 +88,7 @@ const SearchProduct = () => {
                         </div>
                         :
                         products.length > 0 ?
-                            <div className="w-full flex mt-20">
+                            <div className="w-full flex mt-0">
                                 <ProductListing productsArr={products} />
                             </div>
                             :

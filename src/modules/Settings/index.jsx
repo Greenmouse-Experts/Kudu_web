@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
-import ProductListing from "../../components/ProductsList";
-import ProfileSideBar from "./components/sideBar";
 import { useEffect, useState } from "react";
 import useApiMutation from "../../api/hooks/useApiMutation";
 import { setCurrencyData } from "../../reducers/userSlice";
-import { Menu } from "lucide-react"; // Hamburger icon for mobile
+import { Menu, Settings } from "lucide-react"; // Hamburger icon for mobile
+import SettingsSideBar from "./components/sideBar";
 
-export default function UserProfile() {
+export default function UserSettings() {
     const { mutate } = useApiMutation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -57,7 +56,7 @@ export default function UserProfile() {
                         >
                             ✕
                         </button>
-                        <ProfileSideBar close={() => setIsSidebarOpen(false)} />
+                        <SettingsSideBar close={() => setIsSidebarOpen(false)} />
                     </div>
 
                     {/* Main Content */}
