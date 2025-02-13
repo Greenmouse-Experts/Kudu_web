@@ -55,7 +55,7 @@ export default function Header({ openMenu }) {
     },
     {
       value: "Notification",
-      slug: "notification",
+      slug: "profile/notification",
       info: data?.length,
     },
     {
