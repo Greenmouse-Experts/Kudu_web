@@ -31,7 +31,7 @@ function App() {
           window.location.href = `/auth/admin/login`;
         }
       } else {
-        if (window.location.pathname !== '/login') {
+        if (window.location.pathname !== '/login' && window.location.pathname.includes('/profile')) {
           window.location.href = `/login`;
         }
       }
