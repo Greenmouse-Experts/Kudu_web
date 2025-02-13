@@ -20,7 +20,7 @@ const CartSummary = ({ cart }) => {
             reference: new Date().getTime().toString(),
             email: "greenmousedev@gmail.com", // or use user.email if available.
             amount: effectiveTotalPrice * 100, // Amount in kobo.
-            publicKey: paymentKey.publicKey,
+            publicKey: paymentKey?.publicKey,
             currency: "NGN", // Specify the currency.
         }),
         [paymentKey, effectiveTotalPrice]
