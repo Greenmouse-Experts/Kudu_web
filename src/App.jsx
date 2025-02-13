@@ -1,26 +1,13 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
 import { ModalProvider } from "./hooks/modal";
 import ReusableModal from "./components/ReusableModal";
-import { accessType, isTokenValid } from "./helpers/tokenValidator";
-import Chat from "./modules/Chatbot/Chat";
+import useAuthCheck from "./hooks/useAuth"; // Import the new hook
 
 function App() {
-  const router = createBrowserRouter(routes);
-  const tokenValid = isTokenValid();
-  const userData = accessType();
+  // useAuthCheck(); // Runs authentication check on load and navigation
 
-  if(tokenValid) {
-    if(userData.user?.name === "Administrator") {
-      if(!window.location.href.includes('admin')) {
-        window.location.href = `/auth/admin/login`;
-      }
-    } else {
-      if(window.location.href.includes('admin')) {
-        window.history.back();
-      }
-    }
-  }
+  const router = createBrowserRouter(routes);
 
   return (
     <ModalProvider>
@@ -30,4 +17,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
