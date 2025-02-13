@@ -48,13 +48,16 @@ const ProductListing = ({ data, categories, hideCategory }) => {
 
     useEffect(() => {
         const filteredProducts = data.filter(product => {
+            const matchCategory = subCategories.length === 0 ||
+                subCategories.includes(product.sub_category.categoryId);
+
             const matchSubcategory = subCategoriesId.length === 0 ||
                 subCategoriesId.includes(product.sub_category.id);
 
             const matchPrice = product.price >= values[0] &&
                 product.price <= values[1];
 
-            return  matchSubcategory && matchPrice;
+            return matchCategory && matchSubcategory && matchPrice;
         });
 
         setFilteredProducts(filteredProducts);
