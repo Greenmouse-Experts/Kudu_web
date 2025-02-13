@@ -7,7 +7,9 @@ import AccountProfile from "../modules/User/modules/profile";
 import MyProducts from "../modules/User/modules/MyProducts";
 import Subscription from "../modules/User/modules/subscriptions";
 import OrderDetails from "../modules/User/modules/ViewOrders";
+import Notification from "../modules/Notification/Notification";
 import VendorAdverts from "../modules/User/modules/VendorAdverts";
+
 
 export const userRoutes = [
     {
