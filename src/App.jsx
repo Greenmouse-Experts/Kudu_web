@@ -13,7 +13,6 @@ function App() {
   const userData = accessType();
   const dispatch = useDispatch();
 
-  setInterval(() => {
     if (tokenValid) {
       if (userData.user?.name === "Administrator") {
         if (!window.location.href.includes('admin')) {
@@ -38,7 +37,6 @@ function App() {
       localStorage.removeItem('kuduUserToken');
       dispatch(setKuduUser(null))
     }
-  }, 1000)
 
   return (
     <ModalProvider>
