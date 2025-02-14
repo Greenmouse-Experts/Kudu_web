@@ -17,7 +17,7 @@ const MyProducts = ({ data, refetch }) => {
         openModal({
             size: "sm",
             content: <Modal title={`Do you wish to ${user.status === 'inactive' ? 'publish' : 'unpublish'} this product?`} redirect={handleRedirect}
-                api={`/admin/general/product/unpublished?productId=${user.id}`} method={'PUT'} />
+                api={`/admin/products/change-status`} method={'PATCH'} body={{ productId: user.id, status: user.status === 'inactive' ? 'active' : 'inactive' }} />
         })
     }
 
@@ -46,6 +46,7 @@ const MyProducts = ({ data, refetch }) => {
                                     <th className="py-6 px-4 text-left">Price</th>
                                     <th className="py-6 px-4 text-left">Quantity</th>
                                     <th className="py-6 px-4 text-left">Vendor</th>
+                                    <th className="py-6 px-4 text-left">Status</th>
                                     <th className="py-6 px-4 text-left">Action</th>
                                 </tr>
                             </thead>
@@ -63,6 +64,14 @@ const MyProducts = ({ data, refetch }) => {
                                         <td className="py-6 px-4 text-left">{user.store.currency.symbol} {user.price}</td>
                                         <td className="py-6 px-4 text-left">{user.quantity || '---'}</td>
                                         <td className="py-6 px-4 text-left">Administrator</td>
+                                        <td className="py-6 px-4 text-left">
+                                            <span className={`py-1 px-3 rounded-full text-sm capitalize ${user.status === 'active'
+                                                ? 'bg-green-100 text-green-600'
+                                                : 'bg-red-100 text-red-600'
+                                                }`}>
+                                                {user.status}
+                                            </span>
+                                        </td>
                                         <td className="py-3 px-4 text-left">
                                             <Menu placement="left">
                                                 <MenuHandler>
