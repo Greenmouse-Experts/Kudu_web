@@ -134,7 +134,7 @@ export default function UpdatedKYC() {
             <div>
               <label className="block text-sm font-medium mb-3">Contact Phone Number</label>
               <input
-                type="number"
+                type="text"
                 name="contactPhoneNumber"
                 className="border rounded p-2 w-full"
                 style={{ outline: "none", }}
