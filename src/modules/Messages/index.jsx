@@ -1,6 +1,8 @@
+
 import Messenger from "./layouts/Messenger";
 
 export default function Messages() {
+
     return <>
         <div className="w-full flex flex-col bg-kuduLightBlue">
             <div className="w-full flex flex-col xl:px-80 lg:pl-44 md:mt-24 mt-12 md:mt-10 lg:pr-36 md:px-4 pt-3 md:py-0 lg:gap-10 md:gap-8 gap-5">
