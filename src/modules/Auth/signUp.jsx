@@ -5,11 +5,14 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../api/hooks/useApiMutation"
+import { auth, provider, signInWithPopup, signOut } from "../../config/firebaseConfig";
+import { useDispatch } from "react-redux";
 
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -42,6 +45,37 @@ function SignUp() {
                 setIsLoading(false);
             }
         });
+    };
+
+
+    const handleSignUpGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const payload = {
+                firstName: result.user.providerData[0].displayName.split(" ")[0],
+                lastName: result.user.providerData[0].displayName.split(" ")[1],
+                email: result.user.providerData[0].email,
+                providerId: result.user.providerData[0].providerId,
+                accountType: 'Customer'
+            }
+            setIsLoading(true);
+            mutate({
+                url: "/auth/google",
+                method: "POST",
+                data: payload,
+                onSuccess: (response) => {
+                    localStorage.setItem("kuduUserToken", response.data.data.token);
+                    dispatch(setKuduUser(response.data.data));
+                    navigate("/profile");
+                    setIsLoading(false);
+                },
+                onError: () => {
+                    setIsLoading(false);
+                }
+            });
+        } catch (error) {
+            console.error("Google Sign-In Error:", error);
+        }
     };
 
 
@@ -246,11 +280,12 @@ function SignUp() {
                         <hr className="w-full flex mt-3" style={{ backgroundColor: 'rgba(141, 141, 141, 1)' }} />
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <div className="flex flex-row justify-center gap-4 w-full">
                         {/* Google Button */}
                         <Button
                             type="submit"
-                            className="w-full bg-white border border-gray-300 text-black px-4 flex items-center justify-center gap-2 rounded-lg"
+                            onClick={() => handleSignUpGoogle()}
+                            className="w-1/2 bg-white border border-gray-300 text-black px-4 flex items-center justify-center gap-2 rounded-lg"
                             style={{ outline: "none", boxShadow: "none" }}
                         >
                             <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
