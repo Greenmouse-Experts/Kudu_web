@@ -1,14 +1,48 @@
 import { Button } from "@material-tailwind/react";
 import ChatSideBar from "./sideBar";
 import ChatInterface from "./chatBody";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useConversation } from "../../../../api/message";
+import { io } from "socket.io-client";
+import useAppState from "../../../../hooks/appState";
 
 export default function Messenger() {
-  const [selectedInterface, setSelectedInterface] = useState(null);
+  const { user } = useAppState();
 
+  const userId = user.id;
+
+  console.log(user);
+  const [selectedInterface, setSelectedInterface] = useState(null);
+  // const socket = io("https://kudumarts.victornwadinobi.com", {
+  //   transports: ["websocket"],
+  // });
+  // socket.emit("register", userId);
+  // function registerUser() {
+  //   socket.emit("register", userId);
+  //   console.log("Registered user:", userId);
+  // }
+
+  // useEffect(() => {
+  //   registerUser();
+  //   socket.on("connect", registerUser);
+  //   socket.on("receiveMessage", (message) => {
+  //     console.log("Received message:", message);
+  //   });
+  // }, []);
+
+  // console.log("socket", socket);
   const openInterface = (data) => {
     setSelectedInterface(data);
   };
+
+  const {
+    data: conversations,
+    isLoading: isGettingConversations,
+    error,
+  } = useConversation();
+
+  console.log("message", conversations);
+
   return (
     <>
       <div className="w-full flex justify-between md:shadow-lg md:py-5 py-3 bg-white px-6 gap-10 rounded-t-md">
@@ -45,9 +79,17 @@ export default function Messenger() {
       </div>
 
       <div className="w-full md:flex hidden md:gap-0 gap-4 rounded-md md:max-h-[72vh] h-full">
-        <ChatSideBar setOpenedMessage={openInterface} />
+        <ChatSideBar
+          setOpenedMessage={openInterface}
+          conversations={conversations}
+          isLoading={isGettingConversations}
+        />
         {selectedInterface ? (
-          <ChatInterface interfaceData={selectedInterface} />
+          <ChatInterface
+            conversationId={selectedInterface.id}
+            productId={selectedInterface.productId}
+            selectedConversation={selectedInterface}
+          />
         ) : (
           <></>
         )}
@@ -57,11 +99,18 @@ export default function Messenger() {
       <div className="w-full flex md:hidden md:gap-0 gap-4 rounded-md md:max-h-[72vh] h-full">
         {selectedInterface ? (
           <ChatInterface
+            conversationId={selectedInterface.id}
+            productId={selectedInterface.productId}
+            selectedConversation={selectedInterface}
             interfaceData={selectedInterface}
             closeInterface={() => setSelectedInterface(null)}
           />
         ) : (
-          <ChatSideBar setOpenedMessage={openInterface} />
+          <ChatSideBar
+            conversations={conversations}
+            setOpenedMessage={openInterface}
+            isLoading={isGettingConversations}
+          />
         )}
       </div>
     </>
