@@ -2,7 +2,7 @@ import useApiMutation from '../api/hooks/useApiMutation';
 import { Button } from '@material-tailwind/react';
 import { useModal } from '../hooks/modal';
 
-const Modal = ({redirect, title, api, method}) => {
+const Modal = ({ redirect, title, api, method, body }) => {
     const { closeModal } = useModal();
 
     const { mutate } = useApiMutation();
@@ -11,6 +11,7 @@ const Modal = ({redirect, title, api, method}) => {
         mutate({
             url: `${api}`,
             method: `${method}`,
+            data: body ? body : null,
             headers: true,
             onSuccess: (response) => {
                 redirect();
