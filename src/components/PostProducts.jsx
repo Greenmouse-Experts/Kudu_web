@@ -21,7 +21,7 @@ const PostProducts = ({ data, paginate, refetch }) => {
                 <Modal
                     title={`Do you wish to ${user.status === 'inactive' ? 'publish' : 'unpublish'} this product?`}
                     redirect={handleRedirect}
-                    api={`/admin/general/product/unpublished?productId=${user.id}`}
+                    api={user.status === 'inactive' ? `/admin/general/product/publish?productId=${user.id}` : `/admin/general/product/unpublished?productId=${user.id}`}
                     method={'PUT'}
                 />
             ),
