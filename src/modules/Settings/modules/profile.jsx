@@ -41,6 +41,7 @@ export default function ProfileSettings() {
                     data: { photo: uploadedUrl },
                     headers: true,
                     onSuccess: (response) => {
+                        dispatch(setKuduUser(response.data.data))
                     },
                     onError: (error) => {
                     },

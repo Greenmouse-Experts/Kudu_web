@@ -26,7 +26,7 @@ const SettingsSideBar = ({ close }) => {
             </svg>
             ,
             route: 'profile',
-            vendor: true
+            vendor: null
         },
         {
             label: "Security", icon: <svg
@@ -43,7 +43,7 @@ const SettingsSideBar = ({ close }) => {
                 />
             </svg>,
             route: 'security',
-            vendor: true
+            vendor: null
         },
         /* {
              label: "Bank", icon: <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
