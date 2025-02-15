@@ -93,7 +93,7 @@ export default function ViewProduct() {
       {
         productId: id,
         receiverId: product.vendor.id,
-        content: `Hello ${product.vendor.firstName}` ,
+        content: `Hello ${product.vendor.firstName}`,
       },
       {
         onSuccess: () => {
@@ -203,11 +203,11 @@ export default function ViewProduct() {
                                 </div>
                             ))*/}
             </div>
-            <div className="w-full flex md:flex-row flex-col gap-4">
+            <div className="w-full flex md:flex-row flex-col mt-10 md:mt-0 gap-4">
               <div className="lg:w-[65%] md:w-[55%] w-full flex flex-col gap-4">
                 <div className="flex w-full h-[26rem]">
                   <Carousel
-                    className="rounded-xl"
+                    className="rounded-xl bg-white shadow-lg"
                     autoplay
                     loop
                     navigation={({ setActiveIndex, activeIndex, length }) => (
@@ -215,15 +215,30 @@ export default function ViewProduct() {
                         {new Array(length).fill("").map((_, i) => (
                           <span
                             key={i}
-                            className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-                              activeIndex === i
+                            className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i
                                 ? "w-8 bg-white"
                                 : "w-4 bg-white/50"
-                            }`}
+                              }`}
                             onClick={() => setActiveIndex(i)}
                           />
                         ))}
                       </div>
+                    )}
+                    prevArrow={({ handlePrev }) => (
+                      <button
+                        onClick={handlePrev}
+                        className="absolute left-4 top-1/2 z-50 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-gray-800/80 text-white transition hover:bg-gray-900/90"
+                      >
+                        ◀
+                      </button>
+                    )}
+                    nextArrow={({ handleNext }) => (
+                      <button
+                        onClick={handleNext}
+                        className="absolute right-4 top-1/2 z-50 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-gray-800/80 text-white transition hover:bg-gray-900/90"
+                      >
+                        ▶
+                      </button>
                     )}
                   >
                     {JSON.parse(product.additional_images).map(
@@ -232,7 +247,7 @@ export default function ViewProduct() {
                           <img
                             src={image}
                             alt="image 1"
-                            className="h-full w-full object-cover"
+                            className="h-full w-full bg-transparent object-contain"
                           />
                         </>
                       )
@@ -240,18 +255,20 @@ export default function ViewProduct() {
                   </Carousel>
                 </div>
                 <div className="flex w-full overflow-x">
-                  <div className="flex w-full gap-2">
+                  <div className="flex w-full justify-between gap-2">
                     {JSON.parse(product.additional_images).map(
                       (image, index) => (
-                        <Imgix
-                          src={image}
-                          sizes="100vw"
-                          width={185}
-                          height={100}
-                          alt="main-product"
-                          key={index}
-                          className="rounded-md w-[23%] sm:w-[24%] md:w-[24%] lg:w-[24%] h-auto max-h-[100px] object-cover"
-                        />
+                        <div className="w-full flex justify-center h-auto max-h-[100px]">
+                          <Imgix
+                            src={image}
+                            sizes="100vw"
+                            width={185}
+                            height={100}
+                            alt="main-product"
+                            key={index}
+                            className="rounded-md h-full object-contain"
+                          />
+                        </div>
                       )
                     )}
                   </div>
@@ -379,8 +396,8 @@ export default function ViewProduct() {
                     <div className="w-full h-[1px] border" />
 
                     {product.vendor &&
-                    !product.vendor.isVerified &&
-                    !product.admin ? (
+                      !product.vendor.isVerified &&
+                      !product.admin ? (
                       <div className="w-full flex">
                         <Button
                           type="submit"
