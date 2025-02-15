@@ -6,20 +6,24 @@ import useFileUpload from "../../../api/hooks/useFileUpload";
 import { setKuduUser } from "../../../reducers/userSlice";
 import { useDispatch } from "react-redux";
 import useApiMutation from "../../../api/hooks/useApiMutation";
+import Loader from "../../../components/Loader";
 
 export default function ProfileSettings() {
-    const [isLoading, setIsLoading] = useState(false);
-    const { mutate } = useApiMutation();
     const { user } = useAppState();
-    const dispatch = useDispatch();
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        watch,
-        formState: { errors },
-    } = useForm();
 
+    // Extract location details from user object
+    const parsedLocation = user.location ? JSON.parse(user.location) : {};
+
+    const [isLoading, setIsLoading] = useState(true);
+    const { mutate } = useApiMutation();
+    const dispatch = useDispatch();
+    const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+        defaultValues: {
+            country: parsedLocation.country || '',
+            state: parsedLocation.state || '',
+            city: parsedLocation.city || ''
+        }
+    });
     const [profilePicture, setProfilePicture] = useState(
         user.photo ? `${user.photo}` : "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/victor-diallo_p03kd2.png"
     );
@@ -34,93 +38,79 @@ export default function ProfileSettings() {
                 mutate({
                     url: "/user/profile/photo/update",
                     method: "PATCH",
-                    data: {photo: uploadedUrl},
+                    data: { photo: uploadedUrl },
                     headers: true,
                     onSuccess: (response) => {
+                        dispatch(setKuduUser(response.data.data))
                     },
                     onError: (error) => {
                     },
-                });        
+                });
             });
         }
     };
 
-    // Extract location details from user object
-    const parsedLocation = user.location ? JSON.parse(user.location) : {};
 
     const [countries] = useState(Country.getAllCountries());
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
 
-    const [selectedCountry, setSelectedCountry] = useState(
-        countries.find((c) => c.name === parsedLocation.country) || null
-    );
-    const [selectedState, setSelectedState] = useState(null);
-    const [selectedCity, setSelectedCity] = useState(null);
-
-    // Load states and cities on component mount
-    useEffect(() => {
-        if (selectedCountry) {
-            const statesData = State.getStatesOfCountry(selectedCountry.isoCode);
-            setStates(statesData);
-            setSelectedState(statesData.find((s) => s.name === parsedLocation.state) || null);
-        }
-    }, [selectedCountry]);
+    const selectedCountry = watch("country");
+    const selectedState = watch("state");
 
     useEffect(() => {
-        if (selectedCountry && selectedState) {
-            const citiesData = City.getCitiesOfState(selectedCountry.isoCode, selectedState.isoCode);
-            setCities(citiesData);
-            setSelectedCity(citiesData.find((c) => c.name === parsedLocation.city) || null);
+        if (parsedLocation.country) {
+            const countryObj = countries.find(c => c.name === parsedLocation.country);
+            if (countryObj) {
+                const statesData = State.getStatesOfCountry(countryObj.isoCode);
+                setStates(statesData);
+                setValue("country", parsedLocation.country);
+                setValue("state", parsedLocation.state || '');
+            }
         }
-    }, [selectedState]);
+    }, [countries]);
 
-    // Handle country change
-    const handleCountryChange = (isoCode) => {
-        const country = countries.find((c) => c.isoCode === isoCode);
-        setSelectedCountry(country);
-        setSelectedState(null);
-        setSelectedCity(null);
-        setStates(State.getStatesOfCountry(isoCode));
-        setCities([]);
-        setValue("country", country.name);
-    };
-
-    // Handle state change
-    const handleStateChange = (isoCode) => {
-        const state = states.find((s) => s.isoCode === isoCode);
-        setSelectedState(state);
-        setSelectedCity(null);
-        setCities(City.getCitiesOfState(selectedCountry.isoCode, isoCode));
-        setValue("state", state.name);
-    };
-
-    // Handle city change
-    const handleCityChange = (cityName) => {
-        const city = cities.find((c) => c.name === cityName);
-        setSelectedCity(city);
-        setValue("city", city.name);
-    };
-
+    useEffect(() => {
+        if (parsedLocation.state) {
+            const countryObj = countries.find(c => c.name === parsedLocation.country);
+            const stateObj = State.getStatesOfCountry(countryObj?.isoCode).find(s => s.name === parsedLocation.state);
+            if (countryObj && stateObj) {
+                const citiesData = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
+                setCities(citiesData);
+                setValue("city", parsedLocation.city || '');
+            }
+        }
+        setIsLoading(false);
+    }, [states]);
 
 
     const onSubmit = (data) => {
-        const payload = { ...data, photo: profilePicture };
-        setIsLoading(true);
+        const payload = { ...data, location: { country: data.country, state: data.state, city: data.city }, photo: profilePicture };
         mutate({
             url: "/user/profile/update",
             method: "PUT",
             data: payload,
             headers: true,
             onSuccess: (response) => {
-                setIsLoading(false);
-                dispatch(setKuduUser(response.data.data));
+                dispatch(setKuduUser({
+                    ...response.data.data,
+                    location: JSON.stringify(response.data.data.location) // Stringify location
+                }));
             },
             onError: (error) => {
                 setIsLoading(false);
             },
         });
     };
+
+
+    if (isLoading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <Loader />
+            </div>
+        )
+    }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-1 w-full gap-6">
@@ -223,20 +213,17 @@ export default function ProfileSettings() {
                         {errors.gender && (
                             <p className="text-red-500 text-sm">{errors.gender.message}</p>
                         )}
-                    </div>            {/* Country Dropdown */}
+                    </div>
+                    {/* Country Dropdown */}
                     <div>
                         <label className="block text-sm font-medium">Country</label>
                         <select
                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg"
-                            onChange={(e) => handleCountryChange(e.target.value)}
                             {...register("country")}
-                            value={selectedCountry?.isoCode || ""}
                         >
                             <option value="" disabled>Tap to Select</option>
                             {countries.map((country) => (
-                                <option key={country.isoCode} value={country.isoCode}>
-                                    {country.name}
-                                </option>
+                                <option key={country.isoCode} value={country.name}>{country.name}</option>
                             ))}
                         </select>
                     </div>
@@ -246,15 +233,12 @@ export default function ProfileSettings() {
                         <label className="block text-sm font-medium">State</label>
                         <select
                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg"
-                            onChange={(e) => handleStateChange(e.target.value)}
+                            {...register("state")}
                             disabled={!selectedCountry}
-                            value={selectedState?.isoCode || ""}
                         >
                             <option value="" disabled>Tap to Select</option>
                             {states.map((state) => (
-                                <option key={state.isoCode} value={state.isoCode}>
-                                    {state.name}
-                                </option>
+                                <option key={state.isoCode} value={state.name}>{state.name}</option>
                             ))}
                         </select>
                     </div>
@@ -264,15 +248,12 @@ export default function ProfileSettings() {
                         <label className="block text-sm font-medium">City</label>
                         <select
                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg"
-                            onChange={(e) => handleCityChange(e.target.value)}
+                            {...register("city")}
                             disabled={!selectedState}
-                            value={selectedCity?.name || ""}
                         >
                             <option value="" disabled>Tap to Select</option>
                             {cities.map((city) => (
-                                <option key={city.name} value={city.name}>
-                                    {city.name}
-                                </option>
+                                <option key={city.name} value={city.name}>{city.name}</option>
                             ))}
                         </select>
                     </div>

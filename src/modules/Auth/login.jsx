@@ -53,23 +53,35 @@ function Login() {
   };
 
 
-  const handleSignInGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-     /* const idToken = await result.user.getIdToken();
-
-      // Send the token to your backend
-     /* const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/google?account_type=Customer`, {
-        method: "GET",  // If your backend expects a GET request
-        headers: {
-          Authorization: `Bearer ${idToken}`
+    const handleSignInGoogle = async () => {
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const payload = {
+                firstName: result.user.providerData[0].displayName.split(" ")[0],
+                lastName: result.user.providerData[0].displayName.split(" ")[1],
+                email: result.user.providerData[0].email,
+                providerId: result.user.providerData[0].providerId,
+                accountType: 'Customer'
+            }
+            setIsLoading(true);
+            mutate({
+                url: "/auth/google",
+                method: "POST",
+                data: payload,
+                onSuccess: (response) => {
+                    localStorage.setItem("kuduUserToken", response.data.data.token);
+                    dispatch(setKuduUser(response.data.data));
+                    navigate("/profile");
+                    setIsLoading(false);
+                },
+                onError: () => {
+                    setIsLoading(false);
+                }
+            });
+        } catch (error) {
+            console.error("Google Sign-In Error:", error);
         }
-      }); */
-      console.log("User authenticated:", result.user);
-    } catch (error) {
-      console.error("Google Sign-In Error:", error);
-    }
-  };
+    };
   
 
 

@@ -95,7 +95,7 @@ const CategoriesProduct = () => {
                         </div>
                         :
                         <div className="w-full flex mt-20">
-                            <ProductListing data={products} categories={categoriesArr} hideCategory />
+                            <ProductListing data={products} categories={categoriesArr} hideCategory={true} />
                         </div>
                     }
                 </div>
