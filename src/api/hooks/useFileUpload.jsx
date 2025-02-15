@@ -16,9 +16,7 @@ const useFileUpload = (defaultOptions = {
         try {
             for (let i = 0; i < acceptedFiles.length; i++) {
                 let file = acceptedFiles[i];
-                formData.append("file", file);
-                formData.append("upload_preset", defaultOptions.uploadPreset || "default_preset");
-                formData.append("folder", defaultOptions.folder || "default_folder");
+                formData.append("image", file);
 
                 const response = await fetch(uploadUrl, {
                     method: "POST",
@@ -30,7 +28,7 @@ const useFileUpload = (defaultOptions = {
                 }
 
                 const data = await response.json();
-                onUpload(data.secure_url);
+                onUpload(data.data);
             }
         } catch (err) {
             setError(err.message || "Upload failed");
