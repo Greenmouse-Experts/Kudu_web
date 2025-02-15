@@ -216,8 +216,8 @@ export default function ViewProduct() {
                           <span
                             key={i}
                             className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i
-                                ? "w-8 bg-white"
-                                : "w-4 bg-white/50"
+                              ? "w-8 bg-white"
+                              : "w-4 bg-white/50"
                               }`}
                             onClick={() => setActiveIndex(i)}
                           />
@@ -395,7 +395,7 @@ export default function ViewProduct() {
                     </div>
                     <div className="w-full h-[1px] border" />
 
-                    {product.vendor &&
+                    {user ? product.vendor &&
                       !product.vendor.isVerified &&
                       !product.admin ? (
                       <div className="w-full flex">
@@ -423,7 +423,9 @@ export default function ViewProduct() {
                       </div>
                     ) : (
                       <></>
-                    )}
+                    )
+                      :
+                      <></>}
                   </div>
                 </div>
               </div>
@@ -490,7 +492,7 @@ export default function ViewProduct() {
                         </div>
                       </div>
                     </div>
-                    {product.vendor.isVerified ? (
+                    {user ? product.vendor.isVerified ? (
                       <Button
                         type="button"
                         className="w-full py-2 px-4 flex justify-center gap-2 bg-[rgba(66,133,244,1)] text-white rounded-md transition-colors"
@@ -515,7 +517,9 @@ export default function ViewProduct() {
                       </Button>
                     ) : (
                       <></>
-                    )}
+                    )
+                      :
+                      <></>}
                   </div>
                 ) : (
                   <></>
