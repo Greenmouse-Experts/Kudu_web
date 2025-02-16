@@ -4,6 +4,9 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  define: {
+    global: 'window',
+  },
   server: {
     // Enable history API fallback for SPA
     historyApiFallback: true,
