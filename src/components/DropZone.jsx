@@ -6,11 +6,10 @@ export default function DropZone({ text, onUpload }) {
     const { uploadFiles, isLoadingUpload, errors } = useFileUpload();
 
     const onDrop = async (files) => {
-        await uploadFiles(files, (uploadedUrl) => {
-            onUpload(uploadedUrl);
+        await uploadFiles(files, (uploadedUrls) => {
+            onUpload(uploadedUrls); // This now returns an array of URLs
         });
     };
-
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,
