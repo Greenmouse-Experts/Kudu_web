@@ -1,9 +1,15 @@
 import { Carousel, IconButton } from "@material-tailwind/react";
 import { useState, useEffect } from "react";
 import Imgix from "react-imgix";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useApiMutation from "../../../api/hooks/useApiMutation";
+import { toast } from "react-toastify";
 
 export default function CategoriesSection({ data }) {
+
+    const navigate = useNavigate();
+
+    const { mutate } = useApiMutation();
 
     const chunkArray = (arr, size) => {
         const chunks = [];
@@ -36,6 +42,27 @@ export default function CategoriesSection({ data }) {
 
         return () => window.removeEventListener("resize", updateSlides);
     }, []);
+
+
+
+    const handleNavigation = (id, name) => {
+        mutate({
+            url: `/products?categoryId=${id}`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                if (response.data.data.length > 0) {
+                    navigate(`products/categories/${id}/${name}`)
+                }
+                else {
+                    toast.error('No product found');
+                }
+            },
+            onError: (error) => {
+            },
+        });
+    }
 
 
     return (
@@ -96,10 +123,10 @@ export default function CategoriesSection({ data }) {
                     {slides.map((slide, slideIndex) => (
                         <div className="flex gap-10 mt-10 py-2 justify-center" key={`slide-${slideIndex}`}>
                             {slide.map((category, index) => (
-                                <Link
+                                <span
                                     key={`slide-desktop-${index}`}
-                                    to={`products/categories/${category.id}/${category.name}`}
-                                    className="w-[140px] flex flex-col items-center gap-4"
+                                    className="w-[140px] cursor-pointer flex flex-col items-center gap-4"
+                                    onClick={() => handleNavigation(category.id, category.name)}
                                 >
                                     <div
                                         className={`w-[140px] h-[140px] rounded-full flex items-center justify-center ${category.color}`}
@@ -116,7 +143,7 @@ export default function CategoriesSection({ data }) {
                                     >
                                         {category.name}
                                     </span>
-                                </Link>
+                                </span>
                             ))}
                         </div>
                     ))}
