@@ -1,56 +1,56 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import useApiMutation from '../../api/hooks/useApiMutation';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function VerifyEmail() {
     const email = localStorage.getItem("kuduEmail");
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
-        // React Hook Form setup
-        const {
-            register,
-            handleSubmit,
-            setValue,
-            getValues,
-            watch,
-            formState: { errors },
-        } = useForm();
-    
-        const { mutate } = useApiMutation();
-    
-        const onSubmit = (data) => {
-            setIsLoading(true)
-            const payload = {...data, email: JSON.parse(email)};
-            mutate({
-                url: "/auth/verify/email",
-                method: "POST",
-                data: payload,
-                onSuccess: (response) => {
-                    setIsLoading(false);
-                    navigate('/login');
-                },
-                onError: () => {
-                    setIsLoading(false);
-                }
-            });
-        };
+    // React Hook Form setup
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        getValues,
+        watch,
+        formState: { errors },
+    } = useForm();
+
+    const { mutate } = useApiMutation();
+
+    const onSubmit = (data) => {
+        setIsLoading(true)
+        const payload = { ...data, email: JSON.parse(email) };
+        mutate({
+            url: "/auth/verify/email",
+            method: "POST",
+            data: payload,
+            onSuccess: (response) => {
+                setIsLoading(false);
+                navigate('/login');
+            },
+            onError: () => {
+                setIsLoading(false);
+            }
+        });
+    };
 
 
-        const handleResend = () => {
-            const payload = {email: JSON.parse(email)};
-            mutate({
-                url: "/auth/resend/verification/email",
-                method: "POST",
-                data: payload,
-                onSuccess: (response) => {
-                },
-                onError: () => {
-                }
-            });
-        }
-        
+    const handleResend = () => {
+        const payload = { email: JSON.parse(email) };
+        mutate({
+            url: "/auth/resend/verification/email",
+            method: "POST",
+            data: payload,
+            onSuccess: (response) => {
+            },
+            onError: () => {
+            }
+        });
+    }
+
 
     return (
         <div className="w-full h-screen flex flex-col justify-center items-center" style={{
@@ -62,18 +62,21 @@ function VerifyEmail() {
             backgroundPosition: "center",
             width: "100%",
         }}>
-            {/* Logo Section */}
-            <div className="mb-6">
-                <img
-                    src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426588/kudu_mart/kudum1_nsw4jg.png"
-                    alt="Kudu Logo"
-                    className="h-12"
-                />
-            </div>
 
             {/* Form Card */}
             <div className="w-full max-w-lg px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
                 <div className="w-full max-w-lg px-8 py-10 bg-white rounded-lg ">
+                    <div className="flex justify-center mb-6">
+                        <Link to={'/'}>
+                            <img
+                                src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
+                                alt="Kudu Logo"
+                                sizes="20vw"
+                                width={250}
+                                height={33}
+                            />
+                        </Link>
+                    </div>
                     <h2 className="text-2xl font-bold mb-6 text-black-800">Verify Account</h2>
                     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
                         {/* Email Field */}
@@ -88,7 +91,7 @@ function VerifyEmail() {
                                 placeholder="Enter OTP sent to your email address"
                                 className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                 style={{ outline: "none", }}
-                                required 
+                                required
                             />
                             {errors.otpCode && (
                                 <p className="text-red-500 text-sm">{errors.otpCode.message}</p>
@@ -98,9 +101,9 @@ function VerifyEmail() {
 
                         {/* Forgot Password */}
                         <div className="flex justify-between items-center text-sm mb-4">
-                        <span className="text-orange-500 cursor-pointer" onClick={() => handleResend()}>
-                                    Resend Verification OTP
-                                </span>
+                            <span className="text-orange-500 cursor-pointer" onClick={() => handleResend()}>
+                                Resend Verification OTP
+                            </span>
 
                         </div>
 
