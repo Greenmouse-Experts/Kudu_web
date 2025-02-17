@@ -8,13 +8,16 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-tabs/style/react-tabs.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { SocketProvider } from "./store/SocketContext.jsx";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
+    <SocketProvider> 
       <App />
+    </SocketProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
     <ToastContainer

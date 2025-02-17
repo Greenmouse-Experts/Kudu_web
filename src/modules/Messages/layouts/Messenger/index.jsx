@@ -11,26 +11,49 @@ export default function Messenger() {
 
   const userId = user.id;
 
-  console.log(user);
   const [selectedInterface, setSelectedInterface] = useState(null);
-  // const socket = io("https://kudumarts.victornwadinobi.com", {
+  // const socket = io("https://api.kudumart.com", {
   //   transports: ["websocket"],
   // });
-  // socket.emit("register", userId);
+  
   // function registerUser() {
-  //   socket.emit("register", userId);
-  //   console.log("Registered user:", userId);
+  //   if (socket.connected) {
+  //     socket.emit("register", userId);
+  //     console.log("Registered user:", userId);
+  //   } else {
+  //     console.log("Socket not connected, retrying...");
+  //   }
   // }
-
+  
   // useEffect(() => {
-  //   registerUser();
-  //   socket.on("connect", registerUser);
+  //   // Listen for connection
+  //   socket.on("connect", () => {
+  //     console.log("Socket connected:", socket.id);
+  //     registerUser(); // Register the user after connecting
+  //     console.log("Socket status inside connect:", socket.connected); // Confirm connected status
+  //   });
+  
+  //   // Listen for disconnect
+  //   socket.on("disconnect", () => {
+  //     console.log("Socket disconnected");
+  //   });
+  
+  //   // Listen for received messages
   //   socket.on("receiveMessage", (message) => {
   //     console.log("Received message:", message);
   //   });
+  
+  //   // Cleanup event listeners
+  //   return () => {
+  //     socket.off("connect");
+  //     socket.off("disconnect");
+  //     socket.off("receiveMessage");
+  //   };
   // }, []);
+  
+  // console.log("Socket status before connect:", socket.connected); // Initial status (likely false)
+  
 
-  // console.log("socket", socket);
   const openInterface = (data) => {
     setSelectedInterface(data);
   };
@@ -40,8 +63,6 @@ export default function Messenger() {
     isLoading: isGettingConversations,
     error,
   } = useConversation();
-
-  console.log("message", conversations);
 
   return (
     <>

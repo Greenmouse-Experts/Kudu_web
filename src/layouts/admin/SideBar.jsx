@@ -11,6 +11,7 @@ const Sidebar = () => {
         stores: false,
         users: false,
         products: false,
+        pages: false,
     });
     const { openModal } = useModal();
     const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Sidebar = () => {
             stores: type === 'stores' ? !prevState.stores : false,
             users: type === 'users' ? !prevState.users : false,
             products: type === 'products' ? !prevState.products : false,
+            pages: type === 'pages'?!prevState.pages : false,
         }));
     };
 
@@ -152,6 +154,30 @@ const Sidebar = () => {
                             </i>
                             <span className={`text-md font-[600]`}>Transactions</span>
                         </Link>
+                        <div className='relative'>
+                            <button onClick={() => handleChildren('pages')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
+                                <i className="mr-5">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20 12.5V6.8C20 5.11984 20 4.27976 19.673 3.63803C19.3854 3.07354 18.9265 2.6146 18.362 2.32698C17.7202 2 16.8802 2 15.2 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H12M14 11H8M10 15H8M16 7H8M14.5 19L16.5 21L21 16.5"
+                                            stroke={'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </i>
+                                <span className="text-md font-[600]">Pages</span>
+                                <i className="ml-5 right-0">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
+                                    </svg>
+                                </i>
+                            </button>
+                            {dropdownStates.pages && (
+                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                                    <Link to={'pages/faq-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Faq category</Link>
+                                    <Link to={'pages/faqs'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Faqs</Link>
+                                    {/* <Link to={'products-categories'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Categories</Link>
+                                    <Link to={'products-categories/sub-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link> */}
+                                </div>
+                            )}
+                        </div>
 
                         <Link to={'/admin/adverts'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/adverts') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
