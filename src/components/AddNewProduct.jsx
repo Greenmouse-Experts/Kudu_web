@@ -3,13 +3,25 @@ import { useForm } from 'react-hook-form';
 import useApiMutation from '../api/hooks/useApiMutation';
 import { useNavigate } from 'react-router-dom';
 import DropZone from './DropZone';
+import { EditorState, convertToRaw } from "draft-js";
+import DraftEditor from './Editor';
+import { renderDraftContent } from '../helpers/renderDraftContent';
+import { FaTimes } from "react-icons/fa";
 
 const AddNewProduct = () => {
+    const [descriptionEditor, setDescriptionEditor] = useState(() =>
+        EditorState.createEmpty()
+    );
+    const [specificationsEditor, setSpecificationsEditor] = useState(() =>
+        EditorState.createEmpty()
+    );
+
     const [currency, setCurrency] = useState(null);
     const [stores, setStores] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
     const [files, setFiles] = useState([]);
+    const [btnDisabled, setDisabled] = useState(false);
 
     const conditions = [
         { id: 'brand_new', name: 'Brand New' },
@@ -27,13 +39,25 @@ const AddNewProduct = () => {
         getValues,
         watch,
         formState: { errors },
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            description: "",
+            specifications: "",
+        },
+    });
 
 
     const onSubmit = (data) => {
+        setDisabled(true);
         if (files.length > 0) {
             delete data.category;
-            const payload = {...data, image_url: files[0], additional_images: files}
+            const payload = {
+                ...data, image_url: files[0],
+                description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
+                specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
+                additional_images: files
+            };
+
             mutate({
                 url: "/admin/products",
                 method: "POST",
@@ -43,8 +67,13 @@ const AddNewProduct = () => {
                     navigate(-1)
                 },
                 onError: () => {
+                    setDisabled(false);
                 },
             });
+        }
+        else {
+            setDisabled(false);
+            toast.error('Product Images are required');
         }
     }
 
@@ -92,8 +121,15 @@ const AddNewProduct = () => {
 
 
     const handleDrop = (data) => {
-        setFiles((prevFiles) => [...prevFiles, data]);
-    }
+        // Ensure data is always an array
+        const newFiles = Array.isArray(data) ? data : [data];
+
+        setFiles((prevFiles) => {
+            // Merge previous files and new ones, ensuring uniqueness
+            const updatedFiles = Array.from(new Set([...prevFiles, ...newFiles]));
+            return updatedFiles;
+        });
+    };
 
 
     const getSubCategories = (categoryId) => {
@@ -115,6 +151,13 @@ const AddNewProduct = () => {
             }
         });
     }
+
+
+
+    const removeImage = (indexToRemove) => {
+        setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+    };
+
 
 
     return (
@@ -246,38 +289,40 @@ const AddNewProduct = () => {
                                 >
                                     Description
                                 </label>
-                                <textarea
-                                    type="text"
-                                    id="description"
-                                    {...register("description", { required: "Product description is required" })}
-                                    placeholder="Describe your product"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none" }}
-                                    required
+                                <DraftEditor
+                                    editorState={descriptionEditor}
+                                    setEditorState={(newState) => {
+                                        setDescriptionEditor(newState);
+                                        setValue("description", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
+                                            shouldValidate: true, // Ensure validation runs when value changes
+                                        });
+                                    }}
                                 />
+                                {errors.description && <p className="text-red-500">Description is required</p>}
                             </div>
 
 
-                            <div className='mb-4'>
+                            <div className='mt-4 mb-4'>
                                 <label
                                     className="block text-md font-semibold mb-3"
                                     htmlFor="email"
                                 >
                                     Specifications
                                 </label>
-                                <textarea
-                                    type="text"
-                                    id="specification"
-                                    {...register("specification", { required: "Specification is required" })}
-                                    placeholder="Enter specification for your product"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none" }}
-                                    required
+                                <DraftEditor
+                                    editorState={specificationsEditor}
+                                    setEditorState={(newState) => {
+                                        setSpecificationsEditor(newState);
+                                        setValue("specifications", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
+                                            shouldValidate: true, // Ensure validation runs when value changes
+                                        });
+                                    }}
                                 />
+                                {errors.specifications && <p className="text-red-500">Specifications are required</p>}
                             </div>
 
 
-                            <div className='mb-4'>
+                            <div className='mt-4 mb-4'>
                                 <label
                                     className="block text-md font-semibold mb-3"
                                     htmlFor="email"
@@ -374,17 +419,23 @@ const AddNewProduct = () => {
                                                 alt="preview"
                                                 className="w-full h-24 object-cover rounded"
                                             />
+                                            <button
+                                                onClick={() => removeImage(index)}
+                                                className="absolute top-1 right-1 bg-white shadow-lg text-black rounded-full p-1"
+                                            >
+                                                <FaTimes className="w-4 h-4" />
+                                            </button>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
 
-
                             {/* Submit Button */}
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                disabled={!watch("description") || !watch("specifications") || btnDisabled}
                             >
                                 Create New Product
                             </button>

@@ -1,17 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import htmlToDraft from "html-to-draftjs";
 import useApiMutation from '../../../api/hooks/useApiMutation';
 import DropZone from '../../../components/DropZone';
 import Loader from '../../../components/Loader';
+import { EditorState, convertToRaw, ContentState } from "draft-js";
+import DraftEditor from '../../../components/Editor';
+import { FaTimes } from "react-icons/fa";
+import { renderDraftContent } from '../../../helpers/renderDraftContent';
+import { toast } from 'react-toastify';
 
 const UpdateProduct = () => {
+    const [descriptionEditor, setDescriptionEditor] = useState(() =>
+        EditorState.createEmpty()
+    );
+    const [specificationsEditor, setSpecificationsEditor] = useState(() =>
+        EditorState.createEmpty()
+    );
+
     const [currency, setCurrency] = useState(null);
     const [stores, setStores] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [btnDisabled, setDisabled] = useState(false);
     const [product, setProduct] = useState({});
 
     const { id } = useParams();
@@ -36,9 +50,15 @@ const UpdateProduct = () => {
 
 
     const onSubmit = (data) => {
+        setDisabled(true);
         if (files.length > 0) {
             delete data.category;
-            const payload = { ...data, productId: id, image_url: files[0], additional_images: files }
+            const payload = {
+                ...data, productId: id, image_url: files[0],
+                description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
+                specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
+                additional_images: files
+            }
             mutate({
                 url: "/admin/products",
                 method: "PUT",
@@ -48,8 +68,13 @@ const UpdateProduct = () => {
                     navigate(-1)
                 },
                 onError: () => {
+                    setDisabled(false);
                 },
             });
+        }
+        else {
+            setDisabled(false);
+            toast.error('Product Images are required');
         }
     }
 
@@ -107,8 +132,16 @@ const UpdateProduct = () => {
 
 
     const handleDrop = (data) => {
-        setFiles((prevFiles) => [data]);
-    }
+        // Ensure data is always an array
+        const newFiles = Array.isArray(data) ? data : [data];
+
+        setFiles((prevFiles) => {
+            // Merge previous files and new ones, ensuring uniqueness
+            const updatedFiles = Array.from(new Set([...newFiles]));
+            return updatedFiles;
+        });
+    };
+
 
 
     const getSubCategories = (categoryId) => {
@@ -156,9 +189,35 @@ const UpdateProduct = () => {
         setValue("condition", product.condition);
         setFiles(JSON.parse(product.additional_images));
         setCurrency(product.store.currency.symbol);
+
+        // Handle product.description (HTML case)
+        if (product.description) {
+            try {
+                const blocksFromHTML = htmlToDraft(product.description);
+                const { contentBlocks, entityMap } = blocksFromHTML;
+                const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+                setDescriptionEditor(EditorState.createWithContent(contentState));
+            } catch (error) {
+                console.error("Error parsing description HTML:", error);
+                setDescriptionEditor(EditorState.createEmpty());
+            }
+        }
+
+        // Handle product.specification (HTML case)
+        if (product.specification) {
+            try {
+                const blocksFromHTML = htmlToDraft(product.specification);
+                const { contentBlocks, entityMap } = blocksFromHTML;
+                const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+                setSpecificationsEditor(EditorState.createWithContent(contentState));
+            } catch (error) {
+                console.error("Error parsing specification HTML:", error);
+                setSpecificationsEditor(EditorState.createEmpty());
+            }
+        }
+
         setLoading(false);
     }, [product, setValue]);
-
 
 
     useEffect(() => {
@@ -166,6 +225,20 @@ const UpdateProduct = () => {
             setValue("categoryId", product.sub_category.id);
         }
     }, [subCategories, setValue]);
+
+
+
+
+    const removeImage = (indexToRemove) => {
+        setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+    };
+
+
+
+
+
+
+
 
 
     if (loading) {
@@ -306,15 +379,16 @@ const UpdateProduct = () => {
                                 >
                                     Description
                                 </label>
-                                <textarea
-                                    type="text"
-                                    id="description"
-                                    {...register("description", { required: "Product description is required" })}
-                                    placeholder="Describe your product"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none" }}
-                                    required
+                                <DraftEditor
+                                    editorState={descriptionEditor}
+                                    setEditorState={(newState) => {
+                                        setDescriptionEditor(newState);
+                                        setValue("description", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
+                                            shouldValidate: true, // Ensure validation runs when value changes
+                                        });
+                                    }}
                                 />
+                                {errors.description && <p className="text-red-500">Description is required</p>}
                             </div>
 
 
@@ -325,15 +399,16 @@ const UpdateProduct = () => {
                                 >
                                     Specifications
                                 </label>
-                                <textarea
-                                    type="text"
-                                    id="specification"
-                                    {...register("specification", { required: "Specification is required" })}
-                                    placeholder="Enter specification for your product"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none" }}
-                                    required
+                                <DraftEditor
+                                    editorState={specificationsEditor}
+                                    setEditorState={(newState) => {
+                                        setSpecificationsEditor(newState);
+                                        setValue("specifications", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
+                                            shouldValidate: true, // Ensure validation runs when value changes
+                                        });
+                                    }}
                                 />
+                                {errors.specifications && <p className="text-red-500">Specifications are required</p>}
                             </div>
 
 
@@ -434,6 +509,12 @@ const UpdateProduct = () => {
                                                 alt="preview"
                                                 className="w-full h-24 object-cover rounded"
                                             />
+                                            <button
+                                                onClick={() => removeImage(index)}
+                                                className="absolute top-1 right-1 bg-white shadow-lg text-black rounded-full p-1"
+                                            >
+                                                <FaTimes className="w-4 h-4" />
+                                            </button>
                                         </div>
                                     ))}
                                 </div>
@@ -445,6 +526,7 @@ const UpdateProduct = () => {
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                disabled={!watch("description") || !watch("specifications") || btnDisabled}
                             >
                                 Update Product
                             </button>

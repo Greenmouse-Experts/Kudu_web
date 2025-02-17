@@ -9,13 +9,15 @@ const useFileUpload = (defaultOptions = {
     const uploadUrl = `${import.meta.env.VITE_CLOUDINARY_URL}`;
 
     const uploadFiles = async (acceptedFiles, onUpload = () => { }) => {
-        const formData = new FormData();
         setIsLoading(true);
         setError(null);
 
         try {
+            const uploadedUrls = [];
+
             for (let i = 0; i < acceptedFiles.length; i++) {
-                let file = acceptedFiles[i];
+                const file = acceptedFiles[i];
+                const formData = new FormData(); // Create a new FormData for each file
                 formData.append("image", file);
 
                 const response = await fetch(uploadUrl, {
@@ -28,8 +30,10 @@ const useFileUpload = (defaultOptions = {
                 }
 
                 const data = await response.json();
-                onUpload(data.data);
+                uploadedUrls.push(data.data); // Collect all uploaded URLs
             }
+
+            onUpload(uploadedUrls); // Return all URLs once uploads are complete
         } catch (err) {
             setError(err.message || "Upload failed");
             console.error("Error during upload:", err);

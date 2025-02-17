@@ -34,15 +34,26 @@ export default function ProductListing({ productsArr }) {
                                 />
                             </span>
                             {/* Verified Badge (Bottom-Right) */}
-                            <span className="absolute bottom-2 right-2">
-                                <button
-                                    className={`text-white text-xs px-3 py-1 rounded-md font-light transition-all
-                                        ${product.verified ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}
+                            {product.vendor ?
+                                <span className="absolute bottom-2 right-2">
+                                    <button
+                                        className={`text-white text-xs px-3 py-1 rounded-md font-light transition-all
+                                        ${product.vendor.isVerified ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}
                                     `}
-                                >
-                                    {product.verified ? "Verified ✅" : "Not Verified ❌"}
-                                </button>
-                            </span>
+                                    >
+                                        {product.vendor.isVerified ? "Verified ✅" : "Not Verified ❌"}
+                                    </button>
+                                </span>
+                                :
+                                <span className="absolute bottom-2 right-2">
+                                    <button
+                                        className={`text-white text-xs px-3 py-1 rounded-md font-light transition-all
+                                             bg-green-600 hover:bg-green-700`}
+                                    >
+                                        Verified ✅
+                                    </button>
+                                </span>
+                            }
                         </div>
 
                         {/* Product Details */}

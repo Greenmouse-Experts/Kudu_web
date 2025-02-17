@@ -258,7 +258,7 @@ export default function ViewProduct() {
                   <div className="flex w-full justify-between gap-2">
                     {product.additional_images.map(
                       (image, index) => (
-                        <div className="w-full flex justify-center h-auto max-h-[100px]">
+                        <div className="w-full flex justify-start h-auto max-h-[100px]">
                           <Imgix
                             src={image}
                             sizes="100vw"
@@ -266,7 +266,7 @@ export default function ViewProduct() {
                             height={100}
                             alt="main-product"
                             key={index}
-                            className="rounded-md h-full object-contain"
+                            className="rounded-md h-full object-cover"
                           />
                         </div>
                       )
