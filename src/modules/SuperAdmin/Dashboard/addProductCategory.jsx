@@ -33,17 +33,16 @@ const AddProductCategory = () => {
     const onSubmit = (data) => {
         if (files.length > 0) {
             const payload = { ...data, image: files[0] };
-            console.log(payload)
-            /*  mutate({
-                  url: "/admin/categories",
-                  method: "POST",
-                  data: payload,
-                  headers: true,
-                  onSuccess: (response) => {
-                  },
-                  onError: () => {
-                  },
-              }); */
+            mutate({
+                url: "/admin/categories",
+                method: "POST",
+                data: payload,
+                headers: true,
+                onSuccess: (response) => {
+                },
+                onError: () => {
+                },
+            });
         }
     };
 
