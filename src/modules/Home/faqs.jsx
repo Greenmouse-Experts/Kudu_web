@@ -2,11 +2,14 @@ import { useState } from "react";
 import "../Home/components/style.css";
 import ShoppingExperience from "./components/ShoppingExperience";
 import GetApp from "./components/GetApp";
+import { useGetFaqClient } from "../../api/pages/faqs";
 
 const FAQs = () => {
     const [activeCategory, setActiveCategory] = useState("General");
     const [expandedQuestion, setExpandedQuestion] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+
+    const {data:faqs, isLoading} = useGetFaqClient();
 
     const categories = ["General", "Buying on KUDU", "Selling on KUDU", "Auction", "Safety & Policy", "Support"];
     const questions = {

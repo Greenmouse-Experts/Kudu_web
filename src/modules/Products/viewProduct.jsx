@@ -241,7 +241,7 @@ export default function ViewProduct() {
                       </button>
                     )}
                   >
-                    {JSON.parse(product.additional_images).map(
+                    {product.additional_images.map(
                       (image, index) => (
                         <>
                           <img
@@ -256,7 +256,7 @@ export default function ViewProduct() {
                 </div>
                 <div className="flex w-full overflow-x">
                   <div className="flex w-full justify-between gap-2">
-                    {JSON.parse(product.additional_images).map(
+                    {product.additional_images.map(
                       (image, index) => (
                         <div className="w-full flex justify-center h-auto max-h-[100px]">
                           <Imgix
@@ -386,10 +386,10 @@ export default function ViewProduct() {
                           </svg>
                         </span>
                         <span className="text-sm">
-                          {JSON.parse(product.store.location).address},{" "}
-                          {JSON.parse(product.store.location).city},{" "}
-                          {JSON.parse(product.store.location).state},{" "}
-                          {JSON.parse(product.store.location).country}
+                          {product.store.location?.address},{" "}
+                          {product.store.location?.city},{" "}
+                          {product.store.location?.state},{" "}
+                          {product.store.location?.country}
                         </span>
                       </div>
                     </div>
