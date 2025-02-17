@@ -19,23 +19,31 @@ const AddProductCategory = () => {
 
 
     const handleDrop = (data) => {
-        setFiles((prevFiles) => [...prevFiles, data]);
-    }
+        // Ensure data is always an array
+        const newFiles = Array.isArray(data) ? data : [data];
+
+        setFiles((prevFiles) => {
+            // Merge previous files and new ones, ensuring uniqueness
+            const updatedFiles = Array.from(new Set([...prevFiles, ...newFiles]));
+            return updatedFiles;
+        });
+    };
 
 
     const onSubmit = (data) => {
         if (files.length > 0) {
             const payload = { ...data, image: files[0] };
-            mutate({
-                url: "/admin/categories",
-                method: "POST",
-                data: payload,
-                headers: true,
-                onSuccess: (response) => {
-                },
-                onError: () => {
-                },
-            });
+            console.log(payload)
+            /*  mutate({
+                  url: "/admin/categories",
+                  method: "POST",
+                  data: payload,
+                  headers: true,
+                  onSuccess: (response) => {
+                  },
+                  onError: () => {
+                  },
+              }); */
         }
     };
 

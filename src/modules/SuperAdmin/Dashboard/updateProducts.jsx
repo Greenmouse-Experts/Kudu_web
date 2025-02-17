@@ -131,8 +131,15 @@ const UpdateProduct = () => {
     }
 
 
-    const handleDrop = (uploadedUrls) => {
-        setFiles((prevImages) => [...prevImages, ...uploadedUrls]); // Append new images
+    const handleDrop = (data) => {
+        // Ensure data is always an array
+        const newFiles = Array.isArray(data) ? data : [data];
+
+        setFiles((prevFiles) => {
+            // Merge previous files and new ones, ensuring uniqueness
+            const updatedFiles = Array.from(new Set([...newFiles]));
+            return updatedFiles;
+        });
     };
 
 
