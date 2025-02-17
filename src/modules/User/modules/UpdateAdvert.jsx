@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useApiMutation from '../api/hooks/useApiMutation';
-import { useNavigate } from 'react-router-dom';
-import DropZone from './DropZone';
+import { useNavigate, useParams } from 'react-router-dom';
+import Loader from '../../../components/Loader';
+import useApiMutation from '../../../api/hooks/useApiMutation';
+import DropZone from '../../../components/DropZone';
 
-const PostNewAdvert = () => {
+const UpdateAdvert = () => {
     const [categories, setCategories] = useState([]);
     const [files, setFiles] = useState([]);
+    const { id } = useParams();
+    const [advert, setViewedAdvert] = useState({});
+    const [disabled, setDisabled] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const { mutate } = useApiMutation();
     const navigate = useNavigate();
@@ -22,27 +27,30 @@ const PostNewAdvert = () => {
 
 
     const onSubmit = (data) => {
+        setDisabled(true);
         if (files.length > 0) {
             delete data.category;
-            const payload = { ...data, showOnHomepage: data.showOnHomepage === 'true', media_url: files[0] }
-             mutate({
-                 url: "/admin/adverts",
-                 method: "POST",
-                 data: payload,
-                 headers: true,
-                 onSuccess: (response) => {
-                     navigate(-1)
-                 },
-                 onError: () => {
-                 },
-             });
+            const payload = { ...data, advertId: id, showOnHomepage: data.showOnHomepage === 'true', media_url: files[0] }
+            mutate({
+                url: "/vendor/adverts",
+                method: "PUT",
+                data: payload,
+                headers: true,
+                onSuccess: (response) => {
+                    navigate(-1);
+                    setDisabled(false);
+                },
+                onError: () => {
+                    setDisabled(false);
+                },
+            });
         }
     }
 
 
     const getCategories = () => {
         mutate({
-            url: `/admin/sub/categories`,
+            url: `/vendor/categories`,
             method: "GET",
             headers: true,
             hideToast: true,
@@ -55,20 +63,62 @@ const PostNewAdvert = () => {
     }
 
 
+    const getAdvert = () => {
+        mutate({
+            url: `/vendor/adverts`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                const adverts = response.data.data;
+                // Find the advert whose id matches the id from the URL.
+                // Note: Make sure both values are of the same type (string vs number).
+                const foundAdvert = adverts.find((advert) => String(advert.id) === id);
+                setViewedAdvert(foundAdvert);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
     useEffect(() => {
         getCategories();
+        getAdvert();
     }, []);
 
 
     const handleDrop = (data) => {
-        setFiles((prevFiles) => [...prevFiles, data]);
+        setFiles((prevFiles) => [data]);
     }
 
 
+    useEffect(() => {
+        if (!advert || Object.keys(advert || {}).length === 0) return;
+
+        setValue("title", advert.title);
+        setValue("description", advert.description);
+        setValue("showOnHomepage", advert.showOnHomepage.toString());
+        setValue("categoryId", advert.categoryId);
+        setFiles([advert.media_url]);
+        setLoading(false);
+    }, [advert, setValue]);
+
+
+
+    if (loading) {
+        return (<div className="w-full h-screen flex items-center justify-center">
+            <Loader />
+        </div>
+        )
+    }
+
+
+
     return (
-        <div className='All'>
+        <div className='w-full'>
             <div className="rounded-md pb-2 w-full gap-5">
-                <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Post New Advert</h2>
+                <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Update Advert</h2>
             </div>
             <div className="w-full flex flex-grow mt-3">
                 <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
@@ -114,23 +164,6 @@ const PostNewAdvert = () => {
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
-                                />
-                            </div>
-
-                            <div className="mb-4">
-                                <label
-                                    className="block text-md font-semibold mb-3"
-                                    htmlFor="title"
-                                >
-                                    Advert Link
-                                </label>
-                                <input
-                                    type="text"
-                                    id="link"
-                                    {...register("link", { required: "Advert Link is required" })}
-                                    placeholder="Enter link for advert"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-                                    style={{ outline: "none" }}
                                 />
                             </div>
 
@@ -197,7 +230,7 @@ const PostNewAdvert = () => {
                                     <p className="-mb-3 text-mobiFormGray">
                                         Advert Image
                                     </p>
-                                    <DropZone onUpload={handleDrop} single text={'Upload an Image of Advert'} />
+                                    <DropZone onUpload={handleDrop} text={'Upload an Image of Advert'} />
                                 </div>
                                 <div className="grid grid-cols-3 gap-4 my-4">
                                     {files.map((fileObj, index) => (
@@ -214,8 +247,9 @@ const PostNewAdvert = () => {
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                disabled={disabled}
                             >
-                                Create New Advert
+                                Update Advert
                             </button>
 
                         </div>
@@ -231,4 +265,4 @@ const PostNewAdvert = () => {
     );
 };
 
-export default PostNewAdvert;
+export default UpdateAdvert;

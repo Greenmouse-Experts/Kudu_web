@@ -40,10 +40,6 @@ export default function Header({ openMenu }) {
       slug: "profile",
     },
     {
-      value: "My Adverts",
-      slug: "profile/adverts",
-    },
-    {
       value: "Cart",
       slug: "cart",
       info: cart.length,
