@@ -132,14 +132,6 @@ export default function LandingHomepage() {
 
 
 
-    if (loading) {
-        return (
-            <div className="w-full h-screen flex items-center justify-center">
-                <Loader />
-            </div>
-        )
-    }
-
 
     return (
         <div className="w-full flex flex-col">
@@ -151,7 +143,14 @@ export default function LandingHomepage() {
                     <PreviewSection />
                 </div>
                 <div className="w-full flex mt-3">
-                    <CategoriesSection data={categoriesArr} />
+                    {loading ? (
+                        <div className="w-full h-screen flex items-center justify-center">
+                            <Loader />
+                        </div>
+                    ) : (
+                        <CategoriesSection data={categoriesArr} />
+                    )
+                    }
                 </div>
                 <div className="w-full flex mt-3">
                     {loading ? (
@@ -177,7 +176,7 @@ export default function LandingHomepage() {
                     )}
                     {/* <PhonesBanner /> */}
                     <div className="flex w-full flex-col md:flex-row gap-4">
-                        {ads.slice(2, 4).map((ad, index) => (
+                        {ads.slice(0, 4).map((ad, index) => (
                             <div className="md:w-1/1 flex md:flex-row flex-col relative w-full pt-64 px-4 lg:rounded-lg md:rounded-lg" key={index}>
                                 <div className="absolute inset-0 w-full h-full">
                                     <Imgix src={`${ad.media_url}`} sizes="100vw"
