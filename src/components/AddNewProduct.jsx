@@ -58,9 +58,7 @@ const AddNewProduct = () => {
                 additional_images: files
             };
 
-            console.log(payload)
-
-          /*  mutate({
+            mutate({
                 url: "/admin/products",
                 method: "POST",
                 data: payload,
@@ -71,7 +69,7 @@ const AddNewProduct = () => {
                 onError: () => {
                     setDisabled(false);
                 },
-            }); */
+            });
         }
         else {
             setDisabled(false);
