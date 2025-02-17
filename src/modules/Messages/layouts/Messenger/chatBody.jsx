@@ -9,6 +9,7 @@ import useAppState from "../../../../hooks/appState";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import EmojiPickerApp from "./EmojiPicker";
+import { useSocket } from "../../../../store/SocketContext";
 
 const ChatInterface = ({
   conversationId,
@@ -18,6 +19,30 @@ const ChatInterface = ({
 }) => {
   const { user } = useAppState();
   const [text, setText] = useState("");
+  const userId = user.id;
+
+  const socket = useSocket();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.emit("register", userId);
+    console.log("socket from chatbody", socket);
+
+    socket.on("receiveMessage", (message) => {
+      console.log("Received:", message);
+      queryClient.invalidateQueries(["messages", conversationId]);
+      refetch();
+    });
+    // socket.on("receiveMessage", (message) => {
+    //   console.log("Received:", message);
+    // });
+
+    // return () => {
+    //   socket.off("receiveMessage");
+    // };
+  }, [socket]);
 
   const chatContainerRef = useRef(null);
   const [showPicker, setShowPicker] = useState(false);
@@ -26,36 +51,41 @@ const ChatInterface = ({
   const initiatecloseInterface = () => {
     closeInterface();
   };
-  const queryClient = useQueryClient();
+
   const { mutate: sendText, isLoading: isSending } = sendMessage();
   const handleMessage = () => {
     if (text !== "") {
-      sendText(
-        {
-          productId: productId,
-          receiverId:
-            selectedConversation?.receiverId === userId
-              ? selectedConversation?.senderId
-              : selectedConversation?.receiverId,
-          content: text,
-        },
-        {
-          onSuccess: () => {
-            console.log("✅ Message sent successfully! Refetching...");
-            refetch();
-            queryClient.invalidateQueries(["messages", conversationId]);
-          },
-          onError: (error) => {
-            console.error("❌ Message failed to send:", error);
-          },
-          onSettled: () => {
-            setText("");
-            console.log("ℹ️ Mutation has settled.");
-          },
-        }
-      );
-
-      console.log("text to send: " + text);
+      socket.emit("sendMessage", {
+        productId: productId,
+        receiverId:
+          selectedConversation?.receiverId === userId
+            ? selectedConversation?.senderId
+            : selectedConversation?.receiverId,
+        content: text,
+        userId: userId,
+      });
+      setText("");
+      // sendText(
+      //   {
+      //     productId: productId,
+      //     receiverId:
+      //       selectedConversation?.receiverId === userId
+      //         ? selectedConversation?.senderId
+      //         : selectedConversation?.receiverId,
+      //     content: text,
+      //   },
+      //   {
+      //     onSuccess: () => {
+      //       refetch();
+      //       queryClient.invalidateQueries(["messages", conversationId]);
+      //       setText("");
+      //     },
+      //     onSettled: () => {
+      //       setText("");
+      //       console.log("ℹ️ Mutation has settled.");
+      //     },
+      //   }
+      // );
     }
   };
   const textRef = useRef();
@@ -73,7 +103,6 @@ const ChatInterface = ({
     }
   }, [message]);
   if (isLoading || isGettingMessage) return <Loader />;
-  const userId = user.id;
 
   return (
     <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-[1px] bg-white relative border-l-2 overflow-auto">
@@ -187,7 +216,7 @@ const ChatInterface = ({
               {message.type !== "outgoing" && (
                 <Imgix
                   src={
-                    "https://res.cloudinary.com/do2kojulq/image/upload/v1735426595/kudu_mart/profile_suv8ww.jpg"
+                    "https://res.cloudinary.com/do2kojulq/image/upload/v1730286484/default_user_mws5jk.jpg"
                   }
                   alt="user"
                   width={40}

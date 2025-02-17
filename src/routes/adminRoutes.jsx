@@ -28,6 +28,8 @@ import UpdateProduct from "../modules/SuperAdmin/Dashboard/updateProducts.jsx";
 import UpdateAdvert from "../modules/SuperAdmin/Dashboard/updateNewAdvert.jsx";
 import ViewKYC from "../modules/SuperAdmin/Dashboard/viewKyc.jsx";
 import EditSubscription from "../modules/SuperAdmin/Dashboard/editSubscription.jsx";
+import FaqCategory from "../modules/SuperAdmin/Dashboard/inner-pages/faqs-category.jsx"
+import Faqs from "../modules/SuperAdmin/Dashboard/inner-pages/faqs.jsx"
 
 export const adminRoutes = [
     {
@@ -145,6 +147,14 @@ export const adminRoutes = [
             {
                 path: "all-vendors/kyc/:id",
                 element: <ViewKYC />
+            },
+            {
+                path: "pages/faq-category",
+                element: <FaqCategory />
+            },
+            {
+                path: "pages/faqs",
+                element: <Faqs />
             },
         ],
     },
