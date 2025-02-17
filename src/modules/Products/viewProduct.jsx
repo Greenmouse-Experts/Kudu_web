@@ -291,10 +291,10 @@ export default function ViewProduct() {
                     <div className="w-full flex flex-col gap-6">
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="md:w-[40%] w-full flex flex-col gap-1">
-                          <span className="text-sm text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
                             Condition
                           </span>
-                          <span className="text-sm font-bold">
+                          <span className="text-sm">
                             {formatString(product.condition)}
                           </span>
                         </div>
@@ -303,10 +303,10 @@ export default function ViewProduct() {
                       {/** Brand */}
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="w-full flex flex-col gap-1">
-                          <span className="text-sm text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
                             Description
                           </span>
-                          <span className="text-sm font-bold">
+                          <span className="text-sm">
                             <SafeHTML htmlContent={product.description} />
                           </span>
                         </div>
@@ -314,10 +314,10 @@ export default function ViewProduct() {
 
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="w-full flex flex-col gap-1">
-                          <span className="text-sm text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
                             Specification
                           </span>
-                          <span className="text-sm font-bold">
+                          <span className="text-sm">
                             <SafeHTML htmlContent={product.specification} />
                           </span>
                         </div>
@@ -326,20 +326,20 @@ export default function ViewProduct() {
                       {/** Case Size */}
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="md:w-[40%] w-full flex flex-col gap-1">
-                          <span className="text-sm text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
                             Return Policy
                           </span>
-                          <span className="text-sm font-bold">
+                          <span className="text-sm">
                             {product.return_policy
                               ? product.return_policy
                               : "No return policy"}
                           </span>
                         </div>
                         <div className="md:w-[60%] w-full flex flex-col gap-1">
-                          <span className="text-sm text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
                             Warranty
                           </span>
-                          <span className="text-sm font-bold">
+                          <span className="text-sm">
                             {product.warranty
                               ? product.warranty
                               : "No warranty"}
@@ -386,10 +386,10 @@ export default function ViewProduct() {
                           </svg>
                         </span>
                         <span className="text-sm">
-                          {product.store.location?.address},{" "}
-                          {product.store.location?.city},{" "}
-                          {product.store.location?.state},{" "}
-                          {product.store.location?.country}
+                          {product.store.location.address},{" "}
+                          {product.store.location.city},{" "}
+                          {product.store.location.state},{" "}
+                          {product.store.location.country}
                         </span>
                       </div>
                     </div>

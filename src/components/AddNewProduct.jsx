@@ -139,7 +139,6 @@ const AddNewProduct = () => {
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                console.log(response.data.data);
                 const findCategory = response.data.data.find((category) => category.id === categoryId);
                 const subCategories = findCategory.subCategories.map((subCategory) => ({
                     id: subCategory.id,
@@ -419,12 +418,12 @@ const AddNewProduct = () => {
                                                 alt="preview"
                                                 className="w-full h-24 object-cover rounded"
                                             />
-                                            <button
+                                            <span
                                                 onClick={() => removeImage(index)}
                                                 className="absolute top-1 right-1 bg-white shadow-lg text-black rounded-full p-1"
                                             >
                                                 <FaTimes className="w-4 h-4" />
-                                            </button>
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
