@@ -137,7 +137,7 @@ const MyProducts = () => {
                 </div>
                 {addNewModal && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                    <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                    <div className="bg-white rounded-lg w-11/12 md:w-3/5 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
                         <AddNewProduct 
                             closeAddNewModal={closeAddNewModal} 
                             stores={stores}

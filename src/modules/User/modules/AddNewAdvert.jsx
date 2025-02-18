@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useApiMutation from '../api/hooks/useApiMutation';
+import useApiMutation from '../../../api/hooks/useApiMutation';
 import { useNavigate } from 'react-router-dom';
-import DropZone from './DropZone';
+import DropZone from '../../../components/DropZone';
 
 const PostNewAdvert = () => {
     const [categories, setCategories] = useState([]);
     const [files, setFiles] = useState([]);
+    const [disabled, setDisabled] = useState(false);
 
     const { mutate } = useApiMutation();
     const navigate = useNavigate();
@@ -22,27 +23,30 @@ const PostNewAdvert = () => {
 
 
     const onSubmit = (data) => {
+        setDisabled(true);
         if (files.length > 0) {
             delete data.category;
             const payload = { ...data, showOnHomepage: data.showOnHomepage === 'true', media_url: files[0] }
-             mutate({
-                 url: "/admin/adverts",
-                 method: "POST",
-                 data: payload,
-                 headers: true,
-                 onSuccess: (response) => {
-                     navigate(-1)
-                 },
-                 onError: () => {
-                 },
-             });
+            mutate({
+                url: "/vendor/adverts",
+                method: "POST",
+                data: payload,
+                headers: true,
+                onSuccess: (response) => {
+                    navigate(-1)
+                    setDisabled(false);
+                },
+                onError: () => {
+                    setDisabled(false);
+                },
+            });
         }
     }
 
 
     const getCategories = () => {
         mutate({
-            url: `/admin/sub/categories`,
+            url: `/vendor/categories`,
             method: "GET",
             headers: true,
             hideToast: true,
@@ -66,12 +70,12 @@ const PostNewAdvert = () => {
 
 
     return (
-        <div className='All'>
+        <div className='w-full'>
             <div className="rounded-md pb-2 w-full gap-5">
-                <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Post New Advert</h2>
+                <h2 className="text-lg font-semibold text-black-700">Post New Advert</h2>
             </div>
             <div className="w-full flex flex-grow mt-3">
-                <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
+                <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
 
                     <form
                         className="w-full flex flex-col items-center justify-center p-4"
@@ -214,6 +218,7 @@ const PostNewAdvert = () => {
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                disabled={disabled}
                             >
                                 Create New Advert
                             </button>
