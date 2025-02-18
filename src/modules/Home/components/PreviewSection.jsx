@@ -6,16 +6,14 @@ export default function PreviewSection() {
             <div className="relative w-full overflow-hidden bg-white">
                 <div className="w-full flex flex-col gap-2 justify-center items-center">
                     {/* Header Section */}
-                    <div className="md:w-1/2 w-full flex flex-col gap-5 z-10">
+                    <div className="md:w-1/3 w-full flex flex-col gap-5 z-10">
                         <img src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737059210/Screenshot_2025-01-16_at_9.26.37_PM_mv3pvc.png" alt="" width="100%"
                             className="w-full h-full object-cover"
                             draggable="false" />
                     </div>
-                    <div className="md:w-[40%] flex">
-                        <p className="text-lg text-center">
-                            Do more with Kudu Mart today, sign up and let’s get started!
-                        </p>
-                    </div>
+                    <p className="text-base text-center">
+                        Do more with Kudu Mart today, sign up and let’s get started!
+                    </p>
                 </div>
 
                 {/* Card Section */}
@@ -39,10 +37,10 @@ export default function PreviewSection() {
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-lg text-center font-bold">Auction</p>
+                                    <p className="md:text-1xl text-lg text-center font-semibold">Auction</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
-                                    <p className="text-sm leading-loose text-center">
+                                    <p className="text-base leading-loose text-center">
                                         You can auction what you want to sell and have people bid for it. Then the highest bidder goes home with it.
                                     </p>
                                 </div>
@@ -60,14 +58,14 @@ export default function PreviewSection() {
                                     <img
                                         src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737481790/kuduMart/wired-outline-139-basket-hover-oscillate-empty_c3tltg.gif"
                                         alt="Sell Anything Icon"
-                                         className="w-[100px] h-[100px]"
+                                        className="w-[100px] h-[100px]"
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-lg text-center font-bold">Sell Anything</p>
+                                    <p className="md:text-1xl text-lg text-center font-semibold">Sell Anything</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
-                                    <p className="text-sm leading-loose text-center">
+                                    <p className="text-base leading-loose text-center">
                                         You can sell any item eg; cars, devices, and more in any condition, refurbished, new, and used.
                                     </p>
                                 </div>
@@ -86,14 +84,14 @@ export default function PreviewSection() {
                                     <img
                                         src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737481789/kuduMart/wired-outline-298-coins-hover-spending_nhci8u.gif"
                                         alt="Bid Your Price Icon"
-                                         className="w-[100px] h-[100px]"
+                                        className="w-[100px] h-[100px]"
                                     />
                                 </div>
                                 <div className="w-full flex mt-3 justify-center">
-                                    <p className="md:text-2xl text-lg text-center font-bold">Bid Your Price</p>
+                                    <p className="md:text-1xl text-lg text-center font-semibold">Bid Your Price</p>
                                 </div>
                                 <div className="w-full flex mt-4 justify-center">
-                                    <p className="text-sm leading-loose text-center">
+                                    <p className="text-base leading-loose text-center">
                                         Place a bid on products you want to buy and stand a chance to go home with it as the highest bidder.
                                     </p>
                                 </div>
