@@ -65,6 +65,8 @@ const ChatInterface = ({
         userId: userId,
       });
       setText("");
+      queryClient.invalidateQueries(["messages", conversationId]);
+      refetch();
       // sendText(
       //   {
       //     productId: productId,
