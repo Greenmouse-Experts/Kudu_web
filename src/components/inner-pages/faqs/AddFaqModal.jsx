@@ -99,15 +99,15 @@ const AddFaqModal = ({ selectedItem }) => {
 
             <input
               type="text"
-              placeholder="Enter category name"
+              placeholder="Enter question"
               className="w-full h-10 text-black px-3 text-medium border rounded-md"
               value={question}
               onChange={(e) => setquestion(e.target.value)}
             />
-            <input
+            <textarea
               type="text"
-              placeholder="Enter category name"
-              className="w-full h-10 text-black px-3 text-medium border rounded-md"
+              placeholder="Enter answer"
+              className="w-full h-20 text-black px-3 text-medium border rounded-md"
               value={answer}
               onChange={(e) => setanswer(e.target.value)}
             />
