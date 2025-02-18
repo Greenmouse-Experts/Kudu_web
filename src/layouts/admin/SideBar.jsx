@@ -173,8 +173,8 @@ const Sidebar = () => {
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                                     <Link to={'pages/faq-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Faq category</Link>
                                     <Link to={'pages/faqs'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Faqs</Link>
-                                    {/* <Link to={'products-categories'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Categories</Link>
-                                    <Link to={'products-categories/sub-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link> */}
+                                    <Link to={'pages/testimonials'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Testimonial</Link>
+                                    {/* <Link to={'products-categories/sub-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link> */}
                                 </div>
                             )}
                         </div>

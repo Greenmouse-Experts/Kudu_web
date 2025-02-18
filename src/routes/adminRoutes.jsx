@@ -30,6 +30,7 @@ import ViewKYC from "../modules/SuperAdmin/Dashboard/viewKyc.jsx";
 import EditSubscription from "../modules/SuperAdmin/Dashboard/editSubscription.jsx";
 import FaqCategory from "../modules/SuperAdmin/Dashboard/inner-pages/faqs-category.jsx"
 import Faqs from "../modules/SuperAdmin/Dashboard/inner-pages/faqs.jsx"
+import Testimonials from "../modules/SuperAdmin/Dashboard/inner-pages/testimonials.jsx"
 
 export const adminRoutes = [
     {
@@ -155,6 +156,10 @@ export const adminRoutes = [
             {
                 path: "pages/faqs",
                 element: <Faqs />
+            },
+            {
+                path: "pages/testimonials",
+                element: <Testimonials />
             },
         ],
     },

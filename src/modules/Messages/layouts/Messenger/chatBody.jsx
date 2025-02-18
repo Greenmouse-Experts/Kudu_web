@@ -28,20 +28,11 @@ const ChatInterface = ({
     if (!socket) return;
 
     socket.emit("register", userId);
-    console.log("socket from chatbody", socket);
 
     socket.on("receiveMessage", (message) => {
-      console.log("Received:", message);
       queryClient.invalidateQueries(["messages", conversationId]);
       refetch();
     });
-    // socket.on("receiveMessage", (message) => {
-    //   console.log("Received:", message);
-    // });
-
-    // return () => {
-    //   socket.off("receiveMessage");
-    // };
   }, [socket]);
 
   const chatContainerRef = useRef(null);
@@ -53,7 +44,8 @@ const ChatInterface = ({
   };
 
   const { mutate: sendText, isLoading: isSending } = sendMessage();
-  const handleMessage = () => {
+  const handleMessage = (e) => {
+    e.preventDefault();
     if (text !== "") {
       socket.emit("sendMessage", {
         productId: productId,
@@ -64,28 +56,10 @@ const ChatInterface = ({
         content: text,
         userId: userId,
       });
+
       setText("");
-      // sendText(
-      //   {
-      //     productId: productId,
-      //     receiverId:
-      //       selectedConversation?.receiverId === userId
-      //         ? selectedConversation?.senderId
-      //         : selectedConversation?.receiverId,
-      //     content: text,
-      //   },
-      //   {
-      //     onSuccess: () => {
-      //       refetch();
-      //       queryClient.invalidateQueries(["messages", conversationId]);
-      //       setText("");
-      //     },
-      //     onSettled: () => {
-      //       setText("");
-      //       console.log("ℹ️ Mutation has settled.");
-      //     },
-      //   }
-      // );
+      queryClient.invalidateQueries(["messages", conversationId]);
+      refetch();
     }
   };
   const textRef = useRef();
@@ -251,7 +225,10 @@ const ChatInterface = ({
 
       {/* Chat Input */}
       <div className="flex items-center p-4 bg-white border-t-2 shadow-md">
-        <div className="flex items-center bg-[rgba(249,249,249,1)] border border-[rgba(212,212,212,1)] rounded-lg overflow-hidden w-full">
+        <form
+          onSubmit={handleMessage}
+          className="flex items-center bg-[rgba(249,249,249,1)] border border-[rgba(212,212,212,1)] rounded-lg overflow-hidden w-full"
+        >
           <input
             type="text"
             className="md:w-3/4 w-full px-4 py-2 rounded-lg md:px-6 md:py-2 bg-transparent outline-none text-[13px] md:text-lg text-gray-700 disabled:cursor-not-allowed"
@@ -320,9 +297,8 @@ const ChatInterface = ({
               {/** Send Button */}
               {text !== "" && !isSending && (
                 <button
-                  type="button"
+                  type="submit"
                   disabled={isSending}
-                  onClick={handleMessage}
                   className="py-1 px-4 bg-[rgba(72,133,237,1)] text-white font-[500] text-xs rounded-md disabled:opacity-90 disabled:cursor-not-allowed"
                 >
                   {isSending ? "Sending" : "Send"}
@@ -330,7 +306,7 @@ const ChatInterface = ({
               )}
             </div>
           </span>
-        </div>
+        </form>
       </div>
     </div>
   );

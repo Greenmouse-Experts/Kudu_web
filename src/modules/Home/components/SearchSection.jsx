@@ -9,25 +9,25 @@ import { Link } from "react-router-dom";
 const MyComponent = () => {
     const slides = [
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_10.53.04_AM_pfjm1l.jpg",
+            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739885222/kuduMart/kmb4_1_omn3fa.jpg",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297531/kuduMart/mbkd2a_w6rfwd.png",
             heading: "Buy, Sell & Auction Anything! Easily and Securely",
             placeholder: "Find anything on Kudu...",
         },
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_11.18.19_AM_yyeduw.jpg",
+            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739885519/kuduMart/kdbn3_1_bzbs29.jpg",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd2_t9gbgi.png",
             heading: "Sell off your Items To The Highest bidder by Auctioning Here!",
             placeholder: "Search for great deals...",
         },
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_11.18.18_AM_hcqyzy.jpg",
+            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739885519/kuduMart/kdbnr21_rheggf.jpg",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd3o_ulwuof.png",
             heading: "Looking to Sell Something ? KUDU is the right place for you!",
             placeholder: "Search for great deals...",
         },
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_10.53.05_AM_gs0hcc.jpg",
+            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_11.18.18_AM_hcqyzy.jpg",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd4_ipvaxv.png",
             heading: "Looking to Sell Something ? KUDU is the right place for you!",
             placeholder: "Search for great deals...",
