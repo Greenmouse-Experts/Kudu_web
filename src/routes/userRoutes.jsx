@@ -11,6 +11,7 @@ import VendorAdverts from "../modules/User/modules/VendorAdverts";
 import Notification from "../modules/Notification/Notification";
 import PostNewAdvert from "../modules/User/modules/AddNewAdvert";
 import UpdateAdvert from "../modules/User/modules/UpdateAdvert";
+import AddNewProduct from "../modules/User/modules/AddNewProduct";
 
 export const userRoutes = [
     {
@@ -40,31 +41,35 @@ export const userRoutes = [
                     {
                         path: 'stores',
                         element: <Stores />
-                    },   
+                    },
                     {
                         path: 'products',
                         element: <MyProducts />
-                    }, 
+                    },
+                    {
+                        path: 'products/create',
+                        element: <AddNewProduct />
+                    },
                     {
                         path: 'adverts/create-advert',
                         element: <PostNewAdvert />
-                    },   
+                    },
                     {
                         path: 'adverts/edit-advert/:id',
                         element: <UpdateAdvert />
-                    },       
+                    },
                     {
                         path: 'subscription',
                         element: <Subscription />
-                    }, 
+                    },
                     {
                         path: 'adverts',
                         element: <VendorAdverts />
-                    }, 
+                    },
                     {
                         path: 'notification',
                         element: <Notification />
-                    }, 
+                    },
                 ]
             },
         ],
