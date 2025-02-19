@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useCreateProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
+import useApiMutation from '../../../api/hooks/useApiMutation';
 import DropZone from '../../../components/DropZone';
-import { toast } from "react-toastify";
-import { MdCancel, MdClose } from "react-icons/md";
-import PulseLoader from "react-spinners/PulseLoader";
-import { renderDraftContent } from '../../../helpers/renderDraftContent';
-import { convertToRaw, EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from "draft-js";
 import DraftEditor from '../../../components/Editor';
-import { FaTimes } from 'react-icons/fa';
+import { renderDraftContent } from '../../../helpers/renderDraftContent';
+import { FaTimes } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
+const AddNewProduct = () => {
     const [descriptionEditor, setDescriptionEditor] = useState(() =>
         EditorState.createEmpty()
     );
@@ -19,11 +17,12 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
     );
 
     const [currency, setCurrency] = useState(null);
-    const [files, setFiles] = useState([]);
+    const navigate = useNavigate();
+    const [stores, setStores] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const [createProduct] = useCreateProductMutation();
+    const [files, setFiles] = useState([]);
+    const [btnDisabled, setDisabled] = useState(false);
 
     const conditions = [
         { id: 'brand_new', name: 'Brand New' },
@@ -31,10 +30,13 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
         { id: 'refurbished', name: 'Refurbished' },
     ]
 
+    const { mutate } = useApiMutation();
+
     const {
         register,
         handleSubmit,
         setValue,
+        getValues,
         watch,
         formState: { errors },
     } = useForm({
@@ -44,27 +46,79 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
         },
     });
 
-    const selectedId = watch("categoryId");
-    const selectedCategory = categories?.data?.find((cat) => cat.id === selectedId)?.name || "";
 
-    const handleCategoryChange = (e) => {
-        const selectedId = e.target.value;
-        setValue("categoryId", selectedId);
-    };
+    const onSubmit = (data) => {
+        setDisabled(true);
+        if (files.length > 0) {
+            delete data.category;
+            const payload = {
+                ...data, image_url: files[0],
+                description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
+                specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
+                additional_images: files
+            };
+
+            mutate({
+                url: "/vendor/products",
+                method: "POST",
+                data: payload,
+                headers: true,
+                onSuccess: (response) => {
+                    navigate(-1)
+                },
+                onError: () => {
+                    setDisabled(false);
+                },
+            });
+        }
+        else {
+            setDisabled(false);
+            toast.error('Product Images are required');
+        }
+    }
+
+
+    const getStore = () => {
+        mutate({
+            url: `/vendor/store`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setStores(response.data.data);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
+    const getCategories = () => {
+        mutate({
+            url: `/categories`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setCategories(response.data.data);
+            },
+            onError: () => {
+            }
+        });
+    }
+
 
     useEffect(() => {
-        if (selectedCategory) {
-            const filteredCategories = categories?.data?.filter((categoryData) => (
-                categoryData.name === selectedCategory
-            ))
+        getStore();
+        getCategories();
+    }, []);
 
-            if (filteredCategories.length > 0 && filteredCategories[0]?.subCategories) {
-                setSubCategories(filteredCategories[0].subCategories);
-            } else {
-                setSubCategories([]);
-            }
-        }
-    }, [selectedCategory])
+
+    const handleStoreChange = (data) => {
+        const store = stores.find((store) => store.id === data);
+        setCurrency(store.currency.symbol);
+    }
+
 
     const handleDrop = (data) => {
         // Ensure data is always an array
@@ -77,179 +131,140 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
         });
     };
 
-    const removeImage = (idx) => {
-        setFiles((prevFile) => prevFile.filter((_, index) => index !== idx));
-    };
 
-    const transformPayload = (data) => {
-        return {
-            storeId: data.storeId,
-            categoryId: data.subcategoryId,
-            name: data.name,
-            condition: data.condition,
-            description: data.description,
-            specification: data.specification,
-            price: data.price,
-            image_url: data.image,
-            discount_price: data.discount_price,
-            additional_images: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"],
-            warranty: data.warranty,
-            return_policy: data.return_policy,
-            seo_title: "",
-            meta_description: "",
-            keywords: ""
-        }
+    const getSubCategories = (categoryId) => {
+        mutate({
+            url: `/category/sub-categories?categoryId=${categoryId}`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setSubCategories(response.data.data);
+            },
+            onError: () => {
+            }
+        });
     }
 
-    const onSubmit = (data) => {
-        setIsLoading(true)
-        if (files.length > 0) {
-            delete data.specifications;
-            const payload = {
-                ...data, description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
-                specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
-                image_url: files[0],
-                additional_images: files
-            };
 
-            console.log(payload)
 
-            // const reformedPayload = transformPayload(payload);
-
-            createProduct(payload)
-                .then((res) => {
-                    if (res.data.message !== "Product created successfully") throw res
-
-                    toast.success(res.data.message);
-                    setIsLoading(false)
-                    closeAddNewModal();
-                }).catch((error) => {
-                    toast.error(error.error.data.message);
-                    setIsLoading(false)
-                    closeAddNewModal();
-                })
-        }
+    const removeImage = (indexToRemove) => {
+        setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
     };
 
-    return (
-        <div className='All'>
-            <div className="rounded-md pb-2 px-9 gap-5 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black-700 mt-4">Add New Product</h2>
-                <MdClose className='text-[orangered] text-[30px] font-bold cursor-pointer'
-                    onClick={closeAddNewModal}
-                />
-            </div>
-            <div className="w-full flex flex-grow">
-                <div className="shadow-xl w-full flex rounded-xl flex-col gap-10">
 
+
+    return (
+        <div className='w-full'>
+            <div className="rounded-md pb-2 w-full gap-5">
+                <h2 className="text-lg font-semibold text-black-700">Post New Product</h2>
+            </div>
+            <div className="w-full flex flex-grow mt-3">
+                <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
                     <form
                         className="w-full flex flex-col items-center justify-center p-4"
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <div className="w-full p-6">
-                            <div className="mb-3">
+                            {/* Plan Name */}
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="store"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Store
                                 </label>
                                 <select
                                     id='storeId'
+                                    {...register("storeId", { required: "Store is required" })}
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("storeId", { required: "Store is required" })}
+                                    onChange={(event) => handleStoreChange(event.target.value)}
                                     required
                                 >
                                     <option value={null} disabled selected>Select Store</option>
-                                    {stores.data.map((store) => (
-                                        <option key={store.id} value={store.id}>
-                                            {store.name}
-                                        </option>
+                                    {stores.map((store) => (
+                                        <option value={store.id} key={store.id}>{store.name}</option>
+
                                     ))}
                                 </select>
                             </div>
 
-                            <div className="mb-3">
+
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="category"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Category
                                 </label>
                                 <select
                                     id='category'
+                                    {...register("category", { required: "Category is required" })}
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("categoryId", { required: "Category is required" })}
-                                    onChange={handleCategoryChange}
+                                    onChange={(event) => getSubCategories(event.target.value)}
                                     required
                                 >
-                                    <option value="" disabled selected>Select Category</option>
-                                    {categories.data.map((category) => (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
+                                    <option value={null} disabled selected>Select Category</option>
+                                    {categories.map((catgeory) => (
+                                        <option value={catgeory.id} key={catgeory.id}>{catgeory.name}</option>
                                     ))}
                                 </select>
                             </div>
 
-                            <div className="mb-3">
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="sub-category"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Sub Category
                                 </label>
                                 <select
                                     id='categoryId'
+                                    {...register("categoryId", { required: "Sub Category is required" })}
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("subcategoryId", { required: "subcategory is required" })}
                                     required
                                 >
-                                    <option value={null} disabled selected>Sub Category</option>
-                                    {subCategories.map((subCategory) => (
-                                        <option
-                                            key={subCategory.id}
-                                            value={subCategory.id}
-                                        >
-                                            {subCategory.name}
-                                        </option>
+                                    <option value={null} disabled selected>Select Sub Category</option>
+                                    {subCategories.map((catgeory) => (
+                                        <option value={catgeory.id} key={catgeory.id}>{catgeory.name}</option>
                                     ))}
                                 </select>
                             </div>
 
-                            <div className="mb-3">
+
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="product-Name"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Product Name
                                 </label>
                                 <input
                                     type="text"
                                     id="name"
+                                    {...register("name", { required: "Product Name is required" })}
                                     placeholder="Enter name of product"
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("name", { required: "name is required" })}
                                     required
                                 />
                             </div>
 
-                            <div className="mb-3">
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="condition"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Condition
                                 </label>
                                 <select
                                     id='condition'
+                                    {...register("condition", { required: "Condition is required" })}
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("condition", { required: "condition is required" })}
                                     required
                                 >
                                     <option value={null} disabled selected>Select Condition</option>
@@ -259,10 +274,11 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                 </select>
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="description"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Description
                                 </label>
@@ -278,10 +294,11 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                 {errors.description && <p className="text-red-500">Description is required</p>}
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mt-4 mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="specification"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Specifications
                                 </label>
@@ -297,83 +314,88 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                 {errors.specifications && <p className="text-red-500">Specifications are required</p>}
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mt-4 mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="price"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Price
                                 </label>
-                                <div className='flex'>
+                                <div className='flex gap-2'>
                                     <span className='flex flex-col justify-center'>{currency}</span>
                                     <input
                                         type="text"
                                         id="price"
+                                        {...register("price", { required: "Product Price is required" })}
                                         placeholder="Enter Price"
                                         className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
-                                        {...register("price", { required: "price is required" })}
                                         required
                                     />
                                 </div>
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="discount_price"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Discount Price
                                 </label>
-                                <div className='flex'>
+                                <div className='flex gap-2'>
                                     <span className='flex flex-col justify-center'>{currency}</span>
                                     <input
                                         type="text"
                                         id="discount_price"
+                                        {...register("discount_price", { required: "Product Discount Price is required" })}
                                         placeholder="Enter Discount Price"
                                         className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
-                                        {...register("discount_price", { required: "discount price is required" })}
                                         required
                                     />
                                 </div>
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="warranty"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Warranty
                                 </label>
                                 <input
                                     type="text"
                                     id="warranty"
+                                    {...register("warranty", { required: "Product Warranty is required" })}
                                     placeholder="Enter Product Warranty"
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("warranty", { required: "warranty price is required" })}
                                     required
                                 />
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="return_policy"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Return policy
                                 </label>
                                 <input
                                     type="text"
                                     id="return_policy"
+                                    {...register("return_policy", { required: "Return Policy is required" })}
                                     placeholder="Return Policy"
                                     className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("return_policy", { required: "return policy price is required" })}
                                     required
                                 />
                             </div>
+
 
                             <div className="w-full flex flex-col gap-2">
                                 <div className="flex flex-col md:w-1/2 w-full gap-6">
@@ -401,19 +423,26 @@ const AddNewProduct = ({ closeAddNewModal, stores, categories }) => {
                                 </div>
                             </div>
 
+
                             {/* Submit Button */}
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                disabled={!watch("description") || !watch("specifications") || btnDisabled}
                             >
-                                {isLoading ? <PulseLoader color="#ffffff" size={10} /> : "Add New Product"}
+                                Create New Product
                             </button>
 
                         </div>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
+
     );
 };
 
