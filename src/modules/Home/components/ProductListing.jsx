@@ -140,13 +140,27 @@ const ProductListing = ({ data, categories, hideCategory }) => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {filteredProducts.map(product => (
-                        <Link to={`/product/${product.id}`} key={product.id} className="border rounded-md bg-white hover:shadow-sm">
-                            <div className="flex justify-center relative md:h-[200px] h-[200px]">
-                                <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
-                            </div>
-                            <h2 className="text-base p-4 font-medium mt-3">{product.name}</h2>
-                            <p className="text-black text-sm p-4 font-medium">{product.store.currency.symbol} {product.price}</p>
-                        </Link>
+                        <div key={product.id} className="bg-white p-4 border rounded-lg relative">
+                            <Link to={`/product/${product.id}`}>
+                                <div className="flex justify-center relative md:h-[200px] h-[200px]">
+                                    <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
+                                </div>
+                                <h3 className="text-base font-semibold mt-3 leading-loose">{product.name}</h3>
+                                <p className="text-sm font-medium leading-loose">{product.store.currency.symbol} {product.price}</p>
+                                <button
+                                    className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-meduim text-white ${product.vendor.isVerified ? "bg-green-500" : "bg-red-500"
+                                        }`}
+                                >
+                                    {product.vendor.isVerified ? "Verified" : "Not Verified"}
+                                </button>
+                                <span
+                                    className={`absolute top-2 left-2 px-2 py-1 text-xs rounded font-meduim text-white ${product.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
+                                        }`}
+                                >
+                                    {capitalizeEachWord(product.condition.replace(/_/g, ' '))}
+                                </span>
+                            </Link>
+                        </div>
                     ))}
                 </div>
             </main>

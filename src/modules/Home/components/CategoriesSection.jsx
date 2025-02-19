@@ -67,15 +67,6 @@ export default function CategoriesSection({ data }) {
 
     return (
         <div className="flex w-full flex-col gap-5">
-            {/* Heading Section */}
-            <div className="bg-[#A5B3FF] flex justify-between p-6 rounded-md mb-10 cursor-pointer">
-                <h2 className="text-lg font-semibold">Explore Popular Categories</h2>
-                <button className="text-black font-semibold">See All</button>
-            </div>
-            <div className="flex w-full items-center justify-between">
-                <h1 className="text-black sm:text-lg md:text-2xl xl:text-3xl font-bold">Explore Popular Categories</h1>
-            </div>
-
             {/* Carousel Section */}
             <div className="w-full mx-auto">
                 {/* Desktop Carousel */}
