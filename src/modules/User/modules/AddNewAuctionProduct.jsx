@@ -1,292 +1,342 @@
 import React, { useEffect, useState } from 'react';
-import { useCreateAuctionProductMutation } from "../../../reducers/storeSlice";
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import useApiMutation from '../../../api/hooks/useApiMutation';
 import DropZone from '../../../components/DropZone';
-import { MdClose } from "react-icons/md";
-import { toast } from "react-toastify";
-import { MdCancel } from "react-icons/md";
-import PulseLoader from "react-spinners/PulseLoader";
+import { EditorState, convertToRaw } from "draft-js";
+import DraftEditor from '../../../components/Editor';
+import { renderDraftContent } from '../../../helpers/renderDraftContent';
+import { FaTimes } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
-const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
+const AddNewAuctionProduct = () => {
+    const [descriptionEditor, setDescriptionEditor] = useState(() =>
+        EditorState.createEmpty()
+    );
+    const [specificationsEditor, setSpecificationsEditor] = useState(() =>
+        EditorState.createEmpty()
+    );
+
     const [currency, setCurrency] = useState(null);
-    const [files, setFiles] = useState([]);
+    const navigate = useNavigate();
+    const [stores, setStores] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [files, setFiles] = useState([]);
+    const [btnDisabled, setDisabled] = useState(false);
 
-    const [createAuctionProduct] = useCreateAuctionProductMutation();
-    
     const conditions = [
-        { id: 'brand_new', name: 'brand_new' },
-        { id: 'fairly_used', name: 'fairly_used' },
-        { id: 'fairly_foreign', name: 'fairly_foreign'},
-        { id: 'refurbished', name: 'refurbished' },
+        { id: 'brand_new', name: 'Brand New' },
+        { id: 'fairly_used', name: 'Fairly Used' },
+        { id: 'refurbished', name: 'Refurbished' },
     ]
+
+    const { mutate } = useApiMutation();
 
     const {
         register,
         handleSubmit,
         setValue,
-        watch
-    } = useForm();
+        getValues,
+        watch,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            description: "",
+            specifications: "",
+        },
+    });
 
-    const selectedId = watch("categoryId");
-    const selectedCategory = categories?.data?.find((cat) => cat.id === selectedId)?.name || "";
-
-    const handleCategoryChange = (e) => {
-        const selectedId = e.target.value;
-        setValue("categoryId", selectedId); 
-    };
-    
-    useEffect(() => {
-        if(selectedCategory){
-            const filteredCategories = categories?.data?.filter((categoryData) => (
-                categoryData.name === selectedCategory
-            ))
-
-            if (filteredCategories.length > 0 && filteredCategories[0]?.subCategories) {
-                setSubCategories(filteredCategories[0].subCategories);
-            } else {
-                setSubCategories([]); 
-            }
-        }
-    }, [selectedCategory])
-
-    const handleDrop = (data) => {
-        setFiles((prevFiles) => [...prevFiles, data]);
-    }
-
-    const handleRemoveImage = (idx) => {
-        setFiles((prevFile) => prevFile.filter((_, index) => index !== idx));
-    };
-
-    const transformPayload = (data) => {
-        return{
-            storeId: data.storeId ,
-            categoryId: data.subcategoryId,
-            name: data.name,
-            condition: data.condition, 
-            description: data.description,
-            specification: data.specification,
-            price: data.price,
-            bidIncrement: data.bidIncrement,
-            maxBidsPerUser: data.maxBidsPerUser,
-            participantsInterestFee: data.participantsInterestFee,
-            image_url: data.image,
-            additional_images: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"],
-            startDate: data.startDate,
-            endDate: data.endDate,
-        }
-    }
 
     const onSubmit = (data) => {
-        setIsLoading(true)
+        setDisabled(true);
         if (files.length > 0) {
-            const payload = { ...data, image: files[0]};
+            delete data.category;
+            const payload = {
+                ...data, image: files[0],
+                description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
+                specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
+                additionalImages: files
+            };
 
-            const reformedPayload = transformPayload(payload);
-
-            console.log(reformedPayload)
-            createAuctionProduct(reformedPayload)
-            .then((res) => {
-                if(res.status !== 200) throw res
-
-                toast.success(res.data.message);
-                setIsLoading(false)
-                closeAddNewModal();
-            }).catch((error) => {
-                console.log(error)
-                toast.error(error.error.data.message);
-                setIsLoading(false)
-                closeAddNewModal();
-            })
+            mutate({
+                url: "/vendor/auction/products",
+                method: "POST",
+                data: payload,
+                headers: true,
+                onSuccess: (response) => {
+                    navigate(-1)
+                },
+                onError: () => {
+                    setDisabled(false);
+                },
+            });
         }
-    };
-    
-    return (
-        <div className='All'>
-            <div className="rounded-md pb-2 px-9 gap-5 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Add New Auction Product</h2>
-                <MdClose className='text-[orangered] text-[30px] font-bold cursor-pointer'
-                    onClick={closeAddNewModal}
-                />
-            </div>
-            <div className="w-full flex flex-grow mt-3 ">
-                <div className="shadow-xl w-full flex rounded-xl flex-col gap-10">
+        else {
+            setDisabled(false);
+            toast.error('Product Images are required');
+        }
+    }
 
+
+    const getStore = () => {
+        mutate({
+            url: `/vendor/store`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setStores(response.data.data);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
+    const getCategories = () => {
+        mutate({
+            url: `/categories`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setCategories(response.data.data);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
+    useEffect(() => {
+        getStore();
+        getCategories();
+    }, []);
+
+
+    const handleStoreChange = (data) => {
+        const store = stores.find((store) => store.id === data);
+        setCurrency(store.currency.symbol);
+    }
+
+
+    const handleDrop = (data) => {
+        // Ensure data is always an array
+        const newFiles = Array.isArray(data) ? data : [data];
+
+        setFiles((prevFiles) => {
+            // Merge previous files and new ones, ensuring uniqueness
+            const updatedFiles = Array.from(new Set([...prevFiles, ...newFiles]));
+            return updatedFiles;
+        });
+    };
+
+
+    const getSubCategories = (categoryId) => {
+        mutate({
+            url: `/category/sub-categories?categoryId=${categoryId}`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setSubCategories(response.data.data);
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
+
+    const removeImage = (indexToRemove) => {
+        setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+    };
+
+
+
+    return (
+        <div className='w-full'>
+            <div className="rounded-md pb-2 w-full gap-5">
+                <h2 className="text-lg font-semibold text-black-700">Post New Auction Product</h2>
+            </div>
+            <div className="w-full flex flex-grow mt-3">
+                <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
                     <form
                         className="w-full flex flex-col items-center justify-center p-4"
                         onSubmit={handleSubmit(onSubmit)}
                     >
                         <div className="w-full p-6">
-                            <div className="mb-3">
+                            {/* Plan Name */}
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="store"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Store
                                 </label>
                                 <select
                                     id='storeId'
-                                    className="w-full p-1 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
-                                    style={{ outline: "none" }}
                                     {...register("storeId", { required: "Store is required" })}
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    style={{ outline: "none" }}
+                                    onChange={(event) => handleStoreChange(event.target.value)}
                                     required
                                 >
                                     <option value={null} disabled selected>Select Store</option>
-                                    {stores.data.map((store) => (
-                                        <option key={store.id} value={store.id}>
-                                            {store.name}
-                                        </option>
+                                    {stores.map((store) => (
+                                        <option value={store.id} key={store.id}>{store.name}</option>
+
                                     ))}
                                 </select>
                             </div>
 
-                            <div className="mb-3">
+
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="category"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Category
                                 </label>
                                 <select
-                                    id='categoryId'
-                                    className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                    id='category'
+                                    {...register("category", { required: "Category is required" })}
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("categoryId", { required: "Category is required" })}
-                                    onChange={handleCategoryChange}
+                                    onChange={(event) => getSubCategories(event.target.value)}
                                     required
                                 >
-                                    <option value="" disabled selected>Select Category</option>
-                                    {categories.data.map((category) => (
-                                        <option key={category.id} value={category.id}>
-                                            {category.name}
-                                        </option>
+                                    <option value={null} disabled selected>Select Category</option>
+                                    {categories.map((catgeory) => (
+                                        <option value={catgeory.id} key={catgeory.id}>{catgeory.name}</option>
                                     ))}
                                 </select>
                             </div>
 
-                            <div className="mb-3">
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="sub-category"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Sub Category
                                 </label>
                                 <select
-                                    id='subcategoryId'
-                                    className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                    id='categoryId'
+                                    {...register("categoryId", { required: "Sub Category is required" })}
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("subcategoryId", { required: "subcategory is required" })}
                                     required
                                 >
-                                    <option value={null} disabled selected>Sub Category</option>
-                                    {subCategories.map((subCategory) => (
-                                        <option 
-                                            key={subCategory.id}
-                                            value={subCategory.id}
-                                        >
-                                            {subCategory.name}
-                                        </option>
+                                    <option value={null} disabled selected>Select Sub Category</option>
+                                    {subCategories.map((catgeory) => (
+                                        <option value={catgeory.id} key={catgeory.id}>{catgeory.name}</option>
                                     ))}
                                 </select>
                             </div>
 
-                            <div className="mb-3">
+
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="product-Name"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Product Name
                                 </label>
                                 <input
                                     type="text"
                                     id="name"
+                                    {...register("name", { required: "Product Name is required" })}
                                     placeholder="Enter name of product"
-                                    className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("name", { required: "name is required" })}
                                     required
                                 />
                             </div>
 
-                            <div className="mb-3">
+                            <div className="mb-4">
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="condition"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Condition
                                 </label>
                                 <select
                                     id='condition'
-                                    className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                    {...register("condition", { required: "Condition is required" })}
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
-                                    {...register("condition", { required: "condition is required" })}
                                     required
                                 >
                                     <option value={null} disabled selected>Select Condition</option>
                                     {conditions.map((condition) => (
-                                        <option value={condition.value} key={condition.id}>{condition.name}</option>
+                                        <option value={condition.id} key={condition.id}>{condition.name}</option>
                                     ))}
                                 </select>
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="description"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Description
                                 </label>
-                                <textarea
-                                    type="text"
-                                    id="description"
-                                    placeholder="Describe your product"
-                                    className="w-full p-1 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
-                                    style={{ outline: "none" }}
-                                    {...register("description", { required: "description is required" })}
-                                    required
+                                <DraftEditor
+                                    editorState={descriptionEditor}
+                                    setEditorState={(newState) => {
+                                        setDescriptionEditor(newState);
+                                        setValue("description", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
+                                            shouldValidate: true, // Ensure validation runs when value changes
+                                        });
+                                    }}
                                 />
+                                {errors.description && <p className="text-red-500">Description is required</p>}
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mt-4 mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="specification"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Specifications
                                 </label>
-                                <textarea
-                                    type="text"
-                                    id="specification"
-                                    placeholder="Enter specification for your product"
-                                    className="w-full p-1 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
-                                    style={{ outline: "none" }}
-                                    {...register("specification", { required: "specification is required" })}
-                                    required
+                                <DraftEditor
+                                    editorState={specificationsEditor}
+                                    setEditorState={(newState) => {
+                                        setSpecificationsEditor(newState);
+                                        setValue("specifications", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
+                                            shouldValidate: true, // Ensure validation runs when value changes
+                                        });
+                                    }}
                                 />
+                                {errors.specifications && <p className="text-red-500">Specifications are required</p>}
                             </div>
 
-                            <div className='mb-3'>
+
+                            <div className='mt-4 mb-4'>
                                 <label
-                                    className="block text-md font-semibold mb-1"
-                                    htmlFor="price"
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
                                 >
                                     Price
                                 </label>
-                                <div className='flex'>
+                                <div className='flex gap-2'>
                                     <span className='flex flex-col justify-center'>{currency}</span>
                                     <input
                                         type="text"
                                         id="price"
+                                        {...register("price", { required: "Product Price is required" })}
                                         placeholder="Enter Price"
-                                        className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
-                                        {...register("price", { required: "price is required" })}
                                         required
                                     />
                                 </div>
                             </div>
+
+
                             <div className='flex justify-between'>
                                 <div className='mb-3 w-[49%]'>
                                     <label
@@ -300,7 +350,7 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                             type="number"
                                             id="bid_increment"
                                             placeholder="Enter Bid Increment"
-                                            className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             {...register("bidIncrement", { required: "bid increment is required" })}
                                             min={0}
@@ -319,7 +369,7 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                         type="number"
                                         id="max_bid"
                                         placeholder="Enter Max Bid"
-                                        className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         {...register("maxBidsPerUser", { required: "max bid is required" })}
                                         min={0}
@@ -338,7 +388,7 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                     type="text"
                                     id="participant_interest_fee"
                                     placeholder="Enter Participant Interest Fee"
-                                    className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     {...register("participantsInterestFee", { required:"participant interest fee is required"})}
                                     required
@@ -354,10 +404,10 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                         Start Date
                                     </label>
                                     <input
-                                        type="date"
+                                        type="datetime-local"
                                         id="start_date"
                                         placeholder="Enter Start Date"
-                                        className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         {...register("startDate", { required:"start date is required"})}
                                         required
@@ -372,10 +422,10 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                         End Date
                                     </label>
                                     <input
-                                        type="date"
+                                        type="datetime-local"
                                         id="end_date"
                                         placeholder="Enter Start Date"
-                                        className="w-full p-2 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         {...register("endDate", { required:"end date is required"})}
                                         required
@@ -383,40 +433,53 @@ const AddNewAuctionProduct = ({ closeAddNewModal, stores, categories }) => {
                                 </div>
                             </div>
 
+
                             <div className="w-full flex flex-col gap-2">
-                                <div className="flex flex-col w-[16%] h-[25vh] gap-6">
+                                <div className="flex flex-col md:w-1/2 w-full gap-6">
                                     <p className="-mb-3 text-mobiFormGray">
                                         Product Images
                                     </p>
                                     <DropZone onUpload={handleDrop} text={'Upload Images of Product'} />
                                 </div>
-                                <div className="flex my-4 flex-wrap">
+                                <div className="grid grid-cols-3 gap-4 my-4">
                                     {files.map((fileObj, index) => (
-                                        <div key={index} className="relative w-[18%] mr-3 mt-4">
+                                        <div key={index} className="relative">
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
                                                 className="w-full h-24 object-cover rounded"
                                             />
-                                            <button type="button" className='absolute top-1 right-1 text-[red] text-[20px]' onClick={() => handleRemoveImage(index)}><MdCancel /></button>
+                                            <span
+                                                onClick={() => removeImage(index)}
+                                                className="absolute top-1 right-1 bg-white shadow-lg text-black rounded-full p-1"
+                                            >
+                                                <FaTimes className="w-4 h-4" />
+                                            </span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
+
                             {/* Submit Button */}
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                disabled={!watch("description") || !watch("specifications") || btnDisabled}
                             >
-                                {isLoading ? <PulseLoader color="#ffffff"  size={10}/> : "Add Auction Product"} 
+                                Create New Product
                             </button>
 
                         </div>
+
                     </form>
+
                 </div>
+
             </div>
+
         </div>
+
     );
 };
 
