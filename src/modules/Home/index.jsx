@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import "../Home/components/style.css";
 import SearchSection from "./components/SearchSection";
-import DummyTrending from "./components/TrendingProducts";
-import DummyAution from "./components/DummyAution";
 import PreviewSection from "./components/PreviewSection";
 import ShoppingExperience from "./components/ShoppingExperience";
 import GetApp from "./components/GetApp";
@@ -12,13 +10,14 @@ import ProductsSection from "./components/ProductsSection";
 import Loader from "../../components/Loader";
 import TrendingProducts from "./components/TrendingProducts";
 import CategoriesSection from "./components/CategoriesSection";
+import AuctionPage from "./components/AuctionPage";
 
 
 export default function NewHome() {
     const { mutate } = useApiMutation();
     const [products, setProducts] = useState([]);
     const [categoriesArr, setCategoriesArr] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState([]);
+    const [auctionProducts, setAuctionProducts] = useState([]);
     const [trendingProducts, setTrendingProducts] = useState([]);
     const [ads, setAds] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -62,6 +61,18 @@ export default function NewHome() {
                 });
             });
 
+
+            const auctionProductRequest = new Promise((resolve, reject) => {
+                mutate({
+                    url: '/auction/products',
+                    method: 'GET',
+                    hideToast: true,
+                    onSuccess: (response) => resolve(response.data?.data || []),
+                    onError: reject,
+                });
+            });
+
+
             const categoriesRequest = new Promise((resolve, reject) => {
                 mutate({
                     url: `/categories`,
@@ -76,16 +87,11 @@ export default function NewHome() {
 
             const [productsData] = await Promise.all([productRequest]);
             const [trending] = await Promise.all([trendingProductRequest]);
+            const [auction] = await Promise.all([auctionProductRequest]);
             const [categoriesData] = await Promise.all([categoriesRequest]);
 
             setTrendingProducts(trending);
-
-            if (!productsData || productsData.length === 0) {
-                setProducts([]);
-                setFilteredProducts([]);
-                return;
-            }
-
+            setAuctionProducts(auction);
             setProducts(productsData);
 
 
@@ -133,19 +139,6 @@ export default function NewHome() {
         fetchAds();
     }, []);
 
-    // Filter brand-new products once products are updated
-    useEffect(() => {
-        if (products.length > 0) {
-            setFilteredProducts(products.filter(product => product.condition === 'brand_new'));
-        }
-    }, [products]);
-
-    // Function to filter products by condition
-    const filterProducts = (condition) => {
-        setFilteredProducts(products.filter((product) => product.condition === condition));
-    };
-
-
 
     return (
         <>
@@ -179,7 +172,7 @@ export default function NewHome() {
                         <TrendingProducts productsArr={trendingProducts} ads={ads.slice(2, 4)} />
                     </div>
                     <div className="w-full lg:flex md:flex gap-3 md:mt-3">
-                        <DummyAution />
+                        <AuctionPage auctions={auctionProducts.slice(0, 12)} />
                     </div>
                     <div className="w-full lg:flex md:flex gap-3 md:mt-3">
                         <div className="bg-[#615353] w-full flex justify-between p-6 rounded-md cursor-pointer">
