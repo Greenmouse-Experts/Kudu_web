@@ -20,6 +20,7 @@ import ViewProduct from "../modules/Products/viewProduct";
 import CategoryProduct from "../modules/Products/categoriesProduct";
 import Cart from "../modules/Cart";
 import Messages from "../modules/Messages";
+import NewHome from "../modules/Home/New";
 
 
 export const landingRooutes = [
@@ -46,11 +47,11 @@ export const landingRooutes = [
       {
         path: 'product/:id',
         element: <ViewProduct />
-    },
-    {
+      },
+      {
         path: 'products/categories/:id/:name',
         element: <CategoryProduct />
-    },
+      },
       {
         path: 'terms-condition',
         element: <Condititons />
@@ -108,71 +109,76 @@ export const landingRooutes = [
           },
         ]
       },
-          {
-            path: 'cart',
-            element: <Cart />
-          },
-          {
-            path: 'messages',
-            element: <Messages />
-          },
-          {
-            path: 'notification',
-            element: <Notification />
-          },
-          {
-            path: 'contact',
-            element: <Contact />
-          },
-          {
-            path: 'faqs',
-            element: < Faqs/>
-          },
-          {
-            path: 'privacy',
-            element: <Privacy/>
-          },
+      {
+        path: 'cart',
+        element: <Cart />
+      },
+      {
+        path: 'messages',
+        element: <Messages />
+      },
+      {
+        path: 'notification',
+        element: <Notification />
+      },
+      {
+        path: 'contact',
+        element: <Contact />
+      },
+      {
+        path: 'faqs',
+        element: < Faqs />
+      },
+      {
+        path: 'privacy',
+        element: <Privacy />
+      },
 
-          {
-            path: 'terms-condition',
-            element: <Condititons/>
-          },
+      {
+        path: 'terms-condition',
+        element: <Condititons />
+      },
 
-          {
-            path: 'testimonial',
-            element: <Testimonial/>
-          },
+      {
+        path: 'testimonial',
+        element: <Testimonial />
+      },
 
-          {
-            path: 'about',
-            element: <About/>
-          },
+      {
+        path: 'about',
+        element: <About />
+      },
 
-          {
-            path: 'see-all',
-            element: <SellAll/>
-          },
+      {
+        path: 'see-all',
+        element: <SellAll />
+      },
 
-          {
-            path: 'career',
-            element: <Careers/>
-          },
+      {
+        path: 'career',
+        element: <Careers />
+      },
 
-          {
-            path: 'jobs-details',
-            element: <JobDetails/>
-          },
+      {
+        path: 'jobs-details',
+        element: <JobDetails />
+      },
 
-          {
-            path: 'become-a-vendor',
-            element: <BecomeAvendor/>
-          },
+      {
+        path: 'become-a-vendor',
+        element: <BecomeAvendor />
+      },
 
-          {
-            path: 'advertise-with-us',
-            element: <AdvertiseOnKudu/>
-          },
+      {
+        path: 'advertise-with-us',
+        element: <AdvertiseOnKudu />
+      },
 
-        ],
-      }
-    ];
+      {
+        path: 'new-home',
+        element: <NewHome />
+      },
+
+    ],
+  }
+];
