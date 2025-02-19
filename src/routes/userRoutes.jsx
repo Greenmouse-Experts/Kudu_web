@@ -11,6 +11,7 @@ import VendorAdverts from "../modules/User/modules/VendorAdverts";
 import Notification from "../modules/Notification/Notification";
 import PostNewAdvert from "../modules/User/modules/AddNewAdvert";
 import UpdateAdvert from "../modules/User/modules/UpdateAdvert";
+// import OrderDetails from "../modules/orders/OrderDetails";
 import AddNewProduct from "../modules/User/modules/AddNewProduct";
 
 export const userRoutes = [
@@ -29,6 +30,10 @@ export const userRoutes = [
                     {
                         path: 'orders',
                         element: <ProfileOrders />
+                    },
+                    {
+                        path: 'orders/order-details/:id',
+                        element: <OrderDetails />
                     },
                     {
                         path: 'view-orders',

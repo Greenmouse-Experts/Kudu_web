@@ -27,6 +27,19 @@ export const formatTime = (dateString) => {
   }
 };
 
+export function getPercentage(amount, percent) {
+  if (
+    typeof amount !== "number" ||
+    typeof percent !== "number" ||
+    percent < 0
+  ) {
+    return "Invalid input";
+  }
+
+  return Math.round((amount * percent) / 100);
+}
+
+
 // Example usage
 
 
