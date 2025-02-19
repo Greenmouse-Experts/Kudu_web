@@ -14,6 +14,8 @@ const MyProducts = () => {
     const [delModal, setDelModal] = useState(false);
     const [productId, setProductId] = useState(null);
 
+    const navigate = useNavigate();
+
     const { data } = useGetMyProductQuery();
     const { data: stores } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
     const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
@@ -29,7 +31,7 @@ const MyProducts = () => {
     }
 
     const openAddNewProductForm = () => {
-        setAddNewModal(true)
+        navigate('/profile/products/create');
         setOpenAddNewProductOptionModal(false)
     }
 

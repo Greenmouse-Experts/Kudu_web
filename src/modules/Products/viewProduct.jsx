@@ -241,7 +241,7 @@ export default function ViewProduct() {
                       </button>
                     )}
                   >
-                    {product.additional_images.map(
+                    {JSON.parse(product.additional_images).map(
                       (image, index) => (
                         <>
                           <img
@@ -256,7 +256,7 @@ export default function ViewProduct() {
                 </div>
                 <div className="flex w-full overflow-x">
                   <div className="flex w-full justify-between gap-2">
-                    {product.additional_images.map(
+                    {JSON.parse(product.additional_images).map(
                       (image, index) => (
                         <div className="w-full flex justify-start h-auto max-h-[100px]">
                           <Imgix
