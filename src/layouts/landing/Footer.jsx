@@ -99,7 +99,7 @@ export default function Footer() {
                         <h3 className="md:text-lg text-base text-white font-semibold">Legal</h3>
                         <ul className="space-y-3 text-sm">
                             <li>
-                                <Link to="/" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
+                                <Link to="/return-policy" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
                                 <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
                                     Return Policy
                                 </Link>
@@ -111,7 +111,13 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/terms-conditions" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
+                                <Link to="/cookie-policy" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
+                                     <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
+                                    Cookies Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/terms-condition" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
                                 <ScrollText size={15} style={{ color: "#ff6f22" }} />
                                     Terms and Conditions
                                 </Link>
