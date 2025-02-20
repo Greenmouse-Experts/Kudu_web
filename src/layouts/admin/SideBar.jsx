@@ -3,6 +3,7 @@ import Imgix from "react-imgix";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useModal } from "../../hooks/modal";
 import LogOutModal from "../../components/LogOut";
+import { FaLaptop } from "react-icons/fa";
 
 const Sidebar = () => {
     const location = useLocation();
@@ -176,6 +177,26 @@ const Sidebar = () => {
                                     <Link to={'pages/faqs'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Faqs</Link>
                                     <Link to={'pages/testimonials'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Testimonial</Link>
                                     {/* <Link to={'products-categories/sub-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link> */}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className='relative'>
+                            <button onClick={() => handleChildren('pages')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
+                            <FaLaptop className="mr-5"  size={20}/>
+                                <span className="text-md font-[600]">Jobs</span>
+                                <i className="ml-5 right-0">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
+                                    </svg>
+                                </i>
+                            </button>
+                            {dropdownStates.pages && (
+                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                                    <Link to={'jobs'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Jobs</Link>
+                                    <Link to={''} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">View Applicant</Link>
+                                 
+                                 
                                 </div>
                             )}
                         </div>

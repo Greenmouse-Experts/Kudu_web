@@ -1,54 +1,52 @@
-import useApiMutation from '../api/hooks/useApiMutation';
-import { Button } from '@material-tailwind/react';
-import { useModal } from '../hooks/modal';
+import useApiMutation from "../api/hooks/useApiMutation";
+import { Button } from "@material-tailwind/react";
+import { useModal } from "../hooks/modal";
 
-const Modal = ({ redirect, title, api, method, body }) => {
-    const { closeModal } = useModal();
+const Modal = ({ redirect, title, api, method, body, text }) => {
+  const { closeModal } = useModal();
 
-    const { mutate } = useApiMutation();
+  const { mutate } = useApiMutation();
 
-    const deleteAction = () => {
-        mutate({
-            url: `${api}`,
-            method: `${method}`,
-            data: body ? body : null,
-            headers: true,
-            onSuccess: (response) => {
-                redirect();
-                closeModal();
-            },
-            onError: () => {
-                closeModal();
-            }
-        });
-    }
+  const deleteAction = () => {
+    mutate({
+      url: `${api}`,
+      method: `${method}`,
+      data: body ? body : null,
+      headers: true,
+      onSuccess: (response) => {
+        redirect();
+        closeModal();
+      },
+      onError: () => {
+        closeModal();
+      },
+    });
+  };
 
-
-    return (
-        <>
-            <div className="w-full flex h-auto flex-col px-3 py-6 gap-3 -mt-3">
-                <div className="flex gap-5 justify-center w-full">
-                    <p className="font-semibold text-center text-lg">
-                        {title}
-                    </p>
-                </div>
-                <div className="flex justify-center mt-5 gap-4">
-                    <Button
-                        onClick={deleteAction}
-                        className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
-                    >
-                        Yes
-                    </Button>
-                    <button
-                        onClick={closeModal}
-                        className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        </>
-    );
-}
+  return (
+    <>
+      <div className="w-full flex h-auto flex-col px-3 py-6 gap-3 -mt-3">
+        <div className="text-center w-full">
+          <p className="font-semibold text-center text-lg">{title}</p>
+          {text && <p className="text-black text-sm">{text}</p>}
+        </div>
+        <div className="flex justify-center mt-5 gap-4">
+          <Button
+            onClick={deleteAction}
+            className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
+          >
+            Yes
+          </Button>
+          <button
+            onClick={closeModal}
+            className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default Modal;
