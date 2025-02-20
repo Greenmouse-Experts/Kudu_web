@@ -1,17 +1,6 @@
 import React, { useState } from "react";
 
-const auctions = Array.from({ length: 4 }, (_, i) => ({
-  id: i + 1,
-  name: "2014 Audi A4 All Road Premium",
-  lotNumber: "65614064",
-  currentBid: 63500,
-  location: "Ikeja",
-  image:
-    "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739889894/kuduMart/l_l4ywos.png",
-  condition: "Used",
-}));
-
-const AuctionPage = () => {
+const AuctionPage = ({auctions}) => {
   const [activeTab, setActiveTab] = useState("popular");
 
   return (
@@ -36,7 +25,7 @@ const AuctionPage = () => {
         >
           Popular Auctions
         </button>
-        <button
+       {/* <button
           className={`flex-shrink-0 px-4 md:px-10 py-5 rounded-lg font-semibold ${
             activeTab === "todays"
               ? "bg-[#FF6F22] text-white"
@@ -65,7 +54,7 @@ const AuctionPage = () => {
           onClick={() => setActiveTab("calendar")}
         >
           Auction Calendar
-        </button>
+        </button>*/}
       </div>
 
       {/* Auction Listings */}
@@ -108,21 +97,21 @@ const AuctionPage = () => {
             </div>
           ))}
 
-        {activeTab === "todays" && (
+        {/*activeTab === "todays" && (
           <p className="text-center col-span-full text-sm md:text-base">
             Today's Selections Content
           </p>
-        )}
-        {activeTab === "live" && (
+        )*/}
+        {/*activeTab === "live" && (
           <p className="text-center col-span-full text-sm md:text-base">
             Live Auctions Content
           </p>
-        )}
-        {activeTab === "calendar" && (
+        )*/}
+        {/*activeTab === "calendar" && (
           <p className="text-center col-span-full text-sm md:text-base">
             Auction Calendar Content
           </p>
-        )}
+        )*/}
       </div>
     </div>
   );

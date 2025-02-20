@@ -59,7 +59,7 @@ const AddNewAuctionProduct = () => {
             };
 
             mutate({
-                url: "/vendor/auction/products",
+                url: "/admin/auction/products",
                 method: "POST",
                 data: payload,
                 headers: true,
@@ -80,7 +80,7 @@ const AddNewAuctionProduct = () => {
 
     const getStore = () => {
         mutate({
-            url: `/vendor/store`,
+            url: `/admin/store`,
             method: "GET",
             headers: true,
             hideToast: true,

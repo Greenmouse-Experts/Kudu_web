@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
 import { useGetMyProductQuery, useGetAllStoreQuery, useGetCategoriesQuery, useDeleteProductMutation } from "../../../reducers/storeSlice"
@@ -6,6 +6,8 @@ import ProductTypeModal from './ProductTypeModal';
 import AddNewProduct from './AddNewProduct';
 import AddNewAuctionProduct from './AddNewAuctionProduct';
 import { toast } from "react-toastify";
+import useApiMutation from '../../../api/hooks/useApiMutation';
+import Loader from '../../../components/Loader';
 
 const MyProducts = () => {
     const [openAddNewProductOptionModal, setOpenAddNewProductOptionModal] = useState(false);
@@ -13,17 +15,21 @@ const MyProducts = () => {
     const [addNewAuctionModal, setAddNewAuctionModal] = useState(false);
     const [delModal, setDelModal] = useState(false);
     const [productId, setProductId] = useState(null);
+    const [mergedProducts, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const { mutate } = useApiMutation();
 
     const navigate = useNavigate();
 
     const { data } = useGetMyProductQuery();
-    const { data: stores } = useGetAllStoreQuery({refetchOnMountOrArgChange: true});
-    const {data: categories} = useGetCategoriesQuery({refetchOnMountOrArgChange: true});
+    const { data: stores } = useGetAllStoreQuery({ refetchOnMountOrArgChange: true });
+    const { data: categories } = useGetCategoriesQuery({ refetchOnMountOrArgChange: true });
     const [deleteProd] = useDeleteProductMutation();
 
     const handleOpenModal = () => {
-        if(stores) {
-        setOpenAddNewProductOptionModal(true)
+        if (stores) {
+            setOpenAddNewProductOptionModal(true)
         }
         else {
             toast.error('No stores found for this vendor')
@@ -36,7 +42,7 @@ const MyProducts = () => {
     }
 
     const openAddNewAuctionProductForm = () => {
-        setAddNewAuctionModal(true)
+        navigate('/profile/auction-products/create');
         setOpenAddNewProductOptionModal(false)
     }
 
@@ -56,15 +62,52 @@ const MyProducts = () => {
 
     const deleteProduct = () => {
         deleteProd(productId)
-        .then((res) => {
-            console.log(res)
-            toast.success(res.data.message)
-        }).catch((err) => {
-            console.error(err)
-        })
+            .then((res) => {
+                console.log(res)
+                toast.success(res.data.message)
+            }).catch((err) => {
+                console.error(err)
+            })
         setDelModal(false)
     }
-    
+
+
+    const getAuctionProducts = () => {
+        mutate({
+            url: `/vendor/auction/products`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                const merged = [...(data?.data || []), ...response.data.data];
+                setProducts(merged);
+                setLoading(false);
+            },
+            onError: () => {
+                setLoading(false)
+            }
+        });
+    }
+
+
+    useEffect(() => {
+        if (data) {
+            getAuctionProducts();
+        }
+    }, [data]);
+
+
+
+
+    if (loading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <Loader />
+            </div>
+        )
+    }
+
+
     return (
         <>
             <div className='w-full'>
@@ -88,11 +131,12 @@ const MyProducts = () => {
                                     <th className="py-6 px-4 text-left">Category</th>
                                     <th className="py-6 px-4 text-left">Conditions</th>
                                     <th className="py-6 px-4 text-left">Price</th>
+                                    <th className="py-6 px-4 text-left">Type</th>
                                     <th className="py-6 px-4 text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data?.data?.map((product, index) => (
+                                {mergedProducts.map((product, index) => (
                                     <tr
                                         key={product.id}
                                         className={`${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
@@ -103,6 +147,18 @@ const MyProducts = () => {
                                         <td className="py-6 px-4 text-left">{product.sub_category.name}</td>
                                         <td className="py-6 px-4 text-left capitalize">{product.condition.replace(/_/g, ' ')}</td>
                                         <td className="py-6 px-4 text-left">{product.store.currency.symbol} {product.price}</td>
+                                        <td className="py-6 px-4 text-left">{product.auctionStatus ? 'Auction' : 'Non Auction'}
+                                            {product.auctionStatus ?
+                                                <span
+                                                    className={`text-xs text-white ml-2 uppercase shadow-md rounded-lg px-3 py-2 leading-loose 
+                                            ${product.auctionStatus !== "ongoing" ? "bg-red-500" : "bg-green-500"}`}
+                                                >
+                                                    {product.auctionStatus}
+                                                </span>
+                                                :
+                                                <></>
+                                            }
+                                        </td>
                                         <td className="py-3 px-4 text-left">
                                             <Menu placement="left">
                                                 <MenuHandler>
@@ -138,22 +194,22 @@ const MyProducts = () => {
                     </div>
                 </div>
                 {addNewModal && (
-                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                    <div className="bg-white rounded-lg w-11/12 md:w-3/5 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
-                        <AddNewProduct 
-                            closeAddNewModal={closeAddNewModal} 
-                            stores={stores}
-                            categories={categories}
-                        />
+                    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
+                        <div className="bg-white rounded-lg w-11/12 md:w-3/5 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none">
+                            <AddNewProduct
+                                closeAddNewModal={closeAddNewModal}
+                                stores={stores}
+                                categories={categories}
+                            />
+                        </div>
                     </div>
-                </div>
                 )}
 
                 {addNewAuctionModal && (
                     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-                        <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none"> 
+                        <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none">
                             <AddNewAuctionProduct
-                                closeAddNewModal={closeAddNewModal} 
+                                closeAddNewModal={closeAddNewModal}
                                 stores={stores}
                                 categories={categories}
                             />
@@ -164,12 +220,12 @@ const MyProducts = () => {
                 {openAddNewProductOptionModal && (
                     <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
                         <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
-                            <ProductTypeModal 
+                            <ProductTypeModal
                                 openAddNewAuctionProductForm={openAddNewAuctionProductForm}
                                 openAddNewProductForm={openAddNewProductForm}
                             />
                         </div>
-                   </div>
+                    </div>
                 )}
 
                 {delModal && (

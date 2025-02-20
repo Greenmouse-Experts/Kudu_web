@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 import ProductListing from "../../../components/ProductsList";
 import Imgix from "react-imgix";
 
-const ProductsSection = ({ productsArr, ads }) => {
+const TrendingProducts = ({ productsArr, ads }) => {
     return (
         <div className="w-full">
-            <div className="bg-[#C1FFA5] flex justify-between p-6 rounded-md mb-10 cursor-pointer">
-                <h2 className="text-lg font-semibold">All Products</h2>
-                <Link to={'/see-all'} className="text-black font-semibold">See All</Link>
+            <div className="bg-[#192D4C] w-full flex justify-between p-6 rounded-md mb-10 cursor-pointer">
+                <h2 className="text-lg text-white font-semibold">Trending Products</h2>
+                <Link to={'/see-all'} className="text-white font-semibold">See All</Link>
             </div>
 
             <ProductListing productsArr={productsArr.slice(0, 8)} />
@@ -30,7 +30,7 @@ const ProductsSection = ({ productsArr, ads }) => {
     );
 };
 
-export default ProductsSection;
+export default TrendingProducts;
 
 
 
