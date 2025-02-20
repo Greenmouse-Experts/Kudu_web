@@ -21,10 +21,10 @@ const ProductListing = ({ productsArr }) => {
                             <h3 className="text-base font-semibold mt-3 leading-loose">{item.name}</h3>
                             <p className="text-sm font-medium leading-loose">{item.store.currency.symbol} {item.price}</p>
                             <button
-                                className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-meduim text-white ${item.vendor.isVerified ? "bg-green-500" : "bg-red-500"
+                                className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-medium text-white ${item.vendor?.isVerified || item.admin ? "bg-green-500" : "bg-red-500"
                                     }`}
                             >
-                                {item.vendor.isVerified ? "Verified" : "Not Verified"}
+                                {item.vendor?.isVerified || item.admin ? "Verified" : "Not Verified"}
                             </button>
                             <span
                                 className={`absolute top-2 left-2 px-2 py-1 text-xs rounded font-meduim text-white ${item.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
