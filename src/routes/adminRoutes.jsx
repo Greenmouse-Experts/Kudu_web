@@ -31,6 +31,8 @@ import EditSubscription from "../modules/SuperAdmin/Dashboard/editSubscription.j
 import FaqCategory from "../modules/SuperAdmin/Dashboard/inner-pages/faqs-category.jsx"
 import Faqs from "../modules/SuperAdmin/Dashboard/inner-pages/faqs.jsx"
 import Testimonials from "../modules/SuperAdmin/Dashboard/inner-pages/testimonials.jsx"
+import AuctionProducts from "../modules/SuperAdmin/Dashboard/auctionProducts.jsx";
+import AddNewAuctionProduct from "../modules/SuperAdmin/Dashboard/addAuctionProduct.jsx";
 
 export const adminRoutes = [
     {
@@ -144,6 +146,15 @@ export const adminRoutes = [
             {
                 path: "new-product",
                 element: <AddNewProduct />,
+            },
+            {
+                path: "auction-products",
+                element: <AuctionProducts />,
+    
+            },
+            {
+                path: "auction-products/new-product",
+                element: <AddNewAuctionProduct />,
             },
             {
                 path: "all-vendors/kyc/:id",
