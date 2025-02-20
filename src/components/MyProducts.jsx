@@ -17,7 +17,11 @@ const MyProducts = ({ data, refetch }) => {
         openModal({
             size: "sm",
             content: <Modal title={`Do you wish to ${user.status === 'inactive' ? 'publish' : 'unpublish'} this product?`} redirect={handleRedirect}
-                api={`/admin/products/change-status`} method={'PATCH'} body={{ productId: user.id, status: user.status === 'inactive' ? 'active' : 'inactive' }} />
+                api={`${user.status === 'inactive' ? `/admin/general/product/publish?productId=${user.id}`
+                    :
+                    `/admin/general/product/unpublished?productId=${user.id}`
+                    }
+                    `} method={'PUT'} />
         })
     }
 

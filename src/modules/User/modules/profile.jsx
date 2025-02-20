@@ -322,9 +322,13 @@ const AccountProfile = () => {
                                     'You are currently not subscribed to any of our plans.'
                                 }
                             </p>
-                            <p className="flex">
-                                <span onClick={() => handleViewModal(subscriptionPlan[0])} className="text-underline cursor-pointer text-sm font-semibold text-kuduOrange">View Details</span>
-                            </p>
+                            {subscriptionPlan.length > 0 ?
+                                <p className="flex">
+                                    <span onClick={() => handleViewModal(subscriptionPlan[0])} className="text-underline cursor-pointer text-sm font-semibold text-kuduOrange">View Details</span>
+                                </p>
+                                :
+                                <></>
+                            }
                         </div>
                     </div>
                 )}

@@ -1,8 +1,7 @@
-import Imgix from "react-imgix";
 import { Link } from "react-router-dom";
-import Badge from "./Badge";
 
-export default function ProductListing({ productsArr }) {
+const ProductListing = ({ productsArr }) => {
+
     const capitalizeEachWord = (str) => {
         return str
             .split(" ")
@@ -11,63 +10,38 @@ export default function ProductListing({ productsArr }) {
     };
 
     return (
-        <div className="grid w-full grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-4 lg:gap-y-14 gap-y-8 bg-white p-3 shadow-sm">
-            {productsArr.map((product, index) => (
-                <Link to={`/product/${product.id}`} key={`${index}0`} className="bg-white border shadow-sm rounded-lg">
-                    <div className="flex flex-col relative">
-                        {/* Product Image & Badge */}
-                        <div className="flex justify-center relative md:h-[250px] h-[250px]">
-                            <Imgix
-                                src={product.image_url}
-                                width={650}
-                                height={650}
-                                sizes="20vw"
-                                className="object-cover w-full h-full rounded-lg"
-                                alt={product.meta_description}
-                            />
-                            {/* Condition Badge (Top-Right) */}
-                            <span className="absolute top-1 right-1">
-                                <Badge
-                                    bgColor={capitalizeEachWord(product.condition.replace(/_/g, ' ')) === 'Brand New' ? 'bg-kuduGreen' : 'bg-kuduRed'}
-                                    text={capitalizeEachWord(product.condition.replace(/_/g, ' '))}
-                                    textColor={'text-white'}
-                                />
+        <div className="w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {productsArr.map((item) => (
+                    <div key={item.id} className="bg-white p-4 border rounded-lg relative">
+                        <Link to={`/product/${item.id}`}>
+                            <div className="flex justify-center relative md:h-[200px] h-[200px]">
+                                <img src={item.image_url} alt={item.name} className="w-full md:h-[200px] object-cover rounded-md" />
+                            </div>
+                            <h3 className="text-base font-semibold mt-3 leading-loose">{item.name}</h3>
+                            <p className="text-sm font-medium leading-loose">{item.store.currency.symbol} {item.price}</p>
+                            <button
+                                className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-meduim text-white ${item.vendor.isVerified ? "bg-green-500" : "bg-red-500"
+                                    }`}
+                            >
+                                {item.vendor.isVerified ? "Verified" : "Not Verified"}
+                            </button>
+                            <span
+                                className={`absolute top-2 left-2 px-2 py-1 text-xs rounded font-meduim text-white ${item.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
+                                    }`}
+                            >
+                                {capitalizeEachWord(item.condition.replace(/_/g, ' '))}
                             </span>
-                            {/* Verified Badge (Bottom-Right) */}
-                            {product.vendor ?
-                                <span className="absolute bottom-2 right-2">
-                                    <button
-                                        className={`text-white text-xs px-3 py-1 rounded-md font-light transition-all
-                                        ${product.vendor.isVerified ? "bg-green-600 hover:bg-green-700" : "bg-red-600 hover:bg-red-700"}
-                                    `}
-                                    >
-                                        {product.vendor.isVerified ? "Verified ✅" : "Not Verified ❌"}
-                                    </button>
-                                </span>
-                                :
-                                <span className="absolute bottom-2 right-2">
-                                    <button
-                                        className={`text-white text-xs px-3 py-1 rounded-md font-light transition-all
-                                             bg-green-600 hover:bg-green-700`}
-                                    >
-                                        Verified ✅
-                                    </button>
-                                </span>
-                            }
-                        </div>
-
-                        {/* Product Details */}
-                        <div className="flex flex-col gap-4 p-4 border-t-2">
-                            <p className="text-xs font-semibold capitalize leading-loose">
-                                {product.name}
-                            </p>
-                            <p className="text-xs font-semibold">
-                                {product.store.currency.symbol} {product.price}
-                            </p>
-                        </div>
+                        </Link>
                     </div>
-                </Link>
-            ))}
+                ))}
+            </div>
         </div>
     );
-}
+};
+
+export default ProductListing;
+
+
+
+

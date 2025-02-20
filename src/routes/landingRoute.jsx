@@ -20,7 +20,6 @@ import ViewProduct from "../modules/Products/viewProduct";
 import CategoryProduct from "../modules/Products/categoriesProduct";
 import Cart from "../modules/Cart";
 import Messages from "../modules/Messages";
-import NewHome from "../modules/Home/New";
 
 
 export const landingRooutes = [
@@ -173,12 +172,6 @@ export const landingRooutes = [
         path: 'advertise-with-us',
         element: <AdvertiseOnKudu />
       },
-
-      {
-        path: 'new-home',
-        element: <NewHome />
-      },
-
     ],
   }
 ];
