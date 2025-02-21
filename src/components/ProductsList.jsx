@@ -15,8 +15,8 @@ const ProductListing = ({ productsArr }) => {
                 {productsArr.map((item) => (
                     <div key={item.id} className="bg-white p-4 border rounded-lg relative">
                         <Link to={`/product/${item.id}`}>
-                            <div className="flex justify-center relative md:h-[200px] h-[200px]">
-                                <img src={item.image_url} alt={item.name} className="w-full md:h-[200px] object-cover rounded-md" />
+                            <div className="flex justify-center relative md:h-[300px] h-[200px]">
+                                <img src={item.image_url} alt={item.name} className="w-full md:h-[300px] object-cover rounded-md" />
                             </div>
                             <h3 className="text-base font-semibold mt-3 leading-loose">{item.name}</h3>
                             <p className="text-sm font-medium leading-loose">{item.store.currency.symbol} {item.price}</p>

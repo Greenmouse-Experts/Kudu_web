@@ -32,17 +32,12 @@ export default function ProductConditions({ condition }) {
     };
 
     return (
-        <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2">
-            <div className="flex w-full">
-                <p className="text-white sm:text-lg md:text-2xl xl:text-3xl font-bold">
-                    Explore by Product Condition
-                </p>
-            </div>
+        <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2 mb-10">
             <div className="grid w-full lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
-                {conditionsArr.map((item, index) => {
+                {conditionsArr.length > 0 ? conditionsArr.map((item, index) => {
                     const IconComponent = item.icon;
                     const isActive = activeCondition === item.id;
-                    
+
                     return (
                         <div
                             key={index}
@@ -51,8 +46,8 @@ export default function ProductConditions({ condition }) {
                                 ${isActive ? "bg-kuduOrange text-white" : "bg-white text-black hover:bg-kuduOrange hover:text-white"}
                             `}
                         >
-                            <IconComponent 
-                                size={40} 
+                            <IconComponent
+                                size={40}
                                 className="transition-all"
                                 style={{ color: isActive ? "white" : item.color }}
                             />
@@ -61,7 +56,12 @@ export default function ProductConditions({ condition }) {
                             </p>
                         </div>
                     );
-                })}
+                })
+                    :
+                    <div className='w-full flex justify-center'>
+                        <span className='text-2xl font-semibold'>NO DATA IS AVAILABLE</span>
+                    </div>
+                }
             </div>
         </div>
     );
