@@ -13,6 +13,8 @@ import PostNewAdvert from "../modules/User/modules/AddNewAdvert";
 import UpdateAdvert from "../modules/User/modules/UpdateAdvert";
 import AddNewProduct from "../modules/User/modules/AddNewProduct";
 import AddNewAuctionProduct from "../modules/User/modules/AddNewAuctionProduct";
+import UpdateProduct from "../modules/User/modules/UpdateProducts";
+import UpdateAuctionProducts from "../modules/User/modules/UpdateAuctionProducts";
 
 export const userRoutes = [
     {
@@ -54,6 +56,14 @@ export const userRoutes = [
                     {
                         path: 'auction-products/create',
                         element: <AddNewAuctionProduct />
+                    },
+                    {
+                        path: 'products/edit/:id',
+                        element: <UpdateProduct />
+                    },
+                    {
+                        path: 'auction-products/edit/:id',
+                        element: <UpdateAuctionProducts />
                     },
                     {
                         path: 'adverts/create-advert',

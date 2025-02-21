@@ -81,8 +81,8 @@ export default function UpdatedKYC() {
     setValue("businessLink", kycData.businessLink);
     setValue("businessAddress", kycData.businessAddress);
     setValue("businessRegistrationNumber", kycData.businessRegistrationNumber);
-    setValue("name", JSON.parse(kycData.idVerification).name);
-    setValue("number", JSON.parse(kycData.idVerification).number);
+    setValue("name", kycData.idVerification.name);
+    setValue("number", kycData.idVerification.number);
     setLoader(false)
   }, [kycData, setValue]);
 
