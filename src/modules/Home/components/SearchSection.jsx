@@ -21,12 +21,6 @@ const MyComponent = () => {
             placeholder: "Search for great deals...",
         },
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739885519/kuduMart/kdbnr21_rheggf.jpg",
-            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd3o_ulwuof.png",
-            heading: "Looking to Sell Something ? KUDU is the right place for you!",
-            placeholder: "Search for great deals...",
-        },
-        {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_11.18.18_AM_hcqyzy.jpg",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd4_ipvaxv.png",
             heading: "Looking to Sell Something ? KUDU is the right place for you!",
