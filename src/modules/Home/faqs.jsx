@@ -256,12 +256,16 @@ const FAQs = () => {
     ],
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className="py-40">
+        <Loader />
+      </div>
+    );
   // Filter questions by search query
   const filteredQuestions = faqs?.filter((q) => q.name === activeCategory);
 
   const faqCategories = faqs.map((faq) => faq.name);
-
 
   return (
     <>
