@@ -29,7 +29,12 @@ const Testimonials = () => {
 
   const { data: testimonials, isLoading } = useGetTestimonialsClient();
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className="py-40">
+        <Loader />
+      </div>
+    );
 
   return (
     <>
@@ -67,7 +72,9 @@ const Testimonials = () => {
                 key={index}
                 className={`pr-4 pl-4 pt-8 pb-8 rounded-lg border `}
               >
-                <div dangerouslySetInnerHTML={{ __html: testimonial?.message }}></div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: testimonial?.message }}
+                ></div>
                 <div className="flex items-center mt-6">
                   <div>
                     <h4 className="text-base font-medium">

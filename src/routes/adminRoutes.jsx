@@ -33,6 +33,7 @@ import Faqs from "../modules/SuperAdmin/Dashboard/inner-pages/faqs.jsx"
 import Testimonials from "../modules/SuperAdmin/Dashboard/inner-pages/testimonials.jsx"
 import AuctionProducts from "../modules/SuperAdmin/Dashboard/auctionProducts.jsx";
 import AddNewAuctionProduct from "../modules/SuperAdmin/Dashboard/addAuctionProduct.jsx";
+import Jobs from "../modules/SuperAdmin/Dashboard/jobs.jsx";
 
 export const adminRoutes = [
     {
@@ -171,6 +172,10 @@ export const adminRoutes = [
             {
                 path: "pages/testimonials",
                 element: <Testimonials />
+            },
+            {
+                path: "jobs",
+                element: <Jobs />
             },
         ],
     },

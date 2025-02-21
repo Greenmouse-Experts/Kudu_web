@@ -52,54 +52,49 @@ export default function About() {
         ],
         buy: [
             {
-                title: "Search for Products",
+                title: "1. Register",
                 description:
-                    "Browse or search for products using filters to find the best deals.",
-                icon: "/icons/search.png",
+                    "Register using your name, email, and phone number or via your Google account and verify your account with your email.",
+                    last:
+                    "Register using your name, email, and phone number or via your Google account and verify your account with your email. Complete your seller profile, including location and payment details.",
+                icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1738150277/Group_1321314956_bqoeeg.png",
             },
             {
-                title: "Add to Cart & Checkout",
+                title: "2. Browse Product",
                 description:
-                    "Select items, add them to your cart, and proceed to secure checkout.",
-                icon: "/icons/cart.png",
+                    "Search: To find particular products that pique your attention, use the search bar ",
+                     last:
+                    "Categories: Explore several product categories such as electronics, furniture, and fashion. ",
+                    end: "Filters: Use filters like price range, location, or item’s condition, to limit your options.",
+                icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1740058465/We-Immersive/Group_1321314958_mhusqt.png",
             },
             {
-                title: "Make Payment",
+                title: "3. Pick A Buying Option",
                 description:
-                    "Choose a payment method, complete the transaction, and get confirmation.",
-                icon: "/icons/payment.png",
-            },
-            {
-                title: "Receive Your Order",
-                description:
-                    "Track your order and receive it at your specified location.",
-                icon: "/icons/delivery.png",
+                    "a. Contact Seller: Communicate with the seller directly by using the Text or Chat options. Discuss the product, settle on a price, and decide on terms for delivery and payment. Be cautious when dealing with unverified vendors, prioritize meeting in public, secure areas, or making payments securely.",
+                    last:"b. Add to Cart : Check your cart to make sure all the information is accurate. Complete the purchase process by entering your shipping details Select a payment option, such as a digital wallet, bank transfer, or card Verify the order before completing the transaction.",
+                icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1740058787/We-Immersive/Group_1321314956_v9b7t8.png",
             },
         ],
         auction: [
             {
-                title: "Register for Auctions",
+                title: "1. Create an Account",
                 description:
-                    "Sign up for an auction and understand bidding rules before participating.",
-                icon: "/icons/register.png",
+                    "Create an account and access the auction section.",
+                icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1738150277/Group_1321314956_bqoeeg.png",
             },
             {
-                title: "Place Your Bids",
+                title: "2. Browse Product",
                 description:
-                    "Monitor auction listings, bid competitively, and stay updated on bid status.",
-                icon: "/icons/bidding.png",
+                    "Browse through available auctions , Use a filter to narrow your options",
+
+                icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1738152542/Group_1321314958_orslsy.png",
             },
             {
-                title: "Win & Checkout",
+                title: "3. Select and Bid",
                 description:
-                    "If you win, proceed to checkout, make payment, and confirm order details.",
-                icon: "/icons/winner.png",
-            },
-            {
-                title: "Receive Auction Item",
-                description:
-                    "After payment, track shipping details and get your item delivered.",
-                icon: "/icons/delivery.png",
+                    "Select the item you want and place a bid above the current bid or make an offer",
+                icon: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1740059396/We-Immersive/Group_1321314959_xmmzwg.png",
             },
         ],
     };
@@ -239,13 +234,13 @@ export default function About() {
                             A little guide on how to sell your product her on Kudu
                         </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:text-center sm:text-left rounded-full">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:text-left rounded-full">
                             {content[activeTab].map((step, index) => (
                                 <div key={index} className="p-10 sm:p-6 md:p-8 flex flex-col Abinahh cursor-pointer">
                                     <img
                                         src={step.icon}
                                         alt={step.title}
-                                        className="w-32 h-32 sm:w-24 sm:h-24 md:w-28 md:h-28 block mx-auto mb-8"
+                                        className="w-32 h-32 sm:w-24 sm:h-24 md:w-28 md:h-28 block mb-8"
                                     />
                                     <h3 className="text-lg font-semibold">{step.title}</h3>
                                     <li className="text-black text-base mt-2 leading-loose">{step.description}</li>

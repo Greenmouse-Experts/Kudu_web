@@ -3,6 +3,8 @@ import LandingHomepage from "../modules/Home";
 import Contact from "../modules/Home/contact";
 import Faqs from "../modules/Home/faqs";
 import Privacy from "../modules/Home/privacy";
+import Cookie from "../modules/Home/cookies";
+import Return from "../modules/Home/return";
 import Condititons from "../modules/Home/conditions";
 import Testimonial from "../modules/Home/testimonial";
 import About from "../modules/Home/about";
@@ -77,7 +79,7 @@ export const landingRooutes = [
       },
 
       {
-        path: 'jobs-details',
+        path: 'jobs-details/:jobId',
         element: <JobDetails />
       },
 
@@ -172,6 +174,17 @@ export const landingRooutes = [
         path: 'advertise-with-us',
         element: <AdvertiseOnKudu />
       },
+
+      {
+        path: 'cookie-policy',
+        element: <Cookie />
+      },
+
+      {
+        path: 'return-policy',
+        element: <Return />
+      },
+      
     ],
   }
 ];
