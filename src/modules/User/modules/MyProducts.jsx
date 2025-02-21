@@ -174,7 +174,7 @@ const MyProducts = () => {
                                                     </button>
                                                 </MenuHandler>
                                                 <MenuList>
-                                                    <MenuItem className="flex flex-col gap-3">
+                                                    <MenuItem className="flex flex-col gap-3 w-full" onClick={() => navigate(product.auctionStatus ? `/profile/auction-products/edit/${product.id}` : `edit/${product.id}`)}>
                                                         <span className="cursor-pointer w-full">
                                                             View/Edit
                                                         </span>

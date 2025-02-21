@@ -79,7 +79,7 @@ export const landingRooutes = [
       },
 
       {
-        path: 'jobs-details',
+        path: 'jobs-details/:jobId',
         element: <JobDetails />
       },
 

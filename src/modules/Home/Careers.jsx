@@ -3,118 +3,82 @@ import "../Home/components/style.css";
 import ShoppingExperience from "./components/ShoppingExperience";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useGetJobClient } from "../../api/jobs";
+import Loader from "../../components/Loader";
+import JobItem from "../../components/JobItem";
 
 export default function JobListings() {
-    const jobs = [
-        {
-            title: "Senior Tax Analyst",
-            location: "Remote",
-            type: "Full-time",
-            description:
-                "Kudu is currently seeking a highly motivated and experienced Senior Tax Analyst to join our team. As a rapidly growing company, we are looking for talented individuals who are committed to helping us achieve our goals... ",
-        },
-        {
-            title: "Mid Tax Analyst",
-            location: "Remote",
-            type: "Full-time",
-            description:
-                "Kudu is currently seeking a highly motivated and experienced Senior Tax Analyst to join our team. As a rapidly growing company, we are looking for talented individuals who are committed to helping us achieve our goals... ",
-        },
-        {
-            title: "Junior Developer",
-            location: "Remote",
-            type: "Full-time",
-            description:
-                "Kudu is currently seeking a highly motivated and experienced Senior Tax Analyst to join our team. As a rapidly growing company, we are looking for talented individuals who are committed to helping us achieve our goals... ",
-        },
-        {
-            title: "Junior Tax Analyst",
-            location: "Remote",
-            type: "Full-time",
-            description:
-                "Kudu is currently seeking a highly motivated and experienced Senior Tax Analyst to join our team. As a rapidly growing company, we are looking for talented individuals who are committed to helping us achieve our goals... ",
-        },
-    ];
+  const { data: jobs, isLoading } = useGetJobClient();
 
-    const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-    // Filter jobs based on search term 
-    const filteredJobs = jobs.filter((job) =>
-        `${job.title} ${job.location} ${job.type}`
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
+  if (isLoading)
+    return (
+      <div className="py-40">
+        <Loader />
+      </div>
     );
 
-    return (
-        <>
-            <div className="w-full flex flex-col">
-                <section className="breadcrumb" style={{
-                    backgroundImage: `url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1738838887/image_1_swhdte.png)`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                }}>
-                    <div className="flex flex-col py-12">
-                        <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
-                            <h1 className="text-4xl font-bold">Kudu Careers</h1>
-                        </div>
-                    </div>
-                </section>
-                <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap- gap-5 h-full">
-                    <div className="Justing">
-                        {/* Header */}
-                        <h2 className="text-center text-xl md:text-2xl font-semibold mb-6">
-                            Browse through our Job Opportunities here at Kudu
-                        </h2>
+  // Filter jobs based on search term
+  const filteredJobs = jobs.filter((job) =>
+    `${job.title} ${job.location} ${job.type}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
-                        {/* Search Bar */}
-                        <div className="flex items-center bg-white border rounded-lg p-4 mb-6 max-w-lg mx-auto">
-                            <FaSearch className="text-gray-500 ml-2" />
-                            <input
-                                type="text"
-                                placeholder="Search available jobs"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full bg-transparent outline-none px-3 py-1"
-                            />
-                        </div>
+  return (
+    <>
+      <div className="w-full flex flex-col">
+        <section
+          className="breadcrumb"
+          style={{
+            backgroundImage: `url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1738838887/image_1_swhdte.png)`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="flex flex-col py-12">
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
+              <h1 className="text-4xl font-bold">Kudu Careers</h1>
+            </div>
+          </div>
+        </section>
+        <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap- gap-5 h-full">
+          <div className="Justing">
+            {/* Header */}
+            <h2 className="text-center text-xl md:text-2xl font-semibold mb-6">
+              Browse through our Job Opportunities here at Kudu
+            </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-                            {filteredJobs.length > 0 ? (
-                                filteredJobs.map((job, index) => (
-                                    <div
-                                        key={index}
-                                        className="border p-7 rounded-lg bg-white"
-                                    >
-                                        <h3 className="text-lg font-semibold leading-loose">{job.title}</h3>
-                                        <div className="flex items-center gap-2 text-sm text-gray-500 my-2 leading-loose">
-                                            <FaMapMarkerAlt className="text-orange-500" />
-                                            <span className="text-orange-500 leading-loose">{job.location}</span>
-                                            <FaClock className="text-blue-500 ml-4" />
-                                            <span className="text-blue-500 leading-loose">{job.type}</span>
-                                        </div>
-                                        <p className="text-sm text-gray-700 leading-loose">{job.description}</p>
-                                        
-                                        <button className="border w-full mt-4 py-4 rounded-lg text-sm hover:bg-gray-100">
-                                            <Link to="/jobs-details">
-                                            View Job Details
-                                            </Link>
-                                        </button>
-                                    </div>
-                                ))
-                            ) : (
-                                <p className="text-center text-gray-500">No jobs found.</p>
-                            )}
-                        </div>
-
-                    </div>
-                </div>
-                <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
-                    <div className="w-full flex mt-3">
-                        <ShoppingExperience />
-                    </div>
-                </div>
+            {/* Search Bar */}
+            <div className="flex items-center bg-white border rounded-lg p-4 mb-6 max-w-lg mx-auto">
+              <FaSearch className="text-gray-500 ml-2" />
+              <input
+                type="text"
+                placeholder="Search available jobs"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-transparent outline-none px-3 py-1"
+              />
             </div>
 
-        </>
-    );
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+              {filteredJobs.length > 0 ? (
+                filteredJobs.map((job, index) => (
+                  <JobItem job={job} key={index} />
+                ))
+              ) : (
+                <p className="text-center text-gray-500">No jobs found.</p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
+          <div className="w-full flex mt-3">
+            <ShoppingExperience />
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
