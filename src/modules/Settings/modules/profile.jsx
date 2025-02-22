@@ -17,13 +17,19 @@ export default function ProfileSettings() {
     const [isLoading, setIsLoading] = useState(true);
     const { mutate } = useApiMutation();
     const dispatch = useDispatch();
+
     const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
         defaultValues: {
+            firstName: user?.firstName || '',
+            lastName: user?.lastName || '',
+            email: user?.email || '',
+            gender: user?.gender || '',
             country: parsedLocation.country || '',
             state: parsedLocation.state || '',
             city: parsedLocation.city || ''
         }
     });
+
     const [profilePicture, setProfilePicture] = useState(
         user.photo ? `${user.photo}` : "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/victor-diallo_p03kd2.png"
     );
@@ -70,19 +76,28 @@ export default function ProfileSettings() {
         }
     }, [countries]);
 
+
     useEffect(() => {
         if (parsedLocation.state) {
             const countryObj = countries.find(c => c.name === parsedLocation.country);
-            const stateObj = State.getStatesOfCountry(countryObj?.isoCode).find(s => s.name === parsedLocation.state);
-            if (countryObj && stateObj) {
-                const citiesData = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
-                setCities(citiesData);
-                setValue("city", parsedLocation.city || '');
+            if (countryObj) {
+                const stateObj = State.getStatesOfCountry(countryObj.isoCode).find(s => s.name === parsedLocation.state);
+                if (stateObj) {
+                    const citiesData = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
+                    setCities(citiesData);
+        
+                    // Set city after cities are available
+                    if (parsedLocation.city && citiesData.some(city => city.name === parsedLocation.city)) {
+                        setValue("city", parsedLocation.city);
+                    } else {
+                        console.log("City not found in list.");
+                    }
+                }
             }
         }
-        setIsLoading(false);
-    }, [states]);
-
+        setIsLoading(false)
+    }, [parsedLocation.state, countries]);
+    
 
     const onSubmit = (data) => {
         const payload = { ...data, location: { country: data.country, state: data.state, city: data.city }, photo: profilePicture };
@@ -102,6 +117,23 @@ export default function ProfileSettings() {
             },
         });
     };
+
+
+
+    useEffect(() => {
+        if (user) {
+            setValue("firstName", user.firstName || '');
+            setValue("lastName", user.lastName || '');
+            setValue("email", user.email || '');
+            setValue("gender", user.gender || '');
+            setValue("country", parsedLocation.country || '');
+            setValue("state", parsedLocation.state || '');
+        }
+    }, [user]);
+
+
+
+
 
 
     if (isLoading) {
@@ -151,7 +183,6 @@ export default function ProfileSettings() {
                             id="firstName"
                             className="border rounded-lg p-4 w-full bg-gray-50"
                             placeholder="Enter first name"
-                            value={user.firstName}
                             style={{ outline: "none" }}
                             {...register("firstName")}
                         />
@@ -166,7 +197,6 @@ export default function ProfileSettings() {
                             id="lastName"
                             className="border rounded-lg p-4 w-full bg-gray-50"
                             placeholder="Enter last name"
-                            value={user.lastName}
                             style={{ outline: "none" }}
                             {...register("lastName")}
                         />
@@ -179,7 +209,6 @@ export default function ProfileSettings() {
                             type="email"
                             id="email"
                             {...register("email")}
-                            value={user.email}
                             className="border rounded-lg p-4 w-full bg-gray-50"
                             placeholder="Enter email address"
                             style={{ outline: "none" }}
@@ -199,7 +228,6 @@ export default function ProfileSettings() {
                             className="border rounded-lg p-4 w-full bg-gray-50"
                             style={{ outline: "none", }}
                             {...register("gender", { required: "Gender is required" })}
-                            value={user.gender}
                             required
                         >
                             <option value="" disabled selected hidden>Tap to Select</option>
