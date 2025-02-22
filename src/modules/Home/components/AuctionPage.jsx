@@ -5,7 +5,7 @@ const AuctionPage = ({ auctions }) => {
 
   const capitalizeEachWord = (str) => {
     return str
-      .split(" ")
+      .split("_")
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
   };
@@ -85,7 +85,7 @@ const AuctionPage = ({ auctions }) => {
                 />
 
                 {/* Condition Badge */}
-                <span className="absolute top-2 right-2 bg-[#FF0F00] text-white px-2 py-1 text-xs rounded">
+                <span className={`absolute top-2 right-2 ${auction.condition === "brand_new" ? "bg-[#34A853]" : "bg-[#FF0F00]"} text-white px-2 py-1 text-xs rounded`}>
                   {capitalizeEachWord(auction.condition)}
                 </span>
 
