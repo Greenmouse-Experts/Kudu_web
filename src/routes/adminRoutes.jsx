@@ -34,6 +34,7 @@ import Testimonials from "../modules/SuperAdmin/Dashboard/inner-pages/testimonia
 import AuctionProducts from "../modules/SuperAdmin/Dashboard/auctionProducts.jsx";
 import AddNewAuctionProduct from "../modules/SuperAdmin/Dashboard/addAuctionProduct.jsx";
 import Jobs from "../modules/SuperAdmin/Dashboard/jobs.jsx";
+import UpdateAuctionProducts from "../modules/SuperAdmin/Dashboard/updateAuctionProducts.jsx";
 
 export const adminRoutes = [
     {
@@ -156,6 +157,10 @@ export const adminRoutes = [
             {
                 path: "auction-products/new-product",
                 element: <AddNewAuctionProduct />,
+            },
+            {
+                path: "auction-products/edit/:id",
+                element: <UpdateAuctionProducts />,
             },
             {
                 path: "all-vendors/kyc/:id",

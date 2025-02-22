@@ -3,7 +3,7 @@ import useApiMutation from '../../../api/hooks/useApiMutation';
 import Loader from '../../../components/Loader';
 import MyProducts from '../../../components/MyProducts';
 import Table from '../../../components/Tables';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../../../components/Modal';
 import { useModal } from '../../../hooks/modal';
 
@@ -12,6 +12,8 @@ const AuctionProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [pagination, setPagination] = useState({});
+
+    const navigate = useNavigate();
 
     const { openModal } = useModal();
 
@@ -70,17 +72,23 @@ const AuctionProducts = () => {
     }, []); // Only run once on mount
 
 
-
-    const handlePublishModal = (user) => {
-        openModal({
-            size: "sm",
-            content: <Modal title={`Do you wish to ${user.status === 'inactive' ? 'publish' : 'unpublish'} this product?`} redirect={handleRedirect}
-                api={`${user.status === 'inactive' ? `/admin/general/product/publish?productId=${user.id}`
-                    :
-                    `/admin/general/product/unpublished?productId=${user.id}`
-                    }
-                    `} method={'PUT'} />
-        })
+    const handleEdit = (product) => {
+        if (!product.admin) {
+            openModal({
+                size: "md",
+                content: <Modal title={`You can only edit products uploaded by the Admin`} submitButton={false} />
+            })
+        }
+        else {
+            if (product.auctionStatus === 'ongoing') {
+                openModal({
+                    size: "sm",
+                    content: <Modal title={`Editing ongoing auction products is not permitted.`} submitButton={false} />
+                })
+                return;
+            }
+            navigate(`edit/${product.id}`)
+        }
     }
 
 
@@ -110,7 +118,7 @@ const AuctionProducts = () => {
                                 headers={[
                                     { key: 'name', label: 'Products' },
                                     { key: 'category', label: 'Category' },
-                                    { key: 'condition', label: 'Conditions' },
+                                    { key: 'vendor', label: 'Vendor' },
                                     { key: 'price', label: 'Price' },
                                     {
                                         key: 'auctionStatus',
@@ -129,6 +137,7 @@ const AuctionProducts = () => {
                                 transformData={(products) => products.map((item) => ({
                                     ...item,
                                     price: `${item.store.currency.symbol} ${item.price}`,
+                                    vendor: item.admin ? `Administrator` : `${item.vendor.firstName} ${item.vendor.lastName}`
                                 }))}
                                 /* actions={[
                                      {
@@ -138,7 +147,12 @@ const AuctionProducts = () => {
                                          onClick: (row) => handlePublishModal(row),
                                      },
                                  ]} */
-                                actions={[]}
+                                actions={[
+                                    {
+                                        label: () => "Edit",
+                                        onClick: (row) => handleEdit(row),
+                                    },
+                                ]}
                                 currentPage={pagination.page}
                                 totalPages={pagination.pages}
                                 onPageChange={(page) => fetchData(page)}
