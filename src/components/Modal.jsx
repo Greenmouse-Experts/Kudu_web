@@ -2,7 +2,7 @@ import useApiMutation from "../api/hooks/useApiMutation";
 import { Button } from "@material-tailwind/react";
 import { useModal } from "../hooks/modal";
 
-const Modal = ({ redirect, title, api, method, body, text }) => {
+const Modal = ({ redirect, title, api, method, body, text, submitButton = true }) => {
   const { closeModal } = useModal();
 
   const { mutate } = useApiMutation();
@@ -31,12 +31,14 @@ const Modal = ({ redirect, title, api, method, body, text }) => {
           {text && <p className="text-black text-sm">{text}</p>}
         </div>
         <div className="flex justify-center mt-5 gap-4">
-          <Button
-            onClick={deleteAction}
-            className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
-          >
-            Yes
-          </Button>
+          {submitButton &&
+            <Button
+              onClick={deleteAction}
+              className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
+            >
+              Yes
+            </Button>
+          }
           <button
             onClick={closeModal}
             className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
