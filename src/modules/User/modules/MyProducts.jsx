@@ -72,6 +72,15 @@ const MyProducts = () => {
     }
 
 
+    const handleEdit = (product) => {
+        if (product.auctionStatus === 'ongoing') {
+            toast.error('Editing ongoing auction products is not permitted.');
+            return;
+        }
+        navigate(product.auctionStatus ? `/profile/auction-products/edit/${product.id}` : `edit/${product.id}`)
+    }
+
+
     const getAuctionProducts = () => {
         mutate({
             url: `/vendor/auction/products`,
@@ -174,7 +183,7 @@ const MyProducts = () => {
                                                     </button>
                                                 </MenuHandler>
                                                 <MenuList>
-                                                    <MenuItem className="flex flex-col gap-3 w-full" onClick={() => navigate(product.auctionStatus ? `/profile/auction-products/edit/${product.id}` : `edit/${product.id}`)}>
+                                                    <MenuItem className="flex flex-col gap-3 w-full" onClick={() => handleEdit(product)}>
                                                         <span className="cursor-pointer w-full">
                                                             View/Edit
                                                         </span>
