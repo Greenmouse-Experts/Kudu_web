@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuctionPage = ({ auctions }) => {
   const [activeTab, setActiveTab] = useState("popular");
@@ -10,11 +11,12 @@ const AuctionPage = ({ auctions }) => {
       .join(" ");
   };
 
+  const navigate = useNavigate();
 
   return (
     <div className="w-full px-4 md:px-1">
       {/* Header */}
-      <div className="bg-[#FFDEC1] flex justify-between items-center p-4 md:p-6 rounded-md mb-6 md:mb-10">
+      <div className="bg-[#FFDEC1] flex justify-between items-center p-4 md:p-6 rounded-md md:mb-0">
         <h2 className="text-lg md:text-xl font-semibold">Auctions</h2>
         <button className="text-black font-semibold text-sm md:text-base">
           See All
@@ -23,7 +25,7 @@ const AuctionPage = ({ auctions }) => {
 
       {/* Navigation Tabs */}
       <div className="flex overflow-x-auto pb-5 mb-6 space-x-2">
-        <button
+       {/* <button
           className={`flex-shrink-0 px-4 md:px-10 py-3 rounded-lg font-semibold ${activeTab === "popular"
               ? "bg-[#FF6F22] text-white"
               : "bg-transparent text-black border border-gray-300"
@@ -117,7 +119,7 @@ const AuctionPage = ({ auctions }) => {
                 </p>
 
                 {/* View Details Button */}
-                <button className="bg-[#FF6F22] text-white w-full py-3 mt-5 rounded-lg text-xs md:text-sm">
+                <button onClick={() => navigate(`product/${auction.id}`)} className="bg-[#FF6F22] text-white w-full py-3 mt-5 rounded-lg text-xs md:text-sm">
                   View Details
                 </button>
 

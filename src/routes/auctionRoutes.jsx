@@ -1,5 +1,5 @@
 import LandingLayout from "../layouts/landing";
-import AuctionPage from "../modules/Auction";
+import Auction from "../modules/Auction";
 import AllAuctions from "../modules/Auction/allAuctions";
 import ViewAuctionProduct from "../modules/Auction/product";
 
@@ -10,7 +10,7 @@ export const auctionRoutes = [
         children: [
             {
                 path: 'auction',
-                element: <AuctionPage />
+                element: <Auction />
             },
             {
                 path: 'auction/product/:id',
