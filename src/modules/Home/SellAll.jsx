@@ -3,10 +3,12 @@ import "../Home/components/style.css";
 import ProductListing from "./components/ProductListing";
 import ShoppingExperience from "./components/ShoppingExperience";
 import useApiMutation from "../../api/hooks/useApiMutation";
+import Loader from "../../components/Loader";
 
 const About = () => {
     const [products, setProducts] = useState([]);
     const [categoriesArr, setCategoriesArr] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const { mutate } = useApiMutation();
 
@@ -40,18 +42,18 @@ const About = () => {
             if (!productsData || productsData.length === 0) {
                 console.warn("No products found.");
                 setProducts([]);
-                return;
             }
 
             setProducts(productsData);
-            
+
             if (!categoriesData || categoriesData.length === 0) {
                 console.warn("No categries found.");
                 setCategoriesArr([]);
-                return;
             }
 
-            setCategoriesArr(categoriesData)
+            setCategoriesArr(categoriesData);
+
+            setLoading(false)
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -65,6 +67,12 @@ const About = () => {
         fetchData();
     }, []);
 
+
+    if (loading) {
+        <div className="w-full h-screen flex items-center justify-center">
+            <Loader />
+        </div>
+    }
 
     return (
         <>

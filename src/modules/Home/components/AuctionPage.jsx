@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { geoLocatorProduct } from "../../../helpers/geoLocatorProduct";
 
 const AuctionPage = ({ auctions }) => {
   const [activeTab, setActiveTab] = useState("popular");
+
+  const filteredAuctions = geoLocatorProduct(auctions);
 
   const capitalizeEachWord = (str) => {
     return str
@@ -25,8 +28,8 @@ const AuctionPage = ({ auctions }) => {
       <div className="flex overflow-x-auto pb-5 mb-6 space-x-2">
         <button
           className={`flex-shrink-0 px-4 md:px-10 py-3 rounded-lg font-semibold ${activeTab === "popular"
-              ? "bg-[#FF6F22] text-white"
-              : "bg-transparent text-black border border-gray-300"
+            ? "bg-[#FF6F22] text-white"
+            : "bg-transparent text-black border border-gray-300"
             }`}
           onClick={() => setActiveTab("popular")}
         >
@@ -67,7 +70,7 @@ const AuctionPage = ({ auctions }) => {
       {/* Auction Listings */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {activeTab === "popular" &&
-          auctions.map((auction) => {
+          filteredAuctions.map((auction) => {
             const location = auction.vendor?.location
               ? JSON.parse(auction.vendor.location)
               : null;
