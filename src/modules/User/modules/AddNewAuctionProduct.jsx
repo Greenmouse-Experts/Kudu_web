@@ -53,6 +53,10 @@ const AddNewAuctionProduct = () => {
             delete data.category;
             const payload = {
                 ...data, image: files[0],
+                price: Number(data.price),
+                bidIncrement: Number(data.bidIncrement),
+                maxBidsPerUser: Number(data.maxBidsPerUser),
+                participantsInterestFee: Number(data.participantsInterestFee),
                 description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
                 specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
                 additionalImages: files
@@ -306,7 +310,7 @@ const AddNewAuctionProduct = () => {
                                     editorState={specificationsEditor}
                                     setEditorState={(newState) => {
                                         setSpecificationsEditor(newState);
-                                        setValue("specifications", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
+                                        setValue("specification", JSON.stringify(convertToRaw(newState.getCurrentContent())), {
                                             shouldValidate: true, // Ensure validation runs when value changes
                                         });
                                     }}
