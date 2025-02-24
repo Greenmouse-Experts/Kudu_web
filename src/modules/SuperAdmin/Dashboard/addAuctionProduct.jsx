@@ -469,7 +469,7 @@ const AddNewAuctionProduct = () => {
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
-                                disabled={!watch("description") || !watch("specifications") || btnDisabled}
+                                disabled={!watch("description") || !watch("specification") || btnDisabled}
                             >
                                 Create New Product
                             </button>
