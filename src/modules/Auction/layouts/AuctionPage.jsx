@@ -13,8 +13,6 @@ const AuctionPage = ({ auctions }) => {
       .join(" ");
   };
 
-  const navigate = useNavigate();
-
   return (
     <div className="w-full px-4 md:px-1">
       {/* Header */}
