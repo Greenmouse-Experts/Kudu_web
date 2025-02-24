@@ -3,7 +3,11 @@ import ShippingEstimate from "./layouts/shippingEstimate"
 import BidInformation from "./layouts/bidInformation"
 import DirectPurchase from "./layouts/directPurchase"
 import SalesInformation from "./layouts/saleInformation"
-import ProductListing from "../../components/ProductsList"
+import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import useApiMutation from "../../api/hooks/useApiMutation"
+import Loader from "../../components/Loader"
+import { Carousel } from "@material-tailwind/react"
 
 const BreadCrumbs = () => {
     return (
@@ -38,43 +42,71 @@ const BreadCrumbs = () => {
 }
 
 export default function ViewAuctionProduct() {
-    const productsArr = [
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Used",
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/television_u0t8wb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426608/kudu_mart/sneakers_kfsmix.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/toyota_uoonig.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Brand New"
-        },
-        {
-            photo: "https://res.cloudinary.com/do2kojulq/image/upload/v1735426624/kudu_mart/clothProduct_foyfxb.png",
-            title: "85 inch Oled Television",
-            price: "₦ 63,500",
-            status: "Used",
-        },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [product, setProduct] = useState({});
+
+    const { id } = useParams();
+
+    const { mutate } = useApiMutation();
+
+    const getProduct = () => {
+        mutate({
+            url: `/auction/products?auctionproductId=${id}`,
+            method: 'GET',
+            hideToast: true,
+            onSuccess: (response) => {
+                const filteredProduct = response.data.data.find((item) => item.id === id);
+                setProduct(filteredProduct);
+                setLoading(false);
+            },
+            onError: () => {
+                setLoading(false)
+            },
+        });
+    }
+
+    useEffect(() => {
+        getProduct();
+    }, []);
+
+
+
+
+    if (loading) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center">
+                <Loader />
+            </div>
+        );
+    } else {
+        if (Object.keys(product).length === 0) {
+            return (
+                <div className="w-full h-screen flex items-center justify-center">
+                    <div className="empty-store">
+                        <div className="text-center">
+                            <img
+                                src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
+                                alt="Empty Store Illustration"
+                                className="w-80 h-80 mx-auto"
+                            />
+                        </div>
+                        <h1 className="text-center text-lg font-bold mb-4">
+                            Product Not Found
+                        </h1>
+                    </div>
+                </div>
+            );
+        }
+    }
+
+
+
+
     return (
         <>
             <div className="w-full flex flex-col h-full bg-kuduLightBlue">
                 <div className="w-full flex flex-col md:gap-10 bg-kuduLightBlue h-full mt-14 md:mt-16 ">
-                    <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-5 bg-white shadow-lg flex">
+                    {/*<div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-5 bg-white shadow-lg flex">
                         <div className="flex flex-grow">
                             <div className="flex flex-col justify-center">
                                 <BreadCrumbs />
@@ -92,8 +124,8 @@ export default function ViewAuctionProduct() {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 border-b border-[rgba(204,204,204,1)] flex">
+                    </div>*/}
+                    <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 mt-10 border-b border-[rgba(204,204,204,1)] flex">
                         <span className="md:text-lg text-base font-semibold mb-3">2014 AUDI A4 ALLROAD PREMIUM PLUS</span>
                     </div>
                     <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
@@ -101,54 +133,36 @@ export default function ViewAuctionProduct() {
                             <div className="flex flex-wrap md:flex-row flex-col gap-4 mb-8">
                                 {/* First Div */}
                                 <div className="flex-1 md:flex-[0_0_30%] rounded-md h-full">
-                                    <div className="w-full flex justify-center">
-                                        <Imgix
-                                            src="https://res.cloudinary.com/do2kojulq/image/upload/v1735426623/kudu_mart/car_2_uza2cu.jpg"
-                                            className="w-full h-full rounded-lg object-cover"
-                                        />
+                                    <div className="w-full flex h-[20rem] justify-center">
+                                        <Carousel
+                                            className="rounded-xl bg-white shadow-lg"
+                                            autoplay
+                                            loop
+                                        >
+                                            {JSON.parse(product.additionalImages).map((image, index) => (
+                                                <>
+                                                    <img
+                                                        src={image}
+                                                        alt="image 1"
+                                                        className="h-full w-full bg-transparent object-cover"
+                                                    />
+                                                </>
+                                            ))}
+                                        </Carousel>
                                     </div>
                                     <div className="flex w-full overflow-x-auto my-3">
-                                        <div className="flex w-full gap-2">
-                                            <Imgix
-                                                src="https://res.cloudinary.com/do2kojulq/image/upload/v1736355197/kudu_mart/8c37bd69f07a43fe0b5467067502af7c_bpsmgj.jpg"
-                                                sizes="100vw"
-                                                width={185}
-                                                height={100}
-                                                alt="main-product"
-                                                className="rounded-md w-[23%] sm:w-[24%] md:w-[24%] lg:w-[24%] h-auto max-h-[100px] object-cover"
-                                            />
-                                            <Imgix
-                                                src="https://res.cloudinary.com/do2kojulq/image/upload/v1736355196/kudu_mart/4cf43b2da2fcdb9ed8c6e77f08a4b578_cmxpzt.jpg"
-                                                sizes="100vw"
-                                                width={185}
-                                                height={100}
-                                                alt="main-product"
-                                                className="rounded-md w-[23%] sm:w-[24%] md:w-[23.5%] lg:w-[24%] h-auto max-h-[100px] object-cover"
-                                            />
-                                            <Imgix
-                                                src="https://res.cloudinary.com/do2kojulq/image/upload/v1736355196/kudu_mart/c78aafa6eada171f3e20bed9ae230355_ovtigh.jpg"
-                                                sizes="100vw"
-                                                width={185}
-                                                height={100}
-                                                alt="main-product"
-                                                className="rounded-md w-[23%] sm:w-[24%] md:w-[23.5%] lg:w-[24%] h-auto max-h-[100px] object-cover"
-                                            />
-                                            <Imgix
-                                                src="https://res.cloudinary.com/do2kojulq/image/upload/v1736355195/kudu_mart/4afecb7c615a3c3bdf1ab4a532183f93_bfny2x.jpg"
-                                                sizes="100vw"
-                                                width={185}
-                                                height={100}
-                                                alt="main-product"
-                                                className="rounded-md w-[23%] sm:w-[24%] md:w-[23.5%] lg:w-[24%] h-auto max-h-[100px] object-cover"
-                                            />
-                                            <Imgix
-                                                src="https://res.cloudinary.com/do2kojulq/image/upload/v1736355195/kudu_mart/4afecb7c615a3c3bdf1ab4a532183f93_bfny2x.jpg"
-                                                sizes="100vw"
-                                                width={185}
-                                                height={100}
-                                                alt="main-product"
-                                                className="rounded-md w-[23%] sm:w-[24%] md:w-[23.5%] lg:w-[24%] h-auto max-h-[100px] object-cover"
-                                            />
+                                        <div className="flex w-full gap-2 h-auto max-h-[100px]">
+                                            {JSON.parse(product.additionalImages).map((image, index) => (
+                                                <Imgix
+                                                    src={image}
+                                                    sizes="100vw"
+                                                    width={185}
+                                                    height={100}
+                                                    alt="main-product"
+                                                    key={index}
+                                                    className="rounded-md h-full object-cover"
+                                                />
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -167,10 +181,6 @@ export default function ViewAuctionProduct() {
                             </div>
                         </div>
 
-                    <div className="w-full flex flex-col gap-6 items-start mb-20">
-                        <p className="md:text-xl text-base font-semibold">View Similar Products</p>
-                        {/*<ProductListing productsArr={productsArr} />*/}
-                    </div>
 
                     </div>
                 </div>
