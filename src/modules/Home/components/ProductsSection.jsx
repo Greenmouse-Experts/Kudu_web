@@ -10,7 +10,7 @@ const ProductsSection = ({ productsArr, ads }) => {
                 <Link to={'/see-all'} className="text-black font-semibold">See All</Link>
             </div>
 
-            <ProductListing productsArr={productsArr.slice(0, 8)} />
+            <ProductListing productsArr={productsArr.slice(0, 8)} displayError />
 
             <div className="flex w-full flex-col md:flex-row gap-4">
                 {ads.map((ad, index) => (

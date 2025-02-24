@@ -3,6 +3,7 @@ import Badge from "../../../components/Badge";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import { Link } from "react-router-dom";
 import { Range } from 'react-range';
+import { geoLocatorProduct } from "../../../helpers/geoLocatorProduct";
 
 const ProductListing = ({ data, categories, hideCategory }) => {
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -10,7 +11,10 @@ const ProductListing = ({ data, categories, hideCategory }) => {
     const [subCategoriesId, setSubCategoriesId] = useState([]);
     const [values, setValues] = useState([0, 200000]);
     const [sortBy, setSortBy] = useState("popularity");
-    const [filteredProducts, setFilteredProducts] = useState(data);
+
+    const products = geoLocatorProduct(data);
+
+    const [filteredProducts, setFilteredProducts] = useState(products);
 
     const { mutate } = useApiMutation();
 
@@ -38,7 +42,7 @@ const ProductListing = ({ data, categories, hideCategory }) => {
     };
 
     useEffect(() => {
-        const filtered = data.filter(product => {
+        const filtered = products.filter(product => {
             const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(product.sub_category.categoryId);
             const matchSubcategory = subCategoriesId.length === 0 || subCategoriesId.includes(product.sub_category.id);
             const matchPrice = product.price >= values[0] && product.price <= values[1];
@@ -46,7 +50,7 @@ const ProductListing = ({ data, categories, hideCategory }) => {
         });
 
         setFilteredProducts(filtered);
-    }, [selectedCategories, subCategoriesId, values, data]);
+    }, [selectedCategories, subCategoriesId, values]);
 
     return (
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
@@ -138,33 +142,51 @@ const ProductListing = ({ data, categories, hideCategory }) => {
                     </select>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {filteredProducts.map(product => (
-                        <div key={product.id} className="bg-white p-4 border rounded-lg relative">
-                            <Link to={`/product/${product.id}`}>
-                                <div className="flex justify-center relative md:h-[200px] h-[200px]">
-                                    <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
-                                </div>
-                                <h3 className="text-base font-semibold mt-3 leading-loose">{product.name}</h3>
-                                <p className="text-sm font-medium leading-loose">{product.store.currency.symbol} {product.price}</p>
-                                <button
-                                className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-medium text-white ${product.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"
-                                    }`}
-                            >
-                                {product.vendor?.isVerified || product.admin ? "Verified" : "Not Verified"}
-                            </button>
-                                <span
-                                    className={`absolute top-2 left-2 px-2 py-1 text-xs rounded font-meduim text-white ${product.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
-                                        }`}
-                                >
-                                    {capitalizeEachWord(product.condition.replace(/_/g, ' '))}
-                                </span>
-                            </Link>
+                {filteredProducts.length > 0 ?
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {filteredProducts.map(product => (
+                            <div key={product.id} className="bg-white p-4 border rounded-lg relative">
+                                <Link to={`/product/${product.id}`}>
+                                    <div className="flex justify-center relative md:h-[200px] h-[200px]">
+                                        <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
+                                    </div>
+                                    <h3 className="text-base font-semibold mt-3 leading-loose">{product.name}</h3>
+                                    <p className="text-sm font-medium leading-loose">{product.store.currency.symbol} {product.price}</p>
+                                    <button
+                                        className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-medium text-white ${product.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"
+                                            }`}
+                                    >
+                                        {product.vendor?.isVerified || product.admin ? "Verified" : "Not Verified"}
+                                    </button>
+                                    <span
+                                        className={`absolute top-2 left-2 px-2 py-1 text-xs rounded font-meduim text-white ${product.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
+                                            }`}
+                                    >
+                                        {capitalizeEachWord(product.condition.replace(/_/g, ' '))}
+                                    </span>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                    :
+                    <div className="w-full">
+                        <div className="empty-store">
+                            <div className="text-center">
+                                <img
+                                    src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
+                                    alt="Empty Store Illustration"
+                                    className="w-80 h-80 mx-auto"
+                                />
+                            </div>
+                            <h1 className="text-center text-lg font-bold mb-4">No Product Found</h1>
+                            <div className="text-center text-black-100 mb-6 leading-loose text-sm">
+                                Oops! It looks like we don’t have products available in your region at the moment.  <br></br>Please check back later or try browsing other categories.
+                            </div>
                         </div>
-                    ))}
-                </div>
-            </main>
-        </div>
+                    </div>
+                }
+            </main >
+        </div >
     );
 };
 

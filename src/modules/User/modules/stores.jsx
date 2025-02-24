@@ -12,6 +12,7 @@ import CreateNewStore from './CreateNewStore';
 import ProductTypeModal from './ProductTypeModal';
 import { Option } from '@material-tailwind/react';
 import Loader from '../../../components/Loader';
+import { geoLocatorCurrency } from '../../../helpers/geoLocatorProduct';
 
 function Stores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +22,6 @@ function Stores() {
     const [delModal, setDelModal] = useState(false);
     const [addNewModal, setAddNewModal] = useState(false);
     const [addNewAuctionModal, setAddNewAuctionModal] = useState(false);
-    const [currencies, setCurrencies] = useState([]);
     const [countries, setCountries] = useState([]);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [xtates, setXtates] = useState([]);
@@ -35,8 +35,10 @@ function Stores() {
     const { data: countri } = useGetCountriesQuery();
     const { data: categories } = useGetCategoriesQuery({ refetchOnMountOrArgChange: true });
 
+    const currencies = geoLocatorCurrency();
+
     useEffect(() => {
-        if (data) { setCurrencies(data); setLoading(false) }
+        if (data) { setLoading(false) }
         if (countri) setCountries(countri)
     }, [data, countri])
 
