@@ -25,7 +25,7 @@ const SubscriptionTable = ({ data, refetch }) => {
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                setPaymentKey(response.data.data);
+                setPaymentKey(response.data.data.find((gateway) => gateway.isActive));
             },
             onError: (error) => {
                 console.error("Error fetching payment keys:", error);
