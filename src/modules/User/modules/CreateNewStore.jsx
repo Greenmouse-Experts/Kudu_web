@@ -298,7 +298,7 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
                         required
                     >
                         <option value="" disabled selected hidden>Tap to Select a currency</option>
-                        {currencies?.data?.map((curr) => (
+                        {currencies?.map((curr) => (
                             <option key={curr.id} value={curr.id}>
                                 {curr.name} ({curr.symbol})
                             </option>

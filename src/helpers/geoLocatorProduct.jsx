@@ -9,3 +9,14 @@ export const geoLocatorProduct = (productsArr) => {
         return productsArr.filter(product => product.store?.currency?.symbol === "$");
     }
 };
+
+export const geoLocatorCurrency = () => {
+    const { ipInfo } = useAppState();
+
+    if (ipInfo?.country_name === "Nigeria") {
+        return [{ id: '#', name: 'Naira', symbol: '#' }];
+    }
+    else {
+        return [{ id: '$', name: 'USD', symbol: '$' }];
+    }
+}
