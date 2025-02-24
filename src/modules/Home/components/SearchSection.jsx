@@ -9,13 +9,13 @@ import { Link } from "react-router-dom";
 const MyComponent = () => {
     const slides = [
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739885222/kuduMart/kmb4_1_omn3fa.jpg",
+            desktopImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1740387320/kmb4_fkdjo4.png",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297531/kuduMart/mbkd2a_w6rfwd.png",
             heading: "Buy, Sell & Auction Anything! Easily and Securely",
             placeholder: "Find anything on Kudu...",
         },
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739885519/kuduMart/kdbn3_1_bzbs29.jpg",
+            desktopImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1740387322/kdbn3_ynznyh.jpg",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd2_t9gbgi.png",
             heading: "Sell off your Items To The Highest bidder by Auctioning Here!",
             placeholder: "Search for great deals...",
