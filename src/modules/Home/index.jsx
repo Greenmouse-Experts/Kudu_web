@@ -10,9 +10,9 @@ import ProductsSection from "./components/ProductsSection";
 import Loader from "../../components/Loader";
 import TrendingProducts from "./components/TrendingProducts";
 import CategoriesSection from "./components/CategoriesSection";
-import AuctionPage from "./components/AuctionPage";
 import ProductConditions from "./components/ProductConditions";
 import ProductListing from "../../components/ProductsList";
+import AuctionPage from "../Auction/layouts/AuctionPage";
 
 
 export default function NewHome() {
@@ -157,7 +157,7 @@ export default function NewHome() {
         <>
             <div className="w-full flex flex-col">
                 <SearchSection />
-                <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 md:mt-14 mt-28 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
+                <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 md:mt-14 mt-8 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
                     <div className="w-full lg:flex md:flex gap-3 md:mt-3">
                         {loading ? (
                             <div className="w-full h-screen flex items-center justify-center">

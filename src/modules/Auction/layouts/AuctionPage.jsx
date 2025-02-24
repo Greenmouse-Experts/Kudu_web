@@ -13,11 +13,12 @@ const AuctionPage = ({ auctions }) => {
       .join(" ");
   };
 
+  const navigate = useNavigate();
 
   return (
     <div className="w-full px-4 md:px-1">
       {/* Header */}
-      <div className="bg-[#FFDEC1] flex justify-between items-center p-4 md:p-6 rounded-md mb-6 md:mb-10">
+      <div className="bg-[#FFDEC1] flex justify-between items-center p-4 md:p-6 rounded-md md:mb-0">
         <h2 className="text-lg md:text-xl font-semibold">Auctions</h2>
         <button className="text-black font-semibold text-sm md:text-base">
           See All
