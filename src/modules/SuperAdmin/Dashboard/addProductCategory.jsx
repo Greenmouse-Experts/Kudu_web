@@ -2,9 +2,11 @@ import { useForm } from "react-hook-form";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import DropZone from "../../../components/DropZone";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddProductCategory = () => {
     const [files, setFiles] = useState([]);
+    const navigate = useNavigate();
 
     const {
         register,
@@ -39,6 +41,7 @@ const AddProductCategory = () => {
                 data: payload,
                 headers: true,
                 onSuccess: (response) => {
+                    navigate(-1)
                 },
                 onError: () => {
                 },

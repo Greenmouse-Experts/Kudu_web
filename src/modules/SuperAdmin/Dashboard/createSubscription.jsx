@@ -39,13 +39,12 @@ const CreateSubscription = () => {
 
     const handleAllowAuctions = (value) => {
         if (value === 'true') {
-            setAuctions(false)
+            setAuctions(false);
+        } else {
+            setAuctions(true);
+            setValue("auctionProductLimit", ""); // Reset the field value
         }
-        else {
-            setAuctions(true)
-        }
-    }
-
+    };
 
     const handleAllowAdverts = (value) => {
         if (value === 'true') {
@@ -53,6 +52,8 @@ const CreateSubscription = () => {
         }
         else {
             setAdverts(true)
+            setValue("maxAds", ""); // Reset the field value
+            setValue("adsDurationDays", ""); // Reset the field value
         }
     }
 
