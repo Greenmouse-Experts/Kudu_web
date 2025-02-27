@@ -12,7 +12,7 @@ export default function ProfileSettings() {
     const { user } = useAppState();
 
     // Extract location details from user object
-    const parsedLocation = user.location ? JSON.parse(user.location) : {};
+    const parsedLocation = user.location ? user.location : {};
 
     const [isLoading, setIsLoading] = useState(true);
     const { mutate } = useApiMutation();
@@ -65,7 +65,7 @@ export default function ProfileSettings() {
     const selectedState = watch("state");
 
     useEffect(() => {
-        if (parsedLocation.country) {
+        if (parsedLocation?.country) {
             const countryObj = countries.find(c => c.name === parsedLocation.country);
             if (countryObj) {
                 const statesData = State.getStatesOfCountry(countryObj.isoCode);
@@ -78,10 +78,10 @@ export default function ProfileSettings() {
 
 
     useEffect(() => {
-        if (parsedLocation.state) {
-            const countryObj = countries.find(c => c.name === parsedLocation.country);
+        if (parsedLocation?.state) {
+            const countryObj = countries.find(c => c.name === parsedLocation?.country);
             if (countryObj) {
-                const stateObj = State.getStatesOfCountry(countryObj.isoCode).find(s => s.name === parsedLocation.state);
+                const stateObj = State.getStatesOfCountry(countryObj.isoCode).find(s => s.name === parsedLocation?.state);
                 if (stateObj) {
                     const citiesData = City.getCitiesOfState(countryObj.isoCode, stateObj.isoCode);
                     setCities(citiesData);

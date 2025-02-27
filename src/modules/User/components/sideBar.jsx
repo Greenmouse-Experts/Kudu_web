@@ -6,6 +6,7 @@ import SwitchVendorModal from "./switchVendor";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../../reducers/userSlice";
 import { VscBell } from "react-icons/vsc";
+import Badge from "../../../components/Badge";
 
 const ProfileSideBar = ({ close }) => {
     const { user } = useAppState();
@@ -39,7 +40,7 @@ const ProfileSideBar = ({ close }) => {
             vendor: true
         },
         {
-            label: "KYC", icon: <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            label: `${!user.isVerified ? 'Complete KYC' : 'Update KYC'}`, icon: <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M23.1853 7.69637C23.1525 7.62231 22.3584 5.86075 20.5931 4.09543C18.2409 1.74325 15.27 0.500122 12 0.500122C8.72999 0.500122 5.75905 1.74325 3.40687 4.09543C1.64155 5.86075 0.843741 7.62512 0.814679 7.69637C0.772035 7.79229 0.75 7.89609 0.75 8.00106C0.75 8.10603 0.772035 8.20983 0.814679 8.30575C0.847491 8.37981 1.64155 10.1404 3.40687 11.9057C5.75905 14.257 8.72999 15.5001 12 15.5001C15.27 15.5001 18.2409 14.257 20.5931 11.9057C22.3584 10.1404 23.1525 8.37981 23.1853 8.30575C23.2279 8.20983 23.25 8.10603 23.25 8.00106C23.25 7.89609 23.2279 7.79229 23.1853 7.69637ZM12 14.0001C9.11437 14.0001 6.59343 12.9511 4.50655 10.8829C3.65028 10.0314 2.92179 9.06039 2.34374 8.00012C2.92164 6.93975 3.65014 5.96873 4.50655 5.11731C6.59343 3.04918 9.11437 2.00012 12 2.00012C14.8856 2.00012 17.4066 3.04918 19.4934 5.11731C20.3514 5.96852 21.0815 6.93955 21.6609 8.00012C20.985 9.262 18.0403 14.0001 12 14.0001ZM12 3.50012C11.11 3.50012 10.2399 3.76404 9.49993 4.25851C8.7599 4.75298 8.18313 5.45578 7.84253 6.27805C7.50194 7.10031 7.41282 8.00511 7.58646 8.87803C7.76009 9.75094 8.18867 10.5528 8.81801 11.1821C9.44735 11.8114 10.2492 12.24 11.1221 12.4137C11.995 12.5873 12.8998 12.4982 13.7221 12.1576C14.5443 11.817 15.2471 11.2402 15.7416 10.5002C16.2361 9.76017 16.5 8.89014 16.5 8.00012C16.4988 6.80703 16.0242 5.66316 15.1806 4.81951C14.337 3.97587 13.1931 3.50136 12 3.50012ZM12 11.0001C11.4066 11.0001 10.8266 10.8242 10.3333 10.4945C9.83993 10.1649 9.45542 9.69635 9.22835 9.14817C9.00129 8.59999 8.94188 7.99679 9.05764 7.41485C9.17339 6.83291 9.45911 6.29836 9.87867 5.8788C10.2982 5.45924 10.8328 5.17352 11.4147 5.05777C11.9967 4.94201 12.5999 5.00142 13.148 5.22848C13.6962 5.45555 14.1648 5.84006 14.4944 6.33341C14.824 6.82676 15 7.40678 15 8.00012C15 8.79577 14.6839 9.55883 14.1213 10.1214C13.5587 10.6841 12.7956 11.0001 12 11.0001Z" fill="#FF6F22" />
             </svg>,
             route: 'updated-kyc',
@@ -76,7 +77,7 @@ const ProfileSideBar = ({ close }) => {
             route: 'orders',
             vendor: null
         },
-         {
+        {
             label: "Advert", icon: <svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.97 5.20158L10.72 0.687517C10.4996 0.565719 10.2518 0.501831 10 0.501831C9.74816 0.501831 9.50043 0.565719 9.28 0.687517L1.03 5.20345C0.794395 5.33237 0.597722 5.52217 0.460517 5.75304C0.323313 5.98391 0.25061 6.24739 0.25 6.51595V15.4822C0.25061 15.7508 0.323313 16.0142 0.460517 16.2451C0.597722 16.476 0.794395 16.6658 1.03 16.7947L9.28 21.3106C9.50043 21.4324 9.74816 21.4963 10 21.4963C10.2518 21.4963 10.4996 21.4324 10.72 21.3106L18.97 16.7947C19.2056 16.6658 19.4023 16.476 19.5395 16.2451C19.6767 16.0142 19.7494 15.7508 19.75 15.4822V6.51689C19.7499 6.24785 19.6774 5.98379 19.5402 5.75238C19.403 5.52096 19.206 5.33072 18.97 5.20158ZM10 2.00002L17.5319 6.12502L14.7409 7.65314L7.20813 3.52814L10 2.00002ZM10 10.25L2.46812 6.12502L5.64625 4.38502L13.1781 8.51002L10 10.25ZM1.75 7.43752L9.25 11.5419V19.5847L1.75 15.4831V7.43752ZM18.25 15.4794L10.75 19.5847V11.5456L13.75 9.90408V13.25C13.75 13.4489 13.829 13.6397 13.9697 13.7803C14.1103 13.921 14.3011 14 14.5 14C14.6989 14 14.8897 13.921 15.0303 13.7803C15.171 13.6397 15.25 13.4489 15.25 13.25V9.08283L18.25 7.43752V15.4785V15.4794Z" fill="#FF6F22" />
             </svg>,
@@ -91,7 +92,7 @@ const ProfileSideBar = ({ close }) => {
             vendor: null
         },
         {
-            label: "Notification", icon: <VscBell color="#FF6F22"  size={23}/>,
+            label: "Notification", icon: <VscBell color="#FF6F22" size={23} />,
             route: 'notification',
             vendor: null
         },
@@ -147,9 +148,9 @@ const ProfileSideBar = ({ close }) => {
 
 
     return (
-        <div className="w-full bg-white rounded-lg z-[-1] All p-4">
+        <div className="w-full bg-white rounded-lg z-[-1] All">
             {/* Profile Section */}
-            <div className="flex flex-col gap-3 items-center">
+            <div className="flex flex-col gap-3 items-center p-4">
                 <Imgix
                     src={user.photo || `https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/victor-diallo_p03kd2.png`}
                     alt="Profile"
@@ -158,29 +159,25 @@ const ProfileSideBar = ({ close }) => {
                     sizes="100vw"
                     className="rounded-full w-20 h-20 object-cover border-4 border-white shadow-md"
                 />
-                <h2 className="mt-2 text-lg font-semibold">{user.firstName} {user.lastName}</h2>
-                <Link to={'/profile'}><p className="text-sm">See Profile</p></Link>
+                <Link to={'/profile'}><h2 className="mt-2 text-lg font-semibold">{user.firstName} {user.lastName}</h2></Link>
+                {user.accountType !== 'Customer' && (
+                    <p className="w-full justify-center flex items-center my-1">
+                        <Badge bgColor={user.isVerified ?  'bg-green-500' : 'bg-red-500'} textColor={'text-white'} text={user.isVerified ? 'Verified' : 'Unverified'} />
+                    </p>
+                )
+                }
+                <Link to={'/profile'} className="mt-1"><p className="text-sm">See Profile</p></Link>
             </div>
 
             {/* Alerts Section */}
             {user.accountType !== 'Customer' && !user.isVerified ?
-                <div className="mt-4 bg-kuduOrange px-4 py-3 w-full rounded-lg">
-                    <div className="flex justify-between items-center text-white">
-                        <span className="text-sm font-semibold">Alerts</span>
-                    </div>
-                    <div className="flex items-center justify-between bg-white px-3 py-2 mt-2 rounded-md">
+                <div className="mt-1 mb-6 bg-kuduOrange px-1 py-1 w-full rounded-lg">
+                    <div className="flex items-center justify-between text-white px-3 py-2 rounded-md">
                         <div className="flex items-center">
-                            <span className="w-2.5 h-2.5 bg-green-500 rounded-full mr-2"></span>
-                            <span className="text-sm text-gray-600">
+                            <span className="text-sm font-[600]">
                                 Become verified by completing your KYC
                             </span>
                         </div>
-                        <button
-                            className="text-gray-400 hover:text-gray-600 transition-colors"
-                            aria-label="Close alert"
-                        >
-                            &times;
-                        </button>
                     </div>
                 </div>
                 :
@@ -190,7 +187,7 @@ const ProfileSideBar = ({ close }) => {
 
 
             {/* Navigation Section */}
-            <div className="mt-6 flex flex-col gap-6">
+            <div className="p-4 flex flex-col gap-6">
                 {filteredItems.map((item, index) => (
                     item.route ?
                         <Link
