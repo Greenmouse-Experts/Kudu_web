@@ -6,11 +6,13 @@ import { toast } from "react-toastify";
 import { useEffect } from 'react';
 import useApiMutation from '../../../api/hooks/useApiMutation';
 import Loader from '../../../components/Loader';
+import useAppState from '../../../hooks/appState';
 
 export default function UpdatedKYC() {
   const [isLoading, setIsLoading] = useState(false);
   const [loader, setLoader] = useState(true);
   const [kycData, setKYCData] = useState({});
+  const { user } = useAppState();
 
   const { mutate } = useApiMutation();
 
@@ -223,7 +225,8 @@ export default function UpdatedKYC() {
           </div>
         </div>
 
-        <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff" size={5} /> : "Submit"}</button>
+        <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff" size={5} /> : 
+        user.isVerified ?  "Update" : "Submit"}</button>
       </form>
     </div>
   );

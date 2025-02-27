@@ -5,17 +5,26 @@ import apiClient from "../apiFactory";
 
 const useApiMutation = () => {
     const handleError = useErrorHandler();
-    const token = localStorage.getItem("kuduUserToken");
+
+    const logoutUser = () => {
+        toast.error("Session expired, please login again");
+        localStorage.clear();
+        window.location.href = "/login";
+    };
 
     const mutation = useMutation({
-        mutationFn: ({ url, data = null, method = "POST", headers = false }) => {
-            const config = headers ? {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Add the token dynamically
-                    "Content-Type": "application/json",  // Optional: Specify the content type
-                },
-            } :
-                {};
+        mutationFn: async ({ url, data = null, method = "POST", headers = false }) => {
+
+            const token = localStorage.getItem("kuduUserToken");
+
+            const config = headers
+                ? {
+                      headers: {
+                          Authorization: `Bearer ${token}`,
+                          "Content-Type": "application/json",
+                      },
+                  }
+                : {};
 
             switch (method.toUpperCase()) {
                 case "GET":
@@ -33,23 +42,28 @@ const useApiMutation = () => {
             }
         },
         onSuccess: (data, variables) => {
-            // Call external success callback if provided
             if (variables.onSuccess) {
                 variables.onSuccess(data);
             }
 
-            if (!variables.hideToast) {
-                // Show toast message
-                if (data.data?.message) {
-                    toast.success(data.data.message);
-                }
+            if (!variables.hideToast && data.data?.message) {
+                toast.success(data.data.message);
             }
         },
         onError: (error, variables) => {
+            // Check if error is a 401 response
+            if (error.response && error.response.status === 401) {
+                logoutUser();
+                return;
+            }
+
             if (!variables.hideToast) {
                 handleError(error);
             }
-            variables.onError(error);
+
+            if (variables.onError) {
+                variables.onError(error);
+            }
         },
     });
 
