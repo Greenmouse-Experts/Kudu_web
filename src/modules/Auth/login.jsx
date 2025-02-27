@@ -39,7 +39,7 @@ function Login() {
         delete response.data.data.password;
         localStorage.setItem("kuduUserToken", response.data.data.token);
         dispatch(setKuduUser(response.data.data));
-        navigate("/profile");
+        window.location.href = "/profile";
         setIsLoading(false);
       },
       onError: (error) => {

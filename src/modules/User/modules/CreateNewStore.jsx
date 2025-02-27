@@ -42,7 +42,9 @@ const CreateNewStore = ({deliveryOptions, setDeliveryOptions, handleCloseModal, 
                 setValue("name", store.name);  
                 setValue("address", locationData.address);  
                 setValue("country", locationData.country);  
-                setValue("state", locationData.state);  
+                setSelectedCountry(locationData.country);
+                setValue("state", locationData.state); 
+                setValue("currencyId", store.currencyId); 
                 setValue("city", locationData.city);  
                 setValue("monday_friday", BusinessHourData.monday_friday);  
                 setValue("saturday", BusinessHourData.saturday);  
