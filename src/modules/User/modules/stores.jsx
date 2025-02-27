@@ -50,6 +50,8 @@ function Stores() {
             ))
         }
 
+        filteredCountry && console.log(filteredCountry[0].states)
+
         filteredCountry && setXtates(filteredCountry[0].states)
     }, [selectedCountry])
 
@@ -63,9 +65,10 @@ function Stores() {
 
     const open = Boolean(anchorEl);
 
-    const handleClick = (event, storeId) => {
+    const handleClick = (event, store) => {
         setAnchorEl(event.currentTarget);
-        setStoreId(storeId);
+        setSelectedCountry(JSON.parse(store.location).country)
+        setStoreId(store.id);
     };
 
     const handleClose = () => {
@@ -185,7 +188,7 @@ function Stores() {
                                             aria-controls={open ? 'long-menu' : undefined}
                                             aria-expanded={open ? 'true' : undefined}
                                             aria-haspopup="true"
-                                            onClick={(event) => handleClick(event, store.id)}
+                                            onClick={(event) => handleClick(event, store)}
                                         >
                                             <MoreVertIcon />
                                         </IconButton>
