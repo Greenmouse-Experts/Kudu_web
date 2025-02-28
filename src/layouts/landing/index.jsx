@@ -5,21 +5,11 @@ import { useEffect, useState } from "react";
 import SideBar from "./SideBar";
 import Footer from "./Footer";
 import Chat from "../../modules/Chatbot/Chat";
-import { isTokenValid } from "../../helpers/tokenValidator";
-import { toast } from "react-toastify";
 
 const LandingLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hideFooter, setHideFooter] = useState(false);
   const location = useLocation();
-
-  const tokenValid = isTokenValid();
-
-  if (!tokenValid) {
-    window.location.href = "/login";
-    toast.error("Session expired, please login again");
-    localStorage.clear();
-  }
 
   const urlExceptions = ["/messages"];
 
