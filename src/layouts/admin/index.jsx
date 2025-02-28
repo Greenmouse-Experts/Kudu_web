@@ -4,18 +4,9 @@ import { Drawer } from "@material-tailwind/react";
 import { useState } from "react";
 import SideBar from "./SideBar";
 import NavBar from "./navBar";
-import { isTokenValid } from "../../helpers/tokenValidator";
 
 const AdminLayout = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const tokenValid = isTokenValid();
-
-    if (!tokenValid) {
-        window.location.href = "/login";
-        toast.error("Session expired, please login again");
-        localStorage.clear();
-    }
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
