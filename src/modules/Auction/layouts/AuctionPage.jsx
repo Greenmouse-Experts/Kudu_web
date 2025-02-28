@@ -71,7 +71,7 @@ const AuctionPage = ({ auctions }) => {
         {activeTab === "popular" &&
           auctions.map((auction) => {
             const location = auction.vendor?.location
-              ? JSON.parse(auction.vendor.location)
+              ? auction.vendor.location
               : null;
 
             return (
