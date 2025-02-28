@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AuctionPage = ({ auctions }) => {
   const [activeTab, setActiveTab] = useState("popular");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const capitalizeEachWord = (str) => {
     return str
@@ -11,7 +13,11 @@ const AuctionPage = ({ auctions }) => {
       .join(" ");
   };
 
-  const navigate = useNavigate();
+  const handleNavigate = (auctionId) => {
+    const isAuctionPage = location.pathname.includes("/auction");
+    const targetPath = isAuctionPage ? `product/${auctionId}` : `auction/product/${auctionId}`;
+    navigate(targetPath);
+  };
 
   return (
     <div className="w-full px-4 md:px-1">
@@ -23,54 +29,11 @@ const AuctionPage = ({ auctions }) => {
         </button>
       </div>
 
-      {/* Navigation Tabs */}
-      <div className="flex overflow-x-auto pb-5 mb-6 space-x-2">
-       {/* <button
-          className={`flex-shrink-0 px-4 md:px-10 py-3 rounded-lg font-semibold ${activeTab === "popular"
-              ? "bg-[#FF6F22] text-white"
-              : "bg-transparent text-black border border-gray-300"
-            }`}
-          onClick={() => setActiveTab("popular")}
-        >
-          Popular Auctions
-        </button>
-        {/* <button
-          className={`flex-shrink-0 px-4 md:px-10 py-5 rounded-lg font-semibold ${
-            activeTab === "todays"
-              ? "bg-[#FF6F22] text-white"
-              : "bg-transparent text-black border border-gray-300"
-          }`}
-          onClick={() => setActiveTab("todays")}
-        >
-          Today's Selections
-        </button>
-        <button
-          className={`flex-shrink-0 px-4 md:px-10 py-5 rounded-lg font-semibold ${
-            activeTab === "live"
-              ? "bg-[#FF6F22] text-white"
-              : "bg-transparent text-black border border-gray-300"
-          }`}
-          onClick={() => setActiveTab("live")}
-        >
-          Live Auctions
-        </button>
-        <button
-          className={`flex-shrink-0 px-4 md:px-10 py-5 rounded-lg font-semibold ${
-            activeTab === "calendar"
-              ? "bg-[#FF6F22] text-white"
-              : "bg-transparent text-black border border-gray-300"
-          }`}
-          onClick={() => setActiveTab("calendar")}
-        >
-          Auction Calendar
-        </button>*/}
-      </div>
-
       {/* Auction Listings */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         {activeTab === "popular" &&
           auctions.map((auction) => {
-            const location = auction.vendor?.location
+            const auctionLocation = auction.vendor?.location
               ? auction.vendor.location
               : null;
 
@@ -112,14 +75,17 @@ const AuctionPage = ({ auctions }) => {
                 <p className="text-black text-xs mt-3">
                   Location:{" "}
                   <span className="font-semibold">
-                    {location
-                      ? `${location.city}, ${location.state}, ${location.country}`
+                    {auctionLocation
+                      ? `${auctionLocation.city}, ${auctionLocation.state}, ${auctionLocation.country}`
                       : "N/A"}
                   </span>
                 </p>
 
                 {/* View Details Button */}
-                <button onClick={() => navigate(`auction/product/${auction.id}`)} className="bg-[#FF6F22] text-white w-full py-3 mt-5 rounded-lg text-xs md:text-sm">
+                <button
+                  onClick={() => handleNavigate(auction.id)}
+                  className="bg-[#FF6F22] text-white w-full py-3 mt-5 rounded-lg text-xs md:text-sm"
+                >
                   View Details
                 </button>
 
