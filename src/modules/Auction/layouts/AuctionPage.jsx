@@ -119,7 +119,7 @@ const AuctionPage = ({ auctions }) => {
                 </p>
 
                 {/* View Details Button */}
-                <button onClick={() => navigate(`product/${auction.id}`)} className="bg-[#FF6F22] text-white w-full py-3 mt-5 rounded-lg text-xs md:text-sm">
+                <button onClick={() => navigate(`auction/product/${auction.id}`)} className="bg-[#FF6F22] text-white w-full py-3 mt-5 rounded-lg text-xs md:text-sm">
                   View Details
                 </button>
 
