@@ -14,51 +14,37 @@ const About = () => {
 
     // Fetch products from API
     const fetchData = async () => {
+        setLoading(true); // Ensure loading starts before fetching
+
         try {
-            const productRequest = new Promise((resolve, reject) => {
-                mutate({
-                    url: '/products',
-                    method: 'GET',
-                    hideToast: true,
-                    onSuccess: (response) => resolve(response.data?.data || []),
-                    onError: reject,
-                });
-            });
+            const [productsData, categoriesData] = await Promise.all([
+                new Promise((resolve, reject) => {
+                    mutate({
+                        url: '/products',
+                        method: 'GET',
+                        hideToast: true,
+                        onSuccess: (response) => resolve(response.data?.data || []),
+                        onError: reject,
+                    });
+                }),
+                new Promise((resolve, reject) => {
+                    mutate({
+                        url: `/categories`,
+                        method: "GET",
+                        headers: true,
+                        hideToast: true,
+                        onSuccess: (response) => resolve(response.data?.data || []),
+                        onError: reject,
+                    });
+                }),
+            ]);
 
-            const categoriesRequest = new Promise((resolve, reject) => {
-                mutate({
-                    url: `/categories`,
-                    method: "GET",
-                    headers: true,
-                    hideToast: true,
-                    onSuccess: (response) => resolve(response.data?.data || []),
-                    onError: reject,
-                });
-            });
-
-            const [productsData] = await Promise.all([productRequest]);
-            const [categoriesData] = await Promise.all([categoriesRequest]);
-
-            if (!productsData || productsData.length === 0) {
-                console.warn("No products found.");
-                setProducts([]);
-            }
-
-            setProducts(productsData);
-
-            if (!categoriesData || categoriesData.length === 0) {
-                console.warn("No categries found.");
-                setCategoriesArr([]);
-            }
-
-            setCategoriesArr(categoriesData);
-
-            setLoading(false)
-
+            setProducts(productsData.length ? productsData : []);
+            setCategoriesArr(categoriesData.length ? categoriesData : []);
         } catch (error) {
             console.error('Error fetching data:', error);
         } finally {
-            setLoading(false);
+            setLoading(false); // Ensure loading is stopped after everything is done
         }
     };
 
@@ -67,12 +53,6 @@ const About = () => {
         fetchData();
     }, []);
 
-
-    if (loading) {
-        <div className="w-full h-screen flex items-center justify-center">
-            <Loader />
-        </div>
-    }
 
     return (
         <>
@@ -93,7 +73,14 @@ const About = () => {
                 {/* Hero Section */}
                 <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-20 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
                     <div className="w-full flex mt-20">
-                        <ProductListing data={products} categories={categoriesArr} />
+                        {loading ? (
+                            <div className="w-full flex my-20">
+                                <Loader />
+                            </div>
+                        )
+                            :
+                            <ProductListing data={products} categories={categoriesArr} />
+                        }
                     </div>
                 </div>
 

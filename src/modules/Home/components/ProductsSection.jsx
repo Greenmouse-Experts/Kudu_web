@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import ProductListing from "../../../components/ProductsList";
 import Imgix from "react-imgix";
+import { geoLocatorProduct } from "../../../helpers/geoLocatorProduct";
 
 const ProductsSection = ({ productsArr, ads }) => {
+
+    const filteredProducts = geoLocatorProduct(productsArr);
+
     return (
         <div className="w-full">
             <div className="bg-[#C1FFA5] flex justify-between p-6 rounded-md mb-10 cursor-pointer">
@@ -10,9 +14,9 @@ const ProductsSection = ({ productsArr, ads }) => {
                 <Link to={'/see-all'} className="text-black font-semibold">See All</Link>
             </div>
 
-            <ProductListing productsArr={productsArr.slice(0, 8)} displayError />
+            <ProductListing productsArr={filteredProducts.slice(0, 8)} displayError />
 
-            <div className="flex w-full flex-col md:flex-row gap-4">
+            <div className="flex w-full flex-col md:flex-row gap-4 my-4">
                 {ads.map((ad, index) => (
                     <div className="md:w-1/1 flex md:flex-row flex-col relative w-full pt-64 px-4 lg:rounded-lg md:rounded-lg" key={index}>
                         <div className="absolute inset-0 w-full h-full">
