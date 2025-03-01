@@ -1,5 +1,4 @@
 import Imgix from "react-imgix"
-import ShippingEstimate from "./layouts/shippingEstimate"
 import BidInformation from "./layouts/bidInformation"
 import DirectPurchase from "./layouts/directPurchase"
 import SalesInformation from "./layouts/saleInformation"
@@ -8,6 +7,7 @@ import { useEffect, useState } from "react"
 import useApiMutation from "../../api/hooks/useApiMutation"
 import Loader from "../../components/Loader"
 import { Carousel } from "@material-tailwind/react"
+import ProductDescription from "./layouts/productDescription"
 
 const BreadCrumbs = () => {
     return (
@@ -56,8 +56,7 @@ export default function ViewAuctionProduct() {
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                const filteredProduct = response.data.data.find((item) => item.id === id);
-                setProduct(filteredProduct);
+                setProduct(response.data.data);
                 setLoading(false);
             },
             onError: () => {
@@ -131,7 +130,7 @@ export default function ViewAuctionProduct() {
                     </div>
                     <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
                         <div className="w-full flex gap-3">
-                            <div className="flex flex-wrap md:flex-row flex-col gap-4 mb-8">
+                            <div className="flex flex-wrap md:flex-row flex-col gap-2 mb-8">
                                 {/* First Div */}
                                 <div className="flex-1 md:flex-[0_0_30%] rounded-md h-full">
                                     <div className="w-full flex h-[20rem] justify-center">
@@ -140,7 +139,7 @@ export default function ViewAuctionProduct() {
                                             autoplay
                                             loop
                                         >
-                                            {product.additionalImages.map((image, index) => (
+                                            {JSON.parse(product.additionalImages).map((image, index) => (
                                                 <>
                                                     <img
                                                         src={image}
@@ -153,7 +152,7 @@ export default function ViewAuctionProduct() {
                                     </div>
                                     <div className="flex w-full overflow-x-auto my-3">
                                         <div className="flex w-full gap-2 h-auto max-h-[100px]">
-                                            {product.additionalImages.map((image, index) => (
+                                            {JSON.parse(product.additionalImages).map((image, index) => (
                                                 <Imgix
                                                     src={image}
                                                     sizes="100vw"
@@ -169,12 +168,12 @@ export default function ViewAuctionProduct() {
                                 </div>
 
                                 {/* ShippingEstimate Div */}
-                                <div className="flex-1 md:flex-[0_0_42%] rounded-md h-full p-4 shadow-md bg-white">
-                                    <ShippingEstimate />
+                                <div className="flex-1 md:flex-[0_0_43%] flex-wrap rounded-md h-full">
+                                    <ProductDescription description={product.description} specifications={product.specification} />
                                 </div>
 
                                 {/* Last Div */}
-                                <div className="flex-1 md:flex-[0_0_24%] rounded-md h-full">
+                                <div className="flex-1 md:flex-[0_0_25%] rounded-md h-full">
                                     <BidInformation />
                                     <DirectPurchase />
                                     <SalesInformation />
