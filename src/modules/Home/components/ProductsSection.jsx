@@ -14,7 +14,7 @@ const ProductsSection = ({ productsArr, ads }) => {
                 <Link to={'/see-all'} className="text-black font-semibold">See All</Link>
             </div>
 
-            <ProductListing productsArr={filteredProducts.slice(0, 8)} displayError />
+            <ProductListing productsArr={filteredProducts.slice(0, 12)} displayError />
 
             <div className="flex w-full flex-col md:flex-row gap-4 my-4">
                 {ads.map((ad, index) => (
@@ -28,7 +28,7 @@ const ProductsSection = ({ productsArr, ads }) => {
                 ))}
             </div>
 
-            <ProductListing productsArr={productsArr.slice(8, 12)} />
+            <ProductListing productsArr={filteredProducts.slice(12, 24)} />
 
         </div>
     );
