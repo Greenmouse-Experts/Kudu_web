@@ -127,7 +127,7 @@ export default function ViewAuctionProduct() {
                         </div>
                     </div>*/}
                     <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 mt-10 border-b border-[rgba(204,204,204,1)] flex">
-                        <span className="md:text-lg text-base font-semibold mb-3">2014 AUDI A4 ALLROAD PREMIUM PLUS</span>
+                        <span className="md:text-lg text-base font-semibold mb-3">{product.name}</span>
                     </div>
                     <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
                         <div className="w-full flex gap-3">
@@ -140,7 +140,7 @@ export default function ViewAuctionProduct() {
                                             autoplay
                                             loop
                                         >
-                                            {JSON.parse(product.additionalImages).map((image, index) => (
+                                            {product.additionalImages.map((image, index) => (
                                                 <>
                                                     <img
                                                         src={image}
@@ -153,7 +153,7 @@ export default function ViewAuctionProduct() {
                                     </div>
                                     <div className="flex w-full overflow-x-auto my-3">
                                         <div className="flex w-full gap-2 h-auto max-h-[100px]">
-                                            {JSON.parse(product.additionalImages).map((image, index) => (
+                                            {product.additionalImages.map((image, index) => (
                                                 <Imgix
                                                     src={image}
                                                     sizes="100vw"
