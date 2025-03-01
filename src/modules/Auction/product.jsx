@@ -51,8 +51,9 @@ export default function ViewAuctionProduct() {
 
     const getProduct = () => {
         mutate({
-            url: `/auction/products?auctionproductId=${id}`,
+            url: `/auction/product?auctionproductId=${id}`,
             method: 'GET',
+            headers: true,
             hideToast: true,
             onSuccess: (response) => {
                 const filteredProduct = response.data.data.find((item) => item.id === id);
