@@ -49,7 +49,7 @@ const AuctionPage = ({ auctions }) => {
 
       {/* Auction Listings */}
       {filteredAuctions.length > 0 ?
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-4 mt-3">
           {
             filteredAuctions.map((auction) => {
               const auctionLocation = auction.vendor?.location
@@ -59,14 +59,16 @@ const AuctionPage = ({ auctions }) => {
               return (
                 <div
                   key={auction.id}
-                  className="bg-white p-3 border rounded-lg relative"
+                  className="bg-white p-3 shadow-lg border rounded-lg relative"
                 >
                   {/* Product Image */}
-                  <img
-                    src={auction.image}
-                    alt={auction.name}
-                    className="w-full md:h-[300px] object-cover rounded"
-                  />
+                  <div className="flex justify-center relative md:h-[200px] h-[200px]">
+                    <img
+                      src={auction.image}
+                      alt={auction.name}
+                      className="w-full md:h-[200px] object-cover rounded-md"
+                    />
+                  </div>
 
                   {/* Condition Badge */}
                   <span className={`absolute top-2 right-2 ${auction.condition === "brand_new" ? "bg-[#34A853]" : "bg-[#FF0F00]"} text-white px-2 py-1 text-xs rounded`}>
@@ -78,14 +80,14 @@ const AuctionPage = ({ auctions }) => {
                     {auction.name}
                   </h3>
 
-                  {/* Lot Number */}
+                  {/* Lot Number 
                   <p className="text-gray-500 mt-3 text-xs">
                     Lot #{" "}
                     <span className="text-[#FF6F22]">{auction.id}</span>
-                  </p>
+                  </p> */}
 
                   {/* Current Bid */}
-                  <p className="text-base md:text-lg font-bold mt-3 text-green-600">
+                  <p className="text-base font-bold mt-3 text-green-600">
                     <small className="text-black">Current Bid:</small>{" "}
                     {auction.store.currency.symbol} {auction.price}
                   </p>
