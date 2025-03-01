@@ -1,4 +1,6 @@
-const SalesInformation = () => {
+import { NumericDate } from "../../../helpers/dateHelper";
+
+const SalesInformation = ({ content }) => {
     return (
         <div className="max-w-md mx-auto rounded-lg bg-white p-4 mt-3">
             <div className="flex justify-between items-center border-b border-gray-300 pb-2 mb-4">
@@ -6,19 +8,22 @@ const SalesInformation = () => {
             </div>
             <div className="space-y-3 text-sm">
                 <div className="flex justify-between py-2 border-b border-gray-300">
-                    <span className="font-medium">Sale Name:</span>
-                    <span>Minimum Bid</span>
+                    <span className="font-medium">Vendor Name:</span>
+                    <span>{content.vendor ? `${content.vendor.firstName} ${content.vendor.lastName}` : 'KuduMart'}</span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-300">
                     <span className="font-medium">Sale Date:</span>
                     <span className="text-sm font-semibold">
-                        <p>Thu. Nov 07, 2024</p>
-                        <p className="text-xs font-[400]">04:00 PM WAT</p>
+                        <p>{NumericDate(content.startDate).date}</p>
+                        <p className="text-xs font-[400]">{NumericDate(content.startDate).time}</p>
                     </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-300">
-                    <span className="font-medium">Last Updated:</span>
-                    <span>10/31/2024 3:00 am</span>
+                    <span className="font-medium">End Date:</span>
+                    <span className="text-sm font-semibold">
+                        <p>{NumericDate(content.endDate).date}</p>
+                        <p className="text-xs font-[400]">{NumericDate(content.endDate).time}</p>
+                    </span>
                 </div>
             </div>
         </div>
