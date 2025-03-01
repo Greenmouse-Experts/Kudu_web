@@ -54,21 +54,23 @@ const ProductListing = ({ data, categories, hideCategory }) => {
 
     return (
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
-            <aside className="lg:w-1/5 p-4 border rounded-lg shadow-sm bg-white mb-6 lg:mb-0 lg:sticky lg:top-1 lg:h-[90vh] overflow-y-auto">
+            <aside className="lg:w-1/5 p-4 border rounded-lg shadow-sm bg-white mb-6 -mt-8 md:mt-0 lg:mb-0 lg:sticky lg:top-1 lg:h-[90vh] overflow-y-auto">
                 <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
-                <div className="block sm:hidden">
-                    <h3 className="font-semibold mb-4">Category</h3>
-                    <select
-                        onChange={(e) => handleSelectedId(Number(e.target.value))}
-                        className="w-full p-2 border rounded-lg bg-white"
-                    >
-                        <option value="">Select Category</option>
-                        {categories.map(category => (
-                            <option key={category.id} value={category.id}>{category.name}</option>
-                        ))}
-                    </select>
-                </div>
+                {!hideCategory &&
+                    <div className="block sm:hidden">
+                        <h3 className="font-semibold mb-4">Category</h3>
+                        <select
+                            onChange={(e) => handleSelectedId(Number(e.target.value))}
+                            className="w-full p-2 border rounded-lg bg-white"
+                        >
+                            <option value="">Select Category</option>
+                            {categories.map(category => (
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                }
 
                 {!hideCategory &&
                     <div className="hidden sm:block">
@@ -143,9 +145,9 @@ const ProductListing = ({ data, categories, hideCategory }) => {
                 </div>
 
                 {filteredProducts.length > 0 ?
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {filteredProducts.map(product => (
-                            <div key={product.id} className="bg-white p-4 border rounded-lg relative">
+                            <div key={product.id} className="bg-white p-4 shadow-lg border rounded-lg relative">
                                 <Link to={`/product/${product.id}`}>
                                     <div className="flex justify-center relative md:h-[200px] h-[200px]">
                                         <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
@@ -153,13 +155,13 @@ const ProductListing = ({ data, categories, hideCategory }) => {
                                     <h3 className="text-base font-semibold mt-3 leading-loose">{product.name}</h3>
                                     <p className="text-sm font-medium leading-loose">{product.store.currency.symbol} {product.price}</p>
                                     <button
-                                        className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-medium text-white ${product.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"
+                                        className={`absolute top-2 right-0 px-2 py-1 text-xs rounded font-medium text-white ${product.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"
                                             }`}
                                     >
                                         {product.vendor?.isVerified || product.admin ? "Verified" : "Not Verified"}
                                     </button>
                                     <span
-                                        className={`absolute top-2 left-2 px-2 py-1 text-xs rounded font-meduim text-white ${product.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
+                                        className={`absolute top-2 left-0 px-2 py-1 text-xs rounded font-meduim text-white ${product.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
                                             }`}
                                     >
                                         {capitalizeEachWord(product.condition.replace(/_/g, ' '))}
