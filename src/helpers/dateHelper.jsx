@@ -50,3 +50,58 @@ export const getDateDifference = (startDate) => {
         return `0 days`;
     }
 };
+
+
+export const NumericDate = (dateString) => {
+    const date = new Date(dateString);
+
+    // Get day with suffix (st, nd, rd, th)
+    const day = date.getDate();
+    const suffix = (day % 10 === 1 && day !== 11) ? "st" :
+        (day % 10 === 2 && day !== 12) ? "nd" :
+            (day % 10 === 3 && day !== 13) ? "rd" : "th";
+
+    // Format date separately
+    const formattedDate = date.toLocaleString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "UTC"  // Adjust if needed
+    }).replace(/(\d{1,2}),/, `$1${suffix},`);
+
+    // Format time separately
+    const formattedTime = date.toLocaleString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+        timeZone: "UTC"
+    });
+
+    return { date: formattedDate, time: formattedTime };
+}
+
+
+export const getTimeLeft = (startDate) => {
+    const now = new Date();
+    const targetDate = new Date(startDate);
+    
+    const diffMs = targetDate - now; // Difference in milliseconds
+
+    if (diffMs <= 0) {
+        return "0 min";
+    }
+
+    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    if (days > 0) {
+        return `${days}D ${hours}H ${minutes}min`;
+    } else if (hours > 0) {
+        return `${hours}H ${minutes}min`;
+    } else {
+        return `${minutes}min`;
+    }
+};
+

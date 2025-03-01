@@ -56,6 +56,10 @@ const UpdateAuctionProducts = () => {
             delete data.category;
             const payload = {
                 ...data, auctionProductId: id, image: files[0],
+                price: Number(data.price),
+                bidIncrement: Number(data.bidIncrement),
+                maxBidsPerUser: Number(data.maxBidsPerUser),
+                participantsInterestFee: Number(data.participantsInterestFee),
                 description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
                 specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
                 additionalImages: files
@@ -183,7 +187,7 @@ const UpdateAuctionProducts = () => {
         setValue("category", product.sub_category.categoryId);
         getSubCategories(product.sub_category.categoryId);
         setValue("condition", product.condition);
-        setFiles(product.additionalImages);
+        setFiles(JSON.parse(product.additionalImages));
         setCurrency(product.store.currency.symbol);
 
         // Handle product.description (HTML case)

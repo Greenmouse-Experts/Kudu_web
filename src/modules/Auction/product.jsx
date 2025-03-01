@@ -1,6 +1,5 @@
 import Imgix from "react-imgix"
 import BidInformation from "./layouts/bidInformation"
-import DirectPurchase from "./layouts/directPurchase"
 import SalesInformation from "./layouts/saleInformation"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -8,6 +7,7 @@ import useApiMutation from "../../api/hooks/useApiMutation"
 import Loader from "../../components/Loader"
 import { Carousel } from "@material-tailwind/react"
 import ProductDescription from "./layouts/productDescription"
+import InterestParticipate from "./layouts/interestParticipate"
 
 const BreadCrumbs = () => {
     return (
@@ -50,6 +50,7 @@ export default function ViewAuctionProduct() {
     const { mutate } = useApiMutation();
 
     const getProduct = () => {
+        setLoading(true);
         mutate({
             url: `/auction/product?auctionproductId=${id}`,
             method: 'GET',
@@ -174,9 +175,9 @@ export default function ViewAuctionProduct() {
 
                                 {/* Last Div */}
                                 <div className="flex-1 md:flex-[0_0_25%] rounded-md h-full">
-                                    <BidInformation />
-                                    <DirectPurchase />
-                                    <SalesInformation />
+                                    <BidInformation content={product} />
+                                    <InterestParticipate content={product} reload={getProduct} />
+                                    <SalesInformation content={product} />
                                 </div>
                             </div>
                         </div>

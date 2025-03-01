@@ -34,7 +34,7 @@ const CartSummary = ({ cart }) => {
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                setPaymentKey(response.data.data);
+                setPaymentKey(response.data.data.find((key) => key.isActive));
             },
             onError: (error) => {
                 console.error("Error fetching payment keys:", error);
