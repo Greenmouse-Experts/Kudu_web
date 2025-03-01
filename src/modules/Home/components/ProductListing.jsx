@@ -11,10 +11,16 @@ const ProductListing = ({ data, categories, hideCategory }) => {
     const [subCategoriesId, setSubCategoriesId] = useState([]);
     const [values, setValues] = useState([0, 200000]);
     const [sortBy, setSortBy] = useState("popularity");
+    const [filteredProducts, setFilteredProducts] = useState(data);
 
     const products = geoLocatorProduct(data);
 
-    const [filteredProducts, setFilteredProducts] = useState(products);
+
+    useEffect(() => {
+        if (products.length) {
+            setFilteredProducts(products);
+        }
+    }, [products]);
 
     const { mutate } = useApiMutation();
 
