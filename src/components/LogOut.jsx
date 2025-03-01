@@ -1,7 +1,7 @@
 import useApiMutation from '../api/hooks/useApiMutation';
 import { useDispatch } from 'react-redux';
 import { Button } from '@material-tailwind/react';
-import { setCurrencyData, setKuduUser } from '../reducers/userSlice';
+import { setCurrencyData, setIPInfo, setKuduUser } from '../reducers/userSlice';
 import { useModal } from '../hooks/modal';
 
 const LogOutModal = ({redirect, mode}) => {
@@ -19,6 +19,7 @@ const LogOutModal = ({redirect, mode}) => {
             onSuccess: (response) => {
                 dispatch(setKuduUser(null));
                 dispatch(setCurrencyData(null));
+                dispatch(setIPInfo(null));
                 localStorage.clear();
                 redirect();
                 closeModal();

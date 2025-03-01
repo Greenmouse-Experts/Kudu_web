@@ -5,7 +5,8 @@ const useAppState = () => {
 
   return {
     user: state.user?.data,
-    currency: state.userData?.currencies
+    currency: state.user?.currencies,
+    ipInfo: state.user?.ipInfo
     // products: state.products?.data,
   };
 };

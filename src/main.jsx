@@ -9,15 +9,18 @@ import "react-tabs/style/react-tabs.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { SocketProvider } from "./store/SocketContext.jsx";
+import IPInfo from "ip-info-react";
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <QueryClientProvider client={queryClient}>
-    <SocketProvider> 
-      <App />
-    </SocketProvider>
+      <SocketProvider>
+        <IPInfo>
+          <App />
+        </IPInfo>
+      </SocketProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
     <ToastContainer

@@ -1,10 +1,19 @@
 import React, { useState } from "react";
+import { geoLocatorProduct } from "../../../helpers/geoLocatorProduct";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAppState from "../../../hooks/appState";
+import { useModal } from "../../../hooks/modal";
+import Modal from "../../../components/Modal";
 
 const AuctionPage = ({ auctions }) => {
   const [activeTab, setActiveTab] = useState("popular");
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useAppState();
+
+  const filteredAuctions = geoLocatorProduct(auctions);
+
+  const { openModal } = useModal();
 
   const capitalizeEachWord = (str) => {
     return str
@@ -14,6 +23,15 @@ const AuctionPage = ({ auctions }) => {
   };
 
   const handleNavigate = (auctionId) => {
+    if (!user) {
+      openModal({
+        size: "sm",
+        content: (
+          <Modal submitButton={false} text={'You must be logged in to view auction details. Please sign in or create an account to access this product.'} />
+        ),
+      });
+      return;
+    }
     const isAuctionPage = location.pathname.includes("/auction");
     const targetPath = isAuctionPage ? `product/${auctionId}` : `auction/product/${auctionId}`;
     navigate(targetPath);
@@ -61,36 +79,6 @@ const AuctionPage = ({ auctions }) => {
                   <h3 className="text-sm md:text-base font-semibold mt-3">
                     {auction.name}
                   </h3>
-
-                  {/* Lot Number */}
-                  <p className="text-gray-500 mt-3 text-xs">
-                    Lot #{" "}
-                    <span className="text-[#FF6F22]">{auction.id}</span>
-                  </p>
-
-                  {/* Current Bid */}
-                  <p className="text-base md:text-lg font-bold mt-3 text-green-600">
-                    <small className="text-black">Current Bid:</small>{" "}
-                    {auction.store.currency.symbol} {auction.price}
-                  </p>
-
-                  {/* Location */}
-                  <p className="text-black text-xs mt-3">
-                    Location:{" "}
-                    <span className="font-semibold">
-                      {auctionLocation
-                        ? `${auctionLocation.city}, ${auctionLocation.state}, ${auctionLocation.country}`
-                        : "N/A"}
-                    </span>
-                  </p>
-
-                  {/* View Details Button */}
-                  <button
-                    onClick={() => handleNavigate(auction.id)}
-                    className="bg-[#FF6F22] text-white w-full py-3 mt-5 rounded-lg text-xs md:text-sm"
-                  >
-                    View Details
-                  </button>
 
                   {/* Lot Number 
                   <p className="text-gray-500 mt-3 text-xs">
@@ -140,8 +128,10 @@ const AuctionPage = ({ auctions }) => {
                 className="w-80 h-80 mx-auto"
               />
             </div>
-            <h3 className="text-base font-semibold mt-3 leading-loose">No Auctions Available</h3>
-            <p className="text-sm font-medium leading-loose">There are no auctions available at the moment.</p>
+            <h1 className="text-center text-lg font-bold mb-4">No Product Found</h1>
+            <div className="text-center text-black-100 mb-6 leading-loose text-sm">
+              Oops! It looks like we don’t have products available in your region at the moment.  <br></br>Please check back later or try browsing other categories.
+            </div>
           </div>
         </div>
       }

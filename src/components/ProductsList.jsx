@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { geoLocatorProduct } from "../helpers/geoLocatorProduct";
 
-const ProductListing = ({ productsArr }) => {
+const ProductListing = ({ productsArr, displayError = false }) => {
+
+    const filteredProducts = geoLocatorProduct(productsArr);
 
     const capitalizeEachWord = (str) => {
         return str
@@ -50,23 +53,14 @@ const ProductListing = ({ productsArr }) => {
                                     className="w-80 h-80 mx-auto"
                                 />
                             </div>
-                            <h3 className="text-base font-semibold mt-3 leading-loose">{item.name}</h3>
-                            <p className="text-sm font-medium leading-loose">{item.store.currency.symbol} {item.price}</p>
-                            <button
-                                className={`absolute top-2 right-2 px-2 py-1 text-xs rounded font-meduim text-white ${item?.vendor?.isVerified ? "bg-green-500" : "bg-red-500"
-                                    }`}
-                            >
-                                {item?.vendor?.isVerified ? "Verified" : "Not Verified"}
-                            </button>
-                            <span
-                                className={`absolute top-2 left-2 px-2 py-1 text-xs rounded font-meduim text-white ${item.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
-                                    }`}
-                            >
-                                {capitalizeEachWord(item.condition.replace(/_/g, ' '))}
-                            </span>
+                            <h1 className="text-center text-lg font-bold mb-4">No Product Found</h1>
+                            <div className="text-center text-black-100 mb-6 leading-loose text-sm">
+                                Oops! It looks like we don’t have products available in your region at the moment.  <br></br>Please check back later or try browsing other categories.
+                            </div>
                         </div>
                     </div>
-                )}
+                )
+            }
         </div>
     );
 };
