@@ -71,7 +71,9 @@ function Login() {
                 onSuccess: (response) => {
                     localStorage.setItem("kuduUserToken", response.data.data.token);
                     dispatch(setKuduUser(response.data.data));
-                    window.location.href = "/profile";
+                    setTimeout(() => {
+                      window.location.href = "/profile";
+                    }, 2000)
                     setIsLoading(false);
                 },
                 onError: () => {

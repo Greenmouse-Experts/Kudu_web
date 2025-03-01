@@ -21,8 +21,8 @@ const ProductListing = ({ productsArr, displayError = false }) => {
                                     <img src={item.image_url} alt={item.name} className="w-full md:h-[200px] object-cover rounded-md" />
                                 </div>
                                 <div className="p-3 w-full">
-                                    <h3 className="text-base font-semibold mt-1 leading-loose">{item.name}</h3>
-                                    <p className="text-sm font-medium leading-loose">{item.store.currency.symbol} {item.price}</p>
+                                    <h3 className="text-base font-medium mt-1 leading-loose">{item.name}</h3>
+                                    <p className="text-sm font-semibold leading-loose">{item.store.currency.symbol} {item.price}</p>
                                     <button
                                         className={`absolute top-2 right-0 px-2 py-1 text-xs rounded font-meduim text-white ${item?.vendor?.isVerified ? "bg-green-500" : "bg-red-500"
                                             }`}

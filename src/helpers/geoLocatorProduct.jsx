@@ -6,7 +6,7 @@ export const geoLocatorProduct = (productsArr) => {
     if (ipInfo?.country_name === "Nigeria") {
         return productsArr.filter(product => product.store?.currency?.symbol === "#");
     } else {
-        return productsArr.filter(product => product.store?.currency?.symbol === "$");
+        return productsArr.filter(product => product.store?.currency?.symbol === "$" || product.store?.currency?.symbol === "€");
     }
 };
 
