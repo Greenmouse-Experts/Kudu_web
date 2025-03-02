@@ -15,6 +15,7 @@ import { addToCart } from "../../reducers/cartSlice";
 import { useModal } from "../../hooks/modal";
 import { Carousel } from "@material-tailwind/react";
 import { sendMessage } from "../../api/message";
+import { useForm } from "react-hook-form";
 
 function SafeHTML({ htmlContent }) {
   const cleanHTML = DOMPurify.sanitize(htmlContent);
@@ -28,6 +29,7 @@ export default function ViewProduct() {
   const [quantity, setQuantity] = useState(0);
   const [disabled, setDisabled] = useState(true);
   const { openModal } = useModal();
+
 
   const { user } = useAppState();
 
@@ -93,9 +95,8 @@ export default function ViewProduct() {
       {
         productId: id,
         receiverId: product.vendor.id ? product.vendor.id : product.vendorId,
-        content: `Hello ${
-          product.vendor.firstName ? product.vendor.firstName : ""
-        }`,
+        content: `Hello ${product.vendor.firstName ? product.vendor.firstName : ""
+          }`,
       },
       {
         onSuccess: () => {
@@ -190,6 +191,15 @@ export default function ViewProduct() {
     }
   }
 
+
+
+
+
+
+
+
+
+
   return (
     <>
       <div className="w-full flex flex-col">
@@ -216,11 +226,10 @@ export default function ViewProduct() {
                         {new Array(length).fill("").map((_, i) => (
                           <span
                             key={i}
-                            className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${
-                              activeIndex === i
-                                ? "w-8 bg-white"
-                                : "w-4 bg-white/50"
-                            }`}
+                            className={`block h-1 cursor-pointer rounded-2xl transition-all content-[''] ${activeIndex === i
+                              ? "w-8 bg-white"
+                              : "w-4 bg-white/50"
+                              }`}
                             onClick={() => setActiveIndex(i)}
                           />
                         ))}
@@ -243,7 +252,7 @@ export default function ViewProduct() {
                       </button>
                     )}
                   >
-                    {product.additional_images.map((image, index) => (
+                    {JSON.parse(product.additional_images).map((image, index) => (
                       <>
                         <img
                           src={image}
@@ -256,7 +265,7 @@ export default function ViewProduct() {
                 </div>
                 <div className="flex w-full overflow-x">
                   <div className="flex w-full justify-between gap-2">
-                    {product.additional_images.map((image, index) => (
+                    {JSON.parse(product.additional_images).map((image, index) => (
                       <div className="w-full flex justify-start h-auto max-h-[100px]">
                         <Imgix
                           src={image}
@@ -395,8 +404,8 @@ export default function ViewProduct() {
 
                     {user ? (
                       product.vendor &&
-                      !product.vendor.isVerified &&
-                      !product.admin ? (
+                        !product.vendor.isVerified &&
+                        !product.admin ? (
                         <div className="w-full flex">
                           <Button
                             type="submit"
@@ -599,6 +608,12 @@ export default function ViewProduct() {
                 ) : (
                   <></>
                 )}
+
+
+                <div className="bg-white shadow-md rounded-lg p-6 h-fit flex-1">
+
+                </div>
+
               </div>
             </div>
           </div>

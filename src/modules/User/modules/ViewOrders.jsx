@@ -78,16 +78,31 @@ const OrderDetails = () => {
         </div>
       </div>
       <div className="bg-white shadow-md rounded-lg p-6 h-fit flex-1">
-        <textarea
-          className="h-24 p-2 w-full rounded mt-2 border border-gray-400 "
-          readOnly={true}
-        ></textarea>
-        <p>Leave a rating</p>
-        <ReactStars count={5} size={25} color2={"#ffd700"} value={3} />
-        <button className="bg-orange-500 text-white px-6 py-2 w-full mt-4 rounded-lg font-semibold">
-          Submit
-        </button>
+
+        <form
+          className="flex flex-col gap-1"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <textarea
+            id="review"
+            name="comment"
+            {...register("comment")}
+            required
+            placeholder="Leave a review"
+            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 h-32 resize-none rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+            style={{ outline: "none" }}
+          />
+
+          <p>Leave a rating</p>
+          <ReactStars count={5} size={25} activeColor={"rgba(255, 111, 34, 1)"} onChange={ratingChanged} value={rating} />
+          <Button className="bg-kuduOrange text-white px-6 py-2 w-full mt-4 rounded-lg font-semibold">
+            Submit
+          </Button>
+
+        </form>
+
       </div>
+
     </div>
   );
 };
