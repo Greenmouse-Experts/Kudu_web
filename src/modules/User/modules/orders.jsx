@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
-import Imgix from "react-imgix";
-import { Link } from "react-router-dom";
 import useAppState from "../../../hooks/appState";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import Loader from "../../../components/Loader";
-import Table from "../../../components/Tables";
 import { dateFormat } from "../../../helpers/dateHelper";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import UserOrderTable from "../../orders/components/userOrder";
+import { useNavigate } from "react-router-dom";
+import Table from "../../../components/Tables";
 
 export default function ProfileOrders() {
   const [activeTab, setActiveTab] = useState("ongoing");
   const [loader, setLoader] = useState(true);
-  const [orders, setOrders] = useState([""]);
+  const [orders, setOrders] = useState([]);
 
   const { user } = useAppState();
 
   const { mutate } = useApiMutation();
 
+  const navigate = useNavigate();
+
   const getOrders = () => {
     mutate({
-      url: `/user/orders`,
+      url: `${user.accountType === 'Vendor' ? 'user/orders' : 'user/orders'}`,
       method: "GET",
       headers: true,
       hideToast: true,
@@ -38,6 +37,27 @@ export default function ProfileOrders() {
     getOrders();
   }, []);
 
+
+
+
+  const markDelivered = (orderId) => {
+    mutate({
+      url: `/user/order/item/update/status`,
+      method: "POST",
+      headers: true,
+      data: {
+        orderItemId: orderId,
+        status: 'delivered'
+      },
+      onSuccess: (response) => {
+        getOrders();
+      }
+    });
+  }
+
+
+
+
   if (loader) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
@@ -53,55 +73,36 @@ export default function ProfileOrders() {
         <div className="w-full h-[1px] border" />
         <div className="mt-5">
           {orders.length > 0 ? (
-            <Tabs>
-              <TabList>
-                <Tab>All Orders</Tab>
-                <Tab>Pending</Tab>
-                <Tab>Completed</Tab>
-                <Tab>Canceled</Tab>
-              </TabList>
-
-              <TabPanel>
-                <div className="overflow-x-auto">
-                  {orders.length > 0 ? (
-                    <UserOrderTable cancelOrder={() =>{}} />
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              </TabPanel>
-              {/* Pending Orders */}
-              <TabPanel>
-                {orders.length > 0 ? (
-                  <UserOrderTable c cancelOrder={() =>{}} status="pending" />
-                ) : (
-                  <></>
-                )}
-              </TabPanel>
-
-              {/* Delivered Orders */}
-              <TabPanel>
-                {orders.length > 0 ? (
-                  <UserOrderTable status="completed" />
-                ) : (
-                  <></>
-                )}
-              </TabPanel>
-
-              {/* Cancelled Orders */}
-              <TabPanel>
-                {orders.length > 0 ? (
-                  <UserOrderTable
-                    status="cancelled"
-                    refundOrder={() =>{}}
-                    refundTab
-                  />
-                ) : (
-                  <></>
-                )}
-              </TabPanel>
-            </Tabs>
-          ) : (
+                    <Table
+                    headers={[
+                        { key: 'refId', label: 'Order ID' },
+                        { key: 'trackingNumber', label: 'Tracking Number' },
+                        {
+                            key: 'orderItemsCount', label: 'Order Items'
+                        },
+                        { key: 'totalAmount', label: 'Price' },
+                        { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
+                        { key: 'shippingAddress', label: 'Shipping Address' },
+                    ]}
+                    data={orders}
+                    actions={[
+                        {
+                            label: (row) => {
+                                return 'View Order';
+                            },
+                            onClick: (row) => navigate(`order-details/${row.id}`),
+                        },
+                        {
+                          label: (row) => {
+                              return 'Mark as Delivered';
+                          },
+                          onClick: (row) => markDelivered(`${row.id}`),
+                      },
+                    ]}
+                    currentPage={null}
+                    totalPages={null}
+                />
+          ) : ( 
             <div className="empty-store">
               <div className="text-center">
                 <img
