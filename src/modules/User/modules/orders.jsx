@@ -19,7 +19,7 @@ export default function ProfileOrders() {
 
   const getOrders = () => {
     mutate({
-      url: `/user/orders`,
+      url: `${user.accountType === 'Vendor' ? 'user/orders' : 'user/orders'}`,
       method: "GET",
       headers: true,
       hideToast: true,
@@ -36,6 +36,27 @@ export default function ProfileOrders() {
   useEffect(() => {
     getOrders();
   }, []);
+
+
+
+
+  const markDelivered = (orderId) => {
+    mutate({
+      url: `/user/order/item/update/status`,
+      method: "POST",
+      headers: true,
+      data: {
+        orderItemId: orderId,
+        status: 'delivered'
+      },
+      onSuccess: (response) => {
+        getOrders();
+      }
+    });
+  }
+
+
+
 
   if (loader) {
     return (
@@ -71,6 +92,12 @@ export default function ProfileOrders() {
                             },
                             onClick: (row) => navigate(`order-details/${row.id}`),
                         },
+                        {
+                          label: (row) => {
+                              return 'Mark as Delivered';
+                          },
+                          onClick: (row) => markDelivered(`${row.id}`),
+                      },
                     ]}
                     currentPage={null}
                     totalPages={null}
