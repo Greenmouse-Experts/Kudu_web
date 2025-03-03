@@ -150,7 +150,7 @@ export default function NewHome() {
 
     // Function to filter products by condition
     const filterProducts = (condition) => {
-        setFilteredProducts(geoLocatorProduct(products).filter((product) => product.condition === condition));
+        setFilteredProducts(products.filter((product) => product.condition === condition));
     };
 
 
@@ -193,7 +193,7 @@ export default function NewHome() {
                             <h2 className="text-lg text-white font-semibold">Explore by Product Conditions</h2>
                         </div>
                         <ProductConditions condition={filterProducts} />
-                        <ProductListing productsArr={geoLocatorProduct(filteredProducts).slice(0, 12)} />
+                        <ProductListing productsArr={geoLocatorProduct(filteredProducts).slice(0, 12)} displayError />
                     </div>
                     <div className="w-full lg:flex md:flex gap-3">
                         <PreviewSection />
