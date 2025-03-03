@@ -140,7 +140,7 @@ export default function ViewAuctionProduct() {
                                             autoplay
                                             loop
                                         >
-                                            {JSON.parse(product.additionalImages).map((image, index) => (
+                                            {product.additionalImages.map((image, index) => (
                                                 <>
                                                     <img
                                                         src={image}
@@ -153,7 +153,7 @@ export default function ViewAuctionProduct() {
                                     </div>
                                     <div className="flex w-full overflow-x-auto my-3">
                                         <div className="flex w-full gap-2 h-auto max-h-[100px]">
-                                            {JSON.parse(product.additionalImages).map((image, index) => (
+                                            {product.additionalImages.map((image, index) => (
                                                 <Imgix
                                                     src={image}
                                                     sizes="100vw"

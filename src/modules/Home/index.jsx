@@ -13,6 +13,7 @@ import CategoriesSection from "./components/CategoriesSection";
 import ProductConditions from "./components/ProductConditions";
 import ProductListing from "../../components/ProductsList";
 import AuctionPage from "../Auction/layouts/AuctionPage";
+import { geoLocatorProduct } from "../../helpers/geoLocatorProduct";
 
 
 export default function NewHome() {
@@ -192,7 +193,7 @@ export default function NewHome() {
                             <h2 className="text-lg text-white font-semibold">Explore by Product Conditions</h2>
                         </div>
                         <ProductConditions condition={filterProducts} />
-                        <ProductListing productsArr={filteredProducts.slice(0, 12)} />
+                        <ProductListing productsArr={geoLocatorProduct(filteredProducts).slice(0, 12)} displayError />
                     </div>
                     <div className="w-full lg:flex md:flex gap-3">
                         <PreviewSection />
