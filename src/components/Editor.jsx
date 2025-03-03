@@ -87,7 +87,7 @@ const DraftEditor = ({ editorState, setEditorState }) => {
       </div>
 
       {/* Editor */}
-      <div className="border p-2 min-h-[200px] bg-gray-50">
+      <div className="border p-2 h-full bg-gray-50">
         <Editor editorState={editorState} onChange={setEditorState} />
       </div>
     </div>
