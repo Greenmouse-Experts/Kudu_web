@@ -157,9 +157,10 @@ export default function NewHome() {
     return (
         <>
             <div className="w-full flex flex-col bg-white">
-                <SearchSection />
+                 <SearchSection />
                 <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-30 md:px-20 md:mt-2 mt-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
                     <div className="w-full lg:flex md:flex gap-3 md:mt-3">
+                        
                         {loading ? (
                             <div className="w-full h-screen flex items-center justify-center">
                                 <Loader />
