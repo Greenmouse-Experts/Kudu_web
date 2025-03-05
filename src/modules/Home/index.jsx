@@ -157,19 +157,8 @@ export default function NewHome() {
     return (
         <>
             <div className="w-full flex flex-col bg-white">
-                 <SearchSection />
+                <SearchSection categories={categoriesArr} />
                 <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-30 md:px-20 md:mt-2 mt-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
-                    <div className="w-full lg:flex md:flex gap-3 md:mt-3">
-                        
-                        {loading ? (
-                            <div className="w-full h-screen flex items-center justify-center">
-                                <Loader />
-                            </div>
-                        ) : (
-                            <ProductsSection productsArr={products.slice(0, 12)} ads={ads.slice(0, 4)} />
-                        )
-                        }
-                    </div>
                     <div className="w-full flex-col lg:flex md:flex gap-3 md:mt-3">
                         <div className="bg-[#A5B3FF] w-full flex justify-between p-6 rounded-md cursor-pointer">
                             <h2 className="text-lg font-semibold">Explore Popular Categories</h2>
@@ -180,6 +169,16 @@ export default function NewHome() {
                             </div>
                         ) : (
                             <CategoriesSection data={categoriesArr} />
+                        )
+                        }
+                    </div>
+                    <div className="w-full lg:flex md:flex gap-3 md:mt-3">
+                        {loading ? (
+                            <div className="w-full h-screen flex items-center justify-center">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <ProductsSection productsArr={products.slice(0, 12)} ads={ads.slice(0, 4)} />
                         )
                         }
                     </div>

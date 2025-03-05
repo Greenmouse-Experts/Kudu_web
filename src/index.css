@@ -62,14 +62,6 @@ a {
   }
 }
 
-.custom-scrollbar:hover {
-  overflow-y: scroll;
-  /* Enable vertical scrolling */
-  scrollbar-width: thin;
-  /* For Firefox */
-  scrollbar-color: #888 transparent;
-  /* For Firefox */
-}
 
 /* Chrome, Safari, Edge - Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
