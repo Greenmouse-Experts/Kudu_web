@@ -93,7 +93,7 @@ const CartSummary = ({ cart }) => {
             </div>
             <div className="w-full h-[1px] mt-1 border-[1.5px]" />
             <div className="flex justify-center mt-2 w-full">
-                <PaymentButton config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
+                <PaymentButton disabled={cart.length === 0} config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
                     <span className="text-sm font-[500] normal-case">
                         Checkout ₦{totalPrice}
                     </span>
