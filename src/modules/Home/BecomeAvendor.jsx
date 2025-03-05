@@ -106,7 +106,7 @@ export default function BecomeAvendor() {
                 <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 bg-[#F3F5FF] md:gap-8 gap-5 h-full">
                     {/* Header */}
                     <h2 className="text-center text-lg mt-16 md:text-3xl font-semibold">
-                        Become A Vendor In Free Steps
+                        Become A Vendor In Few Steps
                         <p className="text-center text-base text-black font-normal mt-5">
                             Here's a step-by-step guide for you to start selling on Kudu.
                         </p>

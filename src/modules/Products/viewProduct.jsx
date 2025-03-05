@@ -552,7 +552,7 @@ export default function ViewProduct() {
                     </li>
                   </ul>
                 </div>
-                {user ? (
+                {(
                   product.vendor?.isVerified || product.admin ? (
                     <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
                       <>
@@ -605,8 +605,6 @@ export default function ViewProduct() {
                   ) : (
                     <></>
                   )
-                ) : (
-                  <></>
                 )}
 
 

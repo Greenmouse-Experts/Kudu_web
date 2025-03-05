@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Button, Checkbox } from "@material-tailwind/react";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
@@ -255,7 +255,12 @@ function SignUp() {
                                 id="terms"
                                 {...register("terms", { required: "You must agree to the terms" })}
                                 color="orange"
-                                label="I agree to terms and policies from Kudu"
+                                label={
+                                    <>
+                                        <span className="cursor-default">I agree to </span>
+                                        <NavLink to={'/terms-condition'} className='underline'>terms and policies</NavLink>
+                                        <span className="cursor-default"> from Kudu</span>
+                                    </>}
                             />
                             {errors.terms && (
                                 <p className="text-red-500 text-sm ml-2">{errors.terms.message}</p>

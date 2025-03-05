@@ -20,11 +20,11 @@ const MyComponent = () => {
     const slides = [
         {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1741089198/We-Immersive/kmb4_1_yuefm2.jpg",
-            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297531/kuduMart/mbkd2a_w6rfwd.png",
+            mobileImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1741188644/kudu_mart/mbkd2_2_rjixyc.png",
         },
         {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1741089198/We-Immersive/kmb4_1_yuefm2.jpg",
-            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd2_t9gbgi.png",
+            mobileImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1741188898/kudu_mart/mbkd2_v3y2ve.png",
         },
         {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1741089198/We-Immersive/kmb4_1_yuefm2.jpg",
