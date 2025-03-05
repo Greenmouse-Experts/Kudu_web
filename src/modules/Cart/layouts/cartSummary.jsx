@@ -90,14 +90,6 @@ const CartSummary = ({ cart }) => {
                         <span className="text-sm text-[rgba(178,178,178,1)]">{totalPrice}</span>
                     </div>
                 </div>
-                <div className="w-full flex justify-between items-center">
-                    <div className="w-full flex">
-                        <span className="text-sm text-[rgba(178,178,178,1)]">VAT %</span>
-                    </div>
-                    <div className="w-full flex justify-end">
-                        <span className="text-sm text-[rgba(178,178,178,1)]">10.00</span>
-                    </div>
-                </div>
             </div>
             <div className="w-full h-[1px] mt-1 border-[1.5px]" />
             <div className="flex justify-center mt-2 w-full">
