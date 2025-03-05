@@ -3,7 +3,7 @@ import { Button } from "@material-tailwind/react";
 import { usePaystackPayment } from "react-paystack";
 import { toast } from "react-toastify";
 
-const PaymentButton = ({ config, onSuccess, user, onClose, children, bgColor, noWidth }) => {
+const PaymentButton = ({ config, onSuccess, disabled, user, onClose, children, bgColor, noWidth }) => {
     // Initialize the payment function with the latest config.
     const initializePayment = usePaystackPayment(config);
 
@@ -28,6 +28,7 @@ const PaymentButton = ({ config, onSuccess, user, onClose, children, bgColor, no
     return (
         <Button
             onClick={handleClick}
+            disabled={disabled}
             className={`${noWidth ? '' : 'w-3/4'} py-3 px-4 flex justify-center gap-2 ${bgColor ? bgColor : 'bg-kuduOrange'} text-white rounded-lg font-[500] transition-colors`}
         >
             {children}

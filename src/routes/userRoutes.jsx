@@ -16,6 +16,8 @@ import AddNewProduct from "../modules/User/modules/AddNewProduct";
 import AddNewAuctionProduct from "../modules/User/modules/AddNewAuctionProduct";
 import UpdateProduct from "../modules/User/modules/UpdateProducts";
 import UpdateAuctionProducts from "../modules/User/modules/UpdateAuctionProducts";
+import AddNewStore from "../modules/User/modules/CreateNewStore";
+import UpdateStore from "../modules/User/modules/UpdateStore";
 
 export const userRoutes = [
     {
@@ -49,6 +51,14 @@ export const userRoutes = [
                     {
                         path: 'stores',
                         element: <Stores />
+                    },
+                    {
+                        path: 'stores/create',
+                        element: <AddNewStore />
+                    },
+                    {
+                        path: 'stores/edit/:id',
+                        element: <UpdateStore />
                     },
                     {
                         path: 'products',

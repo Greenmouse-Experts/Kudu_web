@@ -6,17 +6,17 @@ const Privacy = () => {
         {
             title: "Customer Protection",
             description:
-                "We prioritize safeguarding user information, ensuring secure transactions, and protecting customers from fraudulent activities.",
+                "We prioritize safeguarding user information, ensuring secure transactions and protecting customers from fraudulent activities.",
         },
         {
             title: "Quality Assurance",
             description:
-                "We verify seller authenticity, product legitimacy, and ensure compliance with industry standards to maintain high-quality products and services.",
+                "We verify seller authenticity, product legitimacy and ensure compliance with industry standards to maintain high-quality products and services.",
         },
         {
             title: "Transparency",
             description:
-                "We provide clear policies, accurate product descriptions, timely communication, and transparent business practices to foster trust.",
+                "We provide clear policies, accurate product descriptions, timely communication and transparent business practices to foster trust.",
         },
         {
             title: "Fairness",
@@ -26,7 +26,7 @@ const Privacy = () => {
         {
             title: "Accountability",
             description:
-                "We take responsibility for resolving disputes, enforcing policies, and continually improving our platform where necessary.",
+                "We take responsibility for resolving disputes, enforcing policies and continually improving our platform where necessary.",
         },
     ];
 
@@ -78,7 +78,7 @@ const Privacy = () => {
     const amendments = [
         {
             description:
-                "We reserve the right to update policies as needed without prior consent from the public. and all changes effective upon posting.",
+                "We reserve the right to update policies as needed without prior consent from the public and all changes effective upon posting.",
         },
     ];
 
