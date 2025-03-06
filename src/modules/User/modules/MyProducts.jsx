@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
-import { useGetMyProductQuery, useGetAllStoreQuery, useGetCategoriesQuery, useDeleteProductMutation } from "../../../reducers/storeSlice"
+import { useGetAllStoreQuery, useGetCategoriesQuery, useDeleteProductMutation } from "../../../reducers/storeSlice"
 import ProductTypeModal from './ProductTypeModal';
 import AddNewProduct from './AddNewProduct';
 import AddNewAuctionProduct from './AddNewAuctionProduct';
@@ -22,7 +22,6 @@ const MyProducts = () => {
 
     const navigate = useNavigate();
 
-    const { data } = useGetMyProductQuery();
     const { data: stores } = useGetAllStoreQuery({ refetchOnMountOrArgChange: true });
     const { data: categories } = useGetCategoriesQuery({ refetchOnMountOrArgChange: true });
     const [deleteProd] = useDeleteProductMutation();
@@ -81,18 +80,33 @@ const MyProducts = () => {
     }
 
 
-    const getAuctionProducts = () => {
+
+    const getMyProducts = ()  => {
+        mutate({
+            url: `/vendor/vendors/products`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                getAuctionProducts(response.data.data)
+            },
+        }); 
+    }
+
+
+    const getAuctionProducts = (data) => {
         mutate({
             url: `/vendor/auction/products`,
             method: "GET",
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                const merged = [...(data?.data || []), ...response.data.data];
+                const merged = [...(data || []), ...response.data.data];
                 setProducts(merged);
                 setLoading(false);
             },
             onError: () => {
+                setProducts(data);
                 setLoading(false)
             }
         });
@@ -100,10 +114,8 @@ const MyProducts = () => {
 
 
     useEffect(() => {
-        if (data) {
-            getAuctionProducts();
-        }
-    }, [data]);
+            getMyProducts();
+    }, []);
 
 
 
