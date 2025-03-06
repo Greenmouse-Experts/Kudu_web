@@ -16,6 +16,7 @@ import { useModal } from "../../hooks/modal";
 import { Carousel } from "@material-tailwind/react";
 import { sendMessage } from "../../api/message";
 import { useForm } from "react-hook-form";
+import ProductReview from "./productReviews";
 
 function SafeHTML({ htmlContent }) {
   const cleanHTML = DOMPurify.sanitize(htmlContent);
@@ -215,7 +216,7 @@ export default function ViewProduct() {
                             ))*/}
             </div>
             <div className="w-full flex md:flex-row flex-col mt-10 md:mt-0 gap-4">
-              <div className="lg:w-[65%] md:w-[55%] w-full flex flex-col gap-4">
+              <div className="lg:w-[65%] md:w-[55%] w-full flex flex-col gap-3">
                 <div className="flex w-full h-[26rem]">
                   <Carousel
                     className="rounded-xl bg-white shadow-lg"
@@ -508,7 +509,6 @@ export default function ViewProduct() {
                         type="button"
                         className="w-full py-2 px-4 flex justify-center gap-2 bg-[rgba(66,133,244,1)] text-white rounded-md transition-colors"
                         onClick={initiateChat}
-                        isLoading={isInitiating}
                       >
                         <span className="flex mt-[2px]">
                           <svg
@@ -608,8 +608,8 @@ export default function ViewProduct() {
                 )}
 
 
-                <div className="bg-white shadow-md rounded-lg p-6 h-fit flex-1">
-
+                <div>
+                  <ProductReview reviews={product.reviews} />
                 </div>
 
               </div>

@@ -40,23 +40,6 @@ export default function ProfileOrders() {
 
 
 
-  const markDelivered = (orderId) => {
-    mutate({
-      url: `/user/order/item/update/status`,
-      method: "POST",
-      headers: true,
-      data: {
-        orderItemId: orderId,
-        status: 'delivered'
-      },
-      onSuccess: (response) => {
-        getOrders();
-      }
-    });
-  }
-
-
-
 
   if (loader) {
     return (
@@ -92,12 +75,6 @@ export default function ProfileOrders() {
                             },
                             onClick: (row) => navigate(`order-details/${row.id}`),
                         },
-                        {
-                          label: (row) => {
-                              return 'Mark as Delivered';
-                          },
-                          onClick: (row) => markDelivered(`${row.id}`),
-                      },
                     ]}
                     currentPage={null}
                     totalPages={null}
