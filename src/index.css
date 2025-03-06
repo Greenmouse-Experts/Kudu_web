@@ -62,6 +62,9 @@ a {
   }
 }
 
+.DraftEditor-root, .DraftEditor-editorContainer > div {
+  min-height: 20vh;
+}
 
 /* Chrome, Safari, Edge - Custom scrollbar */
 .custom-scrollbar::-webkit-scrollbar {
