@@ -47,8 +47,8 @@ export default function UserProfile() {
 
                     {/* Sidebar (Collapsible on Mobile) */}
                     <div
-                        className={`fixed inset-0 bg-white z-[9999] md:z-[0] md:w-[25%] overflow-auto p-4 transform transition-transform duration-300 md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0 flex" : "-translate-x-full hidden"
-                            } md:flex flex-col shadow-lg md:shadow-none`}
+                        className={`fixed inset-0 bg-white z-[9999] md:z-[0] md:w-[25%] shadow-lg rounded-lg overflow-auto p-4 transform transition-transform duration-300 md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0 flex" : "-translate-x-full hidden"
+                            } md:flex flex-col shadow-lg`}
                     >
                         {/* Close Button for Mobile */}
                         <button

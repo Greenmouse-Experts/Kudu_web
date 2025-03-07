@@ -23,7 +23,7 @@ export default function Cart() {
                                 removeFromCart={removeFromCart}
                             />
                         </div>
-                        <div className="md:w-[32%] w-full flex"><CartSummary cart={cart} /></div>
+                        <div className="md:w-[32%] w-full flex"><CartSummary cart={cart} refetch={dispatch(getCart())} /></div>
                     </div>
                     {/* <div className="w-full flex flex-col gap-6 items-start my-10">
                         <p className="md:text-xl text-base font-semibold">Your Recently Viewed Products</p>
