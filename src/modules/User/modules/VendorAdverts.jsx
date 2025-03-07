@@ -5,7 +5,7 @@ import { Button } from "@material-tailwind/react";
 import Loader from "../../../components/Loader";
 import { dateFormat } from "../../../helpers/dateHelper";
 
-export default function AdvertList() { // Changed function name to PascalCase (best practice)
+export default function AdvertList() {
     const [activeTab, setActiveTab] = useState("published");
     const [loading, setLoading] = useState(true);
     const [adverts, setAdverts] = useState([]);

@@ -3,7 +3,7 @@ import useApiMutation from "../../../api/hooks/useApiMutation";
 import useAppState from "../../../hooks/appState";
 import PaymentButton from "../../../components/PaymentButton";
 
-const CartSummary = ({ cart }) => {
+const CartSummary = ({ cart, refetch }) => {
     const { user } = useAppState();
     const [paymentKey, setPaymentKey] = useState({});
     const { mutate } = useApiMutation();
@@ -61,6 +61,7 @@ const CartSummary = ({ cart }) => {
             data: payload,
             headers: true,
             onSuccess: (response) => {
+                refetch();
             },
             onError: (error) => {
             },
