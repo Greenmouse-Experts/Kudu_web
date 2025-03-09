@@ -5,15 +5,19 @@ import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react'
 import ReactStars from "react-rating-stars-component";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import Loader from "../../../components/Loader";
 import { dateFormat } from "../../../helpers/dateHelper";
 import useAppState from "../../../hooks/appState";
 import ProductReview from "../../Products/productReviews";
+import { LuArrowLeft } from "react-icons/lu"
+
 
 const OrderDetails = () => {
   const { user } = useAppState();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -63,17 +67,17 @@ const OrderDetails = () => {
 
   const getProductReviews = (productId) => {
     mutate({
-        url: `/user/get/review?productId=${productId}`,
-        method: "GET",
-        headers: true,
-        hideToast: true,
-        onSuccess: (response) => {
-            setReviews(response.data.data);
-        },
-        onError: (error) => {
-        },
+      url: `/user/get/review?productId=${productId}`,
+      method: "GET",
+      headers: true,
+      hideToast: true,
+      onSuccess: (response) => {
+        setReviews(response.data.data);
+      },
+      onError: (error) => {
+      },
     });
-}
+  }
 
 
 
@@ -145,10 +149,15 @@ const OrderDetails = () => {
     <div className=" w-full flex flex-col md:flex-row justify-between gap-6">
       <div className="md:w-3/5 w-full gap-6 flex flex-col">
         <div className="flex flex-col p-6 bg-white shadow-md rounded-lg w-full">
-          <div className="flex w-full justify-between">
-            <h2 className="text-xl font-semibold flex items-center gap-2">
-              Order Details
-            </h2>
+          <div className="flex w-full mb-2 justify-between">
+            <div className="flex gap-3">
+              <span onClick={() => navigate(-1)} className="flex flex-col p-2 bg-gray-100 rounded-md shadow-md justify-center cursor-pointer">
+                <LuArrowLeft size={20} />
+              </span>
+              <h2 className="text-xl font-semibold flex mt-1 items-center gap-2">
+                Order Details
+              </h2>
+            </div>
             {user.id !== orderDetails[0].vendorId && orderDetails[0].status !== 'delivered' ?
               <Menu placement="bottom">
                 <MenuHandler>
