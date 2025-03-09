@@ -264,22 +264,17 @@ export default function ViewProduct() {
                     ))}
                   </Carousel>
                 </div>
-                <div className="flex w-full overflow-x">
-                  <div className="flex w-full justify-between gap-2">
-                    {product.additional_images.map((image, index) => (
-                      <div className="w-full flex justify-start h-auto max-h-[100px]">
-                        <Imgix
-                          src={image}
-                          sizes="100vw"
-                          width={185}
-                          height={100}
-                          alt="main-product"
-                          key={index}
-                          className="rounded-md h-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
+                <div className="overflow-x-auto flex gap-2 pb-2 custom-scrollbar">
+                  {product.additional_images.map((image, index) => (
+                    <>
+                      <img
+                        src={image}
+                        key={index}
+                        alt="main-product"
+                        className="rounded-md w-48 h-32 object-cover"
+                      />
+                    </>
+                  ))}
                 </div>
                 <div className="flex w-full flex-col gap-8 py-6 px-6 shadow shadow-md bg-white rounded-md">
                   <div className="flex flex-col gap-4">

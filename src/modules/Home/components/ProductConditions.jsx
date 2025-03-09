@@ -32,8 +32,8 @@ export default function ProductConditions({ condition }) {
     };
 
     return (
-        <div className="flex w-full flex-col lg:gap-5 md:gap-5 gap-2 mb-10">
-            <div className="grid w-full lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-4">
+        <div className="flex w-full flex-col lg:gap-5 md:gap-5 mb-10">
+            <div className="grid w-full lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 mt-3 md:mt-3 lg:mt-0 gap-4">
                 {conditionsArr.length > 0 ? conditionsArr.map((item, index) => {
                     const IconComponent = item.icon;
                     const isActive = activeCondition === item.id;
