@@ -79,10 +79,8 @@ const MyComponent = ({ categories }) => {
                             Top Categories
                         </h3>
                         <ul
-                            className={`flex flex-col max-h-[335px] custom-scrollbar overflow-y-auto py-3 px-4 ${categories.length > 8 ? "gap-3" : "gap-4"
-                                }`}
-                        >
-                                {categories.slice(0, 8).map((category, index) => (
+                            className={`flex flex-col max-h-[335px] custom-scrollbar overflow-y-auto py-3 px-4 gap-4`}>
+                                {categories.map((category, index) => (
                                     <li
                                         key={index}
                                         className="flex items-center text-[15px] font-medium gap-5 cursor-pointer"
