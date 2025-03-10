@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { geoLocatorProduct } from "../../../helpers/geoLocatorProduct";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAppState from "../../../hooks/appState";
 import { useModal } from "../../../hooks/modal";
 import Modal from "../../../components/Modal";
+import { useGeoLocatorProduct } from "../../../hooks/geoLocatorProduct";
 
 const AuctionPage = ({ auctions }) => {
   const [activeTab, setActiveTab] = useState("popular");
@@ -11,7 +11,7 @@ const AuctionPage = ({ auctions }) => {
   const navigate = useNavigate();
   const { user } = useAppState();
 
-  const filteredAuctions = geoLocatorProduct(auctions);
+  const filteredAuctions = useGeoLocatorProduct(auctions);
 
   const { openModal } = useModal();
 
