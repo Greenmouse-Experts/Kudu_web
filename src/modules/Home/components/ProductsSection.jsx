@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import ProductListing from "../../../components/ProductsList";
 import Imgix from "react-imgix";
-import { geoLocatorProduct } from "../../../helpers/geoLocatorProduct";
+import { useGeoLocatorProduct } from "../../../hooks/geoLocatorProduct";
 
 const ProductsSection = ({ productsArr, ads }) => {
 
-    const filteredProducts = geoLocatorProduct(productsArr);
+    const filteredProducts = useGeoLocatorProduct(productsArr);
 
     return (
         <div className="w-full">

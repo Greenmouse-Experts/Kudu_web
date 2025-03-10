@@ -4,24 +4,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
-import {
-    ShoppingBag,
-    Smartphone,
-    Heart,
-    Monitor,
-    Baby,
-    Cpu,
-    Gamepad2,
-    Piano,
-    MoreHorizontal,
-} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import useApiMutation from "../../../api/hooks/useApiMutation";
 
 const MyComponent = ({ categories }) => {
 
     const navigate = useNavigate();
-    const { mutate } = useApiMutation();
 
     const slides = [
         {
@@ -41,22 +28,7 @@ const MyComponent = ({ categories }) => {
 
 
     const handleNavigation = (id, name) => {
-        mutate({
-            url: `/products?categoryId=${id}`,
-            method: "GET",
-            headers: true,
-            hideToast: true,
-            onSuccess: (response) => {
-                if (response.data.data.length > 0) {
-                    navigate(`products/categories/${id}/${name}`)
-                }
-                else {
-                    toast.error('No product found');
-                }
-            },
-            onError: (error) => {
-            },
-        });
+        navigate(`products/categories/${id}/${name}`)
     }
 
 
