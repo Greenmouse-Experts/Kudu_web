@@ -16,7 +16,7 @@ export const useGeoLocatorCurrency = () => {
     const { ipInfo } = useAppState(); // ✅ Hook is now inside a custom hook
 
     if (ipInfo?.country_name === "Nigeria") {
-        return [{ id: '#', name: 'Naira', symbol: '#' }];
+        return [{ id: '₦', name: 'Naira', symbol: '₦' }];
     }
     else {
         return [{ id: '$', name: 'USD', symbol: '$' }];

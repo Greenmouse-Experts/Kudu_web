@@ -13,10 +13,11 @@ import {
   Bell,
   ShoppingCart,
 } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
 import { useNotification } from "../../api/notification";
 import { useConversation } from "../../api/message";
+import { useCart } from "../../api/cart";
 
 export default function Header({ openMenu }) {
   const { user } = useAppState();
@@ -24,9 +25,9 @@ export default function Header({ openMenu }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { cart } = useSelector((state) => state.cart);
   const { data: notifications, isLoading, error } = useNotification();
   const { data: messages } = useConversation();
+  const { data: cart } = useCart();
 
 
   const getUnreadNotifications = (notifications) => {
@@ -34,6 +35,12 @@ export default function Header({ openMenu }) {
 
     return notifications.filter(notification => !notification.isRead).length;
   };
+
+
+  const getCartNumber = (cartData) => {
+    if (!cartData) return 0;
+    return cartData.length;
+  }
 
 
   const getUnreadMessagesCount = (messages) => {
@@ -52,7 +59,7 @@ export default function Header({ openMenu }) {
       value: "Cart",
       slug: "cart",
       svg: <ShoppingCart size={20} color="#5f5959" />,
-      info: cart.length,
+      info: getCartNumber(cart),
     },
     {
       value: "Messages",

@@ -2,14 +2,16 @@ import { useEffect, useState, useMemo } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import useAppState from "../../../hooks/appState";
 import PaymentButton from "../../../components/PaymentButton";
+import { useGeoLocatorCurrency } from "../../../hooks/geoLocatorProduct";
 
 const CartSummary = ({ cart, refetch }) => {
+    const currency = useGeoLocatorCurrency();
     const { user } = useAppState();
     const [paymentKey, setPaymentKey] = useState({});
     const { mutate } = useApiMutation();
 
     // Calculate total price from cart items.
-    const totalPrice = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+    const totalPrice = cart.reduce((sum, item) => sum + (item.quantity * parseFloat(item.product.price)), 0)
     // Ensure a nonzero amount (Paystack requires a positive amount).
     const effectiveTotalPrice = totalPrice > 0 ? totalPrice : 1;
 
@@ -88,7 +90,7 @@ const CartSummary = ({ cart, refetch }) => {
                         </span>
                     </div>
                     <div className="w-full flex justify-end">
-                        <span className="text-sm text-[rgba(178,178,178,1)]">{totalPrice}</span>
+                        <span className="text-sm text-[rgba(178,178,178,1)]">{currency[0].symbol}{totalPrice.toLocaleString("en-US")}</span>
                     </div>
                 </div>
             </div>

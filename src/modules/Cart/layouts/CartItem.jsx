@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import {increaseQuantity, decreaseQuantity } from '../../../reducers/cartSlice';
 
 const CartItem = ({ item, removeFromCart }) => {
-    const dispatch = useDispatch();
     return (
         <>
             <div className="flex flex-col gap-4 border-b border-gray-300 py-4">
@@ -13,7 +12,6 @@ const CartItem = ({ item, removeFromCart }) => {
                         <img
                             src={item.product.image_url}
                             alt={item.product.name}
-                            priority
                             width={100}
                             height={100}
                             className="rounded-md object-cover"
@@ -46,12 +44,12 @@ const CartItem = ({ item, removeFromCart }) => {
                                     currency: "NGN",
                                 })}
                             </p>
-                            <p className="line-through text-gray-500 md:text-right">
+                            {/*<p className="line-through text-gray-500 md:text-right">
                                 {item.product.discount_price.toLocaleString("en-NG", {
                                     style: "currency",
                                     currency: "NGN",
                                 })}
-                            </p>
+                            </p>*/}
                         </div>
                     </div>
                 </div>
@@ -62,7 +60,7 @@ const CartItem = ({ item, removeFromCart }) => {
                             <path d="M18.9375 3.77655H1.0625C0.847012 3.77655 0.640349 3.86215 0.487976 4.01453C0.335603 4.1669 0.25 4.37356 0.25 4.58905C0.25 4.80454 0.335603 5.0112 0.487976 5.16357C0.640349 5.31595 0.847012 5.40155 1.0625 5.40155H1.875V20.0266C1.875 20.4575 2.0462 20.8709 2.35095 21.1756C2.6557 21.4803 3.06902 21.6516 3.5 21.6516H16.5C16.931 21.6516 17.3443 21.4803 17.649 21.1756C17.9538 20.8709 18.125 20.4575 18.125 20.0266V5.40155H18.9375C19.153 5.40155 19.3597 5.31595 19.512 5.16357C19.6644 5.0112 19.75 4.80454 19.75 4.58905C19.75 4.37356 19.6644 4.1669 19.512 4.01453C19.3597 3.86215 19.153 3.77655 18.9375 3.77655ZM16.5 20.0266H3.5V5.40155H16.5V20.0266ZM5.125 1.33905C5.125 1.12356 5.2106 0.916899 5.36298 0.764526C5.51535 0.612153 5.72201 0.52655 5.9375 0.52655H14.0625C14.278 0.52655 14.4847 0.612153 14.637 0.764526C14.7894 0.916899 14.875 1.12356 14.875 1.33905C14.875 1.55454 14.7894 1.7612 14.637 1.91357C14.4847 2.06595 14.278 2.15155 14.0625 2.15155H5.9375C5.72201 2.15155 5.51535 2.06595 5.36298 1.91357C5.2106 1.7612 5.125 1.55454 5.125 1.33905Z" fill="#FF6F22" />
                         </svg>
                         <button
-                            onClick={() => dispatch(removeFromCart(item.id))}
+                            onClick={() => removeFromCart(item)}
                             className="text-kuduOrange mt-2 font-[500] hover:underline text-sm"
                         >
                             REMOVE
