@@ -44,10 +44,20 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
     }
 
 
+    const handleMin = (value) => {
+        values[0] = value;
+    }
+
+
+    const handleMax = (value) => {
+        values[1] = value;
+    }
+
+
 
     return (
         <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
-            <aside className="lg:w-1/5 p-4 rounded-lg shadow-md bg-white mb-6 -mt-8 md:mt-0 lg:mb-0 lg:sticky lg:top-1">
+            <aside className="lg:w-1/5 p-4 rounded-lg shadow-md bg-white mb-6 h-fit -mt-8 md:mt-0 lg:mb-0 lg:top-1">
                 <h2 className="text-base font-semibold mb-4">Category</h2>
                 {categories && categories.length > 0 && (<div>
                     <ul>
@@ -89,7 +99,7 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
                     <Range
                         step={1}
                         min={0}
-                        max={200000}
+                        max={10000000}
                         values={values}
                         onChange={(values) => setValues(values)}
                         renderTrack={({ props, children }) => (
@@ -111,7 +121,7 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
                                 type="text"
                                 id="title"
                                 placeholder="Min"
-                                value={values[0]}
+                                onChange={(e) => handleMin(e.target.value)}
                                 className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                             />
                         </div>
@@ -119,7 +129,7 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
                             <input
                                 type="text"
                                 id="title"
-                                value={values[1]}
+                                onChange={(e) => handleMax(e.target.value)}
                                 placeholder="Max"
                                 className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                             />
