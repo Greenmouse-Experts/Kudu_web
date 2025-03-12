@@ -109,6 +109,10 @@ export default function ViewProduct() {
   };
 
   const showContact = () => {
+    if(!user) {
+      navigate('/login');
+      return;
+    }
     openModal({
       size: "sm",
       content: (
@@ -567,15 +571,14 @@ export default function ViewProduct() {
                 )}
 
 
-                {user ? (
-                  product.vendor &&
+                {product.vendor &&
                     !product.vendor.isVerified &&
                     !product.admin ? (
                     <div className="w-full flex">
                       <Button
                         type="submit"
                         onClick={() => showContact()}
-                        className="md:w-1/2 w-full py-4 px-4 flex justify-center gap-2 bg-kuduOrange text-white rounded-lg transition-colors"
+                        className=" w-full py-4 px-4 flex justify-center gap-2 bg-kuduOrange text-white rounded-lg transition-colors"
                       >
                         <span className="flex mt-[2px]">
                           <svg
@@ -599,9 +602,7 @@ export default function ViewProduct() {
                   ) : (
                     <></>
                   )
-                ) : (
-                  <></>
-                )}
+                }
 
                 <div>
                   <ProductReview reviews={product.reviews} />

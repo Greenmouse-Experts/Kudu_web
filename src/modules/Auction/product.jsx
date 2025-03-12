@@ -182,7 +182,6 @@ export default function ViewAuctionProduct() {
                             </div>
                         </div>
 
-
                     </div>
                 </div>
             </div>

@@ -62,9 +62,12 @@ const BidInformation = ({ content }) => {
                         {content.auctionStatus === 'upcoming' ?
                             <span className="text-[rgba(0,0,0,0.5)] italic text-xs">before auction commences</span>
                             :
-                            <span className="text-[rgba(0,0,0,0.5)] italic text-xs">
-                                before auction ends
-                            </span>
+                            (content.auctionStatus !== 'ended' ?
+                                <span className="text-[rgba(0,0,0,0.5)] italic text-xs">
+                                    before auction ends
+                                </span>
+                                :
+                                <></>)
                         }
                     </span>
                 </div>
