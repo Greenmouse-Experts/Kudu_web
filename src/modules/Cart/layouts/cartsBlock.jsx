@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import CartItem from "./CartItem";
 import PulseLoader from "react-spinners/PulseLoader";
-import { toast } from "react-toastify";
 
 const CartBlock = ({cart, removeFromCart}) => {
     const [isLoading, setIsLoading]  = useState(true);
