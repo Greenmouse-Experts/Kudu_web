@@ -52,7 +52,10 @@ const AddNewAuctionProduct = () => {
         if (files.length > 0) {
             delete data.category;
             const payload = {
-                ...data, image: files[0],
+                ...data,
+                startDate: new Date(data.startDate).toISOString(),
+                endDate: new Date(data.endDate).toISOString(),
+                image: files[0],
                 price: Number(data.price),
                 bidIncrement: Number(data.bidIncrement),
                 maxBidsPerUser: Number(data.maxBidsPerUser),
