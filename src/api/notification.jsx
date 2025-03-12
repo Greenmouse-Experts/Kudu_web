@@ -2,12 +2,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 
+let token = localStorage.getItem("kuduUserToken");
+
 export function useNotification() {
   return useQuery({
     queryKey: ["notification"],
     queryFn: async () => {
-      const response = await axios.get(`/user/notifications`);
-      return response.data.data;
+      if (token) {
+        const response = await axios.get(`/user/notifications`);
+        return response.data.data;
+      }
+      return [];
     },
   });
 }
