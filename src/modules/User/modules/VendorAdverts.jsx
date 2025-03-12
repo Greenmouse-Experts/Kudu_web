@@ -37,7 +37,7 @@ export default function AdvertList() {
 
     // Filter adverts based on activeTab
     const filteredAdverts = adverts.filter(advert =>
-        activeTab === "published" ? advert.status === "active" : advert.status === "pending"
+        activeTab === "published" ? advert.status === "approved" : advert.status === "pending" || advert.status === "rejected"
     );
 
     return (
@@ -56,14 +56,14 @@ export default function AdvertList() {
                         "text-[#FE6A3A] border-b-2 border-[#FE6A3A]" : "text-black"}`}
                     onClick={() => setActiveTab("published")}
                 >
-                    PUBLISHED ({adverts.filter(a => a.status === "active").length})
+                    PUBLISHED ({adverts.filter(a => a.status === "approved").length})
                 </button>
                 <button
                     className={`p-2 sm:p-3 font-semibold ml-2 sm:ml-4 ${activeTab === "pending" ?
                         "text-[#FE6A3A] border-b-2 border-[#FE6A3A]" : "text-black"}`}
                     onClick={() => setActiveTab("pending")}
                 >
-                    PENDING / UNPUBLISHED ({adverts.filter(a => a.status === "pending").length})
+                    PENDING / UNPUBLISHED ({adverts.filter(a => a.status === "pending" || a.status === "rejected").length})
                 </button>
             </div>
 
@@ -103,7 +103,8 @@ export default function AdvertList() {
                                     </div>
                                     <span
                                         className={`text-xs text-white mt-8 shadow-md rounded-lg capitalize px-3 py-2 rounded-sm leading-loose 
-                                            ${advert.status === "active" ? "bg-green-500" : "bg-kuduOrange"}`}
+                                            ${advert.status === "approved" ? "bg-green-500" : advert.status === "pending" ? 
+                                                "bg-kuduOrange" : "bg-red-500"}`}
                                     >
                                         {advert.status}
                                         {advert.status === "pending" ? " (Awaiting admin approval)" : ""}
