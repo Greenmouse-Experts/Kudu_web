@@ -76,7 +76,7 @@ const AuctionPage = ({ auctions }) => {
                   </span>
 
                   {/* Auction Name */}
-                  <h3 className="text-sm md:text-base font-semibold mt-3">
+                  <h3 className="text-sm md:text-base font-semibold mt-3 leading-loose truncate whitespace-nowrap overflow-hidden w-full">
                     {auction.name}
                   </h3>
 

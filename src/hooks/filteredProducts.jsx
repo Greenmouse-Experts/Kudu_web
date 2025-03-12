@@ -10,13 +10,14 @@ const useFilteredProducts = (initialData, categoryId) => {
     const [filteredProducts, setFilteredProducts] = useState(geoLocatedProducts);
     const [isLoading, setIsLoading] = useState(false);
     const [subCategoriesId, setSubCategoriesId] = useState("");
-    const [values, setValues] = useState([0, 200000]);
+    const [values, setValues] = useState([0, 10000000]);
 
     
         const applyFilter = () => {
         setIsLoading(true);
+        let queryParams = '?';
 
-        let queryParams = `?categoryId=${categoryId}`;
+        if(categoryId) queryParams += `&categoryId=${categoryId}`;
         if (subCategoriesId) queryParams += `&subCategoryName=${subCategoriesId.toLowerCase()}`;
         queryParams += `&minPrice=${values[0]}&maxPrice=${values[1]}`;
         queryParams += `&symbol=${encodeURIComponent(currency[0].symbol)}`
@@ -38,7 +39,9 @@ const useFilteredProducts = (initialData, categoryId) => {
         setIsLoading(true);
         setValues([0, 200000]);
         setSubCategoriesId("");
-        let queryParams = `?categoryId=${categoryId}`;
+        let queryParams = '?';
+
+        if(categoryId) queryParams += `&categoryId=${categoryId}`;
         queryParams += `&symbol=${encodeURIComponent(currency[0].symbol)}`
 
         mutate({
