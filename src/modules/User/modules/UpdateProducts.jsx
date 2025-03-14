@@ -182,7 +182,7 @@ const UpdateProduct = () => {
         setValue("category", product.sub_category.categoryId);
         getSubCategories(product.sub_category.categoryId);
         setValue("condition", product.condition);
-        setFiles(JSON.parse(product.additional_images));
+        setFiles(product.additional_images);
         setCurrency(product.store.currency.symbol);
 
         // Handle product.description (HTML case)
