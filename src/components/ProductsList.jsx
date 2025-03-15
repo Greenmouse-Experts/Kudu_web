@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const ProductListing = ({ productsArr, displayError = false }) => {
+const ProductListing = ({ productsArr, displayError = false, rowNo }) => {
     const filteredProducts = productsArr;
 
     const capitalizeEachWord = (str) => {
@@ -13,7 +13,7 @@ const ProductListing = ({ productsArr, displayError = false }) => {
     return (
         <div className="w-full">
             {filteredProducts.length > 0 ?
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                <div className={`grid grid-cols-2 md:grid-cols-${rowNo || '6'} gap-4`}>
                     {filteredProducts.map((item) => (
                         <div key={item.id} className="bg-white shadow-lg p-1 border rounded-lg relative">
                             <Link to={`/product/${item.id}`}>
