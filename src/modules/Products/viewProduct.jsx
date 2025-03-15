@@ -15,6 +15,7 @@ import { Carousel } from "@material-tailwind/react";
 import { sendMessage } from "../../api/message";
 import ProductReview from "./productReviews";
 import { useAddToCart } from "../../api/cart";
+import { Bookmark } from "lucide-react";
 
 function SafeHTML({ htmlContent }) {
   const cleanHTML = DOMPurify.sanitize(htmlContent);
@@ -22,7 +23,7 @@ function SafeHTML({ htmlContent }) {
 }
 
 export default function ViewProduct() {
-  const labels = ["Brand New", "Fashion", "Watches"];
+  const [bookmarked, setBookmarked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(0);
@@ -60,9 +61,54 @@ export default function ViewProduct() {
     }
   };
 
+
+
+
+  const getSavedProducts = async () => {
+    try {
+      const savedProducts = new Promise((resolve, reject) => {
+        mutate({
+          url: `/user/saved/products`,
+          method: "GET",
+          headers: true,
+          hideToast: true,
+          onSuccess: (response) => {
+            const isBookmarked = response.data.data.some((item) => item.productId === id);
+            setBookmarked(isBookmarked);
+          },
+          onError: reject,
+        });
+      });
+      const [product] = await Promise.all([savedProducts]);
+      //setProduct(product);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
+
   useEffect(() => {
     getProductDetails();
+    user ? getSavedProducts() : null;
   }, []);
+
+
+
+  const addToBookMark = () => {
+        mutate({
+          url: `/user/save/product`,
+          method: "POST",
+          headers: true,
+          data: {productId: id},
+          onSuccess: (response) => setBookmarked(true),
+        });
+  }
+
+
 
   const handleAddToCart = () => {
     if (user) {
@@ -567,6 +613,18 @@ export default function ViewProduct() {
                   )
                 )}
 
+                {user &&
+                  <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
+                    <span className="p-1 mt-3 text-center bg-white w-full">
+                      <Button disabled={bookmarked} className="w-full text-white flex justify-center gap-3" onClick={() => addToBookMark()}>
+                        <Bookmark color="rgba(255, 255, 255, 1)" size={18} />
+                        <span className="text-sm font-semibold">
+                        {bookmarked ? 'Added to your saved list' : 'Add to your saved list'}
+                          </span>
+                      </Button>
+                    </span>
+                  </div>
+                }
 
                 {product.vendor &&
                   !product.vendor.isVerified &&

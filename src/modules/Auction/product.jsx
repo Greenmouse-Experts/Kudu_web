@@ -131,7 +131,7 @@ export default function ViewAuctionProduct() {
                     </div>
                     <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
                         <div className="w-full flex gap-3">
-                            <div className="flex flex-wrap md:flex-row flex-col gap-2 mb-8">
+                            <div className="flex flex-wrap md:flex-row flex-col w-full gap-2 mb-8">
                                 {/* First Div */}
                                 <div className="flex-1 md:flex-[0_0_30%] rounded-md h-full">
                                     <div className="w-full flex h-[20rem] justify-center">

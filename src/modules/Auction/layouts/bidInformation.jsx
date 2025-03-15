@@ -94,7 +94,7 @@ const BidInformation = ({ content }) => {
                                         placeholder="Enter Amount" className="border focus:outline-none border-gray-300 rounded-lg p-2 w-full" />
                                 </div>
                             </div>
-                            <Button type="submit" className="w-full py-2 px-4 flex justify-center gap-2 bg-kuduOrange normal-case text-white rounded-lg font-[500] transition-colors">
+                            <Button type="submit" disabled={isLoading} className="w-full py-2 px-4 flex justify-center gap-2 bg-kuduOrange normal-case text-white rounded-lg font-[500] transition-colors">
                                 <span className="font-semibold text-sm normal-case">Bid Now</span>
                             </Button>
                         </form>
