@@ -3,12 +3,39 @@ import useApiMutation from "../../../api/hooks/useApiMutation";
 import useAppState from "../../../hooks/appState";
 import PaymentButton from "../../../components/PaymentButton";
 import { useGeoLocatorCurrency } from "../../../hooks/geoLocatorProduct";
+import { Button } from "@material-tailwind/react";
+import AddShippingAddress from "../../../components/AddShippingAddress";
+import { useModal } from "../../../hooks/modal";
+import { Country } from "country-state-city";
 
 const CartSummary = ({ cart, refetch }) => {
     const currency = useGeoLocatorCurrency();
     const { user } = useAppState();
     const [paymentKey, setPaymentKey] = useState({});
     const { mutate } = useApiMutation();
+    const { openModal, closeModal } = useModal();
+
+
+
+    const countries = Country.getAllCountries();
+
+    const handleModal = () => {
+        openModal({
+            size: "sm",
+            content: (
+                <AddShippingAddress isOpen={true} countries={countries} closeModal={handleCloseModal} />
+            )
+        })
+    }
+
+
+    const handleCloseModal = () => {
+        closeModal();
+        refetch();
+    }
+
+
+
 
     // Calculate total price from cart items.
     const totalPrice = cart.reduce((sum, item) => sum + (item.quantity * parseFloat(item.product.price)), 0)
@@ -96,11 +123,17 @@ const CartSummary = ({ cart, refetch }) => {
             </div>
             <div className="w-full h-[1px] mt-1 border-[1.5px]" />
             <div className="flex justify-center mt-2 w-full">
-                <PaymentButton disabled={cart.length === 0} config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
-                    <span className="text-sm font-[500] normal-case">
-                        Checkout ₦{totalPrice}
-                    </span>
-                </PaymentButton>
+                {user.location ?
+                    <PaymentButton disabled={cart.length === 0} config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
+                        <span className="text-sm font-[500] normal-case">
+                            Checkout ₦{totalPrice}
+                        </span>
+                    </PaymentButton>
+                    :
+                    <Button className='bg-kuduOrange' onClick={handleModal}>
+                        Set Delivery Location
+                    </Button>
+                }
             </div>
         </div>
     );
