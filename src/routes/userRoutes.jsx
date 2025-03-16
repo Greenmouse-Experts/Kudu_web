@@ -19,6 +19,9 @@ import UpdateAuctionProducts from "../modules/User/modules/UpdateAuctionProducts
 import AddNewStore from "../modules/User/modules/CreateNewStore";
 import UpdateStore from "../modules/User/modules/UpdateStore";
 import BookMarkedProducts from "../modules/User/modules/bookmark";
+import Wallet from "../modules/User/modules/Wallet";
+import AddBankAccount from "../modules/User/modules/AddBankAccount";
+import EditBankAccount from "../modules/User/modules/EditBankAccount";
 
 export const userRoutes = [
     {
@@ -96,6 +99,18 @@ export const userRoutes = [
                     {
                         path: 'bookmark',
                         element: <BookMarkedProducts />
+                    },
+                    {
+                        path: 'wallet',
+                        element: <Wallet />
+                    },
+                    {
+                        path: 'wallet/add-account',
+                        element: <AddBankAccount />
+                    },
+                    {
+                        path: 'wallet/edit-account/:id',
+                        element: <EditBankAccount />
                     },
                     {
                         path: 'adverts',
