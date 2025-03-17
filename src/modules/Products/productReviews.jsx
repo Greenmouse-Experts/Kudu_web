@@ -13,7 +13,7 @@ const ProductReview = ({ reviews }) => {
 
 
     return (
-        <div className="w-full mx-auto p-4 bg-white rounded-lg shadow-lg">
+        <div className="w-full mx-auto p-4 max-h-[400px] overflow-y-auto bg-white rounded-lg shadow-lg">
             <h2 className="text-base md:text-lg font-semibold mb-4">Product Review</h2>
 
             {reviews.length > 0 ?
