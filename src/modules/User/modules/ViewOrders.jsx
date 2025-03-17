@@ -12,6 +12,7 @@ import { dateFormat } from "../../../helpers/dateHelper";
 import useAppState from "../../../hooks/appState";
 import ProductReview from "../../Products/productReviews";
 import { LuArrowLeft } from "react-icons/lu"
+import TrackOrder from "./TrackOrder";
 
 
 const OrderDetails = () => {
@@ -129,6 +130,11 @@ const OrderDetails = () => {
 
 
 
+  const handleRefetch = () => {
+    getOrderDetails()
+  }
+
+
 
 
 
@@ -144,101 +150,121 @@ const OrderDetails = () => {
 
   const productDetails = orderDetails[0].product;
 
+  const isVendorType = user.id === orderDetails[0].vendorId;
+
 
   return (
-    <div className=" w-full flex flex-col md:flex-row justify-between gap-6">
-      <div className="md:w-3/5 w-full gap-6 flex flex-col">
-        <div className="flex flex-col p-6 bg-white shadow-md rounded-lg w-full">
-          <div className="flex w-full mb-2 justify-between">
-            <div className="flex gap-3">
-              <span onClick={() => navigate(-1)} className="flex flex-col p-2 bg-gray-100 rounded-md shadow-md justify-center cursor-pointer">
-                <LuArrowLeft size={20} />
-              </span>
-              <h2 className="text-xl font-semibold flex mt-1 items-center gap-2">
-                Order Details
-              </h2>
+    <div className="w-full flex-col gap-5 flex">
+      <div className=" w-full flex flex-col md:flex-row justify-between gap-6">
+        <div className="w-full md:w-3/5 gap-6 flex flex-col">
+          <div className="flex flex-col p-6 bg-white shadow-md rounded-lg w-full">
+            <div className="flex w-full mb-2 justify-between">
+              <div className="flex gap-3">
+                <span onClick={() => navigate(-1)} className="flex flex-col p-2 bg-gray-100 rounded-md shadow-md justify-center cursor-pointer">
+                  <LuArrowLeft size={20} />
+                </span>
+                <h2 className="text-xl font-semibold flex mt-1 items-center gap-2">
+                  Order Details
+                </h2>
+              </div>
+              {user.id !== orderDetails[0].vendorId && orderDetails[0].status === 'shipped' ?
+                <Menu placement="bottom">
+                  <MenuHandler>
+                    <Button>Update Delivery Status</Button>
+                  </MenuHandler>
+                  <MenuList>
+                    <MenuItem className="flex flex-col gap-3 w-full" onClick={() => markDelivered(orderDetails[0].id)}>
+                      <span className="cursor-pointer w-full">
+                        Mark as Delivered
+                      </span>
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+                :
+                <></>
+              }
             </div>
-            {user.id !== orderDetails[0].vendorId && orderDetails[0].status !== 'delivered' ?
-              <Menu placement="bottom">
-                <MenuHandler>
-                  <Button>Update Delivery Status</Button>
-                </MenuHandler>
-                <MenuList>
-                  <MenuItem className="flex flex-col gap-3 w-full" onClick={() => markDelivered(orderDetails[0].id)}>
-                    <span className="cursor-pointer w-full">
-                      Mark as Delivered
-                    </span>
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-              :
-              <></>
-            }
-          </div>
-          <div className="mt-4 border-b flex flex-col gap-2 pb-4">
-            <p className="text-gray-600">{orderDetails[0].quantity} Item</p>
-            <p className="text-gray-600"><span className="mr-1">&#128197;</span> Placed on {dateFormat(orderDetails[0].createdAt, 'dd-MM-yyy')}</p>
-            <p className="text-gray-900 font-semibold">Total: {productDetails.store.currency.symbol} {orderDetails[0].price}</p>
-          </div>
+            <div className="mt-4 border-b flex flex-col gap-2 pb-4">
+              <p className="text-gray-600">{orderDetails[0].quantity} Item</p>
+              <p className="text-gray-600"><span className="mr-1">&#128197;</span> Placed on {dateFormat(orderDetails[0].createdAt, 'dd-MM-yyy')}</p>
+              <p className="text-gray-900 font-semibold">Total: {" "}
+                {productDetails.store.currency.symbol} {Number(orderDetails[0].price) * orderDetails[0].quantity}</p>
+            </div>
 
-          <div className="mt-4 p-4 border rounded-lg">
-            <h3 className="md:text-lg text-base font-semibold">ITEMS IN YOUR ORDER</h3>
+            <div className="mt-4 p-4 border rounded-lg">
+              <h3 className="md:text-lg text-base font-semibold">ITEMS IN THIS ORDER</h3>
 
-            <div className="flex">
-              <div className="flex items-center mt-4">
-                <img
-                  src={productDetails.image_url}
-                  alt="Boots"
-                  className="w-16 h-16 rounded-md object-cover"
-                />
-                <div className="ml-4 flex flex-col gap-1">
-                  <p className="text-gray-800 font-semibold">
-                    {productDetails.name}
-                  </p>
-                  <p className="text-gray-600">QTY: {orderDetails[0].quantity}</p>
-                  <p className="text-black font-semibold text-base">{productDetails.store.currency.symbol} {productDetails.price}</p>
-                  <p className="flex gap-2">Delivery Status:
-                    <span className={`${orderDetails[0].status === 'pending' ? 'bg-orange-300' : 'bg-green-500'} text-white px-5 py-2 rounded-md font-[600] shadow-md`}>
-                      <p className="text-xs capitalize">
-                        {orderDetails[0].status}
-                      </p>
-                    </span></p>
+              <div className="flex">
+                <div className="flex items-center mt-4">
+                  <img
+                    src={productDetails.image_url}
+                    alt="Boots"
+                    className="w-16 h-16 rounded-md object-cover"
+                  />
+                  <div className="ml-4 flex flex-col gap-1">
+                    <p className="text-gray-800 font-semibold">
+                      {productDetails.name}
+                    </p>
+                    <p className="text-gray-600">QTY: {orderDetails[0].quantity}</p>
+                    <p className="text-black font-semibold text-base">{productDetails.store.currency.symbol} {productDetails.price}</p>
+                    <p className="flex gap-2">Delivery Status:
+                      <span className={`${orderDetails[0].status !== 'delivered' && orderDetails[0].status !== 'cancelled' ? 'text-kuduOrange' : orderDetails[0].status === 'cancelled' ? 'text-red-500' : 'text-green-500'} font-[600]`}>
+                        <p className="text-sm capitalize">
+                          {orderDetails[0].status}
+                        </p>
+                      </span></p>
+                  </div>
                 </div>
               </div>
+
             </div>
-
           </div>
+
+          {user.id !== orderDetails[0].vendorId &&
+            <ProductReview reviews={reviews} />
+          }
+
         </div>
-        <ProductReview reviews={reviews} />
+
+
+
+        {user.id !== orderDetails[0].vendorId ?
+          <div className="bg-white shadow-md rounded-lg md:sticky self-start top-6 p-6 h-fit flex flex-col gap-3 md:w-2/5">
+
+            <form
+              className="flex flex-col w-full gap-1"
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <textarea
+                id="review"
+                name="comment"
+                {...register("comment")}
+                required
+                placeholder="Leave a review"
+                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 h-32 resize-none rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                style={{ outline: "none" }}
+              />
+
+              <p>Leave a rating</p>
+              <ReactStars count={5} size={25} activeColor={"rgba(255, 111, 34, 1)"} onChange={ratingChanged} value={rating} />
+              <Button type="submit" className="bg-kuduOrange text-white px-6 py-2 w-full mt-4 rounded-lg font-semibold">
+                Submit
+              </Button>
+
+            </form>
+          </div>
+
+          :
+
+          <div className="h-fit flex md:w-2/5">
+            <ProductReview reviews={reviews} />
+          </div>
+
+        }
+
       </div>
 
-
-
-      <div className="bg-white shadow-md rounded-lg md:sticky self-start top-6 p-6 h-fit flex md:w-2/5">
-
-        <form
-          className="flex flex-col w-full gap-1"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <textarea
-            id="review"
-            name="comment"
-            {...register("comment")}
-            required
-            placeholder="Leave a review"
-            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 h-32 resize-none rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
-            style={{ outline: "none" }}
-          />
-
-          <p>Leave a rating</p>
-          <ReactStars count={5} size={25} activeColor={"rgba(255, 111, 34, 1)"} onChange={ratingChanged} value={rating} />
-          <Button type="submit" className="bg-kuduOrange text-white px-6 py-2 w-full mt-4 rounded-lg font-semibold">
-            Submit
-          </Button>
-
-        </form>
-
-      </div>
+      <TrackOrder userType={isVendorType} orderId={orderDetails[0].id} status={orderDetails[0].status} refetch={handleRefetch} />
 
     </div>
   );

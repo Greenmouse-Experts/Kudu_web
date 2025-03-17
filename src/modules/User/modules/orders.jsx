@@ -6,10 +6,12 @@ import { dateFormat } from "../../../helpers/dateHelper";
 import { useNavigate } from "react-router-dom";
 import Table from "../../../components/Tables";
 
+
 export default function ProfileOrders() {
   const [activeTab, setActiveTab] = useState("my orders");
   const [loader, setLoader] = useState(true);
   const [orders, setOrders] = useState([]);
+  const [vendorOrder, setVendorOrders] = useState([]);
 
   const { user } = useAppState();
 
@@ -17,29 +19,15 @@ export default function ProfileOrders() {
 
   const navigate = useNavigate();
 
+
+
+
+
+
   const getOrders = () => {
     setLoader(true);
     mutate({
       url: `user/orders`,
-      method: "GET",
-      headers: true,
-      hideToast: true,
-      onSuccess: (response) => {
-        setOrders(response.data.data);
-        setLoader(false);
-      },
-      onError: (error) => {
-        setLoader(false);
-      },
-    });
-  };
-
-
-
-  const vendorOrders = () => {
-    setLoader(true);
-    mutate({
-      url: `vendor/order/items`,
       method: "GET",
       headers: true,
       hideToast: true,
@@ -55,6 +43,26 @@ export default function ProfileOrders() {
   };
 
 
+
+  const vendorOrders = () => {
+    setLoader(true);
+    mutate({
+      url: `vendor/order/items`,
+      method: "GET",
+      headers: true,
+      hideToast: true,
+      onSuccess: (response) => {
+        setVendorOrders(response.data.data);
+        setLoader(false)
+      },
+      onError: (error) => {
+        setLoader(false);
+        setVendorOrders([]);
+      },
+    });
+  };
+
+
   useEffect(() => {
     getOrders();
   }, []);
@@ -62,14 +70,6 @@ export default function ProfileOrders() {
 
 
 
-
-  if (loader) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <Loader />
-      </div>
-    );
-  }
 
 
   return (
@@ -86,15 +86,32 @@ export default function ProfileOrders() {
             >
               MY ORDERS
             </button>
-            {/* <button
+            {user.accountType === 'Vendor' && (<button
               className={`p-2 sm:p-3 font-semibold ml-2 sm:ml-4 ${activeTab === "customer orders" ?
                 "text-[#FE6A3A] border-b-2 border-[#FE6A3A]" : "text-black"}`}
               onClick={() => [setActiveTab("customer orders"), vendorOrders()]}
             >
               CUSTOMER'S ORDERS
-            </button> */}
+            </button>)
+            }
           </div>
-          {orders.length > 0 ? (
+
+
+
+
+
+          {loader &&
+            (
+              <div className="w-full h-screen flex items-center justify-center">
+                <Loader />
+              </div>
+            )}
+
+
+
+
+
+          {activeTab === 'my orders' ? orders.length > 0 ? (
             <Table
               headers={[
                 { key: 'refId', label: 'Order ID' },
@@ -131,7 +148,58 @@ export default function ProfileOrders() {
                 No order items found!
               </h1>
             </div>
-          )}
+          )
+            :
+            <></>
+          }
+
+
+
+
+
+          {activeTab === 'customer orders' ? vendorOrder.length > 0 ? (
+            <Table
+              headers={[
+                { key: 'productName', label: 'Product Name' },
+                { key: 'productImage', label: 'Product Image', render: (value) => (<img src={value} width={50} />) },
+                { key: 'quantity', label: 'Quantity' },
+                { key: 'price', label: 'Price' },
+                { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
+              ]}
+              data={vendorOrder}
+              transformData={(vendorOrder) => vendorOrder.map((item) => ({
+                ...item,
+                productName: `${item.product.name}`,
+                productImage: `${item.product.image_url}`,
+              }))}
+              actions={[
+                {
+                  label: (row) => {
+                    return 'View Order';
+                  },
+                  onClick: (row) => navigate(`order-details/${row.orderId}`),
+                }
+              ]}
+              currentPage={null}
+              totalPages={null}
+            />
+          ) : (
+            <div className="empty-store">
+              <div className="text-center">
+                <img
+                  src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
+                  alt="Empty Store Illustration"
+                  className="w-80 h-80 mx-auto"
+                />
+              </div>
+              <h1 className="text-center text-lg font-bold mb-4">
+                No order items found!
+              </h1>
+            </div>
+          )
+            :
+            <></>
+          }
         </div>
       </div>
     </>
