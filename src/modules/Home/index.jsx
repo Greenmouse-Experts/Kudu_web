@@ -68,7 +68,7 @@ export default function NewHome() {
 
             const auctionProductRequest = new Promise((resolve, reject) => {
                 mutate({
-                    url: '/auction/products',
+                    url: '/auction/products?auctionStatus=upcoming',
                     method: 'GET',
                     hideToast: true,
                     onSuccess: (response) => resolve(response.data?.data || []),
