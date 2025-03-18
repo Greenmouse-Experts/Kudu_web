@@ -22,6 +22,7 @@ import BookMarkedProducts from "../modules/User/modules/bookmark";
 import Wallet from "../modules/User/modules/Wallet";
 import AddBankAccount from "../modules/User/modules/AddBankAccount";
 import EditBankAccount from "../modules/User/modules/EditBankAccount";
+import InterestedAuctions from "../modules/User/modules/InterestedAuctions";
 
 export const userRoutes = [
     {
@@ -99,6 +100,10 @@ export const userRoutes = [
                     {
                         path: 'bookmark',
                         element: <BookMarkedProducts />
+                    },
+                    {
+                        path: 'interestedAuctions',
+                        element: <InterestedAuctions />
                     },
                     {
                         path: 'wallet',
