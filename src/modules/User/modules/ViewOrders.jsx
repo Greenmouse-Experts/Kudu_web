@@ -12,7 +12,7 @@ import { dateFormat } from "../../../helpers/dateHelper";
 import useAppState from "../../../hooks/appState";
 import ProductReview from "../../Products/productReviews";
 import { LuArrowLeft } from "react-icons/lu"
-import TrackOrder from "./TrackOrder";
+import TrackOrder from "../../../components/TrackOrder";
 
 
 const OrderDetails = () => {

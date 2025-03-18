@@ -78,11 +78,16 @@ const CartSummary = ({ cart, refetch }) => {
 
     // Callback when the payment is successful.
     const onSuccess = (reference) => {
+        const location = typeof user.location !== "string" ? [user.location.city, user.location.state, user.location.country]
+            .filter(Boolean) // Removes falsy values (null, undefined, empty string)
+            .join(" ")
+            :
+            null;
         const payload = {
             refId: reference.reference,
             shippingAddress: typeof user.location === "string" ? `${JSON.parse(user.location).city} ${JSON.parse(user.location).state}, ${JSON.parse(user.location).country}`
                 :
-                `${user.location.city} ${user.location.state} ${user.location.state}`
+                `${location}`
         };
         mutate({
             url: "/user/checkout",

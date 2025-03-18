@@ -35,6 +35,8 @@ import AuctionProducts from "../modules/SuperAdmin/Dashboard/auctionProducts.jsx
 import AddNewAuctionProduct from "../modules/SuperAdmin/Dashboard/addAuctionProduct.jsx";
 import Jobs from "../modules/SuperAdmin/Dashboard/jobs.jsx";
 import UpdateAuctionProducts from "../modules/SuperAdmin/Dashboard/updateAuctionProducts.jsx";
+import CustomerOrders from "../modules/SuperAdmin/Dashboard/customerOrders.jsx";
+import OrderDetails from "../modules/SuperAdmin/Dashboard/ViewOrders.jsx";
 
 export const adminRoutes = [
     {
@@ -104,6 +106,14 @@ export const adminRoutes = [
             {
                 path: "orders",
                 element: <Orders />,
+            },
+            {
+                path: "customer-orders",
+                element: <CustomerOrders />,
+            },
+            {
+                path: "customer-orders/order-details/:orderId/:id",
+                element: <OrderDetails />,
             },
             {
                 path: "transactions",

@@ -10,6 +10,7 @@ const Sidebar = () => {
     const isActive = (path) => location.pathname === path;
     const [dropdownStates, setDropdownStates] = useState({
         stores: false,
+        orders: false,
         users: false,
         products: false,
         pages: false,
@@ -20,9 +21,10 @@ const Sidebar = () => {
     const handleChildren = (type) => {
         setDropdownStates((prevState) => ({
             stores: type === 'stores' ? !prevState.stores : false,
+            orders: type === 'orders' ? !prevState.orders : false,
             users: type === 'users' ? !prevState.users : false,
             products: type === 'products' ? !prevState.products : false,
-            pages: type === 'pages'?!prevState.pages : false,
+            pages: type === 'pages' ? !prevState.pages : false,
         }));
     };
 
@@ -138,15 +140,30 @@ const Sidebar = () => {
                                 </div>
                             )}
                         </div>
-                        <Link to={'/admin/orders'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/orders') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
-                            }`}>
-                            <i className="mr-5">
-                                <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M23.3966 13.1724L14.0863 3.86212C13.9475 3.72223 13.7823 3.61131 13.6002 3.53583C13.4182 3.46035 13.223 3.4218 13.0259 3.42243H4.33625C4.13734 3.42243 3.94657 3.50145 3.80592 3.6421C3.66527 3.78275 3.58625 3.97352 3.58625 4.17243V12.8621C3.58562 13.0592 3.62417 13.2544 3.69965 13.4364C3.77513 13.6184 3.88604 13.7836 4.02594 13.9224L13.3363 23.2327C13.4755 23.3721 13.6409 23.4826 13.8229 23.558C14.0049 23.6334 14.2 23.6722 14.397 23.6722C14.594 23.6722 14.7891 23.6334 14.9711 23.558C15.1531 23.4826 15.3185 23.3721 15.4578 23.2327L23.3966 15.294C23.5359 15.1547 23.6464 14.9893 23.7218 14.8073C23.7972 14.6253 23.836 14.4302 23.836 14.2332C23.836 14.0362 23.7972 13.8411 23.7218 13.6591C23.6464 13.4771 23.5359 13.3117 23.3966 13.1724ZM14.3966 22.1724L5.08625 12.8621V4.92243H13.0259L22.3363 14.2327L14.3966 22.1724ZM9.58625 8.29743C9.58625 8.51994 9.52027 8.73744 9.39665 8.92245C9.27304 9.10745 9.09734 9.25165 8.89177 9.3368C8.6862 9.42195 8.46 9.44422 8.24177 9.40082C8.02354 9.35741 7.82309 9.25026 7.66575 9.09293C7.50842 8.93559 7.40127 8.73514 7.35787 8.51691C7.31446 8.29868 7.33674 8.07248 7.42189 7.86691C7.50703 7.66135 7.65123 7.48564 7.83623 7.36203C8.02124 7.23841 8.23875 7.17243 8.46125 7.17243C8.75962 7.17243 9.04577 7.29096 9.25675 7.50194C9.46772 7.71291 9.58625 7.99906 9.58625 8.29743Z" fill="currentColor" />
-                                </svg>
-                            </i>
-                            <span className="text-md font-[600]">Orders</span>
-                        </Link>
+
+                        <div className='relative'>
+                            <button onClick={() => handleChildren('orders')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
+                                <i className="mr-5">
+                                    <svg width="20" height="20" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M23.3966 13.1724L14.0863 3.86212C13.9475 3.72223 13.7823 3.61131 13.6002 3.53583C13.4182 3.46035 13.223 3.4218 13.0259 3.42243H4.33625C4.13734 3.42243 3.94657 3.50145 3.80592 3.6421C3.66527 3.78275 3.58625 3.97352 3.58625 4.17243V12.8621C3.58562 13.0592 3.62417 13.2544 3.69965 13.4364C3.77513 13.6184 3.88604 13.7836 4.02594 13.9224L13.3363 23.2327C13.4755 23.3721 13.6409 23.4826 13.8229 23.558C14.0049 23.6334 14.2 23.6722 14.397 23.6722C14.594 23.6722 14.7891 23.6334 14.9711 23.558C15.1531 23.4826 15.3185 23.3721 15.4578 23.2327L23.3966 15.294C23.5359 15.1547 23.6464 14.9893 23.7218 14.8073C23.7972 14.6253 23.836 14.4302 23.836 14.2332C23.836 14.0362 23.7972 13.8411 23.7218 13.6591C23.6464 13.4771 23.5359 13.3117 23.3966 13.1724ZM14.3966 22.1724L5.08625 12.8621V4.92243H13.0259L22.3363 14.2327L14.3966 22.1724ZM9.58625 8.29743C9.58625 8.51994 9.52027 8.73744 9.39665 8.92245C9.27304 9.10745 9.09734 9.25165 8.89177 9.3368C8.6862 9.42195 8.46 9.44422 8.24177 9.40082C8.02354 9.35741 7.82309 9.25026 7.66575 9.09293C7.50842 8.93559 7.40127 8.73514 7.35787 8.51691C7.31446 8.29868 7.33674 8.07248 7.42189 7.86691C7.50703 7.66135 7.65123 7.48564 7.83623 7.36203C8.02124 7.23841 8.23875 7.17243 8.46125 7.17243C8.75962 7.17243 9.04577 7.29096 9.25675 7.50194C9.46772 7.71291 9.58625 7.99906 9.58625 8.29743Z" fill="currentColor" />
+                                    </svg>
+                                </i>
+                                <span className="text-md font-[600]">Orders</span>
+                                <i className="ml-5 right-0">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
+                                    </svg>
+                                </i>
+                            </button>
+                            {dropdownStates.orders && (
+                                <div className="absolute left-0 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                                    <Link to={'/admin/orders'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/orders') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                                        }`}>All Orders</Link>
+                                    <Link to={'/admin/customer-orders'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/customer-orders') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                                        }`}>Customer's Orders</Link>
+                                </div>
+                            )}
+                        </div>
                         <Link to={'/admin/transactions'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/transactions') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className="mr-5">
@@ -183,7 +200,7 @@ const Sidebar = () => {
 
                         <div className='relative'>
                             <button onClick={() => handleChildren('pages')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
-                            <FaLaptop className="mr-5"  size={20}/>
+                                <FaLaptop className="mr-5" size={20} />
                                 <span className="text-md font-[600]">Jobs</span>
                                 <i className="ml-5 right-0">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -195,8 +212,8 @@ const Sidebar = () => {
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                                     <Link to={'jobs'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Jobs</Link>
                                     <Link to={''} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">View Applicant</Link>
-                                 
-                                 
+
+
                                 </div>
                             )}
                         </div>

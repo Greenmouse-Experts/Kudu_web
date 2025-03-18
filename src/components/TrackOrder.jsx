@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import useApiMutation from "../../../api/hooks/useApiMutation";
 import { Button, Step, Stepper } from "@material-tailwind/react";
+import useApiMutation from "../api/hooks/useApiMutation";
 
-const TrackOrder = ({ userType, orderId, status, refetch }) => {
+const TrackOrder = ({ userType, orderId, status, admin, refetch }) => {
     const { mutate } = useApiMutation();
 
     const statusArr = ['pending', 'processing', 'shipped', 'delivered'];
@@ -14,7 +14,7 @@ const TrackOrder = ({ userType, orderId, status, refetch }) => {
 
     const handleNext = () => {
         mutate({
-            url: `/user/order/item/update/status`,
+            url: admin ? `/admin/order/item/update/status` : `/user/order/item/update/status`,
             method: "POST",
             headers: true,
             data: {
@@ -30,7 +30,7 @@ const TrackOrder = ({ userType, orderId, status, refetch }) => {
 
     const handlePrev = () => {
         mutate({
-            url: `/user/order/item/update/status`,
+            url: admin ? `/admin/order/item/update/status` : `/user/order/item/update/status`,
             method: "POST",
             headers: true,
             data: {
