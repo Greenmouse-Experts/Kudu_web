@@ -13,11 +13,10 @@ import Table from "../../../components/Tables";
 const OrderDetails = () => {
     const navigate = useNavigate();
 
-    const { orderId, id } = useParams();
+    const { id } = useParams();
 
     const [orderDetails, setOrderDetails] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [ordersData, setOrders] = useState([]);
 
     const { mutate } = useApiMutation();
 
@@ -32,13 +31,13 @@ const OrderDetails = () => {
     const getOrderDetails = () => {
         setIsLoading(true);
         mutate({
-            url: `/admin/order/item/details?orderId=${orderId}`,
+            url: `/admin/order/item?orderItemId=${id}`,
             method: "GET",
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
                 setOrderDetails([response.data.data]);
-                getOrders();
+                setIsLoading(false);
             },
             onError: (error) => {
                 setIsLoading(false);
@@ -49,30 +48,12 @@ const OrderDetails = () => {
 
 
 
-    const getOrders = () => {
-        mutate({
-            url: `/admin/order/items`,
-            method: "GET",
-            headers: true,
-            hideToast: true,
-            onSuccess: (response) => {
-                const filteredOrder = response.data.data.filter((order) => order.id === id);
-                setOrders(filteredOrder)
-                setIsLoading(false);
-            },
-            onError: () => {
-                setIsLoading(false);
-            }
-        });
-    }
-
-
 
 
 
 
     const handleRefetch = () => {
-        getOrders();
+        getOrderDetails();
     }
 
 
@@ -90,7 +71,6 @@ const OrderDetails = () => {
 
     const isVendorType = true;
 
-    console.log(ordersData)
 
 
     return (
@@ -108,6 +88,14 @@ const OrderDetails = () => {
                             { key: 'shippingAddress', label: 'Shipping Address' },
                         ]}
                         data={orderDetails}
+                        transformData={(orderDetails) => orderDetails.map((item) => ({
+                            ...item,
+                            refId: item.order.refId,
+                            trackingNumber: item.order.trackingNumber,
+                            totalAmount: item.order.totalAmount,
+                            userName: `${item.order.user.firstName} ${item.order.user.lastName}`,
+                            shippingAddress: item.order.shippingAddress
+                        }))}
                         actions={[]}
                         currentPage={null}
                         totalPages={null}
@@ -115,7 +103,7 @@ const OrderDetails = () => {
 
                 </div>
 
-                <TrackOrder userType={isVendorType} admin orderId={orderDetails[0].id} status={ordersData[0].status} refetch={handleRefetch} />
+                <TrackOrder userType={isVendorType} admin orderId={orderDetails[0].id} status={orderDetails[0].status} refetch={handleRefetch} />
 
             </div>
         </div>

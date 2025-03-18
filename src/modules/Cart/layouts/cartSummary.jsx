@@ -7,6 +7,7 @@ import { Button } from "@material-tailwind/react";
 import AddShippingAddress from "../../../components/AddShippingAddress";
 import { useModal } from "../../../hooks/modal";
 import { Country } from "country-state-city";
+import { Link } from "react-router-dom";
 
 const CartSummary = ({ cart, refetch }) => {
     const currency = useGeoLocatorCurrency();
@@ -108,6 +109,10 @@ const CartSummary = ({ cart, refetch }) => {
         // Handle modal closure if necessary.
     };
 
+    
+
+
+
     return (
         <div className="w-full flex flex-col gap-2 py-4 rounded-lg bg-white">
             <div className="flex flex-col px-4 gap-4">
@@ -127,7 +132,22 @@ const CartSummary = ({ cart, refetch }) => {
                 </div>
             </div>
             <div className="w-full h-[1px] mt-1 border-[1.5px]" />
-            <div className="flex justify-center mt-2 w-full">
+            {user.location &&
+                <>
+                    <span className="flex justify-between">
+                        <p className="text-sm px-4 mt-2 font-semibold">
+                            Delivery Address
+                        </p>
+                        <span onClick={handleModal} className="text-kuduOrange cursor-pointer mt-2 px-4 font-[500] underline">
+                            Change Location
+                        </span>
+                    </span>
+                    <p className="text-base px-4 text-[rgba(178,178,178,1)]">
+                        {user.location.city} {user.location.state}, {user.location.country}
+                    </p>
+                </>
+            }
+            <div className="flex justify-center mt-3 w-full">
                 {user.location ?
                     <PaymentButton disabled={cart.length === 0} config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
                         <span className="text-sm font-[500] normal-case">

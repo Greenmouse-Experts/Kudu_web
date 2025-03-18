@@ -13,7 +13,7 @@ export default function Auction() {
 
     const fetchAuction = () => {
         mutate({
-            url: '/auction/products',
+            url: '/auction/products?auctionStatus=upcoming',
             method: 'GET',
             hideToast: true,
             onSuccess: (response) => {

@@ -65,7 +65,7 @@ const CustomerOrders = () => {
                                     label: (row) => {
                                         return 'View Order';
                                     },
-                                    onClick: (row) => navigate(`order-details/${row.orderId}/${row.id}`),
+                                    onClick: (row) => navigate(`order-details/${row.id}`),
                                 }
                             ]}
                             currentPage={null}
