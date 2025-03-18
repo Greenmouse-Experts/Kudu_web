@@ -37,6 +37,7 @@ import Jobs from "../modules/SuperAdmin/Dashboard/jobs.jsx";
 import UpdateAuctionProducts from "../modules/SuperAdmin/Dashboard/updateAuctionProducts.jsx";
 import CustomerOrders from "../modules/SuperAdmin/Dashboard/customerOrders.jsx";
 import OrderDetails from "../modules/SuperAdmin/Dashboard/ViewOrders.jsx";
+import WithdrawalRequest from "../modules/SuperAdmin/Dashboard/withdrawalRequest.jsx";
 
 export const adminRoutes = [
     {
@@ -118,6 +119,10 @@ export const adminRoutes = [
             {
                 path: "transactions",
                 element: <Transactions />,
+            },
+            {
+                path: "withdrawal-request",
+                element: <WithdrawalRequest />,
             },
             {
                 path: "settings",

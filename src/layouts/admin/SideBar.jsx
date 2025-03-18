@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useModal } from "../../hooks/modal";
 import LogOutModal from "../../components/LogOut";
 import { FaLaptop } from "react-icons/fa";
+import { IoCashOutline } from "react-icons/io5";
+
 
 const Sidebar = () => {
     const location = useLocation();
@@ -57,7 +59,7 @@ const Sidebar = () => {
                     </div>
 
                     {/* Navigation Items */}
-                    <nav className="px-10 space-y-5">
+                    <nav className="px-5 space-y-5">
                         <Link to={'/admin/dashboard'}
                             className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/dashboard') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-[#FFF1E9]'
                                 }`}>
@@ -173,6 +175,15 @@ const Sidebar = () => {
                             </i>
                             <span className={`text-md font-[600]`}>Transactions</span>
                         </Link>
+
+                        <Link to={'/admin/withdrawal-request'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/withdrawal-request') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                            }`}>
+                            <i className="mr-5">
+                                <IoCashOutline size={20} />
+                            </i>
+                            <span className={`text-md font-[600]`}>Withdrawal Request</span>
+                        </Link>
+
                         <div className='relative'>
                             <button onClick={() => handleChildren('pages')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
                                 <i className="mr-5">
