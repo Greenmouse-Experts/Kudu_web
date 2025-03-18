@@ -34,26 +34,28 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
 
     const handleStateChange = (isoCode) => {
         if (!isoCode || !selectedCountry) return;
-        
+
         const state = states.find((s) => s.isoCode === isoCode);
-    
+
         setSelectedState(state);
         setSelectedCity(null);
-    
+
         // Fetch cities using isoCode directly
         const fetchedCities = City.getCitiesOfState(selectedCountry?.isoCode, isoCode);
-    
+
         setCities(fetchedCities);
     };
-    
+
     const handleCityChange = (cityName) => {
         if (!cityName || !selectedState) return;
         setSelectedCity(cities.find((c) => c.name === cityName));
     };
 
     const onSubmit = (formData) => {
+        formData.city = `${formData.street}, ${formData.city}`;
         const payload = { firstName: user.firstName, lastName: user.lastName, dateOfBirth: null, gender: null, location: { ...formData } };
 
+        console.log(formData)
         mutate({
             url: "/user/profile/update",
             method: "PUT",
@@ -127,6 +129,32 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
                 </select>
                 {errors.city && <p className="text-red-500 text-sm">{errors.city.message}</p>}
             </div>
+
+
+            {/* Street Field */}
+            <div className="col-span-2">
+                <label
+                    className="block text-md font-medium mb-3"
+                    htmlFor="email"
+                >
+                    Street
+                </label>
+                <input
+                    type="text"
+                    id="email"
+                    {...register("street", {
+                        required: "Address is required",
+                    })}
+                    placeholder="Your house address"
+                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                    style={{ outline: "none" }}
+                    required
+                />
+                {errors.street && (
+                    <p className="text-red-500 text-sm">{errors.street.message}</p>
+                )}
+            </div>
+
 
             {/* Submit Button */}
             <div className="col-span-2 mb-4 flex justify-start">
