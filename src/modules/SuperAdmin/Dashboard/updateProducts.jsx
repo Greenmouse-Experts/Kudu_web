@@ -187,7 +187,7 @@ const UpdateProduct = () => {
         setValue("category", product.sub_category.categoryId);
         getSubCategories(product.sub_category.categoryId);
         setValue("condition", product.condition);
-        setFiles(JSON.parse(product.additional_images));
+        setFiles(product.additional_images);
         setCurrency(product.store.currency.symbol);
 
         // Handle product.description (HTML case)
@@ -526,7 +526,7 @@ const UpdateProduct = () => {
                             <button
                                 type="submit"
                                 className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
-                                disabled={!watch("description") || !watch("specifications") || btnDisabled}
+                                disabled={btnDisabled}
                             >
                                 Update Product
                             </button>
