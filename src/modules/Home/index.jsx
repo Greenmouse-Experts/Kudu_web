@@ -11,9 +11,7 @@ import Loader from "../../components/Loader";
 import TrendingProducts from "./components/TrendingProducts";
 import CategoriesSection from "./components/CategoriesSection";
 import ProductConditions from "./components/ProductConditions";
-import ProductListing from "../../components/ProductsList";
 import AuctionPage from "../Auction/layouts/AuctionPage";
-import { useGeoLocatorProduct } from "../../hooks/geoLocatorProduct";
 
 
 export default function NewHome() {
@@ -148,10 +146,6 @@ export default function NewHome() {
     }, []);
 
 
-    // Function to filter products by condition
-    const filterProducts = (condition) => {
-        setFilteredProducts(useGeoLocatorProduct(products).filter((product) => product.condition === condition));
-    };
 
 
     return (
@@ -192,8 +186,7 @@ export default function NewHome() {
                         <div className="bg-[#615353] w-full flex justify-between p-6 rounded-md cursor-pointer">
                             <h2 className="text-lg text-white font-semibold">Explore by Product Conditions</h2>
                         </div>
-                        <ProductConditions condition={filterProducts} />
-                        <ProductListing productsArr={filteredProducts.slice(0, 12)} displayError />
+                        <ProductConditions productsArr={products.slice(0, 12)} />
                     </div>
                     <div className="w-full lg:flex md:flex gap-3">
                         <PreviewSection />

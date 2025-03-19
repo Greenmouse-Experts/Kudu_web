@@ -165,7 +165,7 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
                                         <div className="flex justify-center relative md:h-[200px] h-[200px]">
                                             <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
                                         </div>
-                                        <h3 className="text-base font-medium mt-3 leading-loose">{product.name}</h3>
+                                        <h3 className="text-base font-medium mt-3 leading-loose truncate whitespace-nowrap overflow-hidden w-full">{product.name}</h3>
                                         <p className="text-sm font-semibold leading-loose">{product.store.currency.symbol} {product.price}</p>
                                         <button
                                             className={`absolute top-2 right-0 px-2 py-1 text-xs rounded font-medium text-white ${product.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"

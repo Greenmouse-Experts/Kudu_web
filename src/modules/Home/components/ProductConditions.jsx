@@ -1,23 +1,29 @@
 import './style.css';
 import { useState } from "react";
 import { ShoppingBag, Package, RefreshCcw } from "lucide-react";
+import ProductListing from '../../../components/ProductsList';
+import { useGeoLocatorProduct } from '../../../hooks/geoLocatorProduct';
 
-export default function ProductConditions({ condition }) {
+export default function ProductConditions({ productsArr }) {
+    const locationProducts = useGeoLocatorProduct(productsArr);
+
+    const [filteredProducts, setFilteredProducts] = useState(locationProducts.filter((product) => product.condition === 'brand_new'))
+
     const conditionsArr = [
         {
-            name: "Brand New Products",
+            name: "Brand New",
             id: "brand_new",
             icon: ShoppingBag,
             color: "#FF5733", // Example color for the icon
         },
         {
-            name: "Refurbished Products",
+            name: "Refurbished",
             id: "refurbished",
             icon: RefreshCcw,
             color: "#FF5733",
         },
         {
-            name: "Used Products",
+            name: "Used",
             id: "fairly_used",
             icon: Package,
             color: "#FF5733",
@@ -28,12 +34,13 @@ export default function ProductConditions({ condition }) {
 
     const handleActiveCondition = (id) => {
         setActiveCondition(id);
-        condition(id);
+        setFilteredProducts(locationProducts.filter((product) => product.condition === id));
     };
+
 
     return (
         <div className="flex w-full flex-col lg:gap-5 md:gap-5 mb-10">
-            <div className="grid w-full lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 mt-3 md:mt-3 lg:mt-0 gap-4">
+            <div className="grid w-full lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 grid-cols-3 my-3 md:mt-3 lg:mt-0 gap-4">
                 {conditionsArr.length > 0 ? conditionsArr.map((item, index) => {
                     const IconComponent = item.icon;
                     const isActive = activeCondition === item.id;
@@ -42,16 +49,21 @@ export default function ProductConditions({ condition }) {
                         <div
                             key={index}
                             onClick={() => handleActiveCondition(item.id)}
-                            className={`group flex flex-col gap-4 py-5 justify-center items-center cursor-pointer rounded-lg shadow-sm transition-all 
+                            className={`group flex flex-col gap-4 py-3 md:py-5 justify-center items-center cursor-pointer rounded-lg shadow-sm transition-all 
                                 ${isActive ? "bg-kuduOrange text-white" : "bg-white text-black hover:bg-kuduOrange hover:text-white"}
                             `}
                         >
                             <IconComponent
                                 size={40}
-                                className="transition-all"
+                                className="transition-all hidden md:block"
                                 style={{ color: isActive ? "white" : item.color }}
                             />
-                            <p className="lg:text-sm md:text-sm text-[12px] font-[500]">
+                            <IconComponent
+                                size={20}
+                                className="transition-all block md:hidden"
+                                style={{ color: isActive ? "white" : item.color }}
+                            />
+                            <p className="lg:text-sm md:text-sm text-xs font-[500]">
                                 {item.name}
                             </p>
                         </div>
@@ -63,6 +75,8 @@ export default function ProductConditions({ condition }) {
                     </div>
                 }
             </div>
+
+            <ProductListing productsArr={filteredProducts.slice(0, 12)} displayError />
         </div>
     );
 }
