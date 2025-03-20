@@ -55,28 +55,28 @@ const TrackOrder = ({ userType, orderId, status, admin, refetch }) => {
                     isLastStep={(value) => setIsLastStep(value)}
                     isFirstStep={(value) => setIsFirstStep(value)}
                 >
-                    <Step className="h-4 w-4" onClick={() => setActiveStep(0)}>
+                    <Step className="h-4 w-4">
                         <div className="absolute -bottom-[3.5rem] w-max text-center">
                             <span className={activeStep === 0 ? "text-kuduOrange" : "text-black"}>
                                 Pending
                             </span>
                         </div>
                     </Step>
-                    <Step className="h-4 w-4" onClick={() => setActiveStep(1)}>
+                    <Step className="h-4 w-4">
                         <div className="absolute -bottom-[3.5rem] w-max text-center">
                             <span className={activeStep === 1 ? "text-kuduOrange" : "text-black"}>
                                 Processing
                             </span>
                         </div>
                     </Step>
-                    <Step className="h-4 w-4" onClick={() => setActiveStep(2)}>
+                    <Step className="h-4 w-4">
                         <div className="absolute -bottom-[3.5rem] w-max text-center">
                             <span className={activeStep === 2 ? "text-kuduOrange" : "text-black"}>
                                 Shipped
                             </span>
                         </div>
                     </Step>
-                    <Step className="h-4 w-4" onClick={() => setActiveStep(3)}>
+                    <Step className="h-4 w-4">
                         <div className="absolute -bottom-[3.5rem] w-max text-center">
                             <span className={activeStep === 3 ? "text-kuduOrange" : ""}>
                                 Delivered

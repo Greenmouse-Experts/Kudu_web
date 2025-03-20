@@ -7,7 +7,7 @@ import { Button } from "@material-tailwind/react";
 import AddShippingAddress from "../../../components/AddShippingAddress";
 import { useModal } from "../../../hooks/modal";
 import { Country } from "country-state-city";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartSummary = ({ cart, refetch }) => {
     const currency = useGeoLocatorCurrency();
@@ -15,6 +15,8 @@ const CartSummary = ({ cart, refetch }) => {
     const [paymentKey, setPaymentKey] = useState({});
     const { mutate } = useApiMutation();
     const { openModal, closeModal } = useModal();
+
+    const navigate = useNavigate();
 
 
 
@@ -96,7 +98,7 @@ const CartSummary = ({ cart, refetch }) => {
             data: payload,
             headers: true,
             onSuccess: (response) => {
-                refetch();
+                navigate('/profile/orders');
             },
             onError: (error) => {
             },

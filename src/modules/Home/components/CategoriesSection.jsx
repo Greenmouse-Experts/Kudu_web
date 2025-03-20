@@ -46,22 +46,7 @@ export default function CategoriesSection({ data }) {
 
 
     const handleNavigation = (id, name) => {
-        mutate({
-            url: `/products?categoryId=${id}`,
-            method: "GET",
-            headers: true,
-            hideToast: true,
-            onSuccess: (response) => {
-                if (response.data.data.length > 0) {
-                    navigate(`products/categories/${id}/${name}`)
-                }
-                else {
-                    toast.error('No product found');
-                }
-            },
-            onError: (error) => {
-            },
-        });
+        navigate(`products/categories/${id}/${name}`)
     }
 
 
@@ -194,6 +179,7 @@ export default function CategoriesSection({ data }) {
                                 <div
                                     key={`slide-mobile-${index}`}
                                     className="w-[90px] flex flex-col items-center gap-2"
+                                    onClick={() => handleNavigation(category.id, category.name)}
                                 >
                                     <div className={`w-[90px] h-[90px] rounded-full flex items-center justify-center ${category.color}`}>
                                         <img src={category.img} alt={category.name} className="w-[50px] h-[50px] object-contain" />

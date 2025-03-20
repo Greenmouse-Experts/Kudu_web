@@ -152,6 +152,12 @@ a {
   
 }
 
+.react-tel-input .country-list .country.highlight {
+  background-color: #f97316 !important; /* Orange background */
+  color: white !important; /* White text */
+}
+
+
 
 .Box {
   box-shadow: 0px 4px 28px 0px #0000000D !important;
