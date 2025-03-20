@@ -161,8 +161,9 @@ export default function ProfileOrders() {
             <Table
               headers={[
                 { key: 'productName', label: 'Product Name' },
-                { key: 'productImage', label: 'Product Image', render: (value) => (<img src={value} width={50} />) },
                 { key: 'quantity', label: 'Quantity' },
+                { key: 'customer', label: 'Customer' },
+                { key: 'shippingAddress', label: 'Shipping Address' },
                 { key: 'price', label: 'Price' },
                 { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
               ]}
@@ -171,6 +172,8 @@ export default function ProfileOrders() {
                 ...item,
                 productName: `${item.product.name}`,
                 productImage: `${item.product.image_url}`,
+                shippingAddress: item.order.shippingAddress,
+                customer: `${item.order.user.firstName} ${item.order.user.lastName}`
               }))}
               actions={[
                 {

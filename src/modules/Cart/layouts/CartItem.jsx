@@ -1,8 +1,57 @@
-import React from "react";
-import { useDispatch } from 'react-redux'
-import {increaseQuantity, decreaseQuantity } from '../../../reducers/cartSlice';
+import React, { useState } from "react";
+import useApiMutation from "../../../api/hooks/useApiMutation";
 
-const CartItem = ({ item, removeFromCart }) => {
+const CartItem = ({ item, removeFromCart, refetch }) => {
+    const [disabled, setDisabled] = useState(false);
+
+    let quantity = item.quantity;
+
+    const { mutate } = useApiMutation();
+
+    const handleIncrease = (data) => {
+        setDisabled(true)
+        mutate({
+            url: `/user/cart/update`,
+            method: "PUT",
+            headers: true,
+            data: {
+                cartId: item.id,
+                quantity: quantity += 1
+            },
+            onSuccess: (response) => {
+                refetch();
+                setDisabled(false)
+            },
+            onError: (error) => {
+                setDisabled(false)
+            }
+        });
+    }
+
+
+    const handleDecrease = (data) => {
+        if (quantity > 1) {
+            setDisabled(true)
+            mutate({
+                url: `/user/cart/update`,
+                method: "PUT",
+                headers: true,
+                data: {
+                    cartId: item.id,
+                    quantity: quantity -= 1
+                },
+                onSuccess: (response) => {
+                    refetch();
+                    setDisabled(false)
+                },
+                onError: (error) => {
+                    setDisabled(false)
+                }
+            });
+        }
+    }
+
+
     return (
         <>
             <div className="flex flex-col gap-4 border-b border-gray-300 py-4">
@@ -39,7 +88,7 @@ const CartItem = ({ item, removeFromCart }) => {
                     <div className="flex flex-col items-center gap-4 md:ml-10">
                         <div>
                             <p className="font-bold text-lg text-black">
-                               {item.product.store.currency.symbol} {item.product.price.toLocaleString("en-NG", {
+                                {item.product.store.currency.symbol} {item.product.price.toLocaleString("en-NG", {
                                     style: "currency",
                                     currency: "NGN",
                                 })}
@@ -71,7 +120,8 @@ const CartItem = ({ item, removeFromCart }) => {
                         {/* Quantity Controls */}
                         <div className="flex items-center gap-2">
                             <button
-                                onClick={() => dispatch(decreaseQuantity(item.id))}
+                                disabled={disabled}
+                                onClick={() => handleDecrease(item)}
                                 className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
                             >
                                 -
@@ -80,7 +130,8 @@ const CartItem = ({ item, removeFromCart }) => {
                                 {item.quantity}
                             </span>
                             <button
-                                onClick={() => dispatch(increaseQuantity(item.id))}
+                                disabled={disabled}
+                                onClick={() => handleIncrease(item)}
                                 className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
                             >
                                 +
