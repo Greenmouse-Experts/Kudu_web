@@ -32,6 +32,7 @@ export default function Cart() {
                     <div className="md:w-[68%] w-full mt-10 md:mt-0 flex">
                         <CartBlock
                             cart={cart}
+                            reload={refetch}
                             removeFromCart={removeItem}
                         />
                     </div>

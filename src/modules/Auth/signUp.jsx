@@ -7,12 +7,17 @@ import { useForm } from "react-hook-form";
 import useApiMutation from "../../api/hooks/useApiMutation"
 import { auth, provider, signInWithPopup, signOut } from "../../config/firebaseConfig";
 import { useDispatch } from "react-redux";
+import useAppState from "../../hooks/appState";
 
 function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+
+    const {ipInfo} = useAppState();
+
+    console.log(ipInfo)
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -154,7 +159,7 @@ function SignUp() {
                                 Phone Number
                             </label>
                             <PhoneInput
-                                country={"us"}
+                                country={ipInfo.country?.toLowerCase()}
                                 inputProps={{
                                     name: "phoneNumber",
                                     required: true,
@@ -167,7 +172,7 @@ function SignUp() {
                                     setValue("phoneNumber", value, { shouldValidate: true });
                                 }}
                                 containerClass="w-full"
-                                dropdownClass="flex flex-col gap-2 font-sans"
+                                dropdownClass="flex flex-col gap-2 text-black font-sans"
                                 buttonClass="!bg-gray-100 !border !border-gray-100 hover:!bg-gray-100"
                                 inputClass="!w-full px-4 font-sans !h-[54px] !py-4 !bg-gray-100 !border !border-gray-100 !rounded-lg focus:outline-none placeholder-gray-400 !text-sm mb-3"
                             />
@@ -290,7 +295,7 @@ function SignUp() {
                         <Button
                             type="submit"
                             onClick={() => handleSignUpGoogle()}
-                            className="w-1/2 bg-white border border-gray-300 text-black px-4 flex items-center justify-center gap-2 rounded-lg"
+                            className="md:w-1/2 bg-white border border-gray-300 text-black px-4 flex items-center justify-center gap-2 rounded-lg"
                             style={{ outline: "none", boxShadow: "none" }}
                         >
                             <svg width="20" height="20" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -220,15 +220,17 @@ const OrderDetails = () => {
             </div>
           </div>
 
-          {user.id !== orderDetails[0].vendorId &&
+          {user.id !== orderDetails[0].vendorId && orderDetails[0].status === 'delivered' ?
             <ProductReview reviews={reviews} />
+            :
+            <></>
           }
 
         </div>
 
 
 
-        {user.id !== orderDetails[0].vendorId ?
+        {user.id !== orderDetails[0].vendorId && orderDetails[0].status === 'delivered' ?
           <div className="bg-white shadow-md rounded-lg md:sticky self-start top-6 p-6 h-fit flex flex-col gap-3 md:w-2/5">
 
             <form

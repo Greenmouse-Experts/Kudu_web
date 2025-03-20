@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import CartItem from "./CartItem";
 import PulseLoader from "react-spinners/PulseLoader";
 
-const CartBlock = ({cart, removeFromCart}) => {
+const CartBlock = ({cart, removeFromCart, reload}) => {
     const [isLoading, setIsLoading]  = useState(true);
 
     useEffect(() => {
@@ -29,6 +29,7 @@ const CartBlock = ({cart, removeFromCart}) => {
                         <CartItem
                             key={item.id}
                             item={item}
+                            refetch={reload}
                             removeFromCart={removeFromCart}
                         />
                     ))}

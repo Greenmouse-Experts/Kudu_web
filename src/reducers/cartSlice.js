@@ -63,33 +63,45 @@ export const addToCart = createAsyncThunk("cart/addToCart", async (product, { re
   });
   
 
-const cartSlice = createSlice({
-  name: 'cart',
-  initialState : {
-    cart: [],
-    totalPrice: 0,
-    status: 'idle', 
-    error: null,
-  },
+  const cartSlice = createSlice({
+    name: "cart",
+    initialState: {
+      cart: [],
+      totalPrice: 0,
+      status: "idle",
+      error: null,
+    },
   
-  reducers: {
-    increaseQuantity: (state, action) => {
-      const item = state.cart.find(item => item.id === action.payload);
-      if (item) {
-        item.quantity += 1;
-        item.totalPrice = item.quantity * item.product.price;
-      }
+    reducers: {
+      increaseQuantity: (state, action) => {
+        const item = state.cart.find((item) => item.id === action.payload);
+        if (item) {
+          item.quantity += 1;
+          item.totalPrice = item.quantity * item.product.price;
+  
+          // Ensure totalPrice updates globally
+          state.totalPrice = state.cart.reduce(
+            (sum, product) => sum + product.totalPrice,
+            0
+          );
+        }
+      },
+  
+      decreaseQuantity: (state, action) => {
+        const item = state.cart.find((item) => item.id === action.payload);
+        if (item && item.quantity > 1) {
+          item.quantity -= 1;
+          item.totalPrice = item.quantity * item.product.price;
+  
+          // Ensure totalPrice updates correctly
+          state.totalPrice = state.cart.reduce(
+            (sum, product) => sum + product.totalPrice,
+            0
+          );
+        }
+      },
     },
 
-    decreaseQuantity: (state, action) => {
-      const item = state.cart.find(item => item.id === action.payload);
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-        item.totalPrice = item.quantity * item.product.price;
-        state.totalPrice += item.product.price;
-      }
-    },
-  },
 
   extraReducers: (builder) => {
     builder

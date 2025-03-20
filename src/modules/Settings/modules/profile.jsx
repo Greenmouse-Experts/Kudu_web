@@ -40,7 +40,6 @@ export default function ProfileSettings() {
         const files = event.target.files;
         if (files.length > 0) {
             await uploadFiles(files, (uploadedUrl) => {
-                setProfilePicture(uploadedUrl);
                 mutate({
                     url: "/user/profile/photo/update",
                     method: "PATCH",
@@ -48,6 +47,7 @@ export default function ProfileSettings() {
                     headers: true,
                     onSuccess: (response) => {
                         dispatch(setKuduUser(response.data.data))
+                        setProfilePicture(uploadedUrl);
                     },
                     onError: (error) => {
                     },
