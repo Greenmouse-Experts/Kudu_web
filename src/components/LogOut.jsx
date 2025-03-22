@@ -19,7 +19,6 @@ const LogOutModal = ({redirect, mode}) => {
             onSuccess: (response) => {
                 dispatch(setKuduUser(null));
                 dispatch(setCurrencyData(null));
-                dispatch(setIPInfo(null));
                 localStorage.clear();
                 redirect();
                 closeModal();

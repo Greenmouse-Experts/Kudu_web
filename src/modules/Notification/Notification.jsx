@@ -18,7 +18,7 @@ const Notification = () => {
   const unreadNotification = data?.filter((item) => item.isRead === false);
   const readNotification = data?.filter((item) => item.isRead === true);
   return (
-    <section className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full bg-white pt-40">
+    <section className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full bg-white pt-10">
       {/* <div className="flex gap-5 border-b border-black overflow-hidden">
         <div className="border px-4 rounded-md py-3 border-black border-b-white border-b rounded-br-none rounded-bl-none">
           <p>All Notifications</p>

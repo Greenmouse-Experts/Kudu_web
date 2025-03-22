@@ -9,37 +9,6 @@ import { Carousel } from "@material-tailwind/react"
 import ProductDescription from "./layouts/productDescription"
 import InterestParticipate from "./layouts/interestParticipate"
 
-const BreadCrumbs = () => {
-    return (
-        <>
-            <div className="flex flex-wrap gap-4">
-                <div className="flex gap-2 font-semibold text-sm">
-                    <span className="flex flex-col pt-1">
-                        Home
-                    </span>
-                    <span className="pt-[5px]">{">"}</span>
-                </div>
-                <div className="flex gap-2 font-semibold text-sm">
-                    <span className="flex flex-col pt-1">
-                        Auction
-                    </span>
-                    <span className="pt-[5px]">{">"}</span>
-                </div>
-                <div className="flex gap-2 font-semibold text-sm">
-                    <span className="flex flex-col pt-1">
-                        Result
-                    </span>
-                    <span className="pt-[5px]">{">"}</span>
-                </div>
-                <div className="flex gap-2 font-semibold text-sm">
-                    <span className="flex flex-col pt-1">
-                        . 2014 Audi A4 AllRoad Premium Plus
-                    </span>
-                </div>
-            </div>
-        </>
-    )
-}
 
 export default function ViewAuctionProduct() {
     const [loading, setLoading] = useState(true);
