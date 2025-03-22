@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useMemo } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import useAppState from "../../../hooks/appState";
 import PaymentButton from "../../../components/PaymentButton";
@@ -8,15 +8,21 @@ import AddShippingAddress from "../../../components/AddShippingAddress";
 import { useModal } from "../../../hooks/modal";
 import { Country } from "country-state-city";
 import { Link, useNavigate } from "react-router-dom";
+import { paystackKey } from "../../../config/paymentKeys";
+import DollarPaymentButton from "../../../components/DollarPaymentButton";
 
 const CartSummary = ({ cart, refetch }) => {
     const currency = useGeoLocatorCurrency();
     const { user } = useAppState();
-    const [paymentKey, setPaymentKey] = useState({});
+    // const [paymentKey, setPaymentKey] = useState({});
     const { mutate } = useApiMutation();
     const { openModal, closeModal } = useModal();
 
+    const { ipInfo } = useAppState();
+
     const navigate = useNavigate();
+
+    const paymentKey = paystackKey;
 
 
 
@@ -52,32 +58,35 @@ const CartSummary = ({ cart, refetch }) => {
             reference: new Date().getTime().toString(),
             email: "greenmousedev@gmail.com", // or use user.email if available.
             amount: effectiveTotalPrice * 100, // Amount in kobo.
-            publicKey: paymentKey?.publicKey,
+            publicKey: paymentKey,
             currency: "NGN", // Specify the currency.
         }),
         [paymentKey, effectiveTotalPrice]
     );
 
     // Payment gateway key fetch function.
-    const getPaymentKeys = () => {
-        mutate({
-            url: `/user/payment/gateway`,
-            method: "GET",
-            headers: true,
-            hideToast: true,
-            onSuccess: (response) => {
-                setPaymentKey(response.data.data.find((key) => key.isActive));
-            },
-            onError: (error) => {
-                console.error("Error fetching payment keys:", error);
-            },
-        });
-    };
+    /* const getPaymentKeys = () => {
+         mutate({
+             url: `/user/payment/gateway`,
+             method: "GET",
+             headers: true,
+             hideToast: true,
+             onSuccess: (response) => {
+                 setPaymentKey(response.data.data.find((key) => key.isActive));
+             },
+             onError: (error) => {
+                 console.error("Error fetching payment keys:", error);
+             },
+         });
+     };
+ 
+ 
+     useEffect(() => {
+         getPaymentKeys();
+         // eslint-disable-next-line react-hooks/exhaustive-deps
+     }, []); */
 
-    useEffect(() => {
-        getPaymentKeys();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+
 
     // Callback when the payment is successful.
     const onSuccess = (reference) => {
@@ -105,13 +114,15 @@ const CartSummary = ({ cart, refetch }) => {
         });
     };
 
+
+
     // Callback when the payment modal is closed.
     const onClose = () => {
         console.log("Payment closed");
         // Handle modal closure if necessary.
     };
 
-    
+
 
 
 
@@ -151,11 +162,18 @@ const CartSummary = ({ cart, refetch }) => {
             }
             <div className="flex justify-center mt-3 w-full">
                 {user.location ?
-                    <PaymentButton disabled={cart.length === 0} config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
-                        <span className="text-sm font-[500] normal-case">
-                            Checkout ₦{totalPrice}
-                        </span>
-                    </PaymentButton>
+                    ipInfo.currency_name === 'Naira' ?
+                        <PaymentButton disabled={cart.length === 0} config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
+                            <span className="text-sm font-[500] normal-case">
+                                Checkout ₦{totalPrice}
+                            </span>
+                        </PaymentButton>
+                        :
+                        <DollarPaymentButton amount={totalPrice}>
+                            <span className="text-sm font-[500] normal-case">
+                                Checkout ${totalPrice}
+                            </span>
+                        </DollarPaymentButton>
                     :
                     <Button className='bg-kuduOrange' onClick={handleModal}>
                         Set Delivery Location
