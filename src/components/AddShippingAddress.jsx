@@ -55,7 +55,6 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
         formData.city = `${formData.street}, ${formData.city}`;
         const payload = { firstName: user.firstName, lastName: user.lastName, dateOfBirth: null, gender: null, location: { ...formData } };
 
-        console.log(formData)
         mutate({
             url: "/user/profile/update",
             method: "PUT",
