@@ -22,12 +22,14 @@ import ViewProduct from "../modules/Products/viewProduct";
 import CategoryProduct from "../modules/Products/categoriesProduct";
 import Cart from "../modules/Cart";
 import Messages from "../modules/Messages";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 
 export const landingRooutes = [
   {
     path: '/',
     element: <LandingLayout />,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         index: true,

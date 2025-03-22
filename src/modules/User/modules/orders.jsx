@@ -163,6 +163,7 @@ export default function ProfileOrders() {
                 { key: 'productName', label: 'Product Name' },
                 { key: 'quantity', label: 'Quantity' },
                 { key: 'customer', label: 'Customer' },
+                { key: 'customerPhone', label: 'Customer Phone Number' },
                 { key: 'shippingAddress', label: 'Shipping Address' },
                 { key: 'price', label: 'Price' },
                 { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
@@ -173,7 +174,8 @@ export default function ProfileOrders() {
                 productName: `${item.product.name}`,
                 productImage: `${item.product.image_url}`,
                 shippingAddress: item.order.shippingAddress,
-                customer: `${item.order.user.firstName} ${item.order.user.lastName}`
+                customer: `${item.order.user.firstName} ${item.order.user.lastName}`,
+                customerPhone: item.order.user.phoneNumber
               }))}
               actions={[
                 {

@@ -33,7 +33,7 @@ const AuctionPage = ({ auctions, hideHeader }) => {
       return;
     }
     const isAuctionPage = location.pathname.includes("/auction");
-    const targetPath = isAuctionPage ? `product/${auctionId}` : `auction/product/${auctionId}`;
+    const targetPath = isAuctionPage ? `product/${auctionId}` : `/auction/product/${auctionId}`;
     navigate(targetPath);
   };
 
