@@ -23,11 +23,13 @@ import Wallet from "../modules/User/modules/Wallet";
 import AddBankAccount from "../modules/User/modules/AddBankAccount";
 import EditBankAccount from "../modules/User/modules/EditBankAccount";
 import InterestedAuctions from "../modules/User/modules/InterestedAuctions";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 export const userRoutes = [
     {
         path: '/',
         element: <LandingLayout />,
+        errorElement: <ErrorBoundary />,
         children: [
             {
                 path: 'profile',

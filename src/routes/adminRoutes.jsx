@@ -38,11 +38,13 @@ import UpdateAuctionProducts from "../modules/SuperAdmin/Dashboard/updateAuction
 import CustomerOrders from "../modules/SuperAdmin/Dashboard/customerOrders.jsx";
 import OrderDetails from "../modules/SuperAdmin/Dashboard/ViewOrders.jsx";
 import WithdrawalRequest from "../modules/SuperAdmin/Dashboard/withdrawalRequest.jsx";
+import ErrorBoundary from "../components/ErrorBoundary.jsx";
 
 export const adminRoutes = [
     {
         path: "/admin/*",
         element: <AdminLayout />,
+        errorElement: <ErrorBoundary />,
         children: [
             {
                 path: "dashboard",
@@ -167,7 +169,7 @@ export const adminRoutes = [
             {
                 path: "auction-products",
                 element: <AuctionProducts />,
-    
+
             },
             {
                 path: "auction-products/new-product",
