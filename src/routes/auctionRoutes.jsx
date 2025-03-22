@@ -1,3 +1,4 @@
+import ErrorBoundary from "../components/ErrorBoundary";
 import LandingLayout from "../layouts/landing";
 import Auction from "../modules/Auction";
 import AllAuctions from "../modules/Auction/allAuctions";
@@ -7,6 +8,7 @@ export const auctionRoutes = [
     {
         path: '/',
         element: <LandingLayout />,
+        errorElement: <ErrorBoundary />,
         children: [
             {
                 path: 'auction',

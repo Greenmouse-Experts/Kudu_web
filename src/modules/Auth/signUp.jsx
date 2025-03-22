@@ -17,8 +17,6 @@ function SignUp() {
 
     const {ipInfo} = useAppState();
 
-    console.log(ipInfo)
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
