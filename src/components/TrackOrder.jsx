@@ -85,19 +85,32 @@ const TrackOrder = ({ userType, orderId, status, admin, refetch }) => {
                     </Step>
                 </Stepper>
             </div>
-            {userType && status !== 'cancelled' ?
-                <div className="mt-20 flex justify-between">
-                    <Button className="bg-red-500" onClick={handlePrev} disabled={isLastStep}>
-                        Cancel
-                    </Button>
-                    <Button onClick={handleNext} disabled={isLastStep}>
-                        Next
-                    </Button>
-                </div>
+            {status !== 'cancelled' ?
+                userType ? (
+                    <div className="mt-20 flex justify-between">
+                        <Button className="bg-red-500" onClick={handlePrev} disabled={isLastStep}>
+                            Cancel
+                        </Button>
+                        <Button onClick={handleNext} disabled={isLastStep}>
+                            Next
+                        </Button>
+                    </div>
+                )
+                    :
+                    (
+                        status !== 'shipped' && (
+                            <div className="mt-20 flex justify-between">
+                                <Button className="bg-red-500" onClick={handlePrev} disabled={isLastStep}>
+                                    Cancel
+                                </Button>
+                            </div>
+                        )
+                    )
                 :
+                <></>
+            }
                 <div className="mt-20 flex justify-between">
                 </div>
-            }
         </div>
     )
 };

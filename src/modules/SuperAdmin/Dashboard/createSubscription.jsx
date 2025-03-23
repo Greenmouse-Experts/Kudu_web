@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../../api/hooks/useApiMutation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreateSubscription = () => {
     const {
@@ -13,9 +14,32 @@ const CreateSubscription = () => {
     } = useForm();
 
     const { mutate } = useApiMutation();
+    const navigate = useNavigate();
 
     const [hideAuctions, setAuctions] = useState(false);
     const [hideAdverts, setAdverts] = useState(false);
+    const [currencies, setCurrencies] = useState([]);
+    const [disabled, setDisabled] = useState(false);
+
+
+    useEffect(() => {
+        getAdminCurrencies();
+    }, []);
+
+
+    const getAdminCurrencies = () => {
+        mutate({
+            url: '/admin/currencies',
+            method: 'GET',
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setCurrencies(response.data.data);
+            },
+            onError: () => {
+            },
+        })
+    }
 
 
     const onSubmit = (data) => {
@@ -24,14 +48,19 @@ const CreateSubscription = () => {
         data.auctionProductLimit = Number(data.auctionProductLimit);
         data.price = Number(data.price);
         data.allowsAuction = data.allowsAuction === 'true';
+
+        setDisabled(true);
         mutate({
             url: "/admin/subscription/plan/create",
             method: "POST",
             data: data,
             headers: true,
             onSuccess: (response) => {
+                navigate(-1);
+                setDisabled(false);
             },
             onError: () => {
+                setDisabled(false);
             },
         });
     };
@@ -280,6 +309,27 @@ const CreateSubscription = () => {
                                             className="block text-md font-semibold mb-3"
                                             htmlFor="email"
                                         >
+                                            Currency
+                                        </label>
+                                        <select
+                                            id="planCurrency"
+                                            {...register("currencyId", { required: "Currency is required" })}
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none", }}
+                                        >
+                                            <option value="" disabled>Tap to Select</option>
+                                            {currencies.map((currency, index) => (
+                                                <option value={currency.id}>{currency.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+
+                                    <div className="mb-4">
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
                                             Plan Price
                                         </label>
                                         <input
@@ -300,6 +350,7 @@ const CreateSubscription = () => {
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
+                                        disabled={disabled}
                                         className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                                     >
                                         Create New Subscription Plan
