@@ -20,6 +20,7 @@ const EditSubscription = () => {
     const [hideAdverts, setAdverts] = useState(false);
     const { id } = useParams();
     const [plans, setPlans] = useState([]);
+    const [currencies, setCurrencies] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
@@ -74,10 +75,6 @@ const EditSubscription = () => {
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                /* const filteredData = response.data.data.find((item) => item.id === id);
-                 setCategories(filteredData)
-                 setFiles([filteredData.image]);
-                 setLoading(false); */
                 setPlans(response.data.data);
                 setLoading(false);
             },
@@ -89,8 +86,26 @@ const EditSubscription = () => {
 
 
 
+    const getAdminCurrencies = () => {
+        mutate({
+            url: '/admin/currencies',
+            method: 'GET',
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setCurrencies(response.data.data);
+                getPlan();
+            },
+            onError: () => {
+                setLoading(false);
+            },
+        })
+    }
+
+
+
     useEffect(() => {
-        getPlan();
+        getAdminCurrencies();
     }, []);
 
 
@@ -110,6 +125,7 @@ const EditSubscription = () => {
         setAuctions(!plans[0].allowsAuction);
         setValue("maxAds", plans[0].maxAds);
         setValue("adsDurationDays", plans[0].adsDurationDays);
+        setValue("currencyId", plans[0].currencyId);
         setValue("price", plans[0].price);
         setLoading(false);
     }, [plans, setValue]);
@@ -340,6 +356,27 @@ const EditSubscription = () => {
                                         {errors.duration && (
                                             <p className="text-red-500 text-sm">{errors.duration.message}</p>
                                         )}
+                                    </div>
+
+
+                                    <div className="mb-4">
+                                        <label
+                                            className="block text-md font-semibold mb-3"
+                                            htmlFor="email"
+                                        >
+                                            Currency
+                                        </label>
+                                        <select
+                                            id="planCurrency"
+                                            {...register("currencyId", { required: "Currency is required" })}
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            style={{ outline: "none", }}
+                                        >
+                                            <option value="" disabled>Tap to Select</option>
+                                            {currencies.map((currency, index) => (
+                                                <option value={currency.id}>{currency.name}</option>
+                                            ))}
+                                        </select>
                                     </div>
 
 
