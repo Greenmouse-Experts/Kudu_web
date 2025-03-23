@@ -14,9 +14,11 @@ export default function Dashboard() {
     const { mutate } = useApiMutation();
     const [isLoading, setIsLoading] = useState(true);
     const [userData, setUserData] = useState([]);
+    const [usersLength, setUserLength] = useState(0);
+    const [productLength, setProductLength] = useState(0);
 
     const TableHeaders = ["Name", "Account Type", "Date", "Action"];
-    const NewTableHeaders = ["Name", "Order Type", "Date", "Action"];
+    const NewTableHeaders = ["Order ID", "Tracking Number", "Price", "Action"];
 
     const NewTableData = [
         {
@@ -36,28 +38,6 @@ export default function Dashboard() {
         },
     ];
 
-    const TableData = [
-        {
-            name: 'Chukka Uzo',
-            role: '12',
-            date: '12-10-24',
-        },
-        {
-            name: 'Chukka Uzo',
-            role: '12',
-            date: '12-10-24',
-        },
-        {
-            name: 'Chukka Uzo',
-            role: '12',
-            date: '12-10-24',
-        },
-        {
-            name: 'Chukka Uzo',
-            role: '12',
-            date: '12-10-24',
-        },
-    ];
 
 
     const getCustomers = () => {
@@ -68,14 +48,15 @@ export default function Dashboard() {
             hideToast: true,
             onSuccess: (response) => {
                 const customers = response.data.data;
-                getVendors(customers);
+                const customersLength = response.data.meta.totalCustomers;
+                getVendors(customers, customersLength);
             },
             onError: () => {
             }
         });
     }
 
-    const getVendors = (customers) => {
+    const getVendors = (customers, customersLength) => {
         mutate({
             url: `/admin/vendors`,
             method: "GET",
@@ -83,6 +64,8 @@ export default function Dashboard() {
             hideToast: true,
             onSuccess: (response) => {
                 const vendors = response.data.data;
+                const vendorLength = response.data.meta.totalVendors;
+                setUserLength(customersLength + vendorLength);
                 const combinedData = [...customers, ...vendors];
                 const sortedUsers = sortByMostRecentUpdate(combinedData);
                 setUserData(sortedUsers);
@@ -100,8 +83,41 @@ export default function Dashboard() {
     };
 
 
+
+    const getProducts = () => {
+        mutate({
+            url: '/admin/general/products',
+            method: 'GET',
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+              getAuctionedProducts(response.data.pagination.total);
+            },
+            onError: () => {
+            }
+          });  
+    }
+
+
+    const getAuctionedProducts = (productLength) => {
+        mutate({
+            url: '/admin/general/auction/products',
+            method: 'GET',
+            headers: true,
+            hideToast: true,
+            onSuccess:(response) => {
+                const auctionedLength = response.data.pagination.total;
+                setProductLength(productLength + auctionedLength)
+              },
+              onError: () => {
+              }
+        });
+    }
+
+
     useEffect(() => {
         getCustomers();
+        getProducts();
     }, []);
 
 
@@ -111,7 +127,7 @@ export default function Dashboard() {
                 <div className="w-full flex flex-col gap-5 h-full">
                     <Greeting />
                     <div className="w-full flex lg:flex-row md:flex-row flex-col h-full gap-5 my-2 md:px-0 px-3">
-                        <DashboardStats users={userData.length} />
+                        <DashboardStats users={usersLength} products={productLength} />
                     </div>
                     <div className="w-full flex lg:flex-row md:flex-row flex-col gap-5">
                         <div className="lg:w-[65%] md:w-[65%] w-full flex flex-col gap-5">
