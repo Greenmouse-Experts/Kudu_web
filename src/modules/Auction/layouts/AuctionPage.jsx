@@ -37,6 +37,25 @@ const AuctionPage = ({ auctions, hideHeader }) => {
     navigate(targetPath);
   };
 
+
+
+  const handleMonitor = (auctionId) => {
+    if (!user) {
+      openModal({
+        size: "sm",
+        content: (
+          <Modal submitButton={false} text={'You must be logged in to view auction details. Please sign in or create an account to access this product.'} />
+        ),
+      });
+      return;
+    }
+    const isAuctionPage = location.pathname.includes("/auction");
+    const targetPath = isAuctionPage ? `product/monitor/${auctionId}` : `/auction/product/monitor/${auctionId}`;
+    navigate(targetPath);
+  };
+
+  
+
   return (
     <div className="w-full px-4 md:px-1">
       {/* Header */}
@@ -113,7 +132,7 @@ const AuctionPage = ({ auctions, hideHeader }) => {
                   </button>
 
                   {/* Monitor Button */}
-                  <div className="flex text-left text-[#FF6F22] text-sm mt-5 cursor-pointer">
+                  <div onClick={() => handleMonitor(auction.id)} className="flex text-left text-[#FF6F22] text-sm mt-5 cursor-pointer">
                     <span>📌 Monitor</span>
                   </div>
                 </div>
