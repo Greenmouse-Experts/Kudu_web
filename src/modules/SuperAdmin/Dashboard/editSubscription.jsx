@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../../components/Loader";
 
 const EditSubscription = () => {
@@ -15,6 +15,7 @@ const EditSubscription = () => {
     } = useForm();
 
     const { mutate } = useApiMutation();
+    const navigate = useNavigate();
 
     const [hideAuctions, setAuctions] = useState(false);
     const [hideAdverts, setAdverts] = useState(false);
@@ -22,6 +23,7 @@ const EditSubscription = () => {
     const [plans, setPlans] = useState([]);
     const [currencies, setCurrencies] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [disabled, setDisabled] = useState(false);
 
 
     const onSubmit = (data) => {
@@ -33,14 +35,18 @@ const EditSubscription = () => {
         data.allowsAuction = data.allowsAuction === 'true';
         delete data.allowsAdvert;
 
+        setDisabled(true);
         mutate({
             url: "/admin/subscription/plan/update",
             method: "PUT",
             data: data,
             headers: true,
             onSuccess: (response) => {
+                navigate(-1)
+                setDisabled(false);
             },
             onError: () => {
+                setDisabled(false);
             },
         });
     };
@@ -213,7 +219,7 @@ const EditSubscription = () => {
                                             id="allowsAuction"
                                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
-                                            {...register("allowsAuction", { required: "This field is required" })}
+                                            {...register("allowsAuction")}
                                             onChange={(e) => handleAllowAuctions(e.target.value)}
                                         >
                                             <option value="" disabled>Tap to Select</option>
@@ -405,6 +411,7 @@ const EditSubscription = () => {
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
+                                        disabled={disabled}
                                         className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                                     >
                                         Edit Subscription Plan

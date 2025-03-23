@@ -126,7 +126,7 @@ const DollarPaymentButton = ({ amount, children, noWidth, bgColor, onSuccess }) 
 
     const options = {
         mode: 'payment',
-        amount,
+        amount: amount * 100,
         currency: 'usd',
         appearance: {
             theme: 'stripe',
@@ -142,7 +142,7 @@ const DollarPaymentButton = ({ amount, children, noWidth, bgColor, onSuccess }) 
             size: "sm",
             content: (
                 <Elements stripe={stripePromise} options={options}>
-                    <CheckoutForm closeModal={closeModal} amount={amount} successCall={onSuccess} />
+                    <CheckoutForm closeModal={closeModal} amount={amount * 100} successCall={onSuccess} />
                 </Elements>
             )
         });

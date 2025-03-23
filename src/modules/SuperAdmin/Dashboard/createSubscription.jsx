@@ -19,6 +19,7 @@ const CreateSubscription = () => {
     const [hideAuctions, setAuctions] = useState(false);
     const [hideAdverts, setAdverts] = useState(false);
     const [currencies, setCurrencies] = useState([]);
+    const [disabled, setDisabled] = useState(false);
 
 
     useEffect(() => {
@@ -47,15 +48,19 @@ const CreateSubscription = () => {
         data.auctionProductLimit = Number(data.auctionProductLimit);
         data.price = Number(data.price);
         data.allowsAuction = data.allowsAuction === 'true';
+
+        setDisabled(true);
         mutate({
             url: "/admin/subscription/plan/create",
             method: "POST",
             data: data,
             headers: true,
             onSuccess: (response) => {
-                navigate(-1)
+                navigate(-1);
+                setDisabled(false);
             },
             onError: () => {
+                setDisabled(false);
             },
         });
     };
@@ -345,6 +350,7 @@ const CreateSubscription = () => {
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
+                                        disabled={disabled}
                                         className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
                                     >
                                         Create New Subscription Plan
