@@ -7,7 +7,11 @@ import { useGeoLocatorProduct } from '../../../hooks/geoLocatorProduct';
 export default function ProductConditions({ productsArr }) {
     const locationProducts = useGeoLocatorProduct(productsArr);
 
-    const [filteredProducts, setFilteredProducts] = useState(locationProducts.filter((product) => product.condition === 'brand_new'))
+    const newProducts = locationProducts.filter((product) => product.condition === 'brand_new');
+
+    const [filteredProducts, setFilteredProducts] = useState(newProducts);
+
+    console.log(locationProducts)
 
     const conditionsArr = [
         {
