@@ -12,10 +12,9 @@ import { useModal } from '../hooks/modal';
 import useAppState from '../hooks/appState';
 import useApiMutation from '../api/hooks/useApiMutation';
 
-const CheckoutForm = ({ closeModal, amount }) => {
+const CheckoutForm = ({ closeModal, amount, successCall }) => {
     const { user } = useAppState();
     const { mutate } = useApiMutation();
-
 
     const stripe = useStripe();
     const elements = useElements();
@@ -24,12 +23,12 @@ const CheckoutForm = ({ closeModal, amount }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
         if (!elements) return;
+        
         setLoading(true);
+        setErrorMessage(null);
 
         try {
-            // Step 1: Create PaymentIntent
             mutate({
                 url: "/create-payment-intent",
                 method: "POST",
@@ -42,51 +41,60 @@ const CheckoutForm = ({ closeModal, amount }) => {
                 onError: (error) => {
                     setErrorMessage(error.message);
                     setLoading(false);
+                    closeModal(); // Close on API error
                 },
             });
         } catch (err) {
             setErrorMessage(err.message);
             setLoading(false);
+            closeModal(); // Close on unexpected errors
         }
     };
 
-    // Step 2: Confirm Payment and Send Order Data
     const handlePayment = async (clientSecret) => {
-        const { error, paymentIntent } = await stripe.confirmPayment({
-            elements,
-            clientSecret
-        });
+        try {
+            const { error, paymentIntent } = await stripe.confirmPayment({
+                elements,
+                clientSecret,
+                redirect: 'if_required'
+            });
 
-        if (error) {
+            if (error) {
+                throw error;
+            }
+
+            console.log("Payment successful:", paymentIntent.id);
+
+            if (successCall) {
+                successCall();
+            } else {
+                mutate({
+                    url: "/user/checkout/dollar",
+                    method: "POST",
+                    data: {
+                        refId: `${paymentIntent.id}`,
+                        shippingAddress: `${user.location.city} ${user.location.state}, ${user.location.country}`
+                    },
+                    headers: true,
+                    onSuccess: () => {
+                        console.log("Order confirmed!");
+                        closeModal();
+                    },
+                    onError: (error) => {
+                        setErrorMessage(error.message);
+                        closeModal(); // Close on order API error
+                    },
+                    onSettled: () => {
+                        setLoading(false);
+                    },
+                });
+            }
+        } catch (error) {
             setErrorMessage(error.message);
             setLoading(false);
-            return;
+            closeModal(); // Close on Stripe confirmation error
         }
-
-        console.log("Payment successful:", paymentIntent.id);
-
-        // Step 3: Send Order Data to Backend
-        mutate({
-            url: "/user/checkout/dollar",
-            method: "POST",
-            data: {
-                refId: `${paymentIntent.id}`, // Unique transaction reference
-                shippingAddress: `${user.location.city} ${user.location.state}, ${user.location.country}`
-            },
-            headers: true,
-            onSuccess: () => {
-                console.log("Order confirmed!");
-                closeModal(); // Step 4: Close Modal
-            },
-            onError: (error) => {
-                setErrorMessage(error.message);
-            },
-            onSettled: () => {
-                setLoading(false);
-            },
-        });
     };
-
 
     return (
         <form onSubmit={handleSubmit} className="p-4">
@@ -100,12 +108,19 @@ const CheckoutForm = ({ closeModal, amount }) => {
                     {loading ? "Processing..." : "Pay"}
                 </Button>
             </div>
-            {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
+            {errorMessage && (
+                <div className="text-red-500 mt-2">
+                    {errorMessage} (Closing in 3 seconds...)
+                </div>
+            )}
         </form>
     );
 };
 
-const DollarPaymentButton = ({ amount, children, noWidth, bgColor }) => {
+
+
+
+const DollarPaymentButton = ({ amount, children, noWidth, bgColor, onSuccess }) => {
     const { openModal, closeModal } = useModal();
     const stripePromise = loadStripe(stripeKey);
 
@@ -113,15 +128,21 @@ const DollarPaymentButton = ({ amount, children, noWidth, bgColor }) => {
         mode: 'payment',
         amount,
         currency: 'usd',
-        appearance: { theme: 'stripe' }
+        appearance: {
+            theme: 'stripe',
+        },
+        wallets: {
+            link: false // Disable Link wallet completely
+        },
     };
+
 
     const handleModal = () => {
         openModal({
             size: "sm",
             content: (
                 <Elements stripe={stripePromise} options={options}>
-                    <CheckoutForm closeModal={closeModal} amount={amount} />
+                    <CheckoutForm closeModal={closeModal} amount={amount} successCall={onSuccess} />
                 </Elements>
             )
         });
@@ -130,7 +151,7 @@ const DollarPaymentButton = ({ amount, children, noWidth, bgColor }) => {
     return (
         <Button
             onClick={handleModal}
-            className={`${noWidth ? '' : 'w-3/4'} py-3 px-4 flex justify-center gap-2 ${bgColor || 'bg-kuduOrange'} text-white rounded-lg font-[500] transition-colors`}
+            className={`${noWidth ? '' : 'w-3/4'} py-3 px-4 flex justify-center gap-2 ${bgColor || 'bg-kuduOrange'} shadow-md text-white rounded-lg font-[500] transition-colors`}
         >
             {children}
         </Button>

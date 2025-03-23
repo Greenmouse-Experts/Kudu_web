@@ -11,8 +11,6 @@ export default function ProductConditions({ productsArr }) {
 
     const [filteredProducts, setFilteredProducts] = useState(newProducts);
 
-    console.log(locationProducts)
-
     const conditionsArr = [
         {
             name: "Brand New",
