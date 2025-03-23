@@ -177,16 +177,36 @@ export default function NewHome() {
                         }
                     </div>
                     <div className="w-full lg:flex md:flex gap-3 md:mt-3">
-                        <TrendingProducts productsArr={trendingProducts} ads={ads.slice(4, 8)} />
+                        {loading ? (
+                            <div className="w-full h-screen flex items-center justify-center">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <TrendingProducts productsArr={trendingProducts.slice(0, 12)} ads={ads.slice(4, 8)} />
+                        )}
                     </div>
                     <div className="w-full lg:flex md:flex gap-3 md:mt-3">
-                        <AuctionPage auctions={auctionProducts.slice(0, 12)} />
+                        {loading ? (
+                            <div className="w-full h-screen flex items-center justify-center">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <AuctionPage auctions={auctionProducts.slice(0, 12)} />
+                        )
+                        }
                     </div>
                     <div className="w-full lg:flex md:flex flex-col gap-3 md:mt-3">
                         <div className="bg-[#615353] w-full flex justify-between p-6 rounded-md cursor-pointer">
                             <h2 className="text-lg text-white font-semibold">Explore by Product Conditions</h2>
                         </div>
-                        <ProductConditions productsArr={products.slice(0, 12)} />
+                        {loading ? (
+                            <div className="w-full h-screen flex items-center justify-center">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <ProductConditions productsArr={products.slice(0, 12)} />
+                        )
+                        }
                     </div>
                     <div className="w-full lg:flex md:flex gap-3">
                         <PreviewSection />

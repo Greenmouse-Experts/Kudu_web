@@ -7,36 +7,19 @@ import useApiMutation from '../../../api/hooks/useApiMutation';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
 import useAppState from '../../../hooks/appState';
+import DollarPaymentButton from '../../../components/DollarPaymentButton';
+import { paystackKey } from '../../../config/paymentKeys';
 
 const SubscriptionTable = ({ data, refetch }) => {
+    const { ipInfo } = useAppState();
 
     const { openModal, closeModal } = useModal();
     const { user } = useAppState();
-    const [paymentKey, setPaymentKey] = useState({});
     const [selectedSubscription, setSelectedSub] = useState({});
 
     const { mutate } = useApiMutation();
 
-    // Payment gateway key fetch function.
-    const getPaymentKeys = () => {
-        mutate({
-            url: `/user/payment/gateway`,
-            method: "GET",
-            headers: true,
-            hideToast: true,
-            onSuccess: (response) => {
-                setPaymentKey(response.data.data.find((gateway) => gateway.isActive));
-            },
-            onError: (error) => {
-                console.error("Error fetching payment keys:", error);
-            },
-        });
-    };
-
-    useEffect(() => {
-        getPaymentKeys();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const paymentKey = paystackKey;
 
 
     // Callback when the payment modal is closed.
@@ -84,22 +67,30 @@ const SubscriptionTable = ({ data, refetch }) => {
                         </p>
                     </div>
                     <div className="flex justify-center mt-5 gap-4">
-                        <PaymentButton
-                            config={{
-                                reference: new Date().getTime().toString(),
-                                email: "greenmousedev@gmail.com",
-                                amount: planObj.amount * 100,
-                                publicKey: paymentKey.publicKey,
-                                currency: "NGN",
-                            }}
-                            onSuccess={handlePaymentSuccess} // Use local handler
-                            onClose={onClose}
-                            noWidth
-                        >
-                            <span className="text-sm font-[500] normal-case">
-                                Subscribe
-                            </span>
-                        </PaymentButton>
+                        {ipInfo.currency_name === 'Naira' ?
+                            <PaymentButton
+                                config={{
+                                    reference: new Date().getTime().toString(),
+                                    email: "greenmousedev@gmail.com",
+                                    amount: planObj.amount * 100,
+                                    publicKey: paymentKey,
+                                    currency: "NGN",
+                                }}
+                                onSuccess={handlePaymentSuccess} // Use local handler
+                                onClose={onClose}
+                                noWidth
+                            >
+                                <span className="text-sm font-[500] normal-case">
+                                    Subscribe
+                                </span>
+                            </PaymentButton>
+                            :
+                            <DollarPaymentButton amount={planObj.amount} noWidth onSuccess={handlePaymentSuccess}>
+                                <span className="text-sm font-[500] normal-case">
+                                    Subscribe
+                                </span>
+                            </DollarPaymentButton>
+                        }
                         <button
                             onClick={closeModal}
                             className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
@@ -235,7 +226,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                                         <td className="py-6 px-4 text-left">{index + 1}</td>
                                         <td className="py-6 px-4 text-left">{plan.name}</td>
                                         <td className="py-6 px-4 text-left">Vendors</td>
-                                        <td className="py-6 px-4 text-left">N {plan.price}</td>
+                                        <td className="py-6 px-4 text-left">{plan.currency?.symbol} {plan.price}</td>
                                         <td className="py-6 px-4 text-left">{plan.duration} month(s)</td>
                                         <td className="py-6 px-4 text-left">
                                             <span

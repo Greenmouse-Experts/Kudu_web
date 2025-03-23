@@ -41,7 +41,7 @@ const SubscriptionTable = ({data}) => {
                                         <td className="py-6 px-4 text-left">{index + 1}</td>
                                         <td className="py-6 px-4 text-left">{plan.name}</td>
                                         <td className="py-6 px-4 text-left">Vendors</td>
-                                        <td className="py-6 px-4 text-left">N {plan.price}</td>
+                                        <td className="py-6 px-4 text-left">{plan.currency ? plan.currency.symbol : '₦'} {plan.price}</td>
                                         <td className="py-6 px-4 text-left">{plan.duration} month(s)</td>
                                         <td className="py-6 px-4 text-left">
                                             <span
