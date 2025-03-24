@@ -16,27 +16,10 @@ export default function Dashboard() {
     const [userData, setUserData] = useState([]);
     const [usersLength, setUserLength] = useState(0);
     const [productLength, setProductLength] = useState(0);
+    const [orders, setOrders] = useState([]);
 
     const TableHeaders = ["Name", "Account Type", "Date", "Action"];
-    const NewTableHeaders = ["Order ID", "Tracking Number", "Price", "Action"];
-
-    const NewTableData = [
-        {
-            organization: 'Green Mouse Tech',
-            type: 'open',
-            date: '03-10-2024',
-        },
-        {
-            organization: 'Afrima Lmt',
-            type: 'open',
-            date: '03-10-2024',
-        },
-        {
-            organization: 'Green Mouse Tech',
-            type: 'open',
-            date: '03-10-2024',
-        },
-    ];
+    const NewTableHeaders = ["Order ID", "Tracking Number", "Price", "Date"];
 
 
 
@@ -91,11 +74,11 @@ export default function Dashboard() {
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-              getAuctionedProducts(response.data.pagination.total);
+                getAuctionedProducts(response.data.pagination.total);
             },
             onError: () => {
             }
-          });  
+        });
     }
 
 
@@ -105,12 +88,27 @@ export default function Dashboard() {
             method: 'GET',
             headers: true,
             hideToast: true,
-            onSuccess:(response) => {
+            onSuccess: (response) => {
                 const auctionedLength = response.data.pagination.total;
                 setProductLength(productLength + auctionedLength)
-              },
-              onError: () => {
-              }
+            },
+            onError: () => {
+            }
+        });
+    }
+
+
+    const getOrders = (page) => {
+        mutate({
+            url: `/admin/general/orders`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setOrders(response.data.data);
+            },
+            onError: () => {
+            }
         });
     }
 
@@ -118,6 +116,7 @@ export default function Dashboard() {
     useEffect(() => {
         getCustomers();
         getProducts();
+        getOrders()
     }, []);
 
 
@@ -127,7 +126,7 @@ export default function Dashboard() {
                 <div className="w-full flex flex-col gap-5 h-full">
                     <Greeting />
                     <div className="w-full flex lg:flex-row md:flex-row flex-col h-full gap-5 my-2 md:px-0 px-3">
-                        <DashboardStats users={usersLength} products={productLength} />
+                        <DashboardStats users={usersLength} products={productLength} orders={orders.length} />
                     </div>
                     <div className="w-full flex lg:flex-row md:flex-row flex-col gap-5">
                         <div className="lg:w-[65%] md:w-[65%] w-full flex flex-col gap-5">
@@ -191,20 +190,34 @@ export default function Dashboard() {
                         <div className="lg:w-[50%] md:w-[50%] w-full flex flex-col gap-5">
                             <Table subTitle={<span>Orders</span>} exportData
                                 tableHeader={NewTableHeaders}>
-                                {NewTableData.map((data, index) => (
-                                    <tr key={index} className="py-5 text-sm">
-                                        <td className="px-3 py-5 text-dark">{data.organization}</td>
-                                        <td className="px-3 py-3 text-dark"><Badge text={data.type} textColor={data.type} bgColor={data.type} /></td>
-                                        <td className="px-3 py-3 text-dark">{data.date}</td>
-                                        <td className="px-3 py-3">
-                                            <span className="flex w-full justify-center">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M21 12L9 12M21 6L9 6M21 18L9 18M5 12C5 12.5523 4.55228 13 4 13C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11C4.55228 11 5 11.4477 5 12ZM5 6C5 6.55228 4.55228 7 4 7C3.44772 7 3 6.55228 3 6C3 5.44772 3.44772 5 4 5C4.55228 5 5 5.44772 5 6ZM5 18C5 18.5523 4.55228 19 4 19C3.44772 19 3 18.5523 3 18C3 17.4477 3.44772 17 4 17C4.55228 17 5 17.4477 5 18Z" stroke="#AEB9E1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                </svg>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {orders.length > 0 ?
+                                    orders.slice(0, 4)
+                                        .map((data, index) => (
+                                            <tr key={index} className="py-5 text-sm">
+                                                <td className="px-3 py-5 text-dark">{data.refId}</td>
+                                                <td className="px-3 py-3 text-dark">
+                                                    {data.trackingNumber}
+                                                </td>
+                                                <td className="px-3 py-3 text-dark">{data.totalAmount}</td>
+                                                <td className="px-3 py-3">
+                                                    {dateFormat(data.createdAt, 'dd-MM-yyy')}
+                                                </td>
+                                            </tr>
+                                        ))
+                                    :
+                                    isLoading ?
+                                        <tr>
+                                            <td colSpan={NewTableHeaders.length} className="text-center py-10 font-semibold text-gray-500">
+                                                <Loader size={20} />
+                                            </td>
+                                        </tr>
+                                        :
+                                        <tr>
+                                            <td colSpan={NewTableHeaders.length} className="text-center py-10 font-semibold text-gray-500">
+                                                No Data Available
+                                            </td>
+                                        </tr>
+                                }
                             </Table>
                         </div>
                     </div>
