@@ -111,6 +111,10 @@ export const adminRoutes = [
                 element: <Orders />,
             },
             {
+                path: "orders/orderDetails/general/:id",
+                element: <OrderDetails />,
+            },
+            {
                 path: "customer-orders",
                 element: <CustomerOrders />,
             },

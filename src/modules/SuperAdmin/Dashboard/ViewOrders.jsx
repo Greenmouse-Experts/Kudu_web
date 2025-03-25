@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loader from "../../../components/Loader";
 import { dateFormat } from "../../../helpers/dateHelper";
 import { LuArrowLeft } from "react-icons/lu"
@@ -12,6 +12,9 @@ import Table from "../../../components/Tables";
 
 const OrderDetails = () => {
     const navigate = useNavigate();
+    const url = useLocation();
+
+    const general = url.pathname.includes('general');
 
     const { id } = useParams();
 
@@ -29,14 +32,15 @@ const OrderDetails = () => {
 
 
     const getOrderDetails = () => {
+        const base_URL = general ? `/admin/general/order/items?orderId=${id}` : `/admin/order/item?orderItemId=${id}`;
         setIsLoading(true);
         mutate({
-            url: `/admin/order/item?orderItemId=${id}`,
+            url: base_URL,
             method: "GET",
             headers: true,
             hideToast: true,
             onSuccess: (response) => {
-                setOrderDetails([response.data.data]);
+                setOrderDetails(general ? response.data.data : [response.data.data]);
                 setIsLoading(false);
             },
             onError: (error) => {
@@ -76,35 +80,69 @@ const OrderDetails = () => {
     return (
         <div className="w-full flex-col gap-5 flex">
             <div className='All flex flex-col gap-6'>
-                <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mt-4">Customer's Orders </h2></div>
+                <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mt-4">
+                    {general ? 'Order Details' : "Customer's Orders"} </h2></div>
                 <div className="w-full flex flex-col md:flex-row justify-between gap-6">
-                    <Table
-                        headers={[
-                            { key: 'refId', label: 'Order ID' },
-                            { key: 'trackingNumber', label: 'Tracking Number' },
-                            { key: 'totalAmount', label: 'Price' },
-                            { key: 'userName', label: "Customer's Name"},
-                            { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
-                            { key: 'shippingAddress', label: 'Shipping Address' },
-                        ]}
-                        data={orderDetails}
-                        transformData={(orderDetails) => orderDetails.map((item) => ({
-                            ...item,
-                            refId: item.order.refId,
-                            trackingNumber: item.order.trackingNumber,
-                            totalAmount: item.order.totalAmount,
-                            userName: `${item.order.user.firstName} ${item.order.user.lastName}`,
-                            shippingAddress: item.order.shippingAddress
-                        }))}
-                        actions={[]}
-                        currentPage={null}
-                        totalPages={null}
-                    />
+                    {!general &&
+                        <Table
+                            headers={[
+                                { key: 'refId', label: 'Order ID' },
+                                { key: 'trackingNumber', label: 'Tracking Number' },
+                                { key: 'totalAmount', label: 'Price' },
+                                { key: 'userName', label: "Customer's Name" },
+                                { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
+                                { key: 'shippingAddress', label: 'Shipping Address' },
+                            ]}
+                            data={orderDetails}
+                            transformData={(orderDetails) => orderDetails.map((item) => ({
+                                ...item,
+                                refId: item.order.refId,
+                                trackingNumber: item.order.trackingNumber,
+                                totalAmount: item.order.totalAmount,
+                                userName: `${item.order.user.firstName} ${item.order.user.lastName}`,
+                                shippingAddress: item.order.shippingAddress
+                            }))}
+                            actions={[]}
+                            currentPage={null}
+                            totalPages={null}
+                        />
+                    }
+
+                    {general &&
+                        <Table
+                            headers={[
+                                { key: 'productName', label: 'Product Name' },
+                                { key: 'quantity', label: 'Quantity' },
+                                { key: 'vendor', label: 'Vendor' },
+                                { key: 'price', label: 'Price' },
+                                {
+                                    key: 'status', label: 'Status', render: (value) => <span className={`py-1 px-3 rounded-full text-sm capitalize ${value === 'delivered'
+                                        ? 'bg-green-100 text-green-600'
+                                        : 'bg-red-100 text-red-600'
+                                        }`}>
+                                        {value}
+                                    </span>
+                                },
+                                { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
+                            ]}
+                            data={orderDetails}
+                            transformData={(orderDetails) => orderDetails.map((item) => ({
+                                ...item,
+                                productName: `${item.product?.name}`,
+                                productImage: `${item.product.image_url}`,
+                                vendor: item.vendor ? `${item.vendor?.firstName} ${item.vendor?.lastName}` : 'Administrator',
+                            }))}
+                            actions={[]}
+                            currentPage={null}
+                            totalPages={null}
+                        />
+                    }
 
                 </div>
 
-                <TrackOrder userType={isVendorType} admin orderId={orderDetails[0].id} status={orderDetails[0].status} refetch={handleRefetch} />
-
+                {!general &&
+                    <TrackOrder userType={isVendorType} admin orderId={orderDetails[0].id} status={orderDetails[0].status} refetch={handleRefetch} />
+                }
             </div>
         </div>
     );
