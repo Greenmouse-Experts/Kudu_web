@@ -7,13 +7,13 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDWQcKRAvqcDJevtZ9CAk0ISpFKsXrofSY",
-  authDomain: "kudumart-fd2b6.firebaseapp.com",
-  projectId: "kudumart-fd2b6",
-  storageBucket: "kudumart-fd2b6.firebasestorage.app",
-  messagingSenderId: "1054207743436",
-  appId: "1:1054207743436:web:31bf6097050aeb057a3969",
-  measurementId: "G-8FYHPK2RPD"
+  apiKey: "AIzaSyCmaKk8gia1QXolLCCoLQBcQkmai0RzQFI",
+  authDomain: "kudumart-c0b78.firebaseapp.com",
+  projectId: "kudumart-c0b78",
+  storageBucket: "kudumart-c0b78.firebasestorage.app",
+  messagingSenderId: "142182317218",
+  appId: "1:142182317218:web:c03e5138f070a889c6abfb",
+  measurementId: "G-3VN1RL0PE5"
 };
 
 // Initialize Firebase

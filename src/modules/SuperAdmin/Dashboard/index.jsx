@@ -2,25 +2,26 @@ import Table from "../../../components/ReviewTable";
 import DashboardStats from "./layouts/DashboardStats";
 import Greeting from "./layouts/Greetings";
 import UserAnalysis from "./layouts/UserAnalysis";
-import SalesAnalytics from "./layouts/SalesAnalytics"
-import Badge from "../../../components/Badge";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import { useEffect } from "react";
 import { useState } from "react";
 import Loader from "../../../components/Loader";
 import { dateFormat } from "../../../helpers/dateHelper";
+import TransactionAnalytics from "./layouts/TransactionAnalytics";
 
 export default function Dashboard() {
     const { mutate } = useApiMutation();
     const [isLoading, setIsLoading] = useState(true);
     const [userData, setUserData] = useState([]);
+    const [customersLength, setCustomersLength] = useState(0);
+    const [vendorsLength, setVendorsLength] = useState(0);
     const [usersLength, setUserLength] = useState(0);
     const [productLength, setProductLength] = useState(0);
     const [orders, setOrders] = useState([]);
+    const [transactions, setTransactions] = useState([]);
+    const [transactionsAmt, setTransactionsAmt] = useState(0);
 
     const TableHeaders = ["Name", "Account Type", "Date", "Action"];
-    const NewTableHeaders = ["Order ID", "Tracking Number", "Price", "Date"];
-
 
 
     const getCustomers = () => {
@@ -32,6 +33,7 @@ export default function Dashboard() {
             onSuccess: (response) => {
                 const customers = response.data.data;
                 const customersLength = response.data.meta.totalCustomers;
+                setCustomersLength(customersLength);
                 getVendors(customers, customersLength);
             },
             onError: () => {
@@ -48,6 +50,7 @@ export default function Dashboard() {
             onSuccess: (response) => {
                 const vendors = response.data.data;
                 const vendorLength = response.data.meta.totalVendors;
+                setVendorsLength(vendorLength);
                 setUserLength(customersLength + vendorLength);
                 const combinedData = [...customers, ...vendors];
                 const sortedUsers = sortByMostRecentUpdate(combinedData);
@@ -113,11 +116,51 @@ export default function Dashboard() {
     }
 
 
+    const fetchAllTransactions = async () => {
+        let totalAmount = 0;
+        let currentPage = 1;
+        let totalPages = 1;
+        let allTransactions = [];
+
+        const fetchPage = (page) => {
+            mutate({
+                url: `/admin/transactions?page=${page}`,
+                method: "GET",
+                headers: true,
+                hideToast: true,
+                onSuccess: (response) => {
+                    const transactions = response.data.data;
+                    totalAmount += transactions.reduce((sum, transaction) => sum + transaction.amount, 0);
+                    allTransactions = [...allTransactions, ...transactions];
+
+                    if (page === 1) {
+                        totalPages = response.data.pagination.pages;
+                    }
+
+                    if (page < totalPages) {
+                        fetchPage(page + 1);
+                    } else {
+                        setTransactionsAmt(totalAmount);
+                        setTransactions(allTransactions);
+                    }
+                },
+                onError: () => { },
+            });
+        };
+
+        fetchPage(currentPage);
+    };
+
+
+
     useEffect(() => {
         getCustomers();
         getProducts();
-        getOrders()
+        getOrders();
+        fetchAllTransactions();
     }, []);
+
+
 
 
     return (
@@ -126,99 +169,72 @@ export default function Dashboard() {
                 <div className="w-full flex flex-col gap-5 h-full">
                     <Greeting />
                     <div className="w-full flex lg:flex-row md:flex-row flex-col h-full gap-5 my-2 md:px-0 px-3">
-                        <DashboardStats users={usersLength} products={productLength} orders={orders.length} />
+                        <DashboardStats users={usersLength} products={productLength} orders={orders.length} transactions={transactions.length} />
                     </div>
                     <div className="w-full flex lg:flex-row md:flex-row flex-col gap-5">
                         <div className="lg:w-[65%] md:w-[65%] w-full flex flex-col gap-5">
-                            <Table title="" subTitle={<span>New Users</span>} exportData
+                        <Table
+                                title="New Users"
+                                subTitle=""
+                                columns={[
+                                    { key: "name", label: "Name" },
+                                    { key: "accountType", label: "Account Type" },
+                                    { 
+                                      key: "createdAt", 
+                                      label: "Date",
+                                      render: (value) => dateFormat(value, 'dd MMM, yyy')
+                                    }
+                                  ]}
+                                data={userData.slice(0, 4).map((item) => ({
+                                    ...item,
+                                    name: `${item.firstName} ${item.lastName}`
+                                }))}
+                                exportData
                                 hasNumber
-                                tableBtn={
-                                    <button className="px-2 pt-2 flex gap-2 rounded-md" style={{ backgroundColor: 'rgba(21, 23, 30, 1)' }}>
-                                        <span className="text-xs text-white">Newest First</span>
-                                        <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M5.00122 1V11" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                                            <path d="M0.909424 6.9082L5.00033 10.9991L9.09124 6.9082" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
-                                    </button>
-                                }
-                                tableHeader={TableHeaders}>
-                                {userData.length > 0 ?
-                                    userData.slice(0, 4)
-                                        .map((data, index) => (
-                                            <tr key={index} className={`text-sm py-5 ${index % 2 === 0 ? 'bg-white' : 'bg-kuduTableGrey'}`}>
-                                                <td className="px-6 py-5 text-dark">{index + 1}</td>
-                                                <td className="px-6 py-3 text-dark">{data.firstName} {data.lastName}</td>
-                                                <td className="px-6 py-3 text-dark">{data.accountType}</td>
-                                                <td className="px-6 py-3 text-dark">{dateFormat(data.createdAt, "dd-MM-YYY")}</td>
-                                                <td className="px-6 py-3">
-                                                    <span className="flex w-full">
-                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M21 12L9 12M21 6L9 6M21 18L9 18M5 12C5 12.5523 4.55228 13 4 13C3.44772 13 3 12.5523 3 12C3 11.4477 3.44772 11 4 11C4.55228 11 5 11.4477 5 12ZM5 6C5 6.55228 4.55228 7 4 7C3.44772 7 3 6.55228 3 6C3 5.44772 3.44772 5 4 5C4.55228 5 5 5.44772 5 6ZM5 18C5 18.5523 4.55228 19 4 19C3.44772 19 3 18.5523 3 18C3 17.4477 3.44772 17 4 17C4.55228 17 5 17.4477 5 18Z" stroke="#AEB9E1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                                        </svg>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    :
-                                    isLoading ?
-                                        <tr>
-                                            <td colSpan={TableHeaders.length} className="text-center py-10 font-semibold text-gray-500">
-                                                <Loader size={20} />
-                                            </td>
-                                        </tr>
-                                        :
-                                        <tr>
-                                            <td colSpan={TableHeaders.length} className="text-center py-10 font-semibold text-gray-500">
-                                                No Data Available
-                                            </td>
-                                        </tr>
-                                }
-                            </Table>
+                                isLoading={isLoading}
+                                currentPage={null}
+                                totalPages={null}
+                                onPageChange={null}
+                            />
                         </div>
 
                         <div className="lg:w-[35%] md:w-[35%] w-full flex-grow h-full flex flex-col gap-5">
-                            <UserAnalysis usersData={userData} />
+                            <UserAnalysis usersLength={customersLength} vendorsLength={vendorsLength} />
                         </div>
                     </div>
 
                     <div className="w-full flex lg:flex-row md:flex-row flex-col gap-5 my-2">
 
                         <div className="lg:w-[50%] md:w-[50%] w-full flex flex-col gap-5">
-                            <SalesAnalytics />
+                            <TransactionAnalytics transactions={transactions} />
                         </div>
 
                         <div className="lg:w-[50%] md:w-[50%] w-full flex flex-col gap-5">
-                            <Table subTitle={<span>Orders</span>} exportData
-                                tableHeader={NewTableHeaders}>
-                                {orders.length > 0 ?
-                                    orders.slice(0, 4)
-                                        .map((data, index) => (
-                                            <tr key={index} className="py-5 text-sm">
-                                                <td className="px-3 py-5 text-dark">{data.refId}</td>
-                                                <td className="px-3 py-3 text-dark">
-                                                    {data.trackingNumber}
-                                                </td>
-                                                <td className="px-3 py-3 text-dark">{data.totalAmount}</td>
-                                                <td className="px-3 py-3">
-                                                    {dateFormat(data.createdAt, 'dd-MM-yyy')}
-                                                </td>
-                                            </tr>
-                                        ))
-                                    :
-                                    isLoading ?
-                                        <tr>
-                                            <td colSpan={NewTableHeaders.length} className="text-center py-10 font-semibold text-gray-500">
-                                                <Loader size={20} />
-                                            </td>
-                                        </tr>
-                                        :
-                                        <tr>
-                                            <td colSpan={NewTableHeaders.length} className="text-center py-10 font-semibold text-gray-500">
-                                                No Data Available
-                                            </td>
-                                        </tr>
-                                }
-                            </Table>
+                            <Table
+                                title="Orders"
+                                subTitle=""
+                                columns={[
+                                    { key: "refId", label: "Reference ID" },
+                                    { key: "trackingNumber", label: "Tracking Number" },
+                                    { 
+                                      key: "totalAmount", 
+                                      label: "Amount",
+                                      render: (value) => value
+                                    },
+                                    { 
+                                      key: "createdAt", 
+                                      label: "Date",
+                                      render: (value) => dateFormat(value, 'dd MMM, yyy')
+                                    }
+                                  ]}
+                                data={orders.slice(0, 4)}
+                                exportData
+                                hasNumber
+                                isLoading={isLoading}
+                                currentPage={null}
+                                totalPages={null}
+                                onPageChange={null}
+                            />
                         </div>
                     </div>
                 </div>

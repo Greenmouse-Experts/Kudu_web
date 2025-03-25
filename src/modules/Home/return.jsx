@@ -11,7 +11,7 @@ const Cookies = () => {
         {
             title: "1. What is the time frame I have to make a return?",
             description:
-                "<p>Products must be returned within <strong>30 days</strong> of the delivery date, and they must be unused, in their original packaging, and in the same condition as when delivered.</p>"
+                "<p>Products must be returned within <strong>7 days</strong> of the delivery date, and they must be unused, in their original packaging, and in the same condition as when delivered.</p>"
         },
         {
             title: "2. Non-Returnable Items",
