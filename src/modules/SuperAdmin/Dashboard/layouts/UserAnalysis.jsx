@@ -1,18 +1,7 @@
-const UserAnalysis = ({ usersData }) => {
-    const counts = usersData.reduce(
-        (acc, user) => {
-            if (user.accountType === "Customer") {
-                acc.customers++;
-            } else if (user.accountType === "Vendor") {
-                acc.vendors++;
-            }
-            return acc;
-        },
-        { customers: 0, vendors: 0 }
-    );
+const UserAnalysis = ({ usersLength, vendorsLength }) => {
 
-    const percentageCustomers = counts.customers / (counts.customers + counts.vendors) * 100 || 0;
-    const percentageVendors = counts.vendors / (counts.vendors + counts.customers) * 100 || 0;
+    const percentageCustomers = usersLength / (usersLength + vendorsLength) * 100 || 0;
+    const percentageVendors = vendorsLength / (vendorsLength + usersLength) * 100 || 0;
 
 
     return (
