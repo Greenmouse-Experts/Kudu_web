@@ -5,7 +5,6 @@ import Loader from "../../components/Loader";
 import useApiMutation from "../../api/hooks/useApiMutation";
 import { useNavigate, useParams } from "react-router-dom";
 import { currencyFormat, formatString } from "../../helpers/helperFactory";
-import DOMPurify from "dompurify";
 import { getDateDifference } from "../../helpers/dateHelper";
 import useAppState from "../../hooks/appState";
 import { toast } from "react-toastify";
@@ -16,11 +15,8 @@ import { sendMessage } from "../../api/message";
 import ProductReview from "./productReviews";
 import { useAddToCart } from "../../api/cart";
 import { Bookmark } from "lucide-react";
+import SafeHTML from "../../helpers/safeHTML";
 
-function SafeHTML({ htmlContent }) {
-  const cleanHTML = DOMPurify.sanitize(htmlContent);
-  return <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />;
-}
 
 export default function ViewProduct() {
   const [bookmarked, setBookmarked] = useState(false);

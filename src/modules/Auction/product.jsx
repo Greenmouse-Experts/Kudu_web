@@ -13,6 +13,8 @@ import InterestParticipate from "./layouts/interestParticipate"
 export default function ViewAuctionProduct() {
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
+    const [bidders, setBidders] = useState([]);
+    const [currentBid, setCurrentBid] = useState(null);
 
     const { id } = useParams();
 
@@ -27,6 +29,33 @@ export default function ViewAuctionProduct() {
             hideToast: true,
             onSuccess: (response) => {
                 setProduct(response.data.data);
+                getAuctionBidders();
+            },
+            onError: () => {
+                setLoading(false)
+            },
+        });
+    }
+
+
+
+
+    const getAuctionBidders = () => {
+        mutate({
+            url: `/user/auction/product/bidders?auctionproductId=${id}`,
+            method: 'GET',
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setBidders(response.data.data.bids);
+                if (response.data.data.bids && response.data.data.bids.length > 0) {
+                    const latestBid = response.data.data.bids.reduce((max, bid) => {
+                        const currentAmount = parseFloat(bid.bidAmount);
+                        const maxAmount = parseFloat(max.bidAmount);
+                        return currentAmount > maxAmount ? bid : max;
+                    }, response.data.data.bids[0]);
+                    setCurrentBid(latestBid.bidAmount)
+                }
                 setLoading(false);
             },
             onError: () => {
@@ -34,6 +63,8 @@ export default function ViewAuctionProduct() {
             },
         });
     }
+
+
 
     useEffect(() => {
         getProduct();
@@ -144,7 +175,7 @@ export default function ViewAuctionProduct() {
 
                                 {/* Last Div */}
                                 <div className="flex-1 md:flex-[0_0_25%] rounded-md h-full">
-                                    <BidInformation content={product} />
+                                    <BidInformation content={product} currentBid={currentBid} />
                                     <InterestParticipate content={product} reload={getProduct} />
                                     <SalesInformation content={product} />
                                 </div>

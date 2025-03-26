@@ -345,7 +345,7 @@ const AddNewStore = () => {
                                             type="text"
                                             id="monday_friday"
                                             {...register("monday_friday", { required: "Business Hours are required" })}
-                                            placeholder="Start Time and End Time"
+                                            placeholder="9am - 5pm"
                                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
@@ -363,7 +363,7 @@ const AddNewStore = () => {
                                             type="text"
                                             id="saturday"
                                             {...register("saturday", { required: "Business Hours are required" })}
-                                            placeholder="Start Time and End Time"
+                                            placeholder="9am - 5pm"
                                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
@@ -381,7 +381,7 @@ const AddNewStore = () => {
                                             type="text"
                                             id="sunday"
                                             {...register("sunday", { required: "Business Hours are required" })}
-                                            placeholder="Start Time and End Time"
+                                            placeholder="9am - 5pm"
                                             className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
@@ -436,13 +436,13 @@ const AddNewStore = () => {
                                                 className="block text-md font-semibold mb-3"
                                                 htmlFor="email"
                                             >
-                                                Arrival Day
+                                                Delivery Timeline
                                             </label>
                                             <input
                                                 type="text"
                                                 id="arrival_day"
-                                                {...register(`arrival_day${index}`, { required: "Arrival day is required" })}
-                                                placeholder="Enter arrival day"
+                                                {...register(`arrival_day${index}`, { required: "Delivery Timeline is required" })}
+                                                placeholder="Enter Delivery Timeline"
                                                 className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                                 required
