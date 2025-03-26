@@ -18,6 +18,25 @@ export default function UpdatedKYC() {
 
   const [updatedKYC] = useUpdateKycMutation();
 
+  const cardOptions = [
+    {
+      id: 'NIN',
+      name: 'NIN'
+    },
+    {
+      id: 'International Passport',
+      name: 'International Passport'
+    },
+    {
+      id: "Voter's Card",
+      name: "Voter's Card"
+    },
+    {
+      id: "Drivers Licence",
+      name: "Drivers Licence"
+    }
+  ]
+
   const {
     register,
     handleSubmit,
@@ -158,14 +177,13 @@ export default function UpdatedKYC() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-3">Business Link</label>
+              <label className="block text-sm font-medium mb-3">Business Link (Optional)</label>
               <input
                 type="text"
                 name="businessLink"
                 style={{ outline: "none", }}
                 className="border rounded p-2 w-full"
-                {...register("businessLink", { required: "Business link is required" })}
-                required
+                {...register("businessLink")}
               />
             </div>
 
@@ -200,20 +218,24 @@ export default function UpdatedKYC() {
             <div className='flex justify-between'>
               <div className='w-[49%]'>
                 <label className="block text-sm font-medium mb-3">Card Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  style={{ outline: "none", }}
-                  className="border rounded p-2 w-full"
-                  {...register("name", { required: "Name is required" })}
+                <select
+                  {...register("name", { required: "Card Name is required" })}
+                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                  style={{ outline: "none" }}
                   required
-                />
+                >
+                  <option value={null} disabled selected>Select Card</option>
+                  {cardOptions.map((card) => (
+                    <option value={card.id} key={card.id}>{card.name}</option>
+
+                  ))}
+                </select>
               </div>
 
               <div className='w-[49%]'>
                 <label className="block text-sm font-medium mb-3">Card Number</label>
                 <input
-                  type="number"
+                  type="text"
                   name="number"
                   style={{ outline: "none", }}
                   className="border rounded p-2 w-full"
@@ -225,8 +247,8 @@ export default function UpdatedKYC() {
           </div>
         </div>
 
-        <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff" size={5} /> : 
-        user.isVerified ?  "Update" : "Submit"}</button>
+        <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff" size={5} /> :
+          user.isVerified ? "Update" : "Submit"}</button>
       </form>
     </div>
   );
