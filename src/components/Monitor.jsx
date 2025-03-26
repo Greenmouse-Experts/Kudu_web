@@ -48,13 +48,11 @@ const Monitor = ({ auctionProductId, currency }) => {
 
     // Listen for new bids
     const handleNewBid = (data) => {
-      console.log("New bid received:", data);
       setCurrentBid(data.bidAmount);
     };
 
     // Listen for auction end
     const handleAuctionEnd = (data) => {
-      console.log("Auction ended:", data);
       setAuctionStatus("Auction Ended 🚫");
       setWinner(data.winner ? `${data.winner.firstName} ${data.winner.lastName}` : "No Winner");
       setWinningBid(data.winningBid);

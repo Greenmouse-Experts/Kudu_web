@@ -1,14 +1,18 @@
 import { Button } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { getTimeLeft } from "../../../helpers/dateHelper";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
+import { useSocket } from "../../../store/SocketContext";
 
-const BidInformation = ({ content }) => {
+const BidInformation = ({ content, currentBid }) => {
+    const socket = useSocket();
+
     const timeLeft = content.auctionStatus === 'upcoming' ? content.startDate : content.endDate;
     const getTimeLeftData = getTimeLeft(timeLeft);
     const [isLoading, setIsLoading] = useState(false);
+    const [currentBidAmt, setCurrentBid] = useState(currentBid);
 
     const { mutate } = useApiMutation();
 
@@ -41,6 +45,27 @@ const BidInformation = ({ content }) => {
             },
         });
     };
+
+
+
+
+    useEffect(() => {
+        if (!socket) return;
+
+        // Join the auction room
+        socket.emit("joinAuction", content.id);
+
+        // Listen for new bids
+        const handleNewBid = (data) => {
+            setCurrentBid(data.bidAmount);
+        };
+
+        socket.on("newBid", handleNewBid);
+
+        return () => {
+            socket.off("newBid", handleNewBid);
+        };
+    }, [socket, content.id]);
 
 
 
@@ -79,7 +104,7 @@ const BidInformation = ({ content }) => {
                     <>
                         <div className="flex justify-between py-2 border-b border-gray-300">
                             <span className="font-medium">Current Bid:</span>
-                            <span className="font-[500]">{'---'}</span>
+                            <span className="font-[500]">{content.store.currency.symbol} {currentBidAmt}</span>
                         </div>
                         <form
                             onSubmit={handleSubmit(onSubmit)}
