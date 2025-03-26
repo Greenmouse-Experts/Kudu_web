@@ -10,6 +10,7 @@ import { Country } from "country-state-city";
 import { Link, useNavigate } from "react-router-dom";
 import { paystackKey } from "../../../config/paymentKeys";
 import DollarPaymentButton from "../../../components/DollarPaymentButton";
+import { formatNumberWithCommas } from "../../../helpers/helperFactory";
 
 const CartSummary = ({ cart, refetch }) => {
     const currency = useGeoLocatorCurrency();
@@ -165,13 +166,13 @@ const CartSummary = ({ cart, refetch }) => {
                     ipInfo.currency_name === 'Naira' ?
                         <PaymentButton disabled={cart.length === 0} config={config} user={user} onSuccess={onSuccess} onClose={onClose}>
                             <span className="text-sm font-[500] normal-case">
-                                Checkout ₦{totalPrice}
+                                Checkout ₦{formatNumberWithCommas(totalPrice)}
                             </span>
                         </PaymentButton>
                         :
                         <DollarPaymentButton amount={totalPrice}>
                             <span className="text-sm font-[500] normal-case">
-                                Checkout ${totalPrice}
+                                Checkout ${formatNumberWithCommas(totalPrice)}
                             </span>
                         </DollarPaymentButton>
                     :

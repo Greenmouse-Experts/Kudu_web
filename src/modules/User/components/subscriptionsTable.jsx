@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import useAppState from '../../../hooks/appState';
 import DollarPaymentButton from '../../../components/DollarPaymentButton';
 import { paystackKey } from '../../../config/paymentKeys';
+import { formatNumberWithCommas } from '../../../helpers/helperFactory';
 
 const SubscriptionTable = ({ data, refetch }) => {
     const { ipInfo } = useAppState();
@@ -124,7 +125,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                             <div
                                 className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
                             >
-                                {plan.price}
+                                {formatNumberWithCommas(plan.price)}
                             </div>
                         </div>
                         <div className="">
@@ -226,7 +227,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                                         <td className="py-6 px-4 text-left">{index + 1}</td>
                                         <td className="py-6 px-4 text-left">{plan.name}</td>
                                         <td className="py-6 px-4 text-left">Vendors</td>
-                                        <td className="py-6 px-4 text-left">{plan.currency?.symbol} {plan.price}</td>
+                                        <td className="py-6 px-4 text-left">{plan.currency?.symbol} {formatNumberWithCommas(plan.price)}</td>
                                         <td className="py-6 px-4 text-left">{plan.duration} month(s)</td>
                                         <td className="py-6 px-4 text-left">
                                             <span

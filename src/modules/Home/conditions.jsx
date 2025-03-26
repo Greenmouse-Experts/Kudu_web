@@ -85,7 +85,7 @@ const Conditions = () => {
             description:
                 "<ul>" +
                 "<li>Buyers and sellers are encouraged to resolve disputes amicably. If disputes cannot be resolved, contact our support team for assistance via email, phone calls, or messaging.</li>" +
-                "<li>Kudu Mart reserves the right to mediate and make final decisions on disputes with resolution timeline which shall not be less than 90 days effective from the date first sat except otherwise agreed by the parties.</li>" +
+                "<li>Kudu Mart reserves the right to mediate and make final decisions on disputes with resolution timeline which shall not be less than 30 days effective from the date first sat except otherwise agreed by the parties.</li>" +
                 "</ul>"
         },
         {

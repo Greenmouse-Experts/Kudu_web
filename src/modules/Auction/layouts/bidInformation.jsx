@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import { useSocket } from "../../../store/SocketContext";
+import { formatNumberWithCommas } from "../../../helpers/helperFactory";
 
 const BidInformation = ({ content, currentBid }) => {
     const socket = useSocket();
@@ -98,13 +99,13 @@ const BidInformation = ({ content, currentBid }) => {
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-300">
                     <span className="font-medium">Price:</span>
-                    <span className="capitalize">{content.store.currency.symbol} {content.price}</span>
+                    <span className="capitalize">{content.store.currency.symbol} {formatNumberWithCommas(content.price)}</span>
                 </div>
                 {content.interest && content.auctionStatus === 'ongoing' ?
                     <>
                         <div className="flex justify-between py-2 border-b border-gray-300">
                             <span className="font-medium">Current Bid:</span>
-                            <span className="font-[500]">{content.store.currency.symbol} {currentBidAmt}</span>
+                            <span className="font-[500]">{content.store.currency.symbol} {formatNumberWithCommas(currentBidAmt)}</span>
                         </div>
                         <form
                             onSubmit={handleSubmit(onSubmit)}

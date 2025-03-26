@@ -49,9 +49,11 @@ export default function ViewAuctionProduct() {
             onSuccess: (response) => {
                 setBidders(response.data.data.bids);
                 if (response.data.data.bids && response.data.data.bids.length > 0) {
-                    const latestBid = response.data.data.bids.reduce((latest, bid) => 
-                        new Date(bid.createdAt) > new Date(latest.createdAt) ? bid : latest, response.data.data.bids[0]
-                    );
+                    const latestBid = response.data.data.bids.reduce((max, bid) => {
+                        const currentAmount = parseFloat(bid.bidAmount);
+                        const maxAmount = parseFloat(max.bidAmount);
+                        return currentAmount > maxAmount ? bid : max;
+                    }, response.data.data.bids[0]);
                     setCurrentBid(latestBid.bidAmount)
                 }
                 setLoading(false);
