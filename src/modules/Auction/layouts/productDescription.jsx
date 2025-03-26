@@ -1,11 +1,6 @@
 import React from "react";
-import DOMPurify from "dompurify";
+import SafeHTML from "../../../helpers/safeHTML";
 
-
-function SafeHTML({ htmlContent }) {
-  const cleanHTML = DOMPurify.sanitize(htmlContent);
-  return <div dangerouslySetInnerHTML={{ __html: cleanHTML }} />;
-}
 
 
 const ProductDescription = ({description, specifications}) => {

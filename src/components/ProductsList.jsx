@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatNumberWithCommas } from "../helpers/helperFactory";
 
 const ProductListing = ({ productsArr, displayError = false, rowNo=6 }) => {
     const filteredProducts = productsArr;
@@ -22,7 +23,7 @@ const ProductListing = ({ productsArr, displayError = false, rowNo=6 }) => {
                                 </div>
                                 <div className="p-3 w-full">
                                     <h3 className="text-base font-medium mt-1 leading-loose truncate whitespace-nowrap overflow-hidden w-full">{item.name}</h3>
-                                    <p className="text-sm font-semibold leading-loose">{item.store.currency.symbol} {item.price}</p>
+                                    <p className="text-sm font-semibold leading-loose">{item.store.currency.symbol} {formatNumberWithCommas(item.price)}</p>
                                     <button
                                         className={`absolute top-2 right-0 px-2 py-1 text-xs rounded font-meduim text-white ${item?.vendor?.isVerified ? "bg-green-500" : item.admin ? "bg-green-500" : "bg-red-500"
                                             }`}

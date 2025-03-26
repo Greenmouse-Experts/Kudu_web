@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
+import { formatNumberWithCommas } from "../../../helpers/helperFactory";
 
 const CartItem = ({ item, removeFromCart, refetch }) => {
     const [disabled, setDisabled] = useState(false);
@@ -88,10 +89,7 @@ const CartItem = ({ item, removeFromCart, refetch }) => {
                     <div className="flex flex-col items-center gap-4 md:ml-10">
                         <div>
                             <p className="font-bold text-lg text-black">
-                                {item.product.store.currency.symbol} {item.product.price.toLocaleString("en-NG", {
-                                    style: "currency",
-                                    currency: "NGN",
-                                })}
+                                {item.product.store.currency.symbol} {formatNumberWithCommas(item.product.price)}
                             </p>
                             {/*<p className="line-through text-gray-500 md:text-right">
                                 {item.product.discount_price.toLocaleString("en-NG", {

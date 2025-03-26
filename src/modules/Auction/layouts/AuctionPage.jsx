@@ -4,6 +4,7 @@ import useAppState from "../../../hooks/appState";
 import { useModal } from "../../../hooks/modal";
 import Modal from "../../../components/Modal";
 import { useGeoLocatorProduct } from "../../../hooks/geoLocatorProduct";
+import { formatNumberWithCommas } from "../../../helpers/helperFactory";
 
 const AuctionPage = ({ auctions, hideHeader }) => {
   const [activeTab, setActiveTab] = useState("popular");
@@ -109,8 +110,8 @@ const AuctionPage = ({ auctions, hideHeader }) => {
 
                   {/* Current Bid */}
                   <p className="text-base font-bold mt-3 text-green-600">
-                    <small className="text-black">Current Bid:</small>{" "}
-                    {auction.store.currency.symbol} {auction.price}
+                    <small className="text-black">Auction Price:</small> <br />
+                    {auction.store.currency.symbol} {formatNumberWithCommas(auction.price)}
                   </p>
 
                   {/* Location */}
