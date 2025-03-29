@@ -2,6 +2,7 @@ import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
 import { useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
+import { formatNumberWithCommas } from '../helpers/helperFactory';
 
 const SubscriptionTable = ({data}) => {
     const navigate = useNavigate();
@@ -41,7 +42,7 @@ const SubscriptionTable = ({data}) => {
                                         <td className="py-6 px-4 text-left">{index + 1}</td>
                                         <td className="py-6 px-4 text-left">{plan.name}</td>
                                         <td className="py-6 px-4 text-left">Vendors</td>
-                                        <td className="py-6 px-4 text-left">{plan.currency ? plan.currency.symbol : '₦'} {plan.price}</td>
+                                        <td className="py-6 px-4 text-left">{plan.currency ? plan.currency.symbol : '₦'} {formatNumberWithCommas(plan.price)}</td>
                                         <td className="py-6 px-4 text-left">{plan.duration} month(s)</td>
                                         <td className="py-6 px-4 text-left">
                                             <span
