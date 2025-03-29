@@ -52,7 +52,7 @@ const Conditions = () => {
             title: "Refund and Return Policy",
             description:
                 "<ul>" +
-                "<li>We offer a 30-day money-back guarantee for eligible purchases made via its platform.</li>" +
+                "<li>We offer a 7-days money-back guarantee for eligible purchases made via its platform.</li>" +
                 "<li>Refunds are processed within 5-7 business days after approval.</li>" +
                 "<li>Return shipping costs are borne by the buyer or seller, depending on the nature of the return.</li>" +
                 "</ul>"

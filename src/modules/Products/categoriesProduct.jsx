@@ -83,7 +83,7 @@ const CategoriesProduct = () => {
                             <Loader />
                         </div>
                         :
-                        <div className="w-full flex mt-20">
+                        <div className="w-full flex mt-20 md:mt-10">
                             <ProductListing data={products} subCategoriesArr={categoriesArr} selectedCategory={name} />
                         </div>
                     }
