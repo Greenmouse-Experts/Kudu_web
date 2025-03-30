@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { SocketProvider } from "./store/SocketContext.jsx";
 import IPInfo from "ip-info-react";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <SocketProvider>
         <IPInfo>
-          <App />
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_LOGIN}>
+            <App />
+          </GoogleOAuthProvider>
         </IPInfo>
       </SocketProvider>
       <ReactQueryDevtools initialIsOpen={false} />

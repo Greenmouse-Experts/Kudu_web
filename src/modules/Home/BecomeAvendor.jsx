@@ -2,8 +2,11 @@ import { useState } from "react";
 import "../Home/components/style.css";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAppState from "../../hooks/appState";
 
 export default function BecomeAvendor() {
+    const { user } = useAppState();
+
     const steps = [
         {
             id: 1,
@@ -86,8 +89,13 @@ export default function BecomeAvendor() {
                             Join us now to get started!
                         </p>
                         <button className="mt-5 bg-[#FF6F22] text-white px-6 py-3 rounded-md hover:bg-orange-700 transition w-full md:w-auto">
-                            <Link
-                                to="/sign-up"> List A Product</Link>
+                            {user ?
+                                <Link
+                                    to="/profile/products"> List A Product</Link>
+                                :
+                                <Link
+                                    to="/sign-up"> List A Product</Link>
+                            }
 
                         </button>
                     </div>
