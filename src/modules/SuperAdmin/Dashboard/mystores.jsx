@@ -46,7 +46,7 @@ const App = () => {
                     <Loader />
                 </div>
             ) : (
-                <MyStores data={storesData} />
+                <MyStores data={storesData} refetch={() => fetchData()} />
             )
             }
         </div>
