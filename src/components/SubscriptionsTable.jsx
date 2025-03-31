@@ -3,9 +3,27 @@ import { dateFormat } from '../helpers/dateHelper';
 import { useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
 import { formatNumberWithCommas } from '../helpers/helperFactory';
+import DeleteModal from './DeleteModal';
+import { useModal } from '../hooks/modal';
 
-const SubscriptionTable = ({data}) => {
+const SubscriptionTable = ({data, refetch}) => {
     const navigate = useNavigate();
+    const { openModal } = useModal();
+
+
+    const handleRedirect = () => {
+        refetch();
+    };
+
+
+    const handleDeleteModal = (id) => {
+        openModal({
+            size: "sm",
+            content: <DeleteModal title={'Do you wish to delete this subscription?'} redirect={handleRedirect}
+                api={`/admin/subscription/plan/delete?planId=${id}`} />
+        })
+    }
+
     return (
         <>
             <div className='All'>
@@ -69,6 +87,11 @@ const SubscriptionTable = ({data}) => {
                                                     <MenuItem className="flex flex-col gap-3">
                                                         <span className="cursor-pointer w-full" onClick={() => navigate(`edit/${plan.name}`)}>
                                                             Edit
+                                                        </span>
+                                                    </MenuItem>
+                                                    <MenuItem className="flex flex-col gap-3">
+                                                        <span className="cursor-pointer" onClick={() => handleDeleteModal(plan.id)}>
+                                                            Delete
                                                         </span>
                                                     </MenuItem>
                                                 </MenuList>
