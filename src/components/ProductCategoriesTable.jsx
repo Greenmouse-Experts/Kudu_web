@@ -2,9 +2,28 @@ import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
 import { useNavigate } from 'react-router-dom';
 import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react';
+import { useModal } from '../hooks/modal';
+import DeleteModal from './DeleteModal';
 
-const ProductCategoriesTable = ({ data }) => {
+const ProductCategoriesTable = ({ data, refetch }) => {
     const navigate = useNavigate();
+    const { openModal } = useModal();
+
+
+    const handleRedirect = () => {
+        refetch();
+    };
+
+
+    const handleDeleteModal = (id) => {
+        openModal({
+            size: "sm",
+            content: <DeleteModal title={'Do you wish to delete this category?'} redirect={handleRedirect}
+                api={`/admin/categories?categoryId=${id}`} />
+        })
+    }
+
+
 
     return (
         <>
@@ -64,6 +83,11 @@ const ProductCategoriesTable = ({ data }) => {
                                                     <MenuItem className="flex flex-col gap-3">
                                                         <span className="cursor-pointer" onClick={() => navigate(`edit/${plan.id}`)}>
                                                             Edit
+                                                        </span>
+                                                    </MenuItem>
+                                                    <MenuItem className="flex flex-col gap-3">
+                                                        <span className="cursor-pointer" onClick={() => handleDeleteModal(plan.id)}>
+                                                            Delete
                                                         </span>
                                                     </MenuItem>
                                                 </MenuList>
