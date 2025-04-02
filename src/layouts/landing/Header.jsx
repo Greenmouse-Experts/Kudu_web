@@ -293,7 +293,7 @@ export default function Header({ openMenu }) {
         </div>
       </div>
 
-      <div className="bg-white fixed w-full z-[95] Desk">
+      <div className="bg-white fixed w-full z-[95] Desk border-b-2">
         <div className="w-full flex items-center justify-between">
           {/* Mobile Navigation Toggle */}
           <div className="md:hidden">

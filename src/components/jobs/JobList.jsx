@@ -115,9 +115,8 @@ const JobList = ({ data, refetch }) => {
                 </div>
                 <div>
                   <p
-                    className={`capitalize text-white w-fit rounded-md px-2 py-[2px]  ${
-                      job.status === "active" ? "bg-green-800" : "bg-red-700"
-                    }`}
+                    className={`capitalize text-white w-fit rounded-md px-2 py-[2px]  ${job.status === "active" ? "bg-green-800" : "bg-red-700"
+                      }`}
                   >
                     {job.status}
                   </p>
@@ -147,6 +146,16 @@ const JobList = ({ data, refetch }) => {
                     Repost Job
                   </button>
                 )}
+
+                <div className="flex w-full">
+                  <Link
+                    className="border w-full mt-4 py-4 flex justify-center rounded-lg text-sm hover:bg-gray-100"
+                    to={`applicants/${job.id}`}
+                  >
+                    View Job Applicants
+                  </Link>
+                </div>
+
                 <div className="flex items-center gap-3 absolute right-2 top-2">
                   <FaRegEdit
                     color="blue"

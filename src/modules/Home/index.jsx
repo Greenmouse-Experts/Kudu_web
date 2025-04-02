@@ -12,6 +12,8 @@ import TrendingProducts from "./components/TrendingProducts";
 import CategoriesSection from "./components/CategoriesSection";
 import ProductConditions from "./components/ProductConditions";
 import AuctionPage from "../Auction/layouts/AuctionPage";
+import { useGetJobClient } from "../../api/jobs";
+import TrendingJobs from "./components/TrendingJobs";
 
 
 export default function NewHome() {
@@ -23,6 +25,8 @@ export default function NewHome() {
     const [trendingProducts, setTrendingProducts] = useState([]);
     const [ads, setAds] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const { data: jobs, isLoading } = useGetJobClient();
 
 
     const colorMap = [
@@ -185,7 +189,7 @@ export default function NewHome() {
                             <TrendingProducts productsArr={trendingProducts.slice(0, 12)} ads={ads.slice(4, 8)} />
                         )}
                     </div>
-                    <div className="w-full lg:flex md:flex gap-3 md:mt-3">
+                    {/* <div className="w-full lg:flex md:flex gap-3 md:mt-3">
                         {loading ? (
                             <div className="w-full h-screen flex items-center justify-center">
                                 <Loader />
@@ -194,7 +198,19 @@ export default function NewHome() {
                             <AuctionPage auctions={auctionProducts.slice(0, 12)} />
                         )
                         }
+                    </div> */}
+
+                    <div className="w-full lg:flex md:flex gap-3 md:mt-3">
+                        {isLoading ? (
+                            <div className="w-full h-screen flex items-center justify-center">
+                                <Loader />
+                            </div>
+                        ) : (
+                            <TrendingJobs jobs={jobs.slice(0, 12)} />
+                        )
+                        }
                     </div>
+
                     <div className="w-full lg:flex md:flex flex-col gap-3 md:mt-3">
                         <div className="bg-[#615353] w-full flex justify-between p-6 rounded-md cursor-pointer">
                             <h2 className="text-lg text-white font-semibold">Explore by Product Conditions</h2>
