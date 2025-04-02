@@ -39,6 +39,7 @@ import CustomerOrders from "../modules/SuperAdmin/Dashboard/customerOrders.jsx";
 import OrderDetails from "../modules/SuperAdmin/Dashboard/ViewOrders.jsx";
 import WithdrawalRequest from "../modules/SuperAdmin/Dashboard/withdrawalRequest.jsx";
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
+import JobApplicants from "../modules/SuperAdmin/Dashboard/jobsApplicants.jsx";
 
 export const adminRoutes = [
     {
@@ -203,6 +204,10 @@ export const adminRoutes = [
                 path: "jobs",
                 element: <Jobs />
             },
+            {
+                path: "jobs/applicants/:id",
+                element: <JobApplicants />
+            }
         ],
     },
 ];

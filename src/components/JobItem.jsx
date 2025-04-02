@@ -15,7 +15,7 @@ const JobItem = ({ job }) => {
 
       <div
         className="text-sm text-gray-700 leading-loose"
-        dangerouslySetInnerHTML={{ __html: job?.description.slice(0, 200) }}
+        dangerouslySetInnerHTML={{ __html: `${job?.description.slice(0, 200)}...` }}
       ></div>
 
       <button className="border w-full mt-4 py-4 rounded-lg text-sm hover:bg-gray-100">
