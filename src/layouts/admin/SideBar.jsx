@@ -16,6 +16,7 @@ const Sidebar = () => {
         users: false,
         products: false,
         pages: false,
+        jobs: false,
     });
     const { openModal } = useModal();
     const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Sidebar = () => {
             users: type === 'users' ? !prevState.users : false,
             products: type === 'products' ? !prevState.products : false,
             pages: type === 'pages' ? !prevState.pages : false,
+            jobs: type === 'jobs' ? !prevState.jobs : false,
         }));
     };
 
@@ -210,7 +212,7 @@ const Sidebar = () => {
                         </div>
 
                         <div className='relative'>
-                            <button onClick={() => handleChildren('pages')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
+                            <button onClick={() => handleChildren('jobs')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
                                 <FaLaptop className="mr-5" size={20} />
                                 <span className="text-md font-[600]">Jobs</span>
                                 <i className="ml-5 right-0">
@@ -219,12 +221,9 @@ const Sidebar = () => {
                                     </svg>
                                 </i>
                             </button>
-                            {dropdownStates.pages && (
+                            {dropdownStates.jobs && (
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                                     <Link to={'jobs'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Jobs</Link>
-                                    <Link to={''} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">View Applicant</Link>
-
-
                                 </div>
                             )}
                         </div>
