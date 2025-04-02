@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { FaTimes } from "react-icons/fa";
 import Imgix from "react-imgix";
 import { useProductById } from "../../../../api/product";
 import { useSearchParams } from "react-router-dom";
@@ -10,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import EmojiPickerApp from "./EmojiPicker";
 import { useSocket } from "../../../../store/SocketContext";
+import useFileUpload from "../../../../api/hooks/useFileUpload";
 
 const ChatInterface = ({
   conversationId,
@@ -17,12 +19,19 @@ const ChatInterface = ({
   productId,
   selectedConversation,
 }) => {
+  const { uploadFiles, isLoadingUpload } = useFileUpload();
+
+  console.log(conversationId, "conversationId");
+
   const { user } = useAppState();
   const [text, setText] = useState("");
   const userId = user.id;
 
+  const [showFiles, setShowFiles] = useState([]);
+
   const socket = useSocket();
   const queryClient = useQueryClient();
+
 
   useEffect(() => {
     if (!socket) return;
@@ -32,8 +41,10 @@ const ChatInterface = ({
     socket.on("receiveMessage", (message) => {
       queryClient.invalidateQueries(["messages", conversationId]);
       refetch();
+      console.log(message, "message from socket");
     });
   }, [socket]);
+
 
   const chatContainerRef = useRef(null);
   const [showPicker, setShowPicker] = useState(false);
@@ -44,9 +55,9 @@ const ChatInterface = ({
   };
 
   const { mutate: sendText, isLoading: isSending } = sendMessage();
+
   const handleMessage = (e) => {
     e.preventDefault();
-    if (text !== "") {
       socket.emit("sendMessage", {
         productId: productId,
         receiverId:
@@ -55,13 +66,15 @@ const ChatInterface = ({
             : selectedConversation?.receiverId,
         content: text,
         userId: userId,
+        fileUrl: showFiles[0],
       });
-
       setText("");
+      setShowFiles('')
       queryClient.invalidateQueries(["messages", conversationId]);
       refetch();
-    }
   };
+
+
   const textRef = useRef();
   const { data: product, isLoading, error } = useProductById(productId);
   const {
@@ -69,6 +82,8 @@ const ChatInterface = ({
     isLoading: isGettingMessage,
     refetch,
   } = getMessage(conversationId);
+
+
   useEffect(() => {
     // Scroll to the bottom when new messages are added
     if (chatContainerRef.current) {
@@ -76,7 +91,36 @@ const ChatInterface = ({
         chatContainerRef.current.scrollHeight;
     }
   }, [message]);
-  if (isLoading || isGettingMessage) return <Loader />;
+
+
+
+  const fileInputRef = useRef(null);
+
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+
+  const handleUploadFiles = async (files) => {
+    const selectedFile = files;
+    await uploadFiles(selectedFile, (uploadedUrls) => {
+      setShowFiles(uploadedUrls);
+    });
+  }
+
+
+  const removeImage = (indexToRemove) => {
+    setShowFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+  };
+
+
+  if (isLoading || isGettingMessage) return (
+    <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-[1px] pt-20 bg-white relative border-l-2 overflow-auto">
+      <Loader />
+    </div>
+  );
+
 
   return (
     <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-[1px] bg-white relative border-l-2 overflow-auto">
@@ -176,16 +220,14 @@ const ChatInterface = ({
         {message?.message?.map((message) => (
           <div
             key={message.id}
-            className={`flex flex-col ${
-              message.userId === userId ? "items-end" : "items-start"
-            }`}
+            className={`flex flex-col ${message.userId === userId ? "items-end" : "items-start"
+              }`}
           >
             <div
-              className={`flex items-center gap-2 max-w-xs px-4 py-2 rounded-lg text-sm ${
-                message.userId === userId
-                  ? "bg-kuduOrange text-white"
-                  : "bg-[rgba(242,246,250,1)] text-black"
-              }`}
+              className={`flex items-center gap-2 max-w-xs px-4 py-2 rounded-lg text-sm ${message.userId === userId
+                ? "bg-kuduOrange text-white"
+                : "bg-[rgba(242,246,250,1)] text-black"
+                }`}
             >
               {message.type !== "outgoing" && (
                 <Imgix
@@ -200,7 +242,12 @@ const ChatInterface = ({
                 />
               )}
 
-              <p>{message.content}</p>
+              <div className="flex flex-col gap-1">
+                {message.fileUrl && <p>
+                  <img src={message.fileUrl} alt="file" className="w-40 h-40 object-cover rounded-md" />
+                </p>}
+                <p>{message.content}</p>
+              </div>
 
               {message.type === "outgoing" && (
                 <Imgix
@@ -223,6 +270,33 @@ const ChatInterface = ({
         ))}
       </div>
 
+      {(showFiles.length > 0 || isLoadingUpload) && (
+        <div className="flex items-center p-4 bg-white border-t-2 shadow-md">
+          {isLoadingUpload ? (
+            <Loader className="w-4 h-4" />
+          ) : (
+            <div className="grid grid-cols-3 gap-4 my-1">
+              {showFiles.map((fileObj, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={fileObj}
+                    alt="preview"
+                    className="w-full h-24 object-cover rounded"
+                  />
+                  <span
+                    onClick={() => removeImage(index)}
+                    className="absolute top-1 right-1 bg-white shadow-lg cursor-pointer text-black rounded-full p-1"
+                  >
+                    <FaTimes className="w-4 h-4" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+
       {/* Chat Input */}
       <div className="flex items-center p-4 bg-white border-t-2 shadow-md">
         <form
@@ -241,7 +315,7 @@ const ChatInterface = ({
           />
           <span className="flex w-1/4 px-5 gap-4 justify-end">
             <div className="flex gap-2 items-center">
-              {/**Attachment */}
+              {/**Attachment 
               <button className="p-1 bg-transparent">
                 <svg
                   width="12"
@@ -255,7 +329,7 @@ const ChatInterface = ({
                     fill="black"
                   />
                 </svg>
-              </button>
+              </button> */}
               {/**Emoji */}
               <EmojiPickerApp
                 textRef={textRef}
@@ -280,7 +354,7 @@ const ChatInterface = ({
                 </svg>
               </button> */}
               {/**Image & Video */}
-              <button className="p-1 bg-transparent">
+              <span className="p-1 bg-transparent" onClick={() => handleButtonClick()}>
                 <svg
                   width="15"
                   height="15"
@@ -293,9 +367,19 @@ const ChatInterface = ({
                     fill="black"
                   />
                 </svg>
-              </button>
+              </span>
+
+              {/* Hidden file input */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => handleUploadFiles(e.target.files)}
+              />
+
               {/** Send Button */}
-              {text !== "" && !isSending && (
+              {(text !== "" && !isSending) || showFiles.length > 0 ? (
                 <button
                   type="submit"
                   disabled={isSending}
@@ -303,7 +387,9 @@ const ChatInterface = ({
                 >
                   {isSending ? "Sending" : "Send"}
                 </button>
-              )}
+              )
+            :
+            <></>}
             </div>
           </span>
         </form>

@@ -9,8 +9,6 @@ import useAppState from "../../../../hooks/appState";
 export default function Messenger() {
   const { user } = useAppState();
 
-  const userId = user.id;
-
   const [selectedInterface, setSelectedInterface] = useState(null);
   // const socket = io("https://api.kudumart.com", {
   //   transports: ["websocket"],
@@ -64,6 +62,9 @@ export default function Messenger() {
     error,
   } = useConversation();
 
+
+  const renderedUser = selectedInterface?.receiverUser?.id === user?.id  ? selectedInterface?.senderUser : selectedInterface?.receiverUser;
+
   return (
     <>
       <div className="w-full flex justify-between md:shadow-lg md:py-5 py-3 bg-white px-6 gap-10 rounded-t-md">
@@ -88,14 +89,15 @@ export default function Messenger() {
         </div>
 
         <div className="md:w-[68%] h-full md:flex hidden justify-between items-center">
-          <span className="text-xs font-semibold flex flex-grow">
-            JPH Footwears
+          <span className="text-sm mt-1 font-semibold flex flex-grow">
+            {renderedUser?.firstName}{" "}
+            {renderedUser?.lastName}
           </span>
-          <span className="flex">
+         {/* <span className="flex">
             <Button className="px-4 rounded-md py-2 bg-[rgba(72,133,237,1)] text-white text-xs font-semibold">
               Show Contact
             </Button>
-          </span>
+          </span> */}
         </div>
       </div>
 
@@ -103,11 +105,13 @@ export default function Messenger() {
         <ChatSideBar
           setOpenedMessage={openInterface}
           conversations={conversations}
+          currentUser={user}
           isLoading={isGettingConversations}
         />
         {selectedInterface ? (
           <ChatInterface
             conversationId={selectedInterface.id}
+            currentUser={user}
             productId={selectedInterface.productId}
             selectedConversation={selectedInterface}
           />
@@ -123,6 +127,7 @@ export default function Messenger() {
             conversationId={selectedInterface.id}
             productId={selectedInterface.productId}
             selectedConversation={selectedInterface}
+            currentUser={user}
             interfaceData={selectedInterface}
             closeInterface={() => setSelectedInterface(null)}
           />
@@ -130,6 +135,7 @@ export default function Messenger() {
           <ChatSideBar
             conversations={conversations}
             setOpenedMessage={openInterface}
+            currentUser={user}
             isLoading={isGettingConversations}
           />
         )}
