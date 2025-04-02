@@ -3,9 +3,22 @@ import "../Home/components/style.css";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAppState from "../../hooks/appState";
+import { useModal } from "../../hooks/modal";
+import { useDispatch } from "react-redux";
+import { setKuduUser } from "../../reducers/userSlice";
+import SwitchVendorModal from "../User/components/switchVendor";
 
 export default function BecomeAvendor() {
     const { user } = useAppState();
+    const { openModal } = useModal();
+
+    const dispatch = useDispatch();
+
+    const handleRedirect = () => {
+        const updatedUser = { ...user, accountType: 'Vendor' };
+        dispatch(setKuduUser(updatedUser))
+        window.location.href = "/profile/products";
+    }
 
     const steps = [
         {
@@ -60,6 +73,23 @@ export default function BecomeAvendor() {
         setOpenIndex(openIndex === index ? null : index);
     };
 
+
+    const handleVendorModal = () => {
+        openModal({
+            size: 'sm',
+            content: <SwitchVendorModal redirect={handleRedirect}>
+                <div className='flex'>
+                    <p className='text-sm gap-2 leading-[1.7rem]'>
+                        Ready to grow your business? By switching to a vendor account,
+                        you'll unlock tools to showcase your products, manage sales, and connect with customers.
+                    </p>
+                </div>
+            </SwitchVendorModal>
+        })
+    }
+
+
+
     return (
         <>
             <div className="w-full flex flex-col">
@@ -90,8 +120,12 @@ export default function BecomeAvendor() {
                         </p>
                         <button className="mt-5 bg-[#FF6F22] text-white px-6 py-3 rounded-md hover:bg-orange-700 transition w-full md:w-auto">
                             {user ?
-                                <Link
-                                    to="/profile/products"> List A Product</Link>
+                                user?.accountType === "Vendor" ?
+                                    <Link
+                                        to="/profile/products"> List A Product</Link>
+                                    :
+                                    <span onClick={() => handleVendorModal()}>
+                                        List A Product</span>
                                 :
                                 <Link
                                     to="/sign-up"> List A Product</Link>
