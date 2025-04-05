@@ -220,7 +220,7 @@ export default function UpdatedKYC() {
                 <label className="block text-sm font-medium mb-3">Card Name</label>
                 <select
                   {...register("name", { required: "Card Name is required" })}
-                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                  className="w-full px-4 py-3 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                   style={{ outline: "none" }}
                   required
                 >
@@ -244,6 +244,21 @@ export default function UpdatedKYC() {
                 />
               </div>
             </div>
+
+            <div className='flex justify-between'>
+              <div className='w-[49%]'>
+                <label className="block text-sm font-medium mb-3">Card Expiration Date</label>
+                <input
+                  type="text"
+                  name="expiryDate"
+                  style={{ outline: "none", }}
+                  className="border rounded p-2 w-full"
+                  {...register("expiryDate", { required: "Card Expiry Date is required" })}
+                  required
+                />
+              </div>
+            </div>
+
           </div>
         </div>
 

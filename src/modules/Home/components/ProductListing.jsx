@@ -15,16 +15,16 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
     const { id } = useParams();
 
 
-    const { 
-        filteredProducts, 
-        isLoading, 
-        applyFilter, 
+    const {
+        filteredProducts,
+        isLoading,
+        applyFilter,
         clearFilter,
-        values, 
-        setValues, 
-        subCategoriesId, 
-        setSubCategoriesId 
-    } = useFilteredProducts(data, id); 
+        values,
+        setValues,
+        subCategoriesId,
+        setSubCategoriesId
+    } = useFilteredProducts(data, id);
 
 
 
@@ -62,11 +62,12 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
                 <h2 className="text-base font-semibold mb-4">Category</h2>
                 {categories && categories.length > 0 && (<div>
                     <ul>
-                        {categories.map(category => (
-                            <li key={category.id} className="mb-4" onClick={() => handleNavigation(category.id, category.name)}>
-                                <label htmlFor={category.id} className="text-base cursor-pointer w-full">{category.name}</label>
-                            </li>
-                        ))}
+                        {[...categories]
+                            .sort((a, b) => a.name.localeCompare(b.name)).map(category => (
+                                <li key={category.id} className="mb-4" onClick={() => handleNavigation(category.id, category.name)}>
+                                    <label htmlFor={category.id} className="text-base cursor-pointer w-full">{category.name}</label>
+                                </li>
+                            ))}
                     </ul>
                 </div>)}
                 {
@@ -79,18 +80,19 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
                     <div className="my-6">
                         <h3 className="font-semibold mb-4">Sub Category</h3>
                         <ul>
-                            {subCategories.map(category => (
-                                <li key={category.id} className="mb-4">
-                                    <input
-                                        type="radio"
-                                        id={category.id}
-                                        name="subcategory"
-                                        onChange={() => handleSelectedSubId(category.name)}
-                                        checked={subCategoriesId === category.name}
-                                    />
-                                    <label htmlFor={category.id} className="ml-2">{category.name}</label>
-                                </li>
-                            ))}
+                            {[...subCategories]
+                                .sort((a, b) => a.name.localeCompare(b.name)).map(category => (
+                                    <li key={category.id} className="mb-4">
+                                        <input
+                                            type="radio"
+                                            id={category.id}
+                                            name="subcategory"
+                                            onChange={() => handleSelectedSubId(category.name)}
+                                            checked={subCategoriesId === category.name}
+                                        />
+                                        <label htmlFor={category.id} className="ml-2">{category.name}</label>
+                                    </li>
+                                ))}
                         </ul>
                     </div>
                 )}
