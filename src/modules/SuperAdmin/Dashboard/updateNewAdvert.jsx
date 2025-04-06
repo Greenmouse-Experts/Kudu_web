@@ -28,7 +28,7 @@ const UpdateAdvert = () => {
     const onSubmit = (data) => {
         if (files.length > 0) {
             delete data.category;
-            const payload = { ...data, advertId: id, showOnHomepage: data.showOnHomepage === 'true', media_url: files[0] }
+            const payload = { ...data, advertId: id, showOnHomepage: data.showOnHomepage === 'true', media_url: files[0][0] };
             mutate({
                 url: "/admin/adverts",
                 method: "PUT",
@@ -224,7 +224,7 @@ const UpdateAdvert = () => {
                             <div className="w-full flex flex-col gap-2 mt-10">
                                 <div className="flex flex-col md:w-1/2 w-full gap-6">
                                     <p className="-mb-3 text-mobiFormGray">
-                                        Advert Image
+                                        Advert Image <i>(Recommended image size: 1309 × 384 pixels)</i>
                                     </p>
                                     <DropZone onUpload={handleDrop} text={'Upload an Image of Advert'} />
                                 </div>

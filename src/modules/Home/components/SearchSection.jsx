@@ -52,7 +52,9 @@ const MyComponent = ({ categories }) => {
                         </h3>
                         <ul
                             className={`flex flex-col max-h-[335px] custom-scrollbar overflow-y-auto py-3 px-4 gap-4`}>
-                                {categories.map((category, index) => (
+                            {[...categories]
+                                .sort((a, b) => a.name.localeCompare(b.name))
+                                .map((category, index) => (
                                     <li
                                         key={index}
                                         className="flex items-center text-[15px] font-medium gap-5 cursor-pointer"

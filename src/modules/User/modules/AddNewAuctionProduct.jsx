@@ -22,6 +22,7 @@ const AddNewAuctionProduct = () => {
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
     const [files, setFiles] = useState([]);
+    const [additionalFiles, setAdditionalFiles] = useState([]);
     const [btnDisabled, setDisabled] = useState(false);
 
     const conditions = [
@@ -49,6 +50,9 @@ const AddNewAuctionProduct = () => {
 
     const onSubmit = (data) => {
         setDisabled(true);
+        const concatenatedFiles = files.concat(additionalFiles);
+        const uniqueFiles = [...new Set(concatenatedFiles)];
+
         if (files.length > 0) {
             delete data.category;
             const payload = {
@@ -62,7 +66,7 @@ const AddNewAuctionProduct = () => {
                 participantsInterestFee: Number(data.participantsInterestFee),
                 description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
                 specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
-                additionalImages: files
+                additionalImages: uniqueFiles
             };
 
             mutate({
@@ -138,6 +142,21 @@ const AddNewAuctionProduct = () => {
         });
     };
 
+
+    const handleAdditionalDrop = (data) => {
+        // Ensure data is always an array
+        const newFiles = Array.isArray(data) ? data : [data];
+
+        setAdditionalFiles((prevFiles) => {
+            // Merge previous files and new ones, ensuring uniqueness
+            const updatedFiles = Array.from(new Set([...prevFiles, ...newFiles]));
+            return updatedFiles;
+        });
+    };
+
+    const handleRemoveAdditionalFile = (index) => {
+        setAdditionalFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+    };
 
     const getSubCategories = (categoryId) => {
         mutate({
@@ -442,11 +461,11 @@ const AddNewAuctionProduct = () => {
 
 
                             <div className="w-full flex flex-col gap-2">
-                                <div className="flex flex-col md:w-1/2 w-full gap-6">
+                                <div className="flex flex-col w-full gap-6">
                                     <p className="-mb-3 text-mobiFormGray">
-                                        Product Images
+                                        Main Product Image
                                     </p>
-                                    <DropZone onUpload={handleDrop} text={'Upload Images of Product'} />
+                                    <DropZone single onUpload={handleDrop} text={'Upload Main Image of Product'} />
                                 </div>
                                 <div className="grid grid-cols-3 gap-4 my-4">
                                     {files.map((fileObj, index) => (
@@ -458,6 +477,33 @@ const AddNewAuctionProduct = () => {
                                             />
                                             <span
                                                 onClick={() => removeImage(index)}
+                                                className="absolute top-1 right-1 bg-white shadow-lg text-black rounded-full p-1"
+                                            >
+                                                <FaTimes className="w-4 h-4" />
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+
+                            <div className="w-full flex flex-col gap-2">
+                                <div className="flex flex-col w-full gap-6">
+                                    <p className="-mb-3 text-mobiFormGray">
+                                        Additional Product Images <span className="text-sm text-gray-400">(You can upload 4 or 5 images)</span>
+                                    </p>
+                                    <DropZone onUpload={handleAdditionalDrop} text={'Upload Additional Images of Product'} />
+                                </div>
+                                <div className="grid grid-cols-3 gap-4 my-4">
+                                    {additionalFiles.map((fileObj, index) => (
+                                        <div key={index} className="relative">
+                                            <img
+                                                src={fileObj}
+                                                alt="preview"
+                                                className="w-full h-24 object-cover rounded"
+                                            />
+                                            <span
+                                                onClick={() => handleRemoveAdditionalFile(index)}
                                                 className="absolute top-1 right-1 bg-white shadow-lg text-black rounded-full p-1"
                                             >
                                                 <FaTimes className="w-4 h-4" />

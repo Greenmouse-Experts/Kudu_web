@@ -21,6 +21,7 @@ const AddNewProduct = () => {
     const [categories, setCategories] = useState([]);
     const [subCategories, setSubCategories] = useState([]);
     const [files, setFiles] = useState([]);
+    const [additionalFiles, setAdditionalFiles] = useState([]);
     const [btnDisabled, setDisabled] = useState(false);
 
     const conditions = [
@@ -50,12 +51,14 @@ const AddNewProduct = () => {
     const onSubmit = (data) => {
         setDisabled(true);
         if (files.length > 0) {
+            const concatenatedFiles = files.concat(additionalFiles);
+            const uniqueFiles = [...new Set(concatenatedFiles)];    
             delete data.category;
             const payload = {
                 ...data, image_url: files[0],
                 description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
                 specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
-                additional_images: files
+                additional_images: uniqueFiles
             };
 
             mutate({
@@ -132,6 +135,20 @@ const AddNewProduct = () => {
     };
 
 
+
+    const handleAdditionalDrop = (data) => {
+        // Ensure data is always an array
+        const newFiles = Array.isArray(data) ? data : [data];
+
+        setAdditionalFiles((prevFiles) => {
+            // Merge previous files and new ones, ensuring uniqueness
+            const updatedFiles = Array.from(new Set([...prevFiles, ...newFiles]));
+            return updatedFiles;
+        });
+    };
+
+
+    
     const getSubCategories = (categoryId) => {
         mutate({
             url: `/admin/categories/sub/categories`,
@@ -155,6 +172,11 @@ const AddNewProduct = () => {
 
     const removeImage = (indexToRemove) => {
         setFiles((prevFiles) => prevFiles.filter((_, index) => index !== indexToRemove));
+    };
+
+
+    const handleRemoveAdditionalFile = (index) => {
+        setAdditionalFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
     };
 
 
@@ -348,18 +370,17 @@ const AddNewProduct = () => {
                                     className="block text-md font-semibold mb-3"
                                     htmlFor="email"
                                 >
-                                    Discount Price
+                                    Discount Price (Optional)
                                 </label>
                                 <div className='flex gap-2'>
                                     <span className='flex flex-col justify-center'>{currency}</span>
                                     <input
                                         type="text"
                                         id="discount_price"
-                                        {...register("discount_price", { required: "Product Discount Price is required" })}
+                                        {...register("discount_price")}
                                         placeholder="Enter Discount Price"
                                         className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
-                                        required
                                     />
                                 </div>
                             </div>
@@ -404,11 +425,11 @@ const AddNewProduct = () => {
 
 
                             <div className="w-full flex flex-col gap-2">
-                                <div className="flex flex-col md:w-1/2 w-full gap-6">
+                                <div className="flex flex-col w-full gap-6">
                                     <p className="-mb-3 text-mobiFormGray">
-                                        Product Images
+                                        Main Product Image
                                     </p>
-                                    <DropZone onUpload={handleDrop} text={'Upload Images of Product'} />
+                                    <DropZone single onUpload={handleDrop} text={'Upload Main Image of Product'} />
                                 </div>
                                 <div className="grid grid-cols-3 gap-4 my-4">
                                     {files.map((fileObj, index) => (
@@ -428,6 +449,34 @@ const AddNewProduct = () => {
                                     ))}
                                 </div>
                             </div>
+
+
+                            <div className="w-full flex flex-col gap-2">
+                                <div className="flex flex-col w-full gap-6">
+                                    <p className="-mb-3 text-mobiFormGray">
+                                        Additional Product Images <span className="text-sm text-gray-400">(You can upload 4 or 5 images)</span>
+                                    </p>
+                                    <DropZone onUpload={handleAdditionalDrop} text={'Upload Additional Images of Product'} />
+                                </div>
+                                <div className="grid grid-cols-3 gap-4 my-4">
+                                    {additionalFiles.map((fileObj, index) => (
+                                        <div key={index} className="relative">
+                                            <img
+                                                src={fileObj}
+                                                alt="preview"
+                                                className="w-full h-24 object-cover rounded"
+                                            />
+                                            <span
+                                                onClick={() => handleRemoveAdditionalFile(index)}
+                                                className="absolute top-1 right-1 bg-white shadow-lg text-black rounded-full p-1"
+                                            >
+                                                <FaTimes className="w-4 h-4" />
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
 
 
                             {/* Submit Button */}

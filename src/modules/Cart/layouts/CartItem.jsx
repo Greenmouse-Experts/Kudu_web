@@ -88,9 +88,27 @@ const CartItem = ({ item, removeFromCart, refetch }) => {
                     {/* Pricing and Quantity */}
                     <div className="flex flex-col items-center gap-4 md:ml-10">
                         <div>
-                            <p className="font-bold text-lg text-black">
-                                {item.product.store.currency.symbol} {formatNumberWithCommas(item.product.price)}
-                            </p>
+                            {(() => {
+                                const price = parseFloat(item?.product.price);
+                                const discountPrice = parseFloat(item?.product.discount_price);
+                                const currencySymbol = item?.product?.store?.currency?.symbol || "₦";
+                                const hasValidDiscount = discountPrice > 0 && discountPrice < price;
+
+                                return hasValidDiscount ? (
+                                    <div className="flex flex-col mt-2">
+                                        <p className="text-lg font-bold leading-loose text-red-500 line-through">
+                                            {currencySymbol} {formatNumberWithCommas(price)}
+                                        </p>
+                                        <p className="text-lg font-bold leading-loose">
+                                            {currencySymbol} {formatNumberWithCommas(discountPrice)}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <p className="text-lg font-bold leading-loose">
+                                        {currencySymbol} {formatNumberWithCommas(price)}
+                                    </p>
+                                );
+                            })()}
                             {/*<p className="line-through text-gray-500 md:text-right">
                                 {item.product.discount_price.toLocaleString("en-NG", {
                                     style: "currency",
