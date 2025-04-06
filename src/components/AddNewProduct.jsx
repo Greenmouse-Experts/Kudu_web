@@ -348,18 +348,17 @@ const AddNewProduct = () => {
                                     className="block text-md font-semibold mb-3"
                                     htmlFor="email"
                                 >
-                                    Discount Price
+                                    Discount Price (Optional)
                                 </label>
                                 <div className='flex gap-2'>
                                     <span className='flex flex-col justify-center'>{currency}</span>
                                     <input
                                         type="text"
                                         id="discount_price"
-                                        {...register("discount_price", { required: "Product Discount Price is required" })}
+                                        {...register("discount_price")}
                                         placeholder="Enter Discount Price"
                                         className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
-                                        required
                                     />
                                 </div>
                             </div>

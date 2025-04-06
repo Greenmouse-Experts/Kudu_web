@@ -4,7 +4,7 @@ import Imgix from "react-imgix";
 import Loader from "../../components/Loader";
 import useApiMutation from "../../api/hooks/useApiMutation";
 import { useNavigate, useParams } from "react-router-dom";
-import { currencyFormat, formatString } from "../../helpers/helperFactory";
+import { currencyFormat, formatNumberWithCommas, formatString } from "../../helpers/helperFactory";
 import { getDateDifference } from "../../helpers/dateHelper";
 import useAppState from "../../hooks/appState";
 import { toast } from "react-toastify";
@@ -95,13 +95,13 @@ export default function ViewProduct() {
 
 
   const addToBookMark = () => {
-        mutate({
-          url: `/user/save/product`,
-          method: "POST",
-          headers: true,
-          data: {productId: id},
-          onSuccess: (response) => setBookmarked(true),
-        });
+    mutate({
+      url: `/user/save/product`,
+      method: "POST",
+      headers: true,
+      data: { productId: id },
+      onSuccess: (response) => setBookmarked(true),
+    });
   }
 
 
@@ -441,10 +441,27 @@ export default function ViewProduct() {
 
               <div className="lg:w-[35%] md:w-[45%] w-full flex flex-col gap-4">
                 <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
-                  <span className="md:text-2xl text-xl font-bold">
-                    {product.store.currency.symbol}{" "}
-                    {currencyFormat(product.price)}
-                  </span>
+                  {(() => {
+                    const price = parseFloat(product?.price);
+                    const discountPrice = parseFloat(product?.discount_price);
+                    const currencySymbol = product?.store?.currency?.symbol || "₦";
+                    const hasValidDiscount = discountPrice > 0 && discountPrice < price;
+
+                    return hasValidDiscount ? (
+                      <div className="flex flex-col mt-2">
+                        <p className="md:text-2xl text-xl font-bold text-red-500 line-through">
+                          {currencySymbol} {formatNumberWithCommas(price)}
+                        </p>
+                        <p className="md:text-2xl text-xl font-bold leading-loose">
+                          {currencySymbol} {formatNumberWithCommas(discountPrice)}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="md:text-2xl text-xl font-bold leading-loose">
+                        {currencySymbol} {formatNumberWithCommas(price)}
+                      </p>
+                    );
+                  })()}
                   {/* <Button
                                         type="submit"
                                         className="w-full py-2 px-4 flex justify-center gap-2 bg-transparent rounded-md border border-kuduOrange text-kuduOrange transition-colors"
@@ -626,8 +643,8 @@ export default function ViewProduct() {
                       <Button disabled={bookmarked} className="w-full text-white flex justify-center gap-3" onClick={() => addToBookMark()}>
                         <Bookmark color="rgba(255, 255, 255, 1)" size={18} />
                         <span className="text-sm font-semibold">
-                        {bookmarked ? 'Added to your saved list' : 'Add to your saved list'}
-                          </span>
+                          {bookmarked ? 'Added to your saved list' : 'Add to your saved list'}
+                        </span>
                       </Button>
                     </span>
                   </div>

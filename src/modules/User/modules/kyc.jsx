@@ -249,7 +249,7 @@ export default function UpdatedKYC() {
               <div className='w-[49%]'>
                 <label className="block text-sm font-medium mb-3">Card Expiration Date</label>
                 <input
-                  type="text"
+                  type="date"
                   name="expiryDate"
                   style={{ outline: "none", }}
                   className="border rounded p-2 w-full"

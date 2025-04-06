@@ -169,7 +169,27 @@ const ProductListing = ({ data, categories, subCategoriesArr, selectedCategory }
                                             <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
                                         </div>
                                         <h3 className="text-base font-medium mt-3 leading-loose truncate whitespace-nowrap overflow-hidden w-full">{product.name}</h3>
-                                        <p className="text-sm font-semibold leading-loose">{product.store.currency.symbol} {formatNumberWithCommas(product.price)}</p>
+                                        {(() => {
+                                            const price = parseFloat(product?.price);
+                                            const discountPrice = parseFloat(product?.discount_price);
+                                            const currencySymbol = product?.store?.currency?.symbol || "₦";
+                                            const hasValidDiscount = discountPrice > 0 && discountPrice < price;
+
+                                            return hasValidDiscount ? (
+                                                <div className="flex flex-col mt-2">
+                                                    <p className="text-sm font-semibold leading-loose text-red-500 line-through">
+                                                        {currencySymbol} {formatNumberWithCommas(price)}
+                                                    </p>
+                                                    <p className="text-sm font-semibold leading-loose">
+                                                        {currencySymbol} {formatNumberWithCommas(discountPrice)}
+                                                    </p>
+                                                </div>
+                                            ) : (
+                                                <p className="text-sm font-semibold leading-loose">
+                                                    {currencySymbol} {formatNumberWithCommas(price)}
+                                                </p>
+                                            );
+                                        })()}
                                         <button
                                             className={`absolute top-2 right-0 px-2 py-1 text-xs rounded font-medium text-white ${product.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"
                                                 }`}
