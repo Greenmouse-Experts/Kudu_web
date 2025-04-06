@@ -61,7 +61,7 @@ const PostNewAdvert = () => {
 
 
     const handleDrop = (data) => {
-        setFiles((prevFiles) => [...prevFiles, data]);
+        setFiles((prevFiles) => [data]);
     }
 
 
