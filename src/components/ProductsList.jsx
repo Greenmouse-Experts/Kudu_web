@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { formatNumberWithCommas } from "../helpers/helperFactory";
 
-const ProductListing = ({ productsArr, displayError = false, rowNo=6 }) => {
+const ProductListing = ({ productsArr, displayError = false, rowNo = 6 }) => {
     const filteredProducts = productsArr;
 
     const capitalizeEachWord = (str) => {
@@ -10,6 +10,8 @@ const ProductListing = ({ productsArr, displayError = false, rowNo=6 }) => {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(" ");
     };
+
+
 
     return (
         <div className="w-full">
@@ -23,7 +25,27 @@ const ProductListing = ({ productsArr, displayError = false, rowNo=6 }) => {
                                 </div>
                                 <div className="p-3 w-full">
                                     <h3 className="text-base font-medium mt-1 leading-loose truncate whitespace-nowrap overflow-hidden w-full">{item.name}</h3>
-                                    <p className="text-sm font-semibold leading-loose">{item.store.currency.symbol} {formatNumberWithCommas(item.price)}</p>
+                                    {(() => {
+                                        const price = parseFloat(item?.price);
+                                        const discountPrice = parseFloat(item?.discount_price);
+                                        const currencySymbol = item?.store?.currency?.symbol || "₦";
+                                        const hasValidDiscount = discountPrice > 0 && discountPrice < price;
+
+                                        return hasValidDiscount ? (
+                                            <div className="flex flex-col mt-2">
+                                                <p className="text-sm font-semibold leading-loose text-red-500 line-through">
+                                                    {currencySymbol} {formatNumberWithCommas(price)}
+                                                </p>
+                                                <p className="text-sm font-semibold leading-loose">
+                                                    {currencySymbol} {formatNumberWithCommas(discountPrice)}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <p className="text-sm font-semibold leading-loose">
+                                                {currencySymbol} {formatNumberWithCommas(price)}
+                                            </p>
+                                        );
+                                    })()}
                                     <button
                                         className={`absolute top-2 right-0 px-2 py-1 text-xs rounded font-meduim text-white ${item?.vendor?.isVerified ? "bg-green-500" : item.admin ? "bg-green-500" : "bg-red-500"
                                             }`}
