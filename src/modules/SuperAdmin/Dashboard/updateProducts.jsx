@@ -432,6 +432,29 @@ const UpdateProduct = () => {
                             </div>
 
 
+
+                            <div className='mt-4 mb-4'>
+                                <label
+                                    className="block text-md font-semibold mb-3"
+                                    htmlFor="email"
+                                >
+                                    Quantity Available
+                                </label>
+                                <div className='flex gap-2'>
+                                    <input
+                                        type="text"
+                                        id="price"
+                                        {...register("quantity", { required: "Product Quantity is required" })}
+                                        placeholder="Enter Product Quantity"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        style={{ outline: "none" }}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+
+                            
                             <div className='mb-4'>
                                 <label
                                     className="block text-md font-semibold mb-3"
