@@ -5,31 +5,39 @@ import { useParams } from "react-router-dom";
 import ShoppingExperience from "../Home/components/ShoppingExperience";
 import ProductListing from "../Home/components/ProductListing";
 import Loader from "../../components/Loader";
+import { useGeoLocatorCurrency } from "../../hooks/geoLocatorProduct";
 
 const CategoriesProduct = () => {
     const [products, setProducts] = useState([]);
+    const [paginate, setPaginate] = useState({
+        page: 1,
+        limit: 20,
+        total: 0,
+    });
     const [categoriesArr, setCategoriesArr] = useState([]);
     const [loading, setLoading] = useState(true);
-    
+
+    const currency = useGeoLocatorCurrency();
+
     const { id, name } = useParams();
     const { mutate } = useApiMutation();
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-    
+
                 // Fetch products
                 const productsData = await new Promise((resolve, reject) => {
                     mutate({
-                        url: `/products?categoryId=${id}`,
+                        url: `/products?categoryId=${id}${paginate ? `&page=${paginate.page}&limit=${paginate.limit}&symbol=${currency[0].symbol}` : ""}`,
                         method: 'GET',
                         hideToast: true,
-                        onSuccess: (response) => resolve(response.data?.data || []),
+                        onSuccess: (response) => resolve(response.data || []),
                         onError: reject,
                     });
                 });
-    
+
                 // Fetch categories
                 const categoriesData = await new Promise((resolve, reject) => {
                     mutate({
@@ -41,23 +49,33 @@ const CategoriesProduct = () => {
                         onError: reject,
                     });
                 });
-        
+
                 // Update state
-                setProducts(productsData);
+                setProducts(productsData.data.length ? productsData.data : []);
+                setPaginate({
+                    page: productsData.pagination.currentPage || 1,
+                    limit: 20,
+                    total: productsData.pagination.totalPages || 0,
+                });
                 setCategoriesArr(categoriesData);
-    
+
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setLoading(false)
             }
         };
-    
-        fetchData();
+
+        fetchData(paginate);
     }, [id]);
 
 
-    
+
+    const handlePagination = (page) => {
+        setPaginate((prev) => ({ ...prev, page }));
+        fetchData({ ...paginate, page });
+    }
+
 
 
     return (
@@ -84,7 +102,7 @@ const CategoriesProduct = () => {
                         </div>
                         :
                         <div className="w-full flex mt-20 md:mt-10">
-                            <ProductListing data={products} subCategoriesArr={categoriesArr} selectedCategory={name} />
+                            <ProductListing data={products} pagination={paginate} subCategoriesArr={categoriesArr} onPageChange={handlePagination} selectedCategory={name} />
                         </div>
                     }
                 </div>
