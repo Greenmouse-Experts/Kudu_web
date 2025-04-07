@@ -430,7 +430,7 @@ const UpdateProduct = () => {
                                 </label>
                                 <div className='flex gap-2'>
                                     <input
-                                        type="text"
+                                        type="number"
                                         id="price"
                                         {...register("quantity", { required: "Product Quantity is required" })}
                                         placeholder="Enter Product Quantity"
