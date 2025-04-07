@@ -105,7 +105,7 @@ const BidInformation = ({ content, currentBid }) => {
                     <>
                         <div className="flex justify-between py-2 border-b border-gray-300">
                             <span className="font-medium">Current Bid:</span>
-                            <span className="font-[500]">{content.store.currency.symbol} {formatNumberWithCommas(currentBidAmt)}</span>
+                            <span className="font-[500]">{content.store.currency.symbol} {currentBidAmt ? formatNumberWithCommas(currentBidAmt) : '0'}</span>
                         </div>
                         <form
                             onSubmit={handleSubmit(onSubmit)}
