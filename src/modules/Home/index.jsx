@@ -100,9 +100,9 @@ export default function NewHome() {
             setAuctionProducts(auction);
             setProducts(productsData);
 
-            const products = productsData.filter((product) => product.condition === 'brand_new');
+            const filterproducts = productsData.filter((product) => product.condition === 'brand_new');
 
-            setFilteredProducts(products)
+            setFilteredProducts(filterproducts)
 
 
             if (!categoriesData || categoriesData.length === 0) {
@@ -176,7 +176,7 @@ export default function NewHome() {
                                 <Loader />
                             </div>
                         ) : (
-                            <ProductsSection productsArr={products.slice(0, 12)} ads={ads.slice(0, 4)} />
+                            <ProductsSection productsArr={products} ads={ads.slice(0, 4)} />
                         )
                         }
                     </div>
@@ -186,7 +186,7 @@ export default function NewHome() {
                                 <Loader />
                             </div>
                         ) : (
-                            <TrendingProducts productsArr={trendingProducts.slice(0, 12)} ads={ads.slice(4, 8)} />
+                            <TrendingProducts productsArr={trendingProducts} ads={ads.slice(4, 8)} />
                         )}
                     </div>
                     {/* <div className="w-full lg:flex md:flex gap-3 md:mt-3">
@@ -220,7 +220,7 @@ export default function NewHome() {
                                 <Loader />
                             </div>
                         ) : (
-                            <ProductConditions productsArr={products.slice(0, 12)} />
+                            <ProductConditions productsArr={products} />
                         )
                         }
                     </div>
