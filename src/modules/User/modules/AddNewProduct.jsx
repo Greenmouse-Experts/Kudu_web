@@ -4,7 +4,7 @@ import useApiMutation from '../../../api/hooks/useApiMutation';
 import DropZone from '../../../components/DropZone';
 import { EditorState, convertToRaw } from "draft-js";
 import DraftEditor from '../../../components/Editor';
-import { renderDraftContent } from '../../../helpers/renderDraftContent';
+import draftToHtml from 'draftjs-to-html';
 import { FaTimes } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
@@ -56,8 +56,8 @@ const AddNewProduct = () => {
             delete data.category;
             const payload = {
                 ...data, image_url: files[0],
-                description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
-                specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
+                description: draftToHtml(convertToRaw(descriptionEditor.getCurrentContent())),
+                specification: draftToHtml(convertToRaw(specificationsEditor.getCurrentContent())),
                 additional_images: uniqueFiles
             };
 

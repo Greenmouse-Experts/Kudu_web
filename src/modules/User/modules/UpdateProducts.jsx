@@ -8,7 +8,7 @@ import Loader from '../../../components/Loader';
 import { EditorState, convertToRaw, ContentState } from "draft-js";
 import DraftEditor from '../../../components/Editor';
 import { FaTimes } from "react-icons/fa";
-import { renderDraftContent } from '../../../helpers/renderDraftContent';
+import draftToHtml from 'draftjs-to-html';
 import { toast } from 'react-toastify';
 
 const UpdateProduct = () => {
@@ -58,8 +58,8 @@ const UpdateProduct = () => {
             delete data.category;
             const payload = {
                 ...data, productId: id, image_url: files[0],
-                description: renderDraftContent(JSON.stringify(convertToRaw(descriptionEditor.getCurrentContent()))),
-                specification: renderDraftContent(JSON.stringify(convertToRaw(specificationsEditor.getCurrentContent()))),
+                description: draftToHtml(convertToRaw(descriptionEditor.getCurrentContent())),
+                specification: draftToHtml(convertToRaw(specificationsEditor.getCurrentContent())),
                 additional_images: uniqueFiles
             }
             mutate({
