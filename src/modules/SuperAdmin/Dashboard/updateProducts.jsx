@@ -54,7 +54,7 @@ const UpdateProduct = () => {
         setDisabled(true);
         if (files.length > 0) {
             const concatenatedFiles = files.concat(additionalFiles);
-            const uniqueFiles = [...new Set(concatenatedFiles)];    
+            const uniqueFiles = [...new Set(concatenatedFiles)];
             delete data.category;
             const payload = {
                 ...data, productId: id, image_url: files[0],
@@ -444,7 +444,13 @@ const UpdateProduct = () => {
                                     <input
                                         type="number"
                                         id="price"
-                                        {...register("quantity", { required: "Product Quantity is required" })}
+                                        {...register("quantity", {
+                                            required: "Product Quantity is required",
+                                            min: {
+                                                value: 0,
+                                                message: "Quantity cannot be negative"
+                                            }
+                                        })}
                                         placeholder="Enter Product Quantity"
                                         className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
@@ -454,7 +460,7 @@ const UpdateProduct = () => {
                             </div>
 
 
-                            
+
                             <div className='mb-4'>
                                 <label
                                     className="block text-md font-semibold mb-3"
