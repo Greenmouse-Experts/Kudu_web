@@ -163,56 +163,91 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                     filteredProducts.length > 0 ?
                         <>
                             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {filteredProducts.map(product => (
-                                    <div key={product.id} className="bg-white p-4 shadow-lg border rounded-lg relative">
-                                        <Link to={`/product/${product.id}`}>
-                                            <div className="flex justify-center relative md:h-[200px] h-[200px]">
-                                                <img src={product.image_url} alt={product.name} className="w-full md:h-[200px] object-cover rounded-md" />
-                                            </div>
-                                            <h3 className="text-base font-medium mt-3 leading-loose truncate whitespace-nowrap overflow-hidden w-full">{product.name}</h3>
-                                            {(() => {
-                                                const price = parseFloat(product?.price);
-                                                const discountPrice = parseFloat(product?.discount_price);
-                                                const currencySymbol = product?.store?.currency?.symbol || "₦";
-                                                const hasValidDiscount = discountPrice > 0 && discountPrice < price;
+                                {filteredProducts.map((product) => {
+                                    const isSoldOut = product.quantity === 0;
+                                    const price = parseFloat(product?.price);
+                                    const discountPrice = parseFloat(product?.discount_price);
+                                    const currencySymbol = product?.store?.currency?.symbol || "₦";
+                                    const hasValidDiscount = discountPrice > 0 && discountPrice < price;
 
-                                                return hasValidDiscount ? (
-                                                    <div className="flex flex-col mt-2">
-                                                        <p className="text-sm font-semibold leading-loose text-red-500 line-through">
+                                    const content = (
+                                        <div
+                                            key={product.id}
+                                            className={`bg-white shadow-lg p-1 border rounded-lg relative flex flex-col h-full ${isSoldOut ? 'opacity-50 pointer-events-none' : ''
+                                                }`}
+                                        >
+
+                                            <div className="flex justify-center relative h-[200px]">
+                                                <img
+                                                    src={product.image_url}
+                                                    alt={product.name}
+                                                    className="w-full h-full object-cover rounded-md"
+                                                />
+                                                {isSoldOut && (
+                                                    <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center rounded-md">
+                                                        <span className="text-white font-semibold text-lg">Sold Out</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute w-full mt-3">
+                                                    <button
+                                                        className={`absolute top-0 right-0 px-2 py-1 text-xs rounded font-medium text-white ${product?.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"
+                                                            }`}
+                                                    >
+                                                        {product?.vendor?.isVerified || product.admin ? "Verified" : "Not Verified"}
+                                                    </button>
+                                                    <span
+                                                        className={`absolute top-0 left-0 px-2 py-1 text-xs rounded font-medium text-white ${product.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
+                                                            }`}
+                                                    >
+                                                        {capitalizeEachWord(product.condition.replace(/_/g, " "))}
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div className="p-3 flex flex-col justify-between flex-grow">
+                                                <div>
+                                                    <h3 className="text-base font-medium mt-1 leading-loose truncate whitespace-nowrap overflow-hidden w-full">
+                                                        {product.name}
+                                                    </h3>
+                                                    {hasValidDiscount ? (
+                                                        <div className="flex flex-col mt-2">
+                                                            <p className="text-sm font-semibold leading-loose text-red-500 line-through">
+                                                                {currencySymbol} {formatNumberWithCommas(price)}
+                                                            </p>
+                                                            <p className="text-sm font-semibold leading-loose">
+                                                                {currencySymbol} {formatNumberWithCommas(discountPrice)}
+                                                            </p>
+                                                        </div>
+                                                    ) : (
+                                                        <p className="text-sm font-semibold leading-loose">
                                                             {currencySymbol} {formatNumberWithCommas(price)}
                                                         </p>
-                                                        <p className="text-sm font-semibold leading-loose">
-                                                            {currencySymbol} {formatNumberWithCommas(discountPrice)}
-                                                        </p>
+                                                    )}
+                                                    <div className="flex gap-2 mt-2">
+                                                        <p className="text-sm text-kuduRomanSilver">Qty Available: {product.quantity}</p>
                                                     </div>
-                                                ) : (
-                                                    <p className="text-sm font-semibold leading-loose">
-                                                        {currencySymbol} {formatNumberWithCommas(price)}
-                                                    </p>
-                                                );
-                                            })()}
-                                            <button
-                                                className={`absolute top-2 right-0 px-2 py-1 text-xs rounded font-medium text-white ${product.vendor?.isVerified || product.admin ? "bg-green-500" : "bg-red-500"
-                                                    }`}
-                                            >
-                                                {product.vendor?.isVerified || product.admin ? "Verified" : "Not Verified"}
-                                            </button>
-                                            <span
-                                                className={`absolute top-2 left-0 px-2 py-1 text-xs rounded font-meduim text-white ${product.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
-                                                    }`}
-                                            >
-                                                {capitalizeEachWord(product.condition.replace(/_/g, ' '))}
-                                            </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+
+                                    return isSoldOut ? (
+                                        <div key={product.id} className="h-full">{content}</div>
+                                    ) : (
+                                        <Link to={`/product/${product.id}`} key={product.id} className="h-full">
+                                            {content}
                                         </Link>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                             </div>
                             <div className="flex justify-center mt-4 md:mt-10 space-x-4">
                                 <button
                                     onClick={() => {
                                         window.scrollTo({ top: 0, behavior: 'smooth' });
                                         onPageChange(pagination.page - 1);
-                                      }}
+                                    }}
                                     disabled={pagination.page === 1}
                                     className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
                                 >
@@ -223,9 +258,9 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                                     onClick={() => {
                                         window.scrollTo({ top: 0, behavior: 'smooth' });
                                         onPageChange(pagination.page + 1);
-                                      }}
+                                    }}
                                     disabled={pagination.page === pagination.total}
-                                    className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                                    className="px-4 py-2 bg-kuduOrange text-white rounded disabled:opacity-50"
                                 >
                                     Next
                                 </button>

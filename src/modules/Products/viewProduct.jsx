@@ -462,6 +462,13 @@ export default function ViewProduct() {
                       </p>
                     );
                   })()}
+                  <div className="w-full">
+                    <div className="flex gap-2 mt-2">
+                      <p className="text-sm font-bold text-kuduRomanSilver">
+                        Quantity Available: {product.quantity}
+                      </p>
+                    </div>
+                  </div>
                   {/* <Button
                                         type="submit"
                                         className="w-full py-2 px-4 flex justify-center gap-2 bg-transparent rounded-md border border-kuduOrange text-kuduOrange transition-colors"
@@ -593,6 +600,7 @@ export default function ViewProduct() {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={handleDecrease}
+                              disabled={product.quantity === 0}
                               className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
                             >
                               -
@@ -602,6 +610,7 @@ export default function ViewProduct() {
                             </span>
                             <button
                               onClick={handleIncrease}
+                              disabled={product.quantity === 0 || quantity >= product.quantity}
                               className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
                             >
                               +
