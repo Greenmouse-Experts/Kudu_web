@@ -39,7 +39,7 @@ export default function Header({ openMenu }) {
 
   const getCartNumber = (cartData) => {
     if (!cartData) return 0;
-    return cartData.length;
+    return cartData.filter((item) => item.product.quantity > 0).length;
   }
 
 
