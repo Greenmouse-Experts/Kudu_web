@@ -47,15 +47,18 @@ const CartSummary = ({ cart, refetch }) => {
 
     // Calculate total price from cart items.
     const totalPrice = cart.reduce((sum, item) => {
+        if (item.product.quantity <= 0) return sum;
+    
         const price =
             parseFloat(item.product.discount_price) > 0 &&
-                parseFloat(item.product.discount_price) < parseFloat(item.product.price)
+            parseFloat(item.product.discount_price) < parseFloat(item.product.price)
                 ? parseFloat(item.product.discount_price)
                 : parseFloat(item.product.price);
-
+    
         return sum + (item.quantity * price);
     }, 0);
 
+    
     // Ensure a nonzero amount (Paystack requires a positive amount).
     const effectiveTotalPrice = totalPrice > 0 ? totalPrice : 1;
 
@@ -144,7 +147,7 @@ const CartSummary = ({ cart, refetch }) => {
                 <div className="w-full flex justify-between items-center">
                     <div className="w-full flex">
                         <span className="text-sm text-[rgba(178,178,178,1)]">
-                            Item’s Total ({cart.length})
+                            Item’s Total ({cart.filter((item) => item.product.quantity > 0).length})
                         </span>
                     </div>
                     <div className="w-full flex justify-end">
