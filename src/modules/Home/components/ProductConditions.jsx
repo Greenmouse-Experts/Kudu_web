@@ -5,9 +5,7 @@ import ProductListing from '../../../components/ProductsList';
 import { useGeoLocatorProduct } from '../../../hooks/geoLocatorProduct';
 
 export default function ProductConditions({ productsArr }) {
-    const locationProducts = useGeoLocatorProduct(productsArr);
-
-    const newProducts = locationProducts.filter((product) => product.condition === 'brand_new');
+    const newProducts = productsArr.filter((product) => product.condition === 'brand_new');
 
     const [filteredProducts, setFilteredProducts] = useState(newProducts);
 
@@ -36,7 +34,7 @@ export default function ProductConditions({ productsArr }) {
 
     const handleActiveCondition = (id) => {
         setActiveCondition(id);
-        setFilteredProducts(locationProducts.filter((product) => product.condition === id));
+        setFilteredProducts(productsArr.filter((product) => product.condition === id));
     };
 
 
