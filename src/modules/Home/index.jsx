@@ -14,6 +14,7 @@ import ProductConditions from "./components/ProductConditions";
 import AuctionPage from "../Auction/layouts/AuctionPage";
 import { useGetJobClient } from "../../api/jobs";
 import TrendingJobs from "./components/TrendingJobs";
+import { useGeoLocatorCurrency } from "../../hooks/geoLocatorProduct";
 
 
 export default function NewHome() {
@@ -27,6 +28,8 @@ export default function NewHome() {
     const [loading, setLoading] = useState(true);
 
     const { data: jobs, isLoading } = useGetJobClient();
+
+    const currency = useGeoLocatorCurrency();
 
 
     const colorMap = [
@@ -49,7 +52,7 @@ export default function NewHome() {
         try {
             const productRequest = new Promise((resolve, reject) => {
                 mutate({
-                    url: '/products',
+                    url: `/products?symbol=${currency[0].symbol}&limit=100000000`,
                     method: 'GET',
                     hideToast: true,
                     onSuccess: (response) => resolve(response.data?.data || []),
