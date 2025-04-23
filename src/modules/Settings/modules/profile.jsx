@@ -43,7 +43,7 @@ export default function ProfileSettings() {
                 mutate({
                     url: "/user/profile/photo/update",
                     method: "PATCH",
-                    data: { photo: uploadedUrl },
+                    data: { photo: uploadedUrl[0] },
                     headers: true,
                     onSuccess: (response) => {
                         dispatch(setKuduUser(response.data.data))
