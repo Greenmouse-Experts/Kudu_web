@@ -200,13 +200,13 @@ export default function UpdatedKYC() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-3">Business Registration Number</label>
+              <label className="block text-sm font-medium mb-3">Business Registration Number (Optional)</label>
               <input
                 type="text"
                 name="businessRegistrationNumber"
                 style={{ outline: "none", }}
                 className="border rounded p-2 w-full"
-                {...register("businessRegistrationNumber", { required: "Business Registration Number is required" })}
+                {...register("businessRegistrationNumber")}
                 required
               />
             </div>

@@ -17,14 +17,14 @@ import {
     Instagram,
     MapPin,
     ShoppingBag
-  } from "lucide-react";
-  
+} from "lucide-react";
+
 
 export default function Footer() {
     return (
         <>
             <div className="w-full flex bg-[rgba(30,30,30,1)] flex-col items-center justify-center xl:px-40 lg:pl-20 lg:pr-36 md:px-4 px-5 py-3 md:py-10">
-                <div className="w-full flex md:flex-row flex-col justify-between gap-4 md:gap-6">
+                {/*<div className="w-full flex md:flex-row flex-col justify-between gap-4 md:gap-6">
                     <p className="w-full text-white font-semibold md:text-lg lg:text-4xl leading-loose text-sm">
                         Stay up to date on the latest promos and discounts
                     </p>
@@ -34,7 +34,7 @@ export default function Footer() {
                         border-[rgba(217,217,217,0.6)] text-white text-sm" />
                         <Button className="bg-kuduOrange !py-1 h-10 text-white text-xs">Subscribe</Button>
                     </div>
-                </div>
+                </div>*/}
 
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-4 w-full mt-10 md:mt-14">
                     <div className="flex flex-col space-y-2">
@@ -42,32 +42,32 @@ export default function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li>
                                 <Link to="/about" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
-                                <Users size={15} style={{ color: "#ff6f22" }} />
+                                    <Users size={15} style={{ color: "#ff6f22" }} />
                                     About Us
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/testimonial" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
-                                <MessageSquareQuote size={15} style={{ color: "#ff6f22" }} />
+                                    <MessageSquareQuote size={15} style={{ color: "#ff6f22" }} />
                                     Testimonials
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/see-all" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
-                                <ShoppingBag size={15} style={{ color: "#ff6f22" }} />
+                                    <ShoppingBag size={15} style={{ color: "#ff6f22" }} />
                                     Products
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/career" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
-                                <Hammer size={15} style={{ color: "#ff6f22" }} />
+                                    <Hammer size={15} style={{ color: "#ff6f22" }} />
                                     Kudu Careers
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/become-a-vendor" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
-                                <Store size={15} style={{ color: "#ff6f22" }} />
-                                Become a Vendor
+                                    <Store size={15} style={{ color: "#ff6f22" }} />
+                                    Become a Vendor
                                 </Link>
                             </li>
                         </ul>
@@ -77,13 +77,13 @@ export default function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li>
                                 <Link to="/advertise-with-us" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
-                                <Megaphone size={15} style={{ color: "#ff6f22" }} />
-                                Advertise with Us
+                                    <Megaphone size={15} style={{ color: "#ff6f22" }} />
+                                    Advertise with Us
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/faqs" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
-                                <HelpCircle size={15} style={{ color: "#ff6f22" }} />
+                                    <HelpCircle size={15} style={{ color: "#ff6f22" }} />
                                     FAQs
                                 </Link>
                             </li>
@@ -100,29 +100,29 @@ export default function Footer() {
                         <ul className="space-y-3 text-sm">
                             <li>
                                 <Link to="/return-policy" className="text-gray-400 hover:text-gray-600 flex items-center gap-3">
-                                <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
+                                    <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
                                     Return Policy
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/privacy" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
-                                     <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
+                                    <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
                                     Privacy Policy
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/cookie-policy" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
-                                     <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
+                                    <ShieldCheck size={15} style={{ color: "#ff6f22" }} />
                                     Cookies Policy
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/terms-condition" className="text-gray-400 hover:text-gray-600 transition flex items-center gap-3">
-                                <ScrollText size={15} style={{ color: "#ff6f22" }} />
+                                    <ScrollText size={15} style={{ color: "#ff6f22" }} />
                                     Terms and Conditions
                                 </Link>
                             </li>
-                          
+
                         </ul>
                     </div>
                     <div className="flex flex-col space-y-2">
@@ -148,7 +148,7 @@ export default function Footer() {
 
                 <div className="w-full h-[1px] border-t border-gray-700 my-8" />
 
-                <div className="md:flex hidden w-full">
+                {/*<div className="md:flex hidden w-full">
                     <div className="flex flex-grow">
                         <div className="flex flex-col gap-3">
                             <h3 className="text-lg text-white font-semibold">Delivery Partners</h3>
@@ -270,7 +270,7 @@ export default function Footer() {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*/}
             </div>
             <div className="py-5 flex w-full justify-center" style={{ backgroundColor: 'rgba(49, 49, 51, 1)' }}>
                 <p className="text-sm text-kuduGray">Copyright © 2025 Kudu.com. All rights reserved</p>

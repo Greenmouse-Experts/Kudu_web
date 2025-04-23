@@ -60,7 +60,7 @@
     transform-origin: bottom right;
     box-shadow: 0 0 128px rgba(0, 0, 0, 0.1), 0 32px 64px -48px rgba(0, 0, 0, 0.5);
     transition: all 0.1s ease;
-    z-index: 50;
+    z-index: 9999;
 }
 
 .chat-container.show-chatbot .chatbot-popup{
@@ -218,7 +218,7 @@
 @media (max-width: 520px) {
     #chatbot-toggler{
         right:20px;
-        bottom:20px;
+        bottom:70px;
     }
     .chatbot-popup{
         right:0;

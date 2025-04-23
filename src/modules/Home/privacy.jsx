@@ -87,7 +87,7 @@ const Privacy = () => {
 
             title: "Shipping Policy",
             description:
-                " Estimated delivery times: 3-7 business days depending on location. Tracking information are provided by the company. All Shipping costs calculated based on weight and destination",
+                " Estimated delivery timeline ranges: 3-7 business days depending on location. Tracking information are provided by the company. All Shipping costs calculated based on weight and destination",
         },
         {
             title: "Payment Security",
