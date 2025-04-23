@@ -2,8 +2,43 @@ import "../Home/components/style.css";
 import ShoppingExperience from "./components/ShoppingExperience";
 import GetApp from "./components/GetApp";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import useApiMutation from "../../api/hooks/useApiMutation";
+import { useState } from "react";
 
 export default function Contact() {
+    const [disabled, setDisabled] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        setValue
+    } = useForm();
+
+
+    const { mutate } = useApiMutation();
+
+
+
+    const sendMessage = (data) => {
+        setDisabled(true);
+
+        mutate({
+            url: "/submit/contact/form",
+            method: "POST",
+            data: data,
+            headers: true,
+            onSuccess: (response) => {
+                setDisabled(false);
+            },
+            onError: () => {
+                setDisabled(false);
+            },
+        });
+    }
+
+    
+
     return (
         <>
             <div className="w-full flex flex-col">
@@ -45,9 +80,9 @@ export default function Contact() {
                                         Visit our FAQ to see answers to our most asked questions
                                     </p>
                                     <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                                    <Link
-                                to="/faqs">  See FAQs</Link>
-                                       
+                                        <Link
+                                            to="/faqs">  See FAQs</Link>
+
                                     </button>
                                 </div>
 
@@ -70,8 +105,8 @@ export default function Contact() {
                                         info@kudu.com
                                     </p>
                                     <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                                    <Link
-                                 to="/sign-up">Email Now</Link>
+                                        <Link
+                                            to="/sign-up">Email Now</Link>
                                     </button>
                                 </div>
 
@@ -94,8 +129,8 @@ export default function Contact() {
                                         0700 000 0000
                                     </p>
                                     <button className="mt-6 border text-black py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                                    <Link
-                                 to="/sign-up">Call Now</Link> 
+                                        <Link
+                                            to="/sign-up">Call Now</Link>
                                     </button>
                                 </div>
                             </div>
@@ -120,7 +155,7 @@ export default function Contact() {
                             <h3 className="text-lg font-bold text-black mb-4">
                                 Send Us A Message
                             </h3>
-                            <form>
+                            <form onSubmit={handleSubmit(sendMessage)}>
                                 <div className="mb-4">
                                     <label
                                         htmlFor="fullName"
@@ -134,6 +169,7 @@ export default function Contact() {
                                         className="border rounded-lg p-4 w-full bg-gray-50"
                                         placeholder="Enter your full name"
                                         style={{ outline: "none" }}
+                                        {...register("name", { required: "Full name is required" })}
                                         required
 
                                     />
@@ -151,6 +187,7 @@ export default function Contact() {
                                         className="border rounded-lg p-4 w-full bg-gray-50"
                                         placeholder="Enter your phone number"
                                         style={{ outline: "none" }}
+                                        {...register("phoneNumber", { required: "Phone Number is required" })}
                                         required
                                     />
                                 </div>
@@ -167,6 +204,7 @@ export default function Contact() {
                                         className="border rounded-lg p-4 w-full bg-gray-50"
                                         placeholder="Enter your email address"
                                         style={{ outline: "none" }}
+                                        {...register("email", { required: "Email is required" })}
                                         required
                                     />
                                 </div>
@@ -182,6 +220,7 @@ export default function Contact() {
                                         className="border rounded-lg p-4 w-full bg-gray-50"
                                         placeholder="Type your message"
                                         style={{ outline: "none" }}
+                                        {...register("message", { required: "Message is required" })}
                                         rows="6"
                                         required
                                     ></textarea>
@@ -201,6 +240,7 @@ export default function Contact() {
                                 </div>
                                 <button
                                     type="submit"
+                                    disabled={disabled}
                                     className="w-full bg-[#FF6F22] text-white font-semibold py-4 mt-5 rounded-lg hover:bg-[#FF6F22]"
                                 >
                                     Submit →
