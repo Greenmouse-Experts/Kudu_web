@@ -12,7 +12,8 @@ export default function Contact() {
     const {
         register,
         handleSubmit,
-        setValue
+        setValue,
+        reset
     } = useForm();
 
 
@@ -30,6 +31,7 @@ export default function Contact() {
             headers: true,
             onSuccess: (response) => {
                 setDisabled(false);
+                reset();
             },
             onError: () => {
                 setDisabled(false);
