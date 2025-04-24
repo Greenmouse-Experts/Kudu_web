@@ -66,6 +66,7 @@ function Forget() {
 
 
     const handleResend = () => {
+        const email = localStorage.getItem("kuduEmail");
         const payload = { email: JSON.parse(email) };
         mutate({
             url: "/auth/resend/verification/email",
