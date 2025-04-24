@@ -207,7 +207,6 @@ export default function UpdatedKYC() {
                 style={{ outline: "none", }}
                 className="border rounded p-2 w-full"
                 {...register("businessRegistrationNumber")}
-                required
               />
             </div>
           </div>
@@ -262,7 +261,7 @@ export default function UpdatedKYC() {
           </div>
         </div>
 
-        <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%]">{isLoading ? <PulseLoader color="#ffffff" size={5} /> :
+        <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg md:w-[15%] w-full">{isLoading ? <PulseLoader color="#ffffff" size={5} /> :
           user.isVerified ? "Update" : "Submit"}</button>
       </form>
     </div>
