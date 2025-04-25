@@ -4,7 +4,7 @@ import { Menu, MenuHandler, MenuItem, MenuList } from '@material-tailwind/react'
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../hooks/modal';
 import useApiMutation from '../api/hooks/useApiMutation';
-import Table from './Tables';
+import Table from './ReviewTable';
 
 const VendorTable = ({ data, refetch }) => {
     const [kycData, setKYCData] = useState([]);
@@ -69,10 +69,10 @@ const VendorTable = ({ data, refetch }) => {
         <>
             <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">All Vendors</h2></div>
             <div className="bg-white rounded-md p-6 w-full gap-5">
-                <h2 className="text-lg font-semibold text-black-700 mb-4">All Vendors</h2>
-                <div className="overflow-x-auto mt-5">
+                <h2 className="text-lg font-semibold text-black-700">All Vendors</h2>
+                <div className="overflow-x-auto">
                     <Table
-                        headers={[
+                        columns={[
                             { key: 'name', label: 'Name' },
                             { key: 'email', label: 'Email' },
                             { key: 'accountType', label: 'User Type' },
@@ -100,12 +100,13 @@ const VendorTable = ({ data, refetch }) => {
                                 )
                              }
                         ]}
-                        data={vendorsData}
-                        transformData={(vendorsData) => vendorsData.map((item) => ({
+                        data={vendorsData.map((item) => ({
                             ...item,
                             name: `${item.firstName} ${item.lastName}`,
                             dateJoined: dateFormat(item.createdAt, 'dd-MM-yyyy'),
                         }))}
+                        exportData
+                        hasNumber
                         actions={[]}
                         currentPage={data.meta.currentPage}
                         totalPages={data.meta.totalPages}

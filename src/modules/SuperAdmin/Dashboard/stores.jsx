@@ -11,6 +11,7 @@ const App = () => {
     const { mutate } = useApiMutation();
 
     const fetchData = async (page) => {
+        setLoading(true);
         try {
             const storesRequest = new Promise((resolve, reject) => {
                 mutate({
@@ -42,14 +43,7 @@ const App = () => {
 
     return (
         <div className="min-h-screen">
-            {loading ? (
-                <div className="w-full h-screen flex items-center justify-center">
-                    <Loader />
-                </div>
-            ) : (
-                <AllStores data={storesData} paginate={pagination} refetch={(page) => fetchData(page)} />
-            )
-            }
+            <AllStores data={storesData} loading={loading} paginate={pagination} refetch={(page) => fetchData(page)} />
         </div>
     );
 };

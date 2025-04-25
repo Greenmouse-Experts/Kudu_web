@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useApiMutation from '../../../api/hooks/useApiMutation';
 import Loader from '../../../components/Loader';
 import MyProducts from '../../../components/MyProducts';
-import Table from '../../../components/Tables';
+import Table from '../../../components/ReviewTable';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from '../../../components/Modal';
 import { useModal } from '../../../hooks/modal';
@@ -18,11 +18,12 @@ const AuctionProducts = () => {
     const { openModal } = useModal();
 
     // Fetch both products and categories and merge them
-    const fetchData = async () => {
+    const fetchData = async (page) => {
+        setLoading(true)
         try {
             const auctionProductRequest = new Promise((resolve, reject) => {
                 mutate({
-                    url: '/admin/general/auction/products',
+                    url: `/admin/general/auction/products?page=${page}`,
                     method: 'GET',
                     headers: true,
                     hideToast: true,
@@ -95,11 +96,6 @@ const AuctionProducts = () => {
 
     return (
         <div className="min-h-screen">
-            {loading ? (
-                <div className="w-full h-screen flex items-center justify-center">
-                    <Loader />
-                </div>
-            ) : (
                 <div className='All'>
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">Auction Products</h2>
@@ -111,11 +107,10 @@ const AuctionProducts = () => {
                         </Link>
                     </div>
                     <div className="bg-white rounded-md p-6 w-full gap-5">
-                        <h2 className="text-lg font-semibold text-black-700 mb-4">Auction Products</h2>
-                        <div className="overflow-x-auto mt-5">
-
+                        <h2 className="text-lg font-semibold text-black-700">Auction Products</h2>
+                        <div className="overflow-x-auto">
                             <Table
-                                headers={[
+                                columns={[
                                     { key: 'name', label: 'Products' },
                                     { key: 'category', label: 'Category' },
                                     { key: 'vendor', label: 'Vendor' },
@@ -133,8 +128,9 @@ const AuctionProducts = () => {
                                         )
                                     },
                                 ]}
-                                data={products}
-                                transformData={(products) => products.map((item) => ({
+                                exportData
+                                isLoading={loading}
+                                data={products.map((item) => ({
                                     ...item,
                                     price: `${item.store.currency.symbol} ${item.price}`,
                                     vendor: item.admin ? `Administrator` : `${item.vendor.firstName} ${item.vendor.lastName}`
@@ -161,7 +157,6 @@ const AuctionProducts = () => {
                         </div>
                     </div>
                 </div>
-            )}
         </div>
     );
 };

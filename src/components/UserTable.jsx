@@ -1,6 +1,6 @@
 import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
-import Table from '../components/Tables';
+import Table from '../components/ReviewTable';
 
 const UserTable = ({ data, refetch }) => {
     const usersData = data.data;
@@ -13,10 +13,10 @@ const UserTable = ({ data, refetch }) => {
             <div className='All'>
                 <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">All Customers</h2></div>
                 <div className="bg-white rounded-md p-6 w-full gap-5">
-                    <h2 className="text-lg font-semibold text-black-700 mb-4">All Customers</h2>
-                    <div className="overflow-x-auto mt-5">
+                    <h2 className="text-lg font-semibold text-black-700">All Customers</h2>
+                    <div className="overflow-x-auto">
                         <Table
-                            headers={[
+                            columns={[
                                 { key: 'name', label: 'Name' },
                                 { key: 'email', label: 'Email' },
                                 { key: 'accountType', label: 'User Type' },
@@ -34,8 +34,9 @@ const UserTable = ({ data, refetch }) => {
                                     )
                                 }
                             ]}
-                            data={usersData}
-                            transformData={(usersData) => usersData.map((item) => ({
+                            exportData
+                            hasNumber
+                            data={usersData.map((item) => ({
                                 ...item,
                                 name: `${item.firstName} ${item.lastName}`,
                                 dateJoined: dateFormat(item.createdAt, 'dd-MM-yyyy')
