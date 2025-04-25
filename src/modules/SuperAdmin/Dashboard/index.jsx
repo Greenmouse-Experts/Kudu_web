@@ -190,6 +190,7 @@ export default function Dashboard() {
                                     name: `${item.firstName} ${item.lastName}`
                                 }))}
                                 exportData
+                                actions={[]}
                                 hasNumber
                                 isLoading={isLoading}
                                 currentPage={null}
@@ -228,6 +229,7 @@ export default function Dashboard() {
                                     }
                                   ]}
                                 data={orders.slice(0, 4)}
+                                actions={[]}
                                 exportData
                                 hasNumber
                                 isLoading={isLoading}
