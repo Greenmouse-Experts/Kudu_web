@@ -1,9 +1,9 @@
 import React from 'react';
 import { useModal } from '../hooks/modal';
 import Modal from './Modal';
-import Table from './Tables';
+import Table from './ReviewTable';
 
-const PostProducts = ({ data, paginate, refetch }) => {
+const PostProducts = ({ data, paginate, loading, refetch }) => {
     const { openModal } = useModal();
 
     const fetchNew = (page) => {
@@ -34,10 +34,10 @@ const PostProducts = ({ data, paginate, refetch }) => {
                 <h2 className="text-lg font-semibold text-black-700 mb-4">All Products</h2>
             </div>
             <div className="bg-white rounded-md p-6 w-full gap-5">
-                <h2 className="text-lg font-semibold text-black-700 mb-4">All Products</h2>
-                <div className="overflow-x-auto mt-5">
+                <h2 className="text-lg font-semibold text-black-700">All Products</h2>
+                <div className="overflow-x-auto">
                     <Table
-                        headers={[
+                        columns={[
                             { key: 'name', label: 'Products' },
                             { key: 'category', label: 'Category' },
                             {
@@ -58,9 +58,9 @@ const PostProducts = ({ data, paginate, refetch }) => {
                             },
                             { key: 'vendor', label: 'Vendor' },
                         ]}
-                        data={data}
-                        transformData={(data) =>
-                            data.map((item) => ({
+                        exportData
+                        isLoading={loading}
+                        data={data.map((item) => ({
                                 ...item,
                                 vendor: item.vendor ? `${item.vendor.firstName} ${item.vendor.lastName}` : 'Administrator',
                                 price: `${item.store.currency.symbol} ${item.price}`,

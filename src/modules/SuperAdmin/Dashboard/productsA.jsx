@@ -11,6 +11,7 @@ const App = () => {
 
   // Fetch both products and categories and merge them
   const fetchData = async (page) => {
+    setLoading(true);
     try {
       const productRequest = new Promise((resolve, reject) => {
         mutate({
@@ -65,13 +66,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen">
-      {loading ? (
-        <div className="w-full h-screen flex items-center justify-center">
-          <Loader />
-        </div>
-      ) : (
-        <PostProducts data={products} paginate={pagination} refetch={(page) => fetchData(page)} />
-      )}
+      <PostProducts data={products} loading={loading} paginate={pagination} refetch={(page) => fetchData(page)} />
     </div>
   );
 };

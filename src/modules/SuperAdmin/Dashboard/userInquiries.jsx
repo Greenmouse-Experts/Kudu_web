@@ -22,6 +22,8 @@ const UserInquiries = () => {
 
 
     const getCustomerEnquiries = () => {
+        setLoader(true);
+        setEnquiries([]);
         mutate({
             url: `/admin/contact/us/forms`,
             method: "GET",
@@ -32,6 +34,7 @@ const UserInquiries = () => {
                 setLoader(false)
             },
             onError: () => {
+                setEnquiries([]);
                 setLoader(false)
             }
         });
