@@ -46,6 +46,7 @@ const MyProducts = ({ data, refetch }) => {
                         <Table
                             columns={[
                                 { key: 'name', label: 'Products' },
+                                { key: 'sku', label: 'Product ID' },
                                 { key: 'category', label: 'Category' },
                                 {
                                     key: 'condition', label: 'Conditions', render: (value) => (

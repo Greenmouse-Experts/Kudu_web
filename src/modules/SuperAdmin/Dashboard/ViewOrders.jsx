@@ -112,6 +112,7 @@ const OrderDetails = () => {
                         <Table
                             headers={[
                                 { key: 'productName', label: 'Product Name' },
+                                { key: 'sku', label: 'Product ID' },
                                 { key: 'quantity', label: 'Quantity' },
                                 { key: 'vendor', label: 'Vendor' },
                                 { key: 'price', label: 'Price' },
@@ -128,6 +129,7 @@ const OrderDetails = () => {
                             data={orderDetails}
                             transformData={(orderDetails) => orderDetails.map((item) => ({
                                 ...item,
+                                sku: item.product.sku,
                                 productName: `${item.product?.name}`,
                                 productImage: `${item.product.image_url}`,
                                 vendor: item.vendor ? `${item.vendor?.firstName} ${item.vendor?.lastName}` : 'Administrator',

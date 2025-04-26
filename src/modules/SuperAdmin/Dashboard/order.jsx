@@ -33,7 +33,7 @@ const App = () => {
 
     return (
         <div className="min-h-screen">
-            <OrderTable data={orders} />
+            <OrderTable data={orders} loading={loading} />
         </div>
     );
 };

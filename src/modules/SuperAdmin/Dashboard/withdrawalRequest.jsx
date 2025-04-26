@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Loader from '../../../components/Loader';
 import { dateFormat } from '../../../helpers/dateHelper';
-import Table from '../../../components/Tables';
+import Table from '../../../components/ReviewTable';
 import { useModal } from '../../../hooks/modal';
 
 const WithdrawalRequest = () => {
@@ -136,10 +136,10 @@ const WithdrawalRequest = () => {
                 <>
                     <div className="rounded-md pb-2 w-full gap-5"><h2 className="text-lg font-semibold text-black-700 mb-4">Withdrawal Request</h2></div>
                     <div className="bg-white rounded-md p-6 w-full gap-5">
-                        <h2 className="text-lg font-semibold text-black-700 mb-4">Withdrawal Request</h2>
-                        <div className="overflow-x-auto mt-5">
+                        <h2 className="text-lg font-semibold text-black-700">Withdrawal Request</h2>
+                        <div className="overflow-x-auto">
                             <Table
-                                headers={[
+                                columns={[
                                     { key: 'name', label: 'Name' },
                                     { key: 'amount', label: 'Amount' },
                                     { key: 'currency', label: 'Currency' },
@@ -157,12 +157,12 @@ const WithdrawalRequest = () => {
                                         )
                                     },
                                 ]}
-                                data={withdrawals}
-                                transformData={(withdrawals) => withdrawals.map((item) => ({
+                                data={withdrawals.map((item) => ({
                                     ...item,
                                     name: `${item.vendor.firstName} ${item.vendor.lastName}`,
                                     bankInfo: parseBankInfo(item.bankInformation.bankInfo),
                                 }))}
+                                exportData
                                 actions={
                                     [
                                         {

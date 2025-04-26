@@ -112,6 +112,7 @@ const AuctionProducts = () => {
                             <Table
                                 columns={[
                                     { key: 'name', label: 'Products' },
+                                    { key: 'sku', label: 'Product ID' },
                                     { key: 'category', label: 'Category' },
                                     { key: 'vendor', label: 'Vendor' },
                                     { key: 'price', label: 'Price' },

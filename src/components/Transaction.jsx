@@ -1,8 +1,8 @@
 import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
-import Table from './Tables';
+import Table from './ReviewTable';
 
-const Transaction = ({ data, paginate, fetchNew }) => {
+const Transaction = ({ data, paginate, loading, fetchNew }) => {
     return (
         <>
             <div className='All'>
@@ -12,7 +12,7 @@ const Transaction = ({ data, paginate, fetchNew }) => {
                     <div className="overflow-x-auto mt-5">
 
                     <Table
-                        headers={[
+                        columns={[
                             { key: 'refId', label: 'Transaction ID' },
                             {key: 'user', label: 'User'},
                             { key: 'transactionType', label: 'Transaction Type' },
@@ -35,14 +35,15 @@ const Transaction = ({ data, paginate, fetchNew }) => {
                                 )
                             },
                         ]}
-                        data={data}
-                        transformData={(data) => data.map((item) => ({
+                        exportData
+                        isLoading={loading}
+                        data={data?.map((item) => ({
                             ...item,
                             user: `${item.user.firstName} ${item.user.lastName}`
                         }))}
                         actions={[]}
-                        currentPage={paginate.currentPage}
-                        totalPages={paginate.totalPages}
+                        currentPage={paginate?.page}
+                        totalPages={paginate?.pages}
                         onPageChange={(page) => fetchNew(page)}
                     />
                     </div>

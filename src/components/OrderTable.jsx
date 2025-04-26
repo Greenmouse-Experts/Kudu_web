@@ -3,7 +3,7 @@ import { dateFormat } from '../helpers/dateHelper';
 import { useNavigate } from 'react-router-dom';
 import Table from './ReviewTable';
 
-const OrderTable = ({ data }) => {
+const OrderTable = ({ data, loading }) => {
     const navigate = useNavigate();
 
     return (
@@ -23,19 +23,8 @@ const OrderTable = ({ data }) => {
                                 },
                                 { key: 'totalAmount', label: 'Price' },
                                 { key: 'createdAt', label: 'Date' },
-                                {
-                                    key: 'status',
-                                    label: 'Status',
-                                    render: (value) => (
-                                        <span className={`py-1 px-3 rounded-full text-sm capitalize ${value === 'Completed'
-                                            ? 'bg-green-100 text-green-600'
-                                            : 'bg-red-100 text-red-600'
-                                            }`}>
-                                            {value}
-                                        </span>
-                                    )
-                                }
                             ]}
+                            isLoading={loading}
                             exportData
                             data={data.map((item) => ({
                                 ...item,

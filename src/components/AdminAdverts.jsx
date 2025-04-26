@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import DeleteModal from './DeleteModal';
 import { useModal } from '../hooks/modal';
-import Table from './Tables';
+import Table from './ReviewTable';
 import Modal from './Modal';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-tailwind/react';
 import useApiMutation from '../api/hooks/useApiMutation';
 
-const AdminAdverts = ({ data, paginate, refetch }) => {
+const AdminAdverts = ({ data, paginate, loading, refetch }) => {
     const navigate = useNavigate();
     const { openModal, closeModal } = useModal();
     const { mutate } = useApiMutation();
@@ -141,21 +141,13 @@ const AdminAdverts = ({ data, paginate, refetch }) => {
                 </Link>
             </div>
             <div className="bg-white rounded-lg p-6">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-lg font-semibold text-black-700 mb-4">All Uploaded Adverts</h2>
-                    <div className="flex gap-4">
-                        <button className="bg-gray-200 px-4 py-2 rounded-md text-gray-600">
-                            Export As
-                        </button>
-                        <button className="bg-gray-200 px-4 py-2 rounded-md text-gray-600">
-                            Sort: Newest First
-                        </button>
-                    </div>
+                <div className="flex justify-between items-center">
+                    <h2 className="text-lg font-semibold text-black-700">All Uploaded Adverts</h2>
                 </div>
                 <div className="overflow-x-auto">
 
                     <Table
-                        headers={[
+                        columns={[
                             { key: 'title', label: 'Advert Name' },
                             {
                                 key: 'media_url', label: 'Advert Image', render: (value) => (
@@ -190,13 +182,13 @@ const AdminAdverts = ({ data, paginate, refetch }) => {
                                 )
                             }
                         ]}
-                        data={data}
-                        transformData={(data) =>
-                            data.map((item) => ({
+                        data={data.map((item) => ({
                                 ...item,
                                 sub_category: item.sub_category.name
                             }))
                         }
+                        isLoading={loading}
+                        exportData
                         actions={[
                             {
                                 label: (row) => {
@@ -213,7 +205,7 @@ const AdminAdverts = ({ data, paginate, refetch }) => {
                         ]}
                         currentPage={paginate.page}
                         totalPages={paginate.pages}
-                        onPageChange={(page) => fetchNew(page)}
+                        onPageChange={(page) => refetch(page)}
                     />
                 </div>
             </div>
