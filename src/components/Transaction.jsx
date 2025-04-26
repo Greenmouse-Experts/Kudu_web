@@ -37,13 +37,13 @@ const Transaction = ({ data, paginate, loading, fetchNew }) => {
                         ]}
                         exportData
                         isLoading={loading}
-                        data={data.map((item) => ({
+                        data={data?.map((item) => ({
                             ...item,
                             user: `${item.user.firstName} ${item.user.lastName}`
                         }))}
                         actions={[]}
-                        currentPage={paginate.page}
-                        totalPages={paginate.pages}
+                        currentPage={paginate?.page}
+                        totalPages={paginate?.pages}
                         onPageChange={(page) => fetchNew(page)}
                     />
                     </div>
