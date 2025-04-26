@@ -11,6 +11,7 @@ const App = () => {
 
 
     const getTransactions = (page) => {
+        setLoading(true);
         mutate({
             url: `/admin/transactions?page=${page}`,
             method: "GET",
@@ -32,13 +33,7 @@ const App = () => {
 
     return (
         <div className="min-h-screen">
-            {loading ?
-                <div className="w-full h-screen flex items-center justify-center">
-                    <Loader />
-                </div>
-                :
-                <Transactions data={transactions.data} paginate={transactions.pagination} fetchNew={(page) => getTransactions(page)} />
-            }
+            <Transactions data={transactions.data} loading={loading} paginate={transactions.pagination} fetchNew={(page) => getTransactions(page)} />
         </div>
     );
 };
