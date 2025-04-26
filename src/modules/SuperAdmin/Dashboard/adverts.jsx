@@ -13,6 +13,7 @@ const App = () => {
     const { mutate } = useApiMutation();
 
     const fetchData = async (page) => {
+        setLoading(true)
         try {
             const advertRequest = new Promise((resolve, reject) => {
                 mutate({
@@ -45,14 +46,7 @@ const App = () => {
 
     return (
         <div className="min-h-screen">
-            {loading ? (
-                <div className="w-full h-screen flex items-center justify-center">
-                    <Loader />
-                </div>
-            ) : (
-                <AdminAdverts data={advertData} paginate={pagination} refetch={(page) => fetchData(page)} />
-            )
-            }
+            <AdminAdverts data={advertData} loading={loading} paginate={pagination} refetch={(page) => fetchData(page)} />
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useApiMutation from '../../../api/hooks/useApiMutation';
 import Loader from '../../../components/Loader';
-import Table from '../../../components/Tables';
+import Table from '../../../components/ReviewTable';
 import { dateFormat } from '../../../helpers/dateHelper';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,19 +47,34 @@ const CustomerOrders = () => {
                     :
                     <div className="mt-5">
                         <Table
-                            headers={[
+                            columns={[
                                 { key: 'productName', label: 'Product Name' },
+                                { key: 'sku', label: 'Product ID' },
                                 { key: 'productImage', label: 'Product Image', render: (value) => (<img src={value} width={50} />) },
                                 { key: 'quantity', label: 'Quantity' },
                                 { key: 'price', label: 'Price' },
+                                {
+                                    key: 'status',
+                                    label: 'Status',
+                                    render: (value) => (
+                                        <span className={`py-1 px-3 rounded-full text-sm capitalize ${value === 'delivered'
+                                            ? 'bg-green-100 text-green-600'
+                                            : 'bg-red-100 text-red-600'
+                                            }`}>
+                                            {value}
+                                        </span>
+                                    )
+                                },    
                                 { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
                             ]}
-                            data={orders}
-                            transformData={(orders) => orders.map((item) => ({
+                            data={orders.map((item) => ({
                                 ...item,
+                                sku: item.product.sku,
+                                price: `${item.product.store.currency.symbol} ${item.price}`,
                                 productName: `${item.product.name}`,
                                 productImage: `${item.product.image_url}`,
                             }))}
+                            exportData
                             actions={[
                                 {
                                     label: (row) => {
