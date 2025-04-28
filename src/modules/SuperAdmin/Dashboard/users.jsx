@@ -9,6 +9,7 @@ const App = () => {
   const { mutate } = useApiMutation();
 
   const [customers, setCustomersData] = useState([]);
+  const [totalCustomers, setTotalCustomers] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
   const getCustomers = (page) => {
@@ -27,8 +28,24 @@ const App = () => {
   }
 
 
+  const getAllCustomers = () => {
+    mutate({
+      url: `/admin/customers?page=1&limit=100000000000000`,
+      method: "GET",
+      headers: true,
+      hideToast: true,
+      onSuccess: (response) => {
+        setTotalCustomers(response.data.data);
+      },
+      onError: () => {
+      }
+    });
+  }
+
+
   useEffect(() => {
     getCustomers(1);
+    getAllCustomers();
   }, []);
 
   return (
@@ -38,7 +55,7 @@ const App = () => {
           <Loader />
         </div>
         :
-        <UserTable data={customers} refetch={(page) => getCustomers(page)} />
+        <UserTable data={customers} totalData={totalCustomers} refetch={(page) => getCustomers(page)} />
       }
     </div>
   );
