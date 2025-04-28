@@ -8,6 +8,7 @@ function Table({
   title,
   subTitle,
   columns,
+  allData,
   data,
   actions = [],
   exportData = false,
@@ -29,18 +30,19 @@ function Table({
     }
   }, [hasNumber, columns]);
 
-  
+
   // 2️⃣ Build a filtered version of the data
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
     const lower = searchTerm.toLowerCase();
-    return data.filter(row =>
+    return allData.filter(row =>
       Object.values(row).some(value =>
         value != null &&
         String(value).toLowerCase().includes(lower)
       )
     );
-  }, [data, processedColumns, searchTerm]);
+  }, [allData, data, searchTerm]);
+
 
 
   // 3️⃣ Export should use filtered data
