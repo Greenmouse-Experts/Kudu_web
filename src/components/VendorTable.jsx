@@ -6,7 +6,7 @@ import { useModal } from '../hooks/modal';
 import useApiMutation from '../api/hooks/useApiMutation';
 import Table from './ReviewTable';
 
-const VendorTable = ({ data, refetch }) => {
+const VendorTable = ({ data, totalData, refetch }) => {
     const [kycData, setKYCData] = useState([]);
     const { openModal } = useModal();
 
@@ -100,6 +100,11 @@ const VendorTable = ({ data, refetch }) => {
                                 )
                              }
                         ]}
+                        allData={totalData.map((item) => ({
+                            ...item,
+                            name: `${item.firstName} ${item.lastName}`,
+                            dateJoined: dateFormat(item.createdAt, 'dd-MM-yyyy'),
+                        }))}
                         data={vendorsData.map((item) => ({
                             ...item,
                             name: `${item.firstName} ${item.lastName}`,
