@@ -2,7 +2,7 @@ import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
 import Table from '../components/ReviewTable';
 
-const UserTable = ({ data, refetch }) => {
+const UserTable = ({ data, totalData, refetch }) => {
     const usersData = data.data;
 
     const fetchNew = (page) => {
@@ -36,6 +36,11 @@ const UserTable = ({ data, refetch }) => {
                             ]}
                             exportData
                             hasNumber
+                            allData={totalData.map((item) => ({
+                                ...item,
+                                name: `${item.firstName} ${item.lastName}`,
+                                dateJoined: dateFormat(item.createdAt, 'dd-MM-yyyy')
+                            }))}
                             data={usersData.map((item) => ({
                                 ...item,
                                 name: `${item.firstName} ${item.lastName}`,
