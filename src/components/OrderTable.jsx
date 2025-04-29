@@ -26,6 +26,11 @@ const OrderTable = ({ data, loading }) => {
                             ]}
                             isLoading={loading}
                             exportData
+                            allData={data.map((item) => ({
+                                ...item,
+                                createdAt: `${dateFormat(item.createdAt, "dd-MM-YYY")}`,
+                            }))
+                            }
                             data={data.map((item) => ({
                                 ...item,
                                 createdAt: `${dateFormat(item.createdAt, "dd-MM-YYY")}`,

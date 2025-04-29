@@ -67,6 +67,13 @@ const CustomerOrders = () => {
                                 },    
                                 { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
                             ]}
+                            allData={orders.map((item) => ({
+                                ...item,
+                                sku: item.product.sku,
+                                price: `${item.product.store.currency.symbol} ${item.price}`,
+                                productName: `${item.product.name}`,
+                                productImage: `${item.product.image_url}`,
+                            }))}
                             data={orders.map((item) => ({
                                 ...item,
                                 sku: item.product.sku,

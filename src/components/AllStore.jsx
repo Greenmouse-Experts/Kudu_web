@@ -2,7 +2,7 @@ import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
 import Table from './ReviewTable';
 
-const AllStore = ({ data, paginate, loading, refetch }) => {
+const AllStore = ({ data, paginate, totalData, loading, refetch }) => {
 
     const fetchNew = (page) => {
         refetch(page)
@@ -27,6 +27,12 @@ const AllStore = ({ data, paginate, loading, refetch }) => {
                             ]}
                             exportData
                             isLoading={loading}
+                            allData={totalData.map((item) => ({
+                                ...item,
+                                vendor: item.vendor ? `${item.vendor.firstName} ${item.vendor.lastName}` : 'Administrator',
+                                createdAt: `${dateFormat(item.createdAt, "dd-MM-YYY")}`,
+                            }))
+                            }
                             data={data.map((item) => ({
                                 ...item,
                                 vendor: item.vendor ? `${item.vendor.firstName} ${item.vendor.lastName}` : 'Administrator',
