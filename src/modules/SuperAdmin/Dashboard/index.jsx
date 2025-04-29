@@ -173,18 +173,22 @@ export default function Dashboard() {
                     </div>
                     <div className="w-full flex lg:flex-row md:flex-row flex-col gap-5">
                         <div className="lg:w-[65%] md:w-[65%] w-full flex flex-col gap-5">
-                        <Table
+                            <Table
                                 title="New Users"
                                 subTitle=""
                                 columns={[
                                     { key: "name", label: "Name" },
                                     { key: "accountType", label: "Account Type" },
-                                    { 
-                                      key: "createdAt", 
-                                      label: "Date",
-                                      render: (value) => dateFormat(value, 'dd MMM, yyy')
+                                    {
+                                        key: "createdAt",
+                                        label: "Date",
+                                        render: (value) => dateFormat(value, 'dd MMM, yyy')
                                     }
-                                  ]}
+                                ]}
+                                allData={userData.slice(0, 4).map((item) => ({
+                                    ...item,
+                                    name: `${item.firstName} ${item.lastName}`
+                                }))}
                                 data={userData.slice(0, 4).map((item) => ({
                                     ...item,
                                     name: `${item.firstName} ${item.lastName}`
@@ -217,17 +221,18 @@ export default function Dashboard() {
                                 columns={[
                                     { key: "refId", label: "Reference ID" },
                                     { key: "trackingNumber", label: "Tracking Number" },
-                                    { 
-                                      key: "totalAmount", 
-                                      label: "Amount",
-                                      render: (value) => value
+                                    {
+                                        key: "totalAmount",
+                                        label: "Amount",
+                                        render: (value) => value
                                     },
-                                    { 
-                                      key: "createdAt", 
-                                      label: "Date",
-                                      render: (value) => dateFormat(value, 'dd MMM, yyy')
+                                    {
+                                        key: "createdAt",
+                                        label: "Date",
+                                        render: (value) => dateFormat(value, 'dd MMM, yyy')
                                     }
-                                  ]}
+                                ]}
+                                allData={orders.slice(0, 4)}
                                 data={orders.slice(0, 4)}
                                 actions={[]}
                                 exportData
