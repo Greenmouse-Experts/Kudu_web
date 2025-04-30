@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import useApiMutation from '../../api/hooks/useApiMutation';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 function Forget() {
     const [isLoading, setIsLoading] = useState(false);
     const [passwordBlock, setPasswordBlock] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
+    const navigate = useNavigate();
 
 
     const togglePasswordVisibility = () => {

@@ -7,6 +7,7 @@ const App = () => {
 
     const { mutate } = useApiMutation();
     const [transactions, setTransactions] = useState([]);
+    const [allTransactions, setAllTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
 
 
@@ -27,13 +28,32 @@ const App = () => {
         });
     }
 
+
+    const getAllTransactions = (page) => {
+        setLoading(true);
+        mutate({
+            url: `/admin/transactions?page=1&limit=10000000000`,
+            method: "GET",
+            headers: true,
+            hideToast: true,
+            onSuccess: (response) => {
+                setAllTransactions(response.data.data);
+            },
+            onError: () => {
+                setLoading(false)
+            }
+        });
+    }
+
+
     useEffect(() => {
         getTransactions(1);
+        getAllTransactions();
     }, []);
 
     return (
         <div className="min-h-screen">
-            <Transactions data={transactions.data} loading={loading} paginate={transactions.pagination} fetchNew={(page) => getTransactions(page)} />
+            <Transactions data={transactions.data} totalData={allTransactions} loading={loading} paginate={transactions.pagination} fetchNew={(page) => getTransactions(page)} />
         </div>
     );
 };

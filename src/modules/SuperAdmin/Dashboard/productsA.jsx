@@ -6,6 +6,7 @@ import Loader from '../../../components/Loader';
 const App = () => {
   const { mutate } = useApiMutation();
   const [products, setProducts] = useState([]);
+  const [totalProducts, setTotalProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({});
 
@@ -24,6 +25,19 @@ const App = () => {
         });
       });
 
+
+      const allProductRequest = new Promise((resolve, reject) => {
+        mutate({
+          url: `/admin/general/products?page=1&limit=100000000`,
+          method: 'GET',
+          headers: true,
+          hideToast: true,
+          onSuccess: (response) => resolve(response.data),
+          onError: reject,
+        });
+      });
+
+
       const categoryRequest = new Promise((resolve, reject) => {
         mutate({
           url: '/admin/categories',
@@ -35,8 +49,9 @@ const App = () => {
         });
       });
 
-      const [productsData, categories] = await Promise.all([
+      const [productsData, allProducts, categories] = await Promise.all([
         productRequest,
+        allProductRequest,
         categoryRequest,
       ]);
 
@@ -51,6 +66,18 @@ const App = () => {
         };
       });
 
+
+      const mergedNewData = allProducts.data.map((product) => {
+        const category = categories.find(
+          (cat) => cat.id === product.sub_category?.categoryId
+        );
+        return {
+          ...product,
+          category: category ? category.name : 'Unknown',
+        };
+      });
+
+      setTotalProducts(mergedNewData);
       setProducts(mergedData);
       setPagination(productsData.pagination);
     } catch (error) {
@@ -66,7 +93,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen">
-      <PostProducts data={products} loading={loading} paginate={pagination} refetch={(page) => fetchData(page)} />
+      <PostProducts data={products} totalData={totalProducts} loading={loading} paginate={pagination} refetch={(page) => fetchData(page)} />
     </div>
   );
 };

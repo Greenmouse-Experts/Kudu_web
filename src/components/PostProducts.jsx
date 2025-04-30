@@ -3,7 +3,7 @@ import { useModal } from '../hooks/modal';
 import Modal from './Modal';
 import Table from './ReviewTable';
 
-const PostProducts = ({ data, paginate, loading, refetch }) => {
+const PostProducts = ({ data, paginate, totalData, loading, refetch }) => {
     const { openModal } = useModal();
 
     const fetchNew = (page) => {
@@ -61,6 +61,11 @@ const PostProducts = ({ data, paginate, loading, refetch }) => {
                         ]}
                         exportData
                         isLoading={loading}
+                        allData={totalData.map((item) => ({
+                            ...item,
+                            vendor: item.vendor ? `${item.vendor.firstName} ${item.vendor.lastName}` : 'Administrator',
+                            price: `${item.store.currency.symbol} ${item.price}`,
+                        }))}
                         data={data.map((item) => ({
                                 ...item,
                                 vendor: item.vendor ? `${item.vendor.firstName} ${item.vendor.lastName}` : 'Administrator',

@@ -36,7 +36,7 @@ export function useUpdateFaqCategory() {
 
   return useMutation({
     mutationFn: async (data) => {
-      const response = await axios.put(`/admin/faqs`, data);
+      const response = await axios.put(`/admin/faq/category`, data);
       return response.data.data;
     },
     onSuccess: (res) => {

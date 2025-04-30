@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@material-tailwind/react';
 import useApiMutation from '../api/hooks/useApiMutation';
 
-const AdminAdverts = ({ data, paginate, loading, refetch }) => {
+const AdminAdverts = ({ data, paginate, totalData, loading, refetch }) => {
     const navigate = useNavigate();
     const { openModal, closeModal } = useModal();
     const { mutate } = useApiMutation();
@@ -182,10 +182,15 @@ const AdminAdverts = ({ data, paginate, loading, refetch }) => {
                                 )
                             }
                         ]}
+                        allData={totalData.map((item) => ({
+                            ...item,
+                            sub_category: item.sub_category.name
+                        }))
+                        }
                         data={data.map((item) => ({
-                                ...item,
-                                sub_category: item.sub_category.name
-                            }))
+                            ...item,
+                            sub_category: item.sub_category.name
+                        }))
                         }
                         isLoading={loading}
                         exportData

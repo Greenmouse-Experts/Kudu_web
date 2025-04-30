@@ -67,6 +67,10 @@ const MyProducts = ({ data, refetch }) => {
                                 },
                             ]}
                             exportData
+                            allData={data.map((item) => ({
+                                ...item,
+                                price: `${item.store.currency.symbol} ${item.price}`,
+                            }))}
                             data={data.map((item) => ({
                                 ...item,
                                 price: `${item.store.currency.symbol} ${item.price}`,

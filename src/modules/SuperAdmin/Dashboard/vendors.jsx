@@ -9,6 +9,7 @@ const App = () => {
   const { mutate } = useApiMutation();
 
   const [customers, setCustomersData] = useState([]);
+  const [totalCustomers, setTotalCustomers] = useState([]);
   const [loading, setIsLoading] = useState(true);
 
   const getVendors = (page) => {
@@ -27,8 +28,26 @@ const App = () => {
   }
 
 
+
+  const getTotalVendors = () => {
+    mutate({
+      url: `/admin/vendors?page=1&limit=100000000000000`,
+      method: "GET",
+      headers: true,
+      hideToast: true,
+      onSuccess: (response) => {
+        setTotalCustomers(response.data.data);
+      },
+      onError: () => {
+      }
+    });
+  }
+
+
+
   useEffect(() => {
     getVendors(1);
+    getTotalVendors();
   }, []);
 
   return (
@@ -38,7 +57,7 @@ const App = () => {
           <Loader />
         </div>
         :
-        <VendorTable data={customers} refetch={(page) => getVendors(page)} />
+        <VendorTable data={customers} totalData={totalCustomers} refetch={(page) => getVendors(page)} />
       }
     </div>
   );

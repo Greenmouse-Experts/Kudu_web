@@ -193,7 +193,7 @@ function Table({
         <div className="mt-4 flex justify-between items-center">
           <button
             onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
+            disabled={currentPage === 1 || searchTerm}
             className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50"
           >
             Previous
@@ -203,7 +203,7 @@ function Table({
           </span>
           <button
             onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || searchTerm}
             className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50"
           >
             Next

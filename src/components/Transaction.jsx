@@ -2,7 +2,7 @@ import React from 'react';
 import { dateFormat } from '../helpers/dateHelper';
 import Table from './ReviewTable';
 
-const Transaction = ({ data, paginate, loading, fetchNew }) => {
+const Transaction = ({ data, paginate, totalData, loading, fetchNew }) => {
     return (
         <>
             <div className='All'>
@@ -37,6 +37,10 @@ const Transaction = ({ data, paginate, loading, fetchNew }) => {
                         ]}
                         exportData
                         isLoading={loading}
+                        allData={totalData?.map((item) => ({
+                            ...item,
+                            user: `${item.user.firstName} ${item.user.lastName}`
+                        }))}
                         data={data?.map((item) => ({
                             ...item,
                             user: `${item.user.firstName} ${item.user.lastName}`
