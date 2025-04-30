@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { City, Country, State } from "country-state-city";
 import useApiMutation from '../api/hooks/useApiMutation';
 import { useNavigate } from 'react-router-dom';
+import NaijaStates from 'naija-state-local-government';
+
 
 const AddNewStore = () => {
     const [countries, setCountries] = useState(Country.getAllCountries());
@@ -28,6 +30,13 @@ const AddNewStore = () => {
     const handleStateChange = (state) => {
         const parsedState = JSON.parse(state);
         setSelectedState(parsedState);
+
+        if (selectedCountry.name === "Nigeria") {
+            const fetchedCities = NaijaStates.lgas(parsedState.name).lgas.map(city => ({ name: city }));
+            setCities(fetchedCities);
+            return;
+        }
+
         setCities(City.getCitiesOfState(selectedCountry.isoCode, parsedState.isoCode));
     };
 

@@ -3,6 +3,7 @@ import { State, City } from "country-state-city";
 import useAppState from "../hooks/appState";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
+import NaijaStates from 'naija-state-local-government';
 import useApiMutation from "../api/hooks/useApiMutation";
 import { setKuduUser } from "../reducers/userSlice";
 
@@ -24,26 +25,31 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
 
     const handleCountryChange = (isoCode) => {
         if (!isoCode) return;
-        const country = countries.find((c) => c.isoCode === isoCode);
+        const country = countries.find((c) => c.name === isoCode);
         setSelectedCountry(country);
         setSelectedState(null);
         setSelectedCity(null);
-        setStates(State.getStatesOfCountry(isoCode));
+        setStates(State.getStatesOfCountry(country.isoCode));
         setCities([]);
     };
 
     const handleStateChange = (isoCode) => {
         if (!isoCode || !selectedCountry) return;
 
-        const state = states.find((s) => s.isoCode === isoCode);
+        const state = states.find((s) => s.name === isoCode);
 
         setSelectedState(state);
         setSelectedCity(null);
 
-        // Fetch cities using isoCode directly
-        const fetchedCities = City.getCitiesOfState(selectedCountry?.isoCode, isoCode);
-
-        setCities(fetchedCities);
+        if (selectedCountry.name === "Nigeria") {
+            const fetchedCities = NaijaStates.lgas(state.name).lgas.map(city => ({ name: city }));
+            setCities(fetchedCities);
+        }
+        else {
+            // Fetch cities using isoCode directly
+            const fetchedCities = City.getCitiesOfState(selectedCountry?.isoCode, isoCode);
+            setCities(fetchedCities);
+        }
     };
 
     const handleCityChange = (cityName) => {
@@ -83,7 +89,7 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
                 >
                     <option value="" disabled selected>Tap to Select</option>
                     {countries.map((country) => (
-                        <option key={country.isoCode} value={country.isoCode}>
+                        <option key={country.isoCode} value={country.name}>
                             {country.name}
                         </option>
                     ))}
@@ -102,7 +108,7 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
                 >
                     <option value="" disabled selected>Tap to Select</option>
                     {states.map((state) => (
-                        <option key={state.isoCode} value={state.isoCode}>
+                        <option key={state.isoCode} value={state.name}>
                             {state.name}
                         </option>
                     ))}
