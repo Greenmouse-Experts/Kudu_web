@@ -26,8 +26,6 @@ export default function Sidebar({ onSelected }) {
     const { openModal } = useModal();
     const navigate = useNavigate();
 
-    console.log(user)
-
     const handleClose = () => {
         setOpen(false);
         if (onSelected) onSelected(); // Call parent handler if passed
