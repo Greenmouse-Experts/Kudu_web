@@ -17,12 +17,12 @@ const Faqs = ({ data, refetch }) => {
 
   const { openModal } = useModal();
 
-  const handleCreateModal = (user) => {
+  const handleCreateModal = (item) => {
     openModal({
       size: "sm",
       content: (
         <AddFaqModal
-          selectedItem={selectedItem}
+          selectedItem={item}
           data={data}
           redirect={refetch}
         />
@@ -35,7 +35,7 @@ const Faqs = ({ data, refetch }) => {
       size: "sm",
       content: (
         <Modal
-          title={`Do you wish to delete this category?`}
+          title={`Do you wish to delete this FAQ?`}
           redirect={refetch}
           api={`/admin/faq?id=${id}`}
           method={"DELETE"}
@@ -52,7 +52,7 @@ const Faqs = ({ data, refetch }) => {
             Faqs
           </h2>
           <button
-            onClick={handleCreateModal}
+            onClick={() => handleCreateModal(null)}
             className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
           >
             Add Faq
@@ -89,8 +89,7 @@ const Faqs = ({ data, refetch }) => {
                     size={20}
                     className=" cursor-pointer"
                     onClick={() => {
-                      setselectedItem(item);
-                      handleCreateModal();
+                      handleCreateModal(item);
                     }}
                   />
                   <RiDeleteBin5Line
