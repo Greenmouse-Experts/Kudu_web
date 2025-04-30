@@ -4,7 +4,8 @@ import useApiMutation from '../../../api/hooks/useApiMutation';
 import Loader from '../../../components/Loader';
 
 const App = () => {
-    const [storesData, setAllStores] = useState([]);
+    const [storesData, setStores] = useState([]);
+    const [allStores, setAllStores] = useState([]);
     const [pagination, setPagination] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -23,11 +24,25 @@ const App = () => {
                     onError: reject,
                 });
             });
-            const [stores] = await Promise.all([
+
+            const allStoresRequest = new Promise((resolve, reject) => {
+                mutate({
+                    url: `/admin/general/stores?page=1&limit=10000000000`,
+                    method: 'GET',
+                    headers: true,
+                    hideToast: true,
+                    onSuccess: (response) => resolve(response.data),
+                    onError: reject,
+                });
+            });
+
+            const [stores, allStores] = await Promise.all([
                 storesRequest,
+                allStoresRequest,
             ]);
 
-            setAllStores(stores.data)
+            setAllStores(allStores.data);
+            setStores(stores.data);
             setPagination(stores.pagination);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -43,7 +58,7 @@ const App = () => {
 
     return (
         <div className="min-h-screen">
-            <AllStores data={storesData} loading={loading} paginate={pagination} refetch={(page) => fetchData(page)} />
+            <AllStores data={storesData} totalData={allStores} loading={loading} paginate={pagination} refetch={(page) => fetchData(page)} />
         </div>
     );
 };
