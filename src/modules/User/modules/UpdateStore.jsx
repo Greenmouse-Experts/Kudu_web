@@ -191,7 +191,6 @@ const UpdateStore = () => {
         if (selectedCountry.name === "Nigeria") {
             const fetchedCities = NaijaStates.lgas(state.name).lgas.map(city => ({ name: city }));
             setCities(fetchedCities);
-
             return;
         }
 
