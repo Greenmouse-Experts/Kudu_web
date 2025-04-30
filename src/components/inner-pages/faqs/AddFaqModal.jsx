@@ -13,7 +13,9 @@ import { toast } from "react-toastify";
 const AddFaqModal = ({ selectedItem }) => {
   const { closeModal } = useModal();
 
-  const [categoryId, setcategoryId] = useState(selectedItem?.categoryId ?? "");
+  console.log(selectedItem)
+
+  const [categoryId, setcategoryId] = useState(selectedItem?.faqCategoryId ?? "");
   const [question, setquestion] = useState(selectedItem?.question ?? "");
   const [answer, setanswer] = useState(selectedItem?.answer ?? "");
 

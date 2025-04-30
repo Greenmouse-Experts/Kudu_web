@@ -26,6 +26,8 @@ export default function Sidebar({ onSelected }) {
     const { openModal } = useModal();
     const navigate = useNavigate();
 
+    console.log(user)
+
     const handleClose = () => {
         setOpen(false);
         if (onSelected) onSelected(); // Call parent handler if passed
@@ -150,15 +152,19 @@ export default function Sidebar({ onSelected }) {
                         FAQs
                     </Link>
 
-                    <Link
-                        to="/become-a-vendor"
-                        className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
-                        onClick={handleClose}
+                    {user && user.accountType !== 'Vendor' ?
+                        <Link
+                            to="/become-a-vendor"
+                            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+                            onClick={handleClose}
 
-                    >
-                        <Store size={20} style={{ color: "#ff6f22" }} />
-                        Become a Vendor
-                    </Link>
+                        >
+                            <Store size={20} style={{ color: "#ff6f22" }} />
+                            Become a Vendor
+                        </Link>
+                        :
+                        <></>
+                    }
 
                     <Link
                         to="/advertise-with-us"

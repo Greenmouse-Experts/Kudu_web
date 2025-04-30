@@ -56,7 +56,7 @@ const FaqCategories = ({ data, refetch }) => {
             Faq categories
           </h2>
           <button
-            onClick={handleCreateModal}
+            onClick={() => handleCreateModal(null)}
             className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
           >
             Add New Category
