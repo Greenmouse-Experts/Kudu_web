@@ -14,9 +14,11 @@ import {
   Hammer,
   ShoppingBag,
 } from "lucide-react";
+import useAppState from "../../hooks/appState";
 
 const FlyoutMenu = () => {
   const [open, setOpen] = useState(false);
+  const { user } = useAppState();
 
   return (
     <>
@@ -125,14 +127,18 @@ const FlyoutMenu = () => {
             Careers
           </Link>
 
-          <Link
-            to="/become-a-vendor"
-            className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
-            onClick={() => setOpen(false)}
-          >
-            <Store size={20} style={{ color: "#ff6f22" }} />
-            Become a Vendor
-          </Link>
+          {user && user.accountType !== 'Vendor' ?
+            <Link
+              to="/become-a-vendor"
+              className="px-6 py-4 text-base text-black cursor-pointer hover:bg-gray-200 flex items-center gap-3"
+              onClick={() => setOpen(false)}
+            >
+              <Store size={20} style={{ color: "#ff6f22" }} />
+              Become a Vendor
+            </Link>
+            :
+            <></>
+          }
 
           <Link
             to="/advertise-with-us"
