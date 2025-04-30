@@ -157,6 +157,11 @@ const WithdrawalRequest = () => {
                                         )
                                     },
                                 ]}
+                                allData={withdrawals.map((item) => ({
+                                    ...item,
+                                    name: `${item.vendor.firstName} ${item.vendor.lastName}`,
+                                    bankInfo: parseBankInfo(item.bankInformation.bankInfo),
+                                }))}
                                 data={withdrawals.map((item) => ({
                                     ...item,
                                     name: `${item.vendor.firstName} ${item.vendor.lastName}`,

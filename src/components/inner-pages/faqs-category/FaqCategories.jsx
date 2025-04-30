@@ -21,12 +21,12 @@ const FaqCategories = ({ data, refetch }) => {
     refetch();
   };
 
-  const handleCreateModal = (user) => {
+  const handleCreateModal = (item) => {
     openModal({
       size: "sm",
       content: (
         <AddFaqCategoryModal
-          selectedItem={selectedItem}
+          selectedItem={item}
           data={data}
           redirect={refetch}
         />
@@ -79,8 +79,7 @@ const FaqCategories = ({ data, refetch }) => {
                     size={20}
                     className=" cursor-pointer"
                     onClick={() => {
-                      setselectedItem(item);
-                      handleCreateModal();
+                      handleCreateModal(item);
                     }}
                   />
                   <RiDeleteBin5Line
