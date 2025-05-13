@@ -12,12 +12,12 @@ const MyComponent = ({ categories }) => {
 
     const slides = [
         {
-            desktopImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1740387320/kmb4_fkdjo4.png",
-            mobileImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1741188644/kudu_mart/mbkd2_2_rjixyc.png",
+            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747159169/kuduMart/kmb4_fkdjo4_1_1_1_aiama3.jpg",
+            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747158502/kuduMart/mbkd2_2_rjixyc_1_pmxuek.jpg",
         },
         {
-            desktopImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1740387322/kdbn3_ynznyh.jpg",
-            mobileImage: "https://res.cloudinary.com/do2kojulq/image/upload/v1741188898/kudu_mart/mbkd2_v3y2ve.png",
+            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747158344/kuduMart/kdbn3_ynznyh_1_1_wazogj.jpg",
+            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747158591/kuduMart/mbkd2_v3y2ve_1_dxdwgk.jpg",
         },
         {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_11.18.18_AM_hcqyzy.jpg",
@@ -37,7 +37,7 @@ const MyComponent = ({ categories }) => {
         <div
             className="relative z-50 bg-white J md:mt-50 sm:mt-50"
             style={{
-                backgroundImage: "url('https://res.cloudinary.com/greenmouse-tech/image/upload/v1741089169/We-Immersive/kmb4_1_mtofeu.png')",
+                backgroundImage: "url('https://res.cloudinary.com/greenmouse-tech/image/upload/v1747159259/kuduMart/kmb4_1_mtofeu_1_1_ery4y2.jpg')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
             }}
