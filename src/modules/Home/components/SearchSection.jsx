@@ -25,13 +25,9 @@ const MyComponent = ({ categories }) => {
         },
     ];
 
-
-
     const handleNavigation = (id, name) => {
         navigate(`products/categories/${id}/${name}`)
     }
-
-
 
     return (
         <div
