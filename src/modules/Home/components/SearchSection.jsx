@@ -13,15 +13,15 @@ const MyComponent = ({ categories }) => {
     const slides = [
         {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747159169/kuduMart/kmb4_fkdjo4_1_1_1_aiama3.jpg",
-            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747158502/kuduMart/mbkd2_2_rjixyc_1_pmxuek.jpg",
+            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747160096/kuduMart/mbkd2_2_rjixyc_1_pmxuek_1_bxg36i.jpg",
         },
         {
-            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747158344/kuduMart/kdbn3_ynznyh_1_1_wazogj.jpg",
-            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747158591/kuduMart/mbkd2_v3y2ve_1_dxdwgk.jpg",
+            desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747160051/kuduMart/kdbn3_ynznyh_1_1_wazogj_1_s2pb6o.jpg",
+            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747160635/kuduMart/mbkd2_v3y2ve_1_dxdwgk_1_conoa9.jpg",
         },
         {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739274574/kuduMart/WhatsApp_Image_2025-02-11_at_11.18.18_AM_hcqyzy.jpg",
-            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1739297530/kuduMart/mbkd3o_ulwuof.png",
+            mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747159988/kuduMart/mbkd3o_ulwuof_1_tfq5h8.jpg",
         },
     ];
 
