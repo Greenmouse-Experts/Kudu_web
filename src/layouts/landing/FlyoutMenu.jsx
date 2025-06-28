@@ -24,7 +24,7 @@ const FlyoutMenu = () => {
     <>
       {/* Menu Button */}
       <button
-        className="bg-[#FFF2EA] border border-black text-black py-2 px-2 rounded-full flex items-center gap-2"
+        className="bg-[#FFF2EA] border border-black text- py-2 px-2 rounded-full flex items-center gap-2"
         onClick={() => setOpen((prev) => !prev)}
       >
         <svg
