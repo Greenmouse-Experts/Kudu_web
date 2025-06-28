@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const MyComponent = ({ categories }) => {
 
-    const navigate = useNavigate();H
+    const navigate = useNavigate();
 
     const slides = [
         {
