@@ -91,7 +91,8 @@ const Sidebar = () => {
                                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                                     <Link to={'/admin/all-customers'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Customers</Link>
                                     <Link to={'/admin/all-vendors'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Vendors</Link>
-
+                                    <Link to={'/admin/sub-admins'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Sub Admins</Link>
+                                    <Link to={'/admin/permissions'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Permissions</Link>
                                 </div>
                             )}
                         </div>

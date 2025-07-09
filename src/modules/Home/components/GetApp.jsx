@@ -17,19 +17,30 @@ export default function GetApp() {
                         </p>
                         <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-6">
                             {/* Google Play Button */}
-                            <img
-                                src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_23_x0rtk4.png"
-                                alt="Google Play"
-                                className="w-24 sm:w-10 md:w-40 mb-4 sm:mb-2"
-                                draggable="false"
-                            />
+                            <button
+                                onClick={() => window.open("https://play.google.com/store/apps/details?id=com.kudu.app&hl=en", "_blank")}
+                                className="hover:scale-105 transition-transform duration-200"
+                            >
+                                <img
+                                    src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_23_x0rtk4.png"
+                                    alt="Google Play"
+                                    className="w-24 sm:w-10 md:w-40 mb-4 sm:mb-2"
+                                    draggable="false"
+                                />
+                            </button>
                             {/* App Store Button */}
-                            <img
-                                src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_24_jfspqy.png"
-                                alt="App Store"
-                                className="w-24 sm:w-10 md:w-40 mb-4 sm:mb-2"
-                                draggable="false"
-                            />
+                            <button
+                                onClick={() => alert("iOS app coming soon! Stay tuned for updates.")}
+                                className="hover:scale-105 transition-transform duration-200 opacity-60 cursor-not-allowed"
+                                disabled
+                            >
+                                <img
+                                    src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_24_jfspqy.png"
+                                    alt="App Store"
+                                    className="w-24 sm:w-10 md:w-40 mb-4 sm:mb-2"
+                                    draggable="false"
+                                />
+                            </button>
                         </div>
                     </div>
 
