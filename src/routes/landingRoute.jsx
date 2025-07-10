@@ -13,6 +13,7 @@ import Careers from "../modules/Home/Careers";
 import JobDetails from "../modules/Home/JobDetails";
 import BecomeAvendor from "../modules/Home/BecomeAvendor";
 import AdvertiseOnKudu from "../modules/Home/AdvertiseOnKudu"
+import DownloadApp from "../modules/Home/DownloadApp";
 import SearchProduct from "../modules/Products/searchProduct";
 import UserSettings from "../modules/Settings";
 import ProfileSettings from "../modules/Settings/modules/profile";
@@ -187,6 +188,10 @@ export const landingRooutes = [
         element: <Return />
       },
       
+      {
+        path: 'download-app',
+        element: <DownloadApp />
+      },
     ],
   }
 ];

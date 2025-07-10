@@ -1,5 +1,6 @@
 import React from "react";
 import AdminLayout from "../layouts/admin";
+import AdminRouteGuard from "../components/AdminRouteGuard";
 import Dashboard from "../modules/SuperAdmin/Dashboard";
 import Users from '../modules/SuperAdmin/Dashboard/users.jsx';
 import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx';
@@ -41,11 +42,20 @@ import WithdrawalRequest from "../modules/SuperAdmin/Dashboard/withdrawalRequest
 import ErrorBoundary from "../components/ErrorBoundary.jsx";
 import JobApplicants from "../modules/SuperAdmin/Dashboard/jobsApplicants.jsx";
 import UserInquiries from "../modules/SuperAdmin/Dashboard/userInquiries.jsx";
+import SubAdmins from "../modules/SuperAdmin/Dashboard/SubAdmins.jsx";
+import AdminRoles from "../modules/SuperAdmin/Dashboard/AdminRoles.jsx";
+import CreateSubAdmin from "../modules/SuperAdmin/Dashboard/CreateSubAdmin.jsx";
+import CreateRole from "../modules/SuperAdmin/Dashboard/CreateRole.jsx";
+import Permissions from "../modules/SuperAdmin/Dashboard/Permissions.jsx";
 
 export const adminRoutes = [
     {
         path: "/admin/*",
-        element: <AdminLayout />,
+        element: (
+            <AdminRouteGuard>
+                <AdminLayout />
+            </AdminRouteGuard>
+        ),
         errorElement: <ErrorBoundary />,
         children: [
             {
@@ -212,6 +222,26 @@ export const adminRoutes = [
             {
                 path: "user-inquiries",
                 element: <UserInquiries />,
+            },
+            {
+                path: "sub-admins",
+                element: <SubAdmins />,
+            },
+            {
+                path: "sub-admins/roles",
+                element: <AdminRoles />,
+            },
+            {
+                path: "sub-admins/create-role",
+                element: <CreateRole />,
+            },
+            {
+                path: "sub-admins/create",
+                element: <CreateSubAdmin />,
+            },
+            {
+                path: "permissions",
+                element: <Permissions />,
             },
         ],
     },

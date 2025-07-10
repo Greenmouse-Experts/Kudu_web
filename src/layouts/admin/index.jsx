@@ -14,17 +14,19 @@ const AdminLayout = () => {
 
     return (
         <>
-            <div className="w-full flex flex-col md:flex-row h-full animate__animated animate__fadeIn bg-kuduLightGray">
+            <div className="w-full flex flex-col md:flex-row h-full animate__animated animate__fadeIn bg-kuduLightGray overflow-hidden">
                 <Header openMenu={toggleMenu} />
                 <div className="hidden md:flex">
                     <SideBar />
                 </div>
-                <div className="w-full lg:ml-[24%] md:mx-4 flex flex-col gap-5 md:ml-[23%] h-full">
+                <div className="w-full lg:ml-[24%] md:mx-4 flex flex-col gap-5 md:ml-[23%] h-full overflow-hidden">
                     <NavBar />
-                    <Outlet />
+                    <div className="flex-1 overflow-y-auto">
+                        <Outlet />
+                    </div>
                 </div>
             </div>
-            <Drawer open={isMenuOpen} onClose={toggleMenu} placement="left">
+            <Drawer open={isMenuOpen} onClose={toggleMenu} placement="left" className="overflow-hidden">
                 <SideBar onMobile onSelected={toggleMenu} />
             </Drawer>
         </>

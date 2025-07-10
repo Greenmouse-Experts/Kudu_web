@@ -8,11 +8,7 @@ import useAppState from "../../hooks/appState";
 import SwitchVendorModal from "../../modules/User/components/switchVendor";
 import FlyoutMenu from "./FlyoutMenu";
 import SearchBar from "./SearchBar";
-import {
-  Mail,
-  Bell,
-  ShoppingCart,
-} from "lucide-react";
+import { Mail, Bell, ShoppingCart } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
 import { useNotification } from "../../api/notification";
@@ -29,25 +25,24 @@ export default function Header({ openMenu }) {
   const { data: messages } = useConversation();
   const { data: cart } = useCart();
 
-
   const getUnreadNotifications = (notifications) => {
     if (!notifications) return 0;
 
-    return notifications.filter(notification => !notification.isRead).length;
+    return notifications.filter((notification) => !notification.isRead).length;
   };
-
 
   const getCartNumber = (cartData) => {
     if (!cartData) return 0;
     return cartData.filter((item) => item.product.quantity > 0).length;
-  }
-
+  };
 
   const getUnreadMessagesCount = (messages) => {
     if (!messages) return 0;
     return messages.reduce((count, conversation) => {
       if (conversation.receiverId === user?.id) {
-        const unreadMessages = conversation.message.filter(msg => !msg.isRead).length;
+        const unreadMessages = conversation.message.filter(
+          (msg) => !msg.isRead
+        ).length;
         return count + unreadMessages;
       }
       return count;
@@ -159,7 +154,7 @@ export default function Header({ openMenu }) {
           {/* Right Buttons */}
           <div className="flex items-center space-x-5">
             {user &&
-              (navOptions.map((options, index) => (
+              navOptions.map((options, index) => (
                 <>
                   <Link
                     to={`/${options.slug}`}
@@ -174,8 +169,7 @@ export default function Header({ openMenu }) {
                     )}
                   </Link>
                 </>
-              )))
-            }
+              ))}
 
             {!user && (
               <div className="flex items-center gap-1">
@@ -320,13 +314,6 @@ export default function Header({ openMenu }) {
             </button>
           </div>
 
-
-
-
-
-
-
-
           {/* Desktop Navigation */}
           <header className="w-full">
             {/* Top Bar */}
@@ -402,33 +389,36 @@ export default function Header({ openMenu }) {
                 <span className="h-6 border-l border-white"></span>
 
                 {/* Get the Kudu App */}
-                <span className="flex items-center space-x-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="15"
-                    height="22"
-                    viewBox="0 0 15 22"
-                    fill="none"
-                  >
-                    <path
-                      d="M12.0813 1H3.03479C1.95588 1 1.0802 1.90054 1.0802 3.01081V18.9892C1.0802 20.0995 1.95588 21 3.03479 21H12.0813C13.1602 21 14.0359 20.0995 14.0359 18.9892V3.01081C14.0359 1.90054 13.1602 1 12.0813 1Z"
-                      stroke="black"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M5.39929 3.72646H9.71713M7.55821 18.3221C7.63482 18.3269 7.7116 18.3159 7.7838 18.2899C7.85601 18.2638 7.92211 18.2233 7.97805 18.1707C8.03398 18.1181 8.07856 18.0547 8.10903 17.9842C8.1395 17.9138 8.15522 17.8378 8.15522 17.7611C8.15522 17.6843 8.1395 17.6083 8.10903 17.5379C8.07856 17.4674 8.03398 17.404 7.97805 17.3514C7.92211 17.2988 7.85601 17.2583 7.7838 17.2322C7.7116 17.2062 7.63482 17.1952 7.55821 17.2C7.41542 17.2088 7.28139 17.2718 7.18341 17.3761C7.08544 17.4803 7.0309 17.618 7.0309 17.7611C7.0309 17.9041 7.08544 18.0418 7.18341 18.146C7.28139 18.2503 7.41542 18.3133 7.55821 18.3221Z"
-                      stroke="black"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  <span className="text-sm font-medium text-black">
-                    Get the Kudu App
-                  </span>
-                </span>
+                <Link 
+      to="/download-app" 
+      className="bg-white text-kuduOrange px-3 py-2 rounded-lg flex items-center space-x-4 hover:opacity-80 transition-opacity duration-200"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15"
+        height="22"
+        viewBox="0 0 15 22"
+        fill="none"
+      >
+        <path
+          d="M12.0813 1H3.03479C1.95588 1 1.0802 1.90054 1.0802 3.01081V18.9892C1.0802 20.0995 1.95588 21 3.03479 21H12.0813C13.1602 21 14.0359 20.0995 14.0359 18.9892V3.01081C14.0359 1.90054 13.1602 1 12.0813 1Z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M5.39929 3.72646H9.71713M7.55821 18.3221C7.63482 18.3269 7.7116 18.3159 7.7838 18.2899C7.85601 18.2638 7.92211 18.2233 7.97805 18.1707C8.03398 18.1181 8.07856 18.0547 8.10903 17.9842C8.1395 17.9138 8.15522 17.8378 8.15522 17.7611C8.15522 17.6843 8.1395 17.6083 8.10903 17.5379C8.07856 17.4674 8.03398 17.404 7.97805 17.3514C7.92211 17.2988 7.85601 17.2583 7.7838 17.2322C7.7116 17.2062 7.63482 17.1952 7.55821 17.2C7.41542 17.2088 7.28139 17.2718 7.18341 17.3761C7.08544 17.4803 7.0309 17.618 7.0309 17.7611C7.0309 17.9041 7.08544 18.0418 7.18341 18.146C7.28139 18.2503 7.41542 18.3133 7.55821 18.3221Z"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <span className="text-sm font-medium text-kuduOrange">
+        Get the Kudu App
+      </span>
+    </Link>
               </div>
             </div>
 
@@ -441,7 +431,6 @@ export default function Header({ openMenu }) {
                     src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737497178/kuduMart/kudum_2_c8qm7a.png"
                     alt="Kudu Logo"
                     draggable="false"
-                    sizes="20vw"
                   />
                 </Link>
               </div>
@@ -452,7 +441,7 @@ export default function Header({ openMenu }) {
               {/* Right Buttons */}
               <div className="flex items-center space-x-7">
                 {user &&
-                  (navOptions.map((options, index) => (
+                  navOptions.map((options, index) => (
                     <>
                       <Link
                         to={`/${options.slug}`}
@@ -467,9 +456,7 @@ export default function Header({ openMenu }) {
                         )}
                       </Link>
                     </>
-                  )))
-                }
-
+                  ))}
 
                 {!user && (
                   <div className="flex items-center gap-1">

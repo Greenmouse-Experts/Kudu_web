@@ -7,7 +7,7 @@ import { FaLaptop } from "react-icons/fa";
 import { IoCashOutline } from "react-icons/io5";
 
 
-const Sidebar = () => {
+const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
     const [dropdownStates, setDropdownStates] = useState({
@@ -32,6 +32,13 @@ const Sidebar = () => {
         }));
     };
 
+    const handleMenuClick = (callback) => {
+        if (callback) callback();
+        if (onMobile) {
+            onSelected();
+        }
+    };
+
     const logOutRedirect = () => {
         navigate('/auth/admin/login');
     }
@@ -45,11 +52,11 @@ const Sidebar = () => {
 
     return (
         <>
-            <div className={`bg-kuduMade h-full px-6 pt-6 rounded-md flex-col w-full md:w-[20%] relative md:fixed flex overflow-auto bg-mobiDarkCloud transition-all mb-10`}>
-                <div className={`h-full bg-white pb-20 rounded-md flex-col w-full md:w-[21%] relative md:fixed flex overflow-auto bg-mobiDarkCloud transition-all mb-10`}>
+            <div className={`bg-kuduMade h-full px-6 pt-6 rounded-md flex-col w-full md:w-[20%] relative md:fixed flex ${onMobile ? 'overflow-y-auto' : 'overflow-hidden'} bg-mobiDarkCloud transition-all mb-10`}>
+                <div className={`h-full bg-white pb-20 rounded-md flex-col w-full md:w-[21%] relative md:fixed flex ${onMobile ? 'overflow-y-auto' : 'overflow-hidden'} bg-mobiDarkCloud transition-all mb-10`}>
                     {/* Logo */}
                     <div className="px-4 flex flex-col gap-2">
-                        <Link to={'/auth/admin/login'}>
+                        <Link to={'/auth/admin/login'} onClick={() => handleMenuClick()}>
                             <Imgix
                                 src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
                                 alt="Kudu Mart Logo"
@@ -61,8 +68,8 @@ const Sidebar = () => {
                     </div>
 
                     {/* Navigation Items */}
-                    <nav className="px-5 space-y-5">
-                        <Link to={'/admin/dashboard'}
+                    <nav className="px-5 space-y-5 flex-1 overflow-y-auto">
+                        <Link to={'/admin/dashboard'} onClick={() => handleMenuClick()}
                             className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/dashboard') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-[#FFF1E9]'
                                 }`}>
                             <i className="mr-5"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -88,10 +95,11 @@ const Sidebar = () => {
                                 </i>
                             </button>
                             {dropdownStates.users && (
-                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
-                                    <Link to={'/admin/all-customers'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Customers</Link>
-                                    <Link to={'/admin/all-vendors'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Vendors</Link>
-
+                                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-50 border border-gray-200">
+                                    <Link to={'/admin/all-customers'} onClick={() => handleMenuClick(() => handleChildren(''))} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Customers</Link>
+                                    <Link to={'/admin/all-vendors'} onClick={() => handleMenuClick(() => handleChildren(''))} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">All Vendors</Link>
+                                    <Link to={'/admin/sub-admins'} onClick={() => handleMenuClick(() => handleChildren(''))} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Sub Admins</Link>
+                                    <Link to={'/admin/permissions'} onClick={() => handleMenuClick(() => handleChildren(''))} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Permissions</Link>
                                 </div>
                             )}
                         </div>
@@ -289,12 +297,12 @@ const Sidebar = () => {
 
                     {/* Footer */}
                     <div className="px-4 py-6">
-                        <Link to={'/admin/settings'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/settings') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
+                        <Link to={'/admin/settings'} onClick={() => handleMenuClick()} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/settings') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className={`fas fa-cog mr-5`}></i>
                             <span className="text-md font-[600]">Settings</span>
                         </Link>
-                        <span onClick={() => [handleLogOutModal(), onSelected(false)]} className={`flex cursor-pointer items-center py-2 px-4 h-[57px] rounded-lg text-red-500 hover:bg-kuduLightGray  transition`}>
+                        <span onClick={() => handleMenuClick(handleLogOutModal)} className={`flex cursor-pointer items-center py-2 px-4 h-[57px] rounded-lg text-red-500 hover:bg-kuduLightGray  transition`}>
                             <i className="fas fa-sign-out-alt mr-5"></i>
                             <span className="text-md font-[600]">Logout</span>
                         </span>
