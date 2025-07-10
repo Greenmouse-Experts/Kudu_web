@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useApiMutation from "../../api/hooks/useApiMutation";
 import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
+import { isTokenValid } from "../../helpers/tokenValidator";
 
 function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    if (isTokenValid()) {
+      console.log("🔄 [AdminLogin] User already logged in, redirecting to dashboard");
+      navigate("/admin/dashboard", { replace: true });
+    }
+  }, [navigate]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -29,17 +38,31 @@ function AdminLogin() {
 
   const onSubmit = (data) => {
     setIsLoading(true);
+    console.log("🔄 [AdminLogin] Attempting login with:", { email: data.email });
+    
     mutate({
       url: "/auth/admin/login",
       method: "POST",
       data: data,
       onSuccess: (response) => {
+        console.log("✅ [AdminLogin] Login successful:", response.data);
+        console.log("🏪 [AdminLogin] Storing token and user data...");
+        
+        // Store token and user data
         localStorage.setItem("kuduUserToken", response.data.token);
         dispatch(setKuduUser(response.data.data));
-        navigate("/admin/dashboard");
+        
+        console.log("📦 [AdminLogin] Token stored:", response.data.token?.substring(0, 20) + "...");
+        console.log("👤 [AdminLogin] User data stored:", response.data.data);
+        
         setIsLoading(false);
+        
+        // Force immediate redirect
+        console.log("🔄 [AdminLogin] Attempting redirect to /admin/dashboard...");
+        window.location.href = "/admin/dashboard";
       },
-      onError: () => {
+      onError: (error) => {
+        console.error("❌ [AdminLogin] Login failed:", error);
         setIsLoading(false);
       },
     });

@@ -14,6 +14,7 @@ const SubAdmins = () => {
     const [sortBy, setSortBy] = useState('newest');
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showRoleModal, setShowRoleModal] = useState(false);
     const [selectedAdmin, setSelectedAdmin] = useState(null);
     const [editForm, setEditForm] = useState({ name: '', email: '', roleId: '' });
     const [roles, setRoles] = useState([]);
@@ -242,27 +243,29 @@ const SubAdmins = () => {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1"
                             />
-                            <select
-                                value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value)}
-                                className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                            >
-                                <option value="newest">Sort: Newest First</option>
-                                <option value="oldest">Sort: Oldest First</option>
-                                <option value="name">Sort: Name A-Z</option>
-                                <option value="email">Sort: Email A-Z</option>
-                            </select>
+                            <div className="relative">
+                                <select
+                                    value={sortBy}
+                                    onChange={(e) => setSortBy(e.target.value)}
+                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white min-w-0 w-40 truncate"
+                                >
+                                    <option value="newest">Newest First</option>
+                                    <option value="oldest">Oldest First</option>
+                                    <option value="name">Name A-Z</option>
+                                    <option value="email">Email A-Z</option>
+                                </select>
+                            </div>
                         </div>
-                        <div className="flex gap-3">
-                            <Link
-                                to="/admin/sub-admins/roles"
+                        <div className="flex flex-wrap gap-3">
+                            <button
+                                onClick={() => setShowRoleModal(true)}
                                 className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 border border-transparent"
                             >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
                                 Create New Role
-                            </Link>
+                            </button>
                             <Link
                                 to="/admin/sub-admins/create"
                                 className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 border border-transparent"
@@ -278,17 +281,18 @@ const SubAdmins = () => {
 
                 {/* Table */}
                 <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                    <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Profile</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Name</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Email Address</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Status</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Date Joined</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Action</th>
-                            </tr>
-                        </thead>
+                    <div className="overflow-x-auto">
+                        <table className="w-full min-w-[800px]">
+                            <thead className="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[80px]">Profile</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[120px]">Name</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[200px]">Email Address</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[100px]">Status</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[120px]">Date Joined</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[100px]">Action</th>
+                                </tr>
+                            </thead>
                         <tbody className="divide-y divide-gray-200">
                             {filteredSubAdmins.length === 0 ? (
                                 <tr>
@@ -374,7 +378,8 @@ const SubAdmins = () => {
                                 ))
                             )}
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
 
                     {/* Pagination */}
                     <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
@@ -477,6 +482,72 @@ const SubAdmins = () => {
                                     className="px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                                 >
                                     Update Admin
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Role Selection Modal */}
+                {showRoleModal && (
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
+                            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+                                <h3 className="text-lg font-semibold text-gray-900">Select a Role</h3>
+                                <button
+                                    onClick={() => setShowRoleModal(false)}
+                                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <div className="p-6">
+                                <div className="space-y-3 max-h-96 overflow-y-auto">
+                                    {roles.length === 0 ? (
+                                        <div className="text-center py-8 text-gray-500">
+                                            <p>No roles found</p>
+                                            <p className="text-sm text-gray-400 mt-2">Create a role first before assigning it</p>
+                                        </div>
+                                    ) : (
+                                        roles.map((role) => (
+                                            <div key={role.id} className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                                                <input
+                                                    type="radio"
+                                                    name="selectedRole"
+                                                    value={role.id}
+                                                    className="h-4 w-4 text-orange-500 border-gray-300 focus:ring-orange-500"
+                                                />
+                                                <div className="flex-1">
+                                                    <p className="font-medium text-gray-900">{role.name}</p>
+                                                    <p className="text-sm text-gray-500">Created: {formatDate(role.createdAt)}</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-end space-x-3 p-6 border-t border-gray-200">
+                                <button
+                                    onClick={() => setShowRoleModal(false)}
+                                    className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        const selectedRole = document.querySelector('input[name="selectedRole"]:checked');
+                                        if (selectedRole) {
+                                            window.location.href = `/admin/sub-admins/roles?roleId=${selectedRole.value}`;
+                                        }
+                                        setShowRoleModal(false);
+                                    }}
+                                    className="px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                                >
+                                    Select Role
                                 </button>
                             </div>
                         </div>

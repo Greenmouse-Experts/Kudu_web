@@ -77,7 +77,7 @@ const ProductSubCategories = () => {
 
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen overflow-hidden">
             {loading ?
                 <div className="w-full h-screen flex items-center justify-center">
                     <Loader />
@@ -92,15 +92,15 @@ const ProductSubCategories = () => {
                         <div className="bg-white rounded-md p-6 w-full gap-5">
                             <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">Product Sub Categories</h2>
                             <div className="overflow-x-auto mt-5">
-                                <table className="w-full border-collapse">
+                                <table className="w-full border-collapse min-w-[800px]">
                                     <thead>
                                         <tr className=" text-black-600 text-md font-medium">
-                                            <th className="py-6 px-4 text-left">#</th>
-                                            <th className="py-6 px-4 text-left">Sub Category Name</th>
-                                            <th className="py-6 px-4 text-left">Sub Category Icon</th>
-                                            <th className="py-6 px-4 text-left">Category Name</th>
-                                            <th className="py-6 px-4 text-left">Date Added</th>
-                                            <th className="py-6 px-4 text-left">Action</th>
+                                            <th className="py-6 px-4 text-left min-w-[60px]">#</th>
+                                            <th className="py-6 px-4 text-left min-w-[200px]">Sub Category Name</th>
+                                            <th className="py-6 px-4 text-left min-w-[150px]">Sub Category Icon</th>
+                                            <th className="py-6 px-4 text-left min-w-[180px]">Category Name</th>
+                                            <th className="py-6 px-4 text-left min-w-[150px]">Date Added</th>
+                                            <th className="py-6 px-4 text-left min-w-[120px]">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

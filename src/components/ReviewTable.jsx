@@ -98,24 +98,25 @@ function Table({
       </div>
 
       <div className="overflow-hidden border rounded-lg">
-        <table className="table-auto text-left w-full overflow-x-scroll">
-          <thead className="bg-gray-50">
-            <tr>
-              {processedColumns.map(col => (
-                <th
-                  key={col.key}
-                  className="px-3 py-4 text-sm font-medium text-gray-700"
-                >
-                  {col.label}
-                </th>
-              ))}
-              {actions.length > 0 && (
-                <th className="py-4 px-4 text-left text-sm font-medium text-gray-600">
-                  Actions
-                </th>
-              )}
-            </tr>
-          </thead>
+        <div className="overflow-x-auto">
+          <table className="table-auto text-left w-full min-w-[600px]">
+            <thead className="bg-gray-50">
+              <tr>
+                {processedColumns.map(col => (
+                  <th
+                    key={col.key}
+                    className="px-3 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"
+                  >
+                    {col.label}
+                  </th>
+                ))}
+                {actions.length > 0 && (
+                  <th className="py-4 px-4 text-left text-sm font-medium text-gray-600 whitespace-nowrap">
+                    Actions
+                  </th>
+                )}
+              </tr>
+            </thead>
           <tbody>
             {isLoading ? (
               <tr>
@@ -186,6 +187,7 @@ function Table({
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* 🔢 Pagination (unchanged) */}

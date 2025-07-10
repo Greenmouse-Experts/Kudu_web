@@ -1,5 +1,6 @@
 import React from "react";
 import AdminLayout from "../layouts/admin";
+import AdminRouteGuard from "../components/AdminRouteGuard";
 import Dashboard from "../modules/SuperAdmin/Dashboard";
 import Users from '../modules/SuperAdmin/Dashboard/users.jsx';
 import Vendors from '../modules/SuperAdmin/Dashboard/vendors.jsx';
@@ -50,7 +51,11 @@ import Permissions from "../modules/SuperAdmin/Dashboard/Permissions.jsx";
 export const adminRoutes = [
     {
         path: "/admin/*",
-        element: <AdminLayout />,
+        element: (
+            <AdminRouteGuard>
+                <AdminLayout />
+            </AdminRouteGuard>
+        ),
         errorElement: <ErrorBoundary />,
         children: [
             {

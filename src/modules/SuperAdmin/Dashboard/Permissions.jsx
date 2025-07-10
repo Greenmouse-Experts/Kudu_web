@@ -162,7 +162,7 @@ const Permissions = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 p-6 overflow-hidden">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
@@ -195,15 +195,16 @@ const Permissions = () => {
 
                 {/* Table */}
                 <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                    <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Permission Name</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Description</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Date Created</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Actions</th>
-                            </tr>
-                        </thead>
+                    <div className="overflow-x-auto">
+                        <table className="w-full min-w-[700px]">
+                            <thead className="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[200px]">Permission Name</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[200px]">Description</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[150px]">Date Created</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[120px]">Actions</th>
+                                </tr>
+                            </thead>
                         <tbody className="divide-y divide-gray-200">
                             {filteredPermissions.length === 0 ? (
                                 <tr>
@@ -267,6 +268,7 @@ const Permissions = () => {
                             )}
                         </tbody>
                     </table>
+                    </div>
 
                     {/* Pagination */}
                     <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">

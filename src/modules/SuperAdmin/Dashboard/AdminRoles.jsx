@@ -13,6 +13,7 @@ const AdminRoles = () => {
     const [showPermissionModal, setShowPermissionModal] = useState(false);
     const [showAssignPermissionModal, setShowAssignPermissionModal] = useState(false);
     const [showViewPermissionsModal, setShowViewPermissionsModal] = useState(false);
+    const [showRoleSelectionModal, setShowRoleSelectionModal] = useState(false);
     const [selectedRole, setSelectedRole] = useState(null);
     const [selectedPermission, setSelectedPermission] = useState(null);
     const [rolePermissions, setRolePermissions] = useState([]);
@@ -369,7 +370,7 @@ const AdminRoles = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen bg-gray-50 p-6 overflow-hidden">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="mb-6">
@@ -377,14 +378,14 @@ const AdminRoles = () => {
                         <h1 className="text-2xl font-bold text-gray-900">Admin Roles & Permissions</h1>
                         <p className="text-gray-600 mt-1">Manage roles and permissions</p>
                     </div>
-                    <div className="flex flex-col lg:flex-row gap-3">
-                        <div className="flex gap-3 flex-1">
+                    <div className="flex flex-col lg:flex-row gap-3 overflow-hidden">
+                        <div className="flex gap-3 flex-1 min-w-0">
                             <input
                                 type="text"
                                 placeholder="Search roles..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1"
+                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1 min-w-0"
                             />
                         </div>
                         <div className="flex flex-wrap gap-3">
@@ -430,14 +431,15 @@ const AdminRoles = () => {
 
                 {/* Table */}
                 <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-                    <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Admin Role Name</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Date Added</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Action</th>
-                            </tr>
-                        </thead>
+                    <div className="overflow-x-auto">
+                        <table className="w-full min-w-[600px]">
+                            <thead className="bg-gray-50 border-b border-gray-200">
+                                <tr>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[200px]">Admin Role Name</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[150px]">Date Added</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[120px]">Action</th>
+                                </tr>
+                            </thead>
                         <tbody className="divide-y divide-gray-200">
                             {filteredRoles.length === 0 ? (
                                 <tr>
@@ -507,6 +509,7 @@ const AdminRoles = () => {
                             )}
                         </tbody>
                     </table>
+                    </div>
 
                     {/* Pagination */}
                     <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
@@ -865,47 +868,49 @@ const AdminRoles = () => {
                             </button>
                         </div>
                     </div>
-                    <table className="w-full">
-                        <thead className="bg-gray-50 border-b border-gray-200">
-                            <tr>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Permission Name</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Date Created</th>
-                                <th className="text-left py-4 px-6 font-medium text-gray-900">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200">
-                            {permissions.length === 0 ? (
+                    <div className="overflow-x-auto">
+                        <table className="w-full min-w-[600px]">
+                            <thead className="bg-gray-50 border-b border-gray-200">
                                 <tr>
-                                    <td colSpan="3" className="text-center py-8 text-gray-500">
-                                        No permissions found
-                                    </td>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[200px]">Permission Name</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[150px]">Date Created</th>
+                                    <th className="text-left py-4 px-6 font-medium text-gray-900 min-w-[120px]">Actions</th>
                                 </tr>
-                            ) : (
-                                permissions.map((permission, index) => (
-                                    <tr key={permission.id || index} className="hover:bg-gray-50">
-                                        <td className="py-4 px-6 text-gray-900">{permission.name}</td>
-                                        <td className="py-4 px-6 text-gray-600">{formatDate(permission.createdAt)}</td>
-                                        <td className="py-4 px-6">
-                                            <div className="flex space-x-2">
-                                                <button 
-                                                    onClick={() => handleEditPermission(permission)}
-                                                    className="text-orange-600 hover:text-orange-800 text-sm font-medium"
-                                                >
-                                                    Edit
-                                                </button>
-                                                <button 
-                                                    onClick={() => handleDeletePermission(permission.id)}
-                                                    className="text-red-600 hover:text-red-800 text-sm font-medium"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                                {permissions.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="3" className="text-center py-8 text-gray-500">
+                                            No permissions found
                                         </td>
                                     </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+                                ) : (
+                                    permissions.map((permission, index) => (
+                                        <tr key={permission.id || index} className="hover:bg-gray-50">
+                                            <td className="py-4 px-6 text-gray-900">{permission.name}</td>
+                                            <td className="py-4 px-6 text-gray-600">{formatDate(permission.createdAt)}</td>
+                                            <td className="py-4 px-6">
+                                                <div className="flex space-x-2">
+                                                    <button 
+                                                        onClick={() => handleEditPermission(permission)}
+                                                        className="text-orange-600 hover:text-orange-800 text-sm font-medium"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => handleDeletePermission(permission.id)}
+                                                        className="text-red-600 hover:text-red-800 text-sm font-medium"
+                                                    >
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
