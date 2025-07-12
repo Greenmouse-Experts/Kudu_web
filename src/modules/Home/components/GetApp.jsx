@@ -30,9 +30,8 @@ export default function GetApp() {
                             </button>
                             {/* App Store Button */}
                             <button
-                                onClick={() => alert("iOS app coming soon! Stay tuned for updates.")}
-                                className="hover:scale-105 transition-transform duration-200 opacity-60 cursor-not-allowed"
-                                disabled
+                                onClick={() => window.open("https://apps.apple.com/app/6746808658", "_blank")}
+                                className="hover:scale-105 transition-transform duration-200"
                             >
                                 <img
                                     src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_24_jfspqy.png"

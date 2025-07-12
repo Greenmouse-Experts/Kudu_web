@@ -58,8 +58,25 @@ const CartSummary = ({ cart, refetch }) => {
     return sum + item.quantity * price;
   }, 0);
 
+  // Calculate Paystack charges (1.5% + ₦100 for local transactions)
+  const calculatePaystackCharges = (amount) => {
+    if (amount <= 0) return 0;
+    
+    const percentageCharge = amount * 0.015; // 1.5%
+    const fixedCharge = 100; // ₦100
+    const totalCharge = percentageCharge + fixedCharge;
+    
+    // Paystack caps charges at ₦2,000 for transactions above ₦2,500
+    const cappedCharge = amount > 2500 ? Math.min(totalCharge, 2000) : totalCharge;
+    
+    return Math.round(cappedCharge); // Round to nearest naira
+  };
+
+  const paystackCharges = calculatePaystackCharges(totalPrice);
+  const totalWithCharges = totalPrice + paystackCharges;
+
   // Ensure a nonzero amount (Paystack requires a positive amount).
-  const effectiveTotalPrice = totalPrice > 0 ? totalPrice : 1;
+  const effectiveTotalPrice = totalWithCharges > 0 ? totalWithCharges : 1;
 
   // Create a config object for Paystack payment.
   // useMemo will update the config when paymentKey or effectiveTotalPrice changes.
@@ -139,11 +156,11 @@ const CartSummary = ({ cart, refetch }) => {
         </h1>
       </div>
       <div className="w-full h-[1px] -mt-4 border-[1.5px]" />
-      <div className="w-full flex flex-col px-4 gap-10">
+      <div className="w-full flex flex-col px-4 gap-4">
         <div className="w-full flex justify-between items-center">
           <div className="w-full flex">
             <span className="text-sm text-[rgba(178,178,178,1)]">
-              Item’s Total (
+              Item's Total (
               {cart.filter((item) => item.product.quantity > 0).length})
             </span>
           </div>
@@ -154,6 +171,37 @@ const CartSummary = ({ cart, refetch }) => {
             </span>
           </div>
         </div>
+        
+        {ipInfo.currency_name === "Naira" && totalPrice > 0 && (
+          <div className="w-full flex justify-between items-center">
+            <div className="w-full flex">
+              <span className="text-sm text-[rgba(178,178,178,1)]">
+                Charges
+              </span>
+            </div>
+            <div className="w-full flex justify-end">
+              <span className="text-sm text-[rgba(178,178,178,1)]">
+                ₦{paystackCharges.toLocaleString("en-US")}
+              </span>
+            </div>
+          </div>
+        )}
+        
+        {totalPrice > 0 && (
+          <div className="w-full flex justify-between items-center border-t pt-2">
+            <div className="w-full flex">
+              <span className="text-base font-semibold text-black">
+                Total
+              </span>
+            </div>
+            <div className="w-full flex justify-end">
+              <span className="text-base font-semibold text-black">
+                {currency[0].symbol}
+                {(ipInfo.currency_name === "Naira" ? totalWithCharges : totalPrice).toLocaleString("en-US")}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
       <div className="w-full h-[1px] mt-1 border-[1.5px]" />
       {user.location && (
@@ -183,7 +231,7 @@ const CartSummary = ({ cart, refetch }) => {
               onClose={onClose}
             >
               <span className="text-sm font-[500] normal-case">
-                Checkout ₦{formatNumberWithCommas(totalPrice)}
+                Checkout ₦{formatNumberWithCommas(totalWithCharges)}
               </span>
             </PaymentButton>
           ) : (

@@ -7,7 +7,7 @@ export default function DownloadApp() {
 
   const handleiOSDownload = () => {
     // iOS link not available yet - show coming soon message
-    alert("iOS app coming soon! Stay tuned for updates.");
+    window.open("https://apps.apple.com/app/6746808658", "_blank");
   };
 
   return (
@@ -72,8 +72,7 @@ export default function DownloadApp() {
                   </button>
                   <button
                     onClick={handleiOSDownload}
-                    className="hover:scale-105 transition-transform duration-200 opacity-60 cursor-not-allowed"
-                    disabled
+                    className="hover:scale-105 transition-transform duration-200"
                   >
                     <img
                       src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404439/Frame_24_jfspqy.png"
