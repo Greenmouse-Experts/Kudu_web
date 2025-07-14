@@ -1,10 +1,30 @@
-import { parseISO, format } from 'date-fns';
+import { parseISO, format, isValid } from 'date-fns';
 
 export const dateFormat = (dateString, formatType) => {
-    const parsedDate = parseISO(dateString);
-    const formattedDate = format(parsedDate, formatType);
-
-    return formattedDate;
+    try {
+        if (!dateString) return 'N/A';
+        
+        // Handle different date formats
+        let date;
+        if (typeof dateString === 'string') {
+            date = parseISO(dateString);
+        } else if (dateString instanceof Date) {
+            date = dateString;
+        } else {
+            return 'N/A';
+        }
+        
+        // Check if the date is valid
+        if (!isValid(date)) {
+            return 'N/A';
+        }
+        
+        const formattedDate = format(date, formatType);
+        return formattedDate;
+    } catch (error) {
+        console.warn('Date formatting error:', error);
+        return 'N/A';
+    }
 }
 
 export const todayDate = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Menu,
@@ -7,15 +7,47 @@ import {
   MenuList,
 } from "@material-tailwind/react";
 import { useModal } from "../../../hooks/modal";
+import { useDebounce } from "../../../hooks/useDebounce";
 import Modal from "../../Modal";
-import { FaRegEdit } from "react-icons/fa";
-import { RiDeleteBin5Line } from "react-icons/ri";
+import FaqsTable from "../../FaqsTable";
 import AddFaqModal from "./AddFaqModal";
 
-const Faqs = ({ data, refetch }) => {
-  const [selectedItem, setselectedItem] = useState(null);
+const Faqs = ({ data, refetch, loading }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const { openModal } = useModal();
+
+  // Filter data based on search query
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    
+    if (!debouncedSearchQuery.trim()) {
+      return data;
+    }
+
+    const query = debouncedSearchQuery.toLowerCase();
+    return data.filter(item => 
+      item?.question?.toLowerCase().includes(query) ||
+      item?.answer?.toLowerCase().includes(query) ||
+      item?.faqCategory?.name?.toLowerCase().includes(query)
+    );
+  }, [data, debouncedSearchQuery]);
+
+  // Paginate filtered data
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredData.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredData, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  // Reset to page 1 when search query changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchQuery]);
 
   const handleCreateModal = (item) => {
     openModal({
@@ -44,67 +76,30 @@ const Faqs = ({ data, refetch }) => {
     });
   };
 
+  const handleSearchChange = (value) => {
+    setSearchQuery(value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <>
-      <div className="All">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">
-            Faqs
-          </h2>
-          <button
-            onClick={() => handleCreateModal(null)}
-            className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
-          >
-            Add Faq
-          </button>
-        </div>
-        <div className="bg-white rounded-md p-6 w-full gap-5">
-          <h2 className="text-lg font-semibold text-black-700 mb-4">
-            Faq list
-          </h2>
-          <div className=" mt-5 flex flex-col gap-3 divide-y">
-            {data.map((item) => (
-              <div
-                className="flex items-start py-3 px-2 justify-between "
-                key={item.id}
-              >
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h6 className="text-sm font-medium">Category:</h6>
-                    {" "}
-                    <p> {item?.faqCategory?.name}</p>
-                  </div>
-                  <div>
-                    <h6 className="text-base font-semibold">Question</h6>
-                    <p>{item?.question}</p>
-                  </div>
-                  <div className="">
-                    <h6 className="text-base font-semibold">Answer</h6>
-                    <p>{item?.answer}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-5">
-                  <FaRegEdit
-                    color="blue"
-                    size={20}
-                    className=" cursor-pointer"
-                    onClick={() => {
-                      handleCreateModal(item);
-                    }}
-                  />
-                  <RiDeleteBin5Line
-                    color="red"
-                    size={20}
-                    className=" cursor-pointer"
-                    onClick={() => handleDeleteModal(item.id)}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </>
+    <div className="min-h-screen p-6">
+      <FaqsTable
+        data={paginatedData}
+        onEdit={handleCreateModal}
+        onDelete={handleDeleteModal}
+        onAdd={() => handleCreateModal(null)}
+        loading={loading}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        totalItems={filteredData.length}
+      />
+    </div>
   );
 };
 

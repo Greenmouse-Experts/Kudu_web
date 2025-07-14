@@ -36,7 +36,7 @@ const Subscription = () => {
               <Loader />
             </div>
             :
-            <SubscriptionTable data={subscriptions} refetch={() => getSubscriptions()} />
+            <SubscriptionTable data={subscriptions} refetch={() => getSubscriptions()} loading={loading} />
           }
         </div>
       );

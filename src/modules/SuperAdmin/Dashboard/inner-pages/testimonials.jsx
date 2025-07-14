@@ -15,7 +15,7 @@ const App = () => {
           <Loader />
         </div>
       ) : (
-        <Testimonials data={testimonails} refetch={() => refetch()} />
+        <Testimonials data={testimonails} refetch={() => refetch()} loading={isLoading} />
       )}
     </div>
   );

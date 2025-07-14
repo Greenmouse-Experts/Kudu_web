@@ -11,8 +11,10 @@ const App = () => {
   const [customers, setCustomersData] = useState([]);
   const [totalCustomers, setTotalCustomers] = useState([]);
   const [loading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const getVendors = (page) => {
+    setCurrentPage(page);
     mutate({
       url: `/admin/vendors?page=${page}`,
       method: "GET",
@@ -23,6 +25,7 @@ const App = () => {
         setIsLoading(false);
       },
       onError: () => {
+        setIsLoading(false);
       }
     });
   }
@@ -43,6 +46,12 @@ const App = () => {
     });
   }
 
+  const handleRefetch = (page = currentPage) => {
+    // Refetch both current page data and total data to ensure sync
+    getVendors(page);
+    getTotalVendors();
+  };
+
 
 
   useEffect(() => {
@@ -57,7 +66,7 @@ const App = () => {
           <Loader />
         </div>
         :
-        <VendorTable data={customers} totalData={totalCustomers} refetch={(page) => getVendors(page)} />
+        <VendorTable data={customers} totalData={totalCustomers} refetch={handleRefetch} />
       }
     </div>
   );

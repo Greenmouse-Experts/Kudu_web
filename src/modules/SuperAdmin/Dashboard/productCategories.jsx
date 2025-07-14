@@ -36,7 +36,11 @@ const ProductCategories = () => {
               <Loader />
             </div>
             :
-            <ProductCategoriesTable data={categories} />
+            <ProductCategoriesTable 
+              data={categories} 
+              refetch={getCategories}
+              loading={loading}
+            />
           }
         </div>
       );

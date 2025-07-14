@@ -59,6 +59,16 @@ export function useGetFaqs() {
   });
 }
 
+export function useGetFaqsPaginated(page = 1, limit = 10) {
+  return useQuery({
+    queryKey: ["admin-faqs-paginated", page, limit],
+    queryFn: async () => {
+      const response = await axios.get(`/admin/faqs?page=${page}&limit=${limit}`);
+      return response.data;
+    },
+  });
+}
+
 export function useCreateFaq() {
   const queryClient = useQueryClient();
 

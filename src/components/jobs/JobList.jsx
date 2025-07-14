@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Menu,
@@ -11,15 +11,60 @@ import { FaClock, FaMapMarkerAlt, FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import AddJobModal from "./AddJobModal";
 import { useModal } from "../../hooks/modal";
+import { useDebounce } from "../../hooks/useDebounce";
+import JobsTable from "../JobsTable";
 import Modal from "../Modal";
 
-const JobList = ({ data, refetch }) => {
-  const { openModal, closeModal } = useModal();
+const JobList = ({ data, refetch, loading }) => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
-  const handleCreateModal = () => {
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const { openModal, closeModal } = useModal();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Filter data based on search query
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    
+    if (!debouncedSearchQuery.trim()) {
+      return data;
+    }
+
+    const query = debouncedSearchQuery.toLowerCase();
+    return data.filter(item => 
+      item?.title?.toLowerCase().includes(query) ||
+      item?.location?.toLowerCase().includes(query) ||
+      item?.jobType?.toLowerCase().includes(query) ||
+      item?.description?.toLowerCase().includes(query)
+    );
+  }, [data, debouncedSearchQuery]);
+
+  // Paginate filtered data
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredData.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredData, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+  // Reset to page 1 when search query changes
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchQuery]);
+
+  const handleCreateModal = (item = null) => {
     openModal({
       size: "sm",
-      content: <AddJobModal refetch={refetch} closeModal={closeModal} />,
+      content: (
+        <AddJobModal 
+          refetch={refetch} 
+          closeModal={closeModal} 
+          selectedItem={item}
+        />
+      ),
     });
   };
 
@@ -37,6 +82,7 @@ const JobList = ({ data, refetch }) => {
       ),
     });
   };
+
   const handleDeactivateModal = (id) => {
     openModal({
       size: "sm",
@@ -66,120 +112,45 @@ const JobList = ({ data, refetch }) => {
     });
   };
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const handleSearchChange = (value) => {
+    setSearchQuery(value);
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleEdit = (item) => {
+    const newUrl = `${location.pathname}?id=${item.id}`;
+    navigate(newUrl, { replace: true });
+    handleCreateModal(item);
+  };
 
   useEffect(() => {
     window.history.replaceState({}, "", window.location.pathname);
   }, []);
 
   return (
-    <>
-      <div className="All">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">
-            Jobs
-          </h2>
-          <button
-            onClick={() => {
-              handleCreateModal();
-              window.history.replaceState({}, "", window.location.pathname);
-            }}
-            className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
-          >
-            Add Jobs
-          </button>
-        </div>
-        <div className="bg-white rounded-md p-6 w-full gap-5">
-          <h2 className="text-lg font-semibold text-black-700 mb-4">
-            Job List
-          </h2>
-          <div className=" grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 divide-y">
-            {data?.map((job, index) => (
-              <div
-                className="border p-7 rounded-lg bg-white relative"
-                key={index}
-              >
-                <h3 className="text-lg font-semibold leading-loose">
-                  {job.title}
-                </h3>
-                <div className="flex items-center gap-2 text-sm text-gray-500 my-2 leading-loose">
-                  <FaMapMarkerAlt className="text-orange-500" />
-                  <span className="text-orange-500 leading-loose">
-                    {job.location}
-                  </span>
-                  <FaClock className="text-blue-500 ml-4" />
-                  <span className="text-blue-500 leading-loose">
-                    {job.jobType}
-                  </span>
-                </div>
-                <div>
-                  <p
-                    className={`capitalize text-white w-fit rounded-md px-2 py-[2px]  ${job.status === "active" ? "bg-green-800" : "bg-red-700"
-                      }`}
-                  >
-                    {job.status}
-                  </p>
-                </div>
-
-                <div
-                  className="text-sm text-gray-700 leading-loose"
-                  dangerouslySetInnerHTML={{
-                    __html: job?.description.slice(0, 200),
-                  }}
-                ></div>
-
-                {job.status === "active" ? (
-                  <button
-                    className="border w-full mt-4 py-4 rounded-lg text-sm hover:bg-gray-100"
-                    onClick={() => handleDeactivateModal(job.id)}
-                  >
-                    {/* <Link to={`/jobs-details/${job.id}`}>View Job Details</Link> */}
-                    CLose Job
-                  </button>
-                ) : (
-                  <button
-                    className="border w-full mt-4 py-4 rounded-lg text-sm hover:bg-gray-100"
-                    onClick={() => handleRepostModal(job.id)}
-                  >
-                    {/* <Link to={`/jobs-details/${job.id}`}>View Job Details</Link> */}
-                    Repost Job
-                  </button>
-                )}
-
-                <div className="flex w-full">
-                  <Link
-                    className="border w-full mt-4 py-4 flex justify-center rounded-lg text-sm hover:bg-gray-100"
-                    to={`applicants/${job.id}`}
-                  >
-                    View Job Applicants
-                  </Link>
-                </div>
-
-                <div className="flex items-center gap-3 absolute right-2 top-2">
-                  <FaRegEdit
-                    color="blue"
-                    size={20}
-                    className=" cursor-pointer"
-                    onClick={() => {
-                      const newUrl = `${location.pathname}?id=${job.id}`;
-                      navigate(newUrl, { replace: true });
-                      handleCreateModal();
-                    }}
-                  />
-                  <RiDeleteBin5Line
-                    color="red"
-                    size={20}
-                    className=" cursor-pointer"
-                    onClick={() => handleDeleteModal(job.id)}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </>
+    <div className="min-h-screen p-6">
+      <JobsTable
+        data={paginatedData}
+        onEdit={handleEdit}
+        onDelete={handleDeleteModal}
+        onDeactivate={handleDeactivateModal}
+        onRepost={handleRepostModal}
+        onAdd={() => {
+          handleCreateModal();
+          window.history.replaceState({}, "", window.location.pathname);
+        }}
+        loading={loading}
+        searchQuery={searchQuery}
+        onSearchChange={handleSearchChange}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        totalItems={filteredData.length}
+      />
+    </div>
   );
 };
 

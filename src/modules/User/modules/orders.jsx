@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import useAppState from "../../../hooks/appState";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import Loader from "../../../components/Loader";
-import { dateFormat } from "../../../helpers/dateHelper";
 import { useNavigate } from "react-router-dom";
-import Table from "../../../components/Tables";
+import VendorMyOrdersTable from "../../../components/VendorMyOrdersTable";
+import VendorCustomerOrdersTable from "../../../components/VendorCustomerOrdersTable";
 
 
 export default function ProfileOrders() {
@@ -111,100 +111,25 @@ export default function ProfileOrders() {
 
 
 
-          {activeTab === 'my orders' ? orders.length > 0 ? (
-            <Table
-              headers={[
-                { key: 'refId', label: 'Order ID' },
-                { key: 'trackingNumber', label: 'Tracking Number' },
-                {
-                  key: 'orderItemsCount', label: 'Order Items'
-                },
-                { key: 'totalAmount', label: 'Price' },
-                { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
-                { key: 'shippingAddress', label: 'Shipping Address' },
-              ]}
+          {activeTab === 'my orders' ? (
+            <VendorMyOrdersTable
               data={orders}
-              actions={[
-                {
-                  label: (row) => {
-                    return 'View Order';
-                  },
-                  onClick: (row) => navigate(`order-details/${row.id}`),
-                },
-              ]}
-              currentPage={null}
-              totalPages={null}
+              loading={loader}
+              onViewOrder={(orderId) => navigate(`order-details/${orderId}`)}
             />
-          ) : (
-            <div className="empty-store">
-              <div className="text-center">
-                <img
-                  src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
-                  alt="Empty Store Illustration"
-                  className="w-80 h-80 mx-auto"
-                />
-              </div>
-              <h1 className="text-center text-lg font-bold mb-4">
-                No order items found!
-              </h1>
-            </div>
-          )
-            :
-            <></>
-          }
+          ) : null}
 
 
 
 
 
-          {activeTab === 'customer orders' ? vendorOrder.length > 0 ? (
-            <Table
-              headers={[
-                { key: 'productName', label: 'Product Name' },
-                { key: 'quantity', label: 'Quantity' },
-                { key: 'customer', label: 'Customer' },
-                { key: 'customerPhone', label: 'Customer Phone Number' },
-                { key: 'shippingAddress', label: 'Shipping Address' },
-                { key: 'price', label: 'Price' },
-                { key: 'createdAt', label: 'Date', render: (value) => (dateFormat(value, 'dd-MM-yyyy')) },
-              ]}
+          {activeTab === 'customer orders' ? (
+            <VendorCustomerOrdersTable
               data={vendorOrder}
-              transformData={(vendorOrder) => vendorOrder.map((item) => ({
-                ...item,
-                productName: `${item.product.name}`,
-                productImage: `${item.product.image_url}`,
-                shippingAddress: item.order.shippingAddress,
-                customer: `${item.order.user.firstName} ${item.order.user.lastName}`,
-                customerPhone: item.order.user.phoneNumber
-              }))}
-              actions={[
-                {
-                  label: (row) => {
-                    return 'View Order';
-                  },
-                  onClick: (row) => navigate(`order-details/${row.orderId}`),
-                }
-              ]}
-              currentPage={null}
-              totalPages={null}
+              loading={loader}
+              onViewOrder={(orderId) => navigate(`order-details/${orderId}`)}
             />
-          ) : (
-            <div className="empty-store">
-              <div className="text-center">
-                <img
-                  src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
-                  alt="Empty Store Illustration"
-                  className="w-80 h-80 mx-auto"
-                />
-              </div>
-              <h1 className="text-center text-lg font-bold mb-4">
-                No order items found!
-              </h1>
-            </div>
-          )
-            :
-            <></>
-          }
+          ) : null}
         </div>
       </div>
     </>
