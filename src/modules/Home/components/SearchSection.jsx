@@ -12,6 +12,14 @@ const MyComponent = ({ categories }) => {
 
     const slides = [
         {
+            desktopImage: "https://res.cloudinary.com/dmlgns85e/image/upload/v1752514518/Untitled_qt12wn.jpg",
+            mobileImage: "https://res.cloudinary.com/dmlgns85e/image/upload/v1752514518/Untitled_qt12wn.jpg",
+        },
+        {
+            desktopImage: "https://res.cloudinary.com/dmlgns85e/image/upload/v1752514517/Untitled2_spfiz9.jpg",
+            mobileImage: "https://res.cloudinary.com/dmlgns85e/image/upload/v1752514517/Untitled2_spfiz9.jpg",
+        },
+        {
             desktopImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747159169/kuduMart/kmb4_fkdjo4_1_1_1_aiama3.jpg",
             mobileImage: "https://res.cloudinary.com/greenmouse-tech/image/upload/v1747160096/kuduMart/mbkd2_2_rjixyc_1_pmxuek_1_bxg36i.jpg",
         },
