@@ -11,6 +11,7 @@ import Modal from "../../Modal";
 import AddFaqCategoryModal from "./AddFaqCategoryModal";
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import ReviewTable from "../../ReviewTable";
 
 const FaqCategories = ({ data, refetch }) => {
   const [selectedItem, setselectedItem] = useState(null);
@@ -48,12 +49,27 @@ const FaqCategories = ({ data, refetch }) => {
     });
   };
 
+  const columns = [
+    { key: 'name', label: 'Category Name' }
+  ];
+
+  const actions = [
+    {
+      label: () => "Edit",
+      onClick: (row) => handleCreateModal(row)
+    },
+    {
+      label: () => "Delete",
+      onClick: (row) => handleDeleteModal(row.id)
+    }
+  ];
+
   return (
     <>
       <div className="All">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">
-            Faq categories
+            FAQ Categories
           </h2>
           <button
             onClick={() => handleCreateModal(null)}
@@ -62,36 +78,17 @@ const FaqCategories = ({ data, refetch }) => {
             Add New Category
           </button>
         </div>
-        <div className="bg-white rounded-md p-6 w-full gap-5">
-          <h2 className="text-lg font-semibold text-black-700 mb-4">
-            My categories
-          </h2>
-          <div className=" mt-5 flex flex-col gap-3">
-            {data.map((item) => (
-              <div
-                className="flex items-center py-3 px-2 justify-between"
-                key={item.id}
-              >
-                <p className="text-lg font-medium">{item.name}</p>
-                <div className="flex items-center gap-5">
-                  <FaRegEdit
-                    color="blue"
-                    size={20}
-                    className=" cursor-pointer"
-                    onClick={() => {
-                      handleCreateModal(item);
-                    }}
-                  />
-                  <RiDeleteBin5Line
-                    color="red"
-                    size={20}
-                    className=" cursor-pointer"
-                    onClick={() => handleDeleteModal(item.id)}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="bg-white rounded-md w-full gap-5">
+          <ReviewTable
+            title="FAQ Categories"
+            columns={columns}
+            data={data || []}
+            allData={data || []}
+            exportData={true}
+            isLoading={false}
+            hasNumber={true}
+            actions={actions}
+          />
         </div>
       </div>
     </>

@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { useModal } from '../hooks/modal';
 import useApiMutation from '../api/hooks/useApiMutation';
 import Table from './ReviewTable';
+import ConfirmModal from './ConfirmModal';
 
 const VendorTable = ({ data, totalData, refetch }) => {
     const [kycData, setKYCData] = useState([]);
     const { openModal } = useModal();
+    const [updatingVendors, setUpdatingVendors] = useState(new Set());
 
     const vendorsData = data.data;
 
@@ -22,10 +24,9 @@ const VendorTable = ({ data, totalData, refetch }) => {
             hideToast: true,
             onSuccess: (response) => {
                 setKYCData(response.data.data);
-                setIsLoading(false)
             },
             onError: () => {
-                setIsLoading(false)
+                // Handle error if needed
             }
         });
     }
@@ -63,6 +64,59 @@ const VendorTable = ({ data, totalData, refetch }) => {
     const fetchNew = (page) => {
         refetch(page)
     }
+
+    const toggleVendorStatus = (vendorId, currentStatus) => {
+        console.log(`🔄 [VendorTable] Attempting to toggle status for vendor ID: ${vendorId}, current status: ${currentStatus}`);
+        
+        const action = currentStatus === 'active' ? 'suspend' : 'activate';
+        const confirmMessage = currentStatus === 'active' 
+            ? 'Are you sure you want to suspend this vendor?' 
+            : 'Are you sure you want to activate this vendor?';
+            
+        const confirmToggle = () => {
+            // Add vendor to updating set to show loading state
+            setUpdatingVendors(prev => new Set(prev).add(vendorId));
+            
+            mutate({
+                url: `/admin/toggle/user/status?userId=${vendorId}`,
+                method: 'PATCH',
+                headers: true,
+                onSuccess: (response) => {
+                    console.log(`✅ [VendorTable] Successfully ${action}d vendor:`, response.data);
+                    // Remove vendor from updating set
+                    setUpdatingVendors(prev => {
+                        const newSet = new Set(prev);
+                        newSet.delete(vendorId);
+                        return newSet;
+                    });
+                    // Refresh both current page and total data to see updated status immediately
+                    refetch(data.meta.currentPage);
+                },
+                onError: (error) => {
+                    console.error(`❌ [VendorTable] Error ${action}ing vendor:`, error);
+                    // Remove vendor from updating set even on error
+                    setUpdatingVendors(prev => {
+                        const newSet = new Set(prev);
+                        newSet.delete(vendorId);
+                        return newSet;
+                    });
+                }
+            });
+        };
+
+        openModal({
+            size: "sm",
+            content: (
+                <ConfirmModal
+                    title={`${action === 'suspend' ? 'Suspend' : 'Activate'} Vendor`}
+                    message={confirmMessage}
+                    onConfirm={confirmToggle}
+                    confirmText={action === 'suspend' ? 'Suspend' : 'Activate'}
+                    confirmColor={action === 'suspend' ? 'red' : 'green'}
+                />
+            )
+        });
+    };
 
 
     return (
@@ -112,7 +166,25 @@ const VendorTable = ({ data, totalData, refetch }) => {
                         }))}
                         exportData
                         hasNumber
-                        actions={[]}
+                        actions={[
+                            {
+                                label: () => 'View KYC',
+                                onClick: (row) => routeKYC(row.id),
+                            },
+                            {
+                                label: (row) => {
+                                    if (updatingVendors.has(row.id)) {
+                                        return 'Updating...';
+                                    }
+                                    return row.status === 'active' ? 'Suspend Vendor' : 'Unsuspend Vendor';
+                                },
+                                onClick: (row) => {
+                                    if (!updatingVendors.has(row.id)) {
+                                        toggleVendorStatus(row.id, row.status);
+                                    }
+                                },
+                            },
+                        ]}
                         currentPage={data.meta.currentPage}
                         totalPages={data.meta.totalPages}
                         onPageChange={(page) => fetchNew(page)}

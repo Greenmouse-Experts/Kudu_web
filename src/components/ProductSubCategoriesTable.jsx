@@ -6,7 +6,7 @@ import { useDebounce } from '../hooks/useDebounce';
 import DeleteModal from './DeleteModal';
 import Table from './ReviewTable';
 
-const ProductCategoriesTable = ({ data, refetch, loading }) => {
+const ProductSubCategoriesTable = ({ data, refetch, loading }) => {
     const navigate = useNavigate();
     const { openModal } = useModal();
     const [searchQuery, setSearchQuery] = useState("");
@@ -22,8 +22,8 @@ const ProductCategoriesTable = ({ data, refetch, loading }) => {
     const handleDeleteModal = (id) => {
         openModal({
             size: "sm",
-            content: <DeleteModal title={'Do you wish to delete this category?'} redirect={handleRedirect}
-                api={`/admin/categories?categoryId=${id}`} />
+            content: <DeleteModal title={'Do you wish to delete this sub category?'} redirect={handleRedirect}
+                api={`/admin/sub/categories?subCategoryId=${id}`} />
         })
     };
 
@@ -37,7 +37,8 @@ const ProductCategoriesTable = ({ data, refetch, loading }) => {
 
         const query = debouncedSearchQuery.toLowerCase();
         return data.filter(item => 
-            item?.name?.toLowerCase().includes(query)
+            item?.name?.toLowerCase().includes(query) ||
+            item?.categoryName?.toLowerCase().includes(query)
         );
     }, [data, debouncedSearchQuery]);
 
@@ -62,9 +63,38 @@ const ProductCategoriesTable = ({ data, refetch, loading }) => {
         setSearchQuery(value);
     };
 
-    // Safe date formatting for export
+    const columns = [
+        { key: 'name', label: 'Sub Category Name' },
+        { 
+            key: 'image', 
+            label: 'Sub Category Icon', 
+            render: (value) => value ? (
+                <img src={value} width={50} height={50} alt="Sub Category Icon" className="rounded" />
+            ) : 'No Image'
+        },
+        { key: 'categoryName', label: 'Category Name' },
+        { 
+            key: 'createdAt', 
+            label: 'Date Added', 
+            render: (value) => dateFormat(value, "dd-MM-yyyy")
+        }
+    ];
+
+    const actions = [
+        {
+            label: () => "Update",
+            onClick: (row) => navigate(`update/${row.id}`)
+        },
+        {
+            label: () => "Delete",
+            onClick: (row) => handleDeleteModal(row.id)
+        }
+    ];
+
+    // Safe export data formatting
     const exportData = paginatedData?.map(item => ({
-        "Category Name": item.name || "",
+        "Sub Category Name": item.name || "",
+        "Category Name": item.categoryName || "",
         "Date Added": dateFormat(item.createdAt, "dd-MM-yyyy")
     }));
 
@@ -72,51 +102,21 @@ const ProductCategoriesTable = ({ data, refetch, loading }) => {
         <>
             <div className='All'>
                 <div className="rounded-md pb-2 w-full flex justify-between gap-5">
-                    <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">Products Categories</h2>
-                    <span className="text-white flex items-start h-auto">
-                        <span className="mr-1 text-sm bg-kuduOrange py-2 px-4 cursor-pointer rounded-lg font-[500]" onClick={() => navigate('add-category')}>
-                            Add Product Category
-                        </span>
-                    </span>
+                    <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">Product Sub Categories</h2>
                 </div>
-                <div className="bg-white rounded-md p-6 w-full gap-5">
+                <div className="bg-white rounded-md w-full gap-5">
                     <Table
-                        title="Products Categories"
-                        columns={[
-                            { key: 'name', label: 'Category Name' },
-                            { 
-                                key: 'image', 
-                                label: 'Category Icon',
-                                render: (value) => value ? <img src={value} width={50} height={50} alt="Category" /> : 'No Image'
-                            },
-                            { 
-                                key: 'createdAt', 
-                                label: 'Date Added',
-                                render: (value) => dateFormat(value, "dd-MM-yyyy")
-                            },
-                        ]}
+                        title="Product Sub Categories"
+                        columns={columns}
+                        data={paginatedData || []}
                         exportData={exportData}
-                        hasNumber
                         isLoading={loading}
+                        hasNumber={true}
                         disableInternalSearch={true}
                         searchQuery={searchQuery}
                         onSearchChange={handleSearchChange}
-                        searchPlaceholder="Search categories..."
-                        data={paginatedData}
-                        actions={[
-                            {
-                                label: () => 'Create SubCategories',
-                                onClick: (row) => navigate(`sub-category/create/${row.id}`),
-                            },
-                            {
-                                label: () => 'Edit',
-                                onClick: (row) => navigate(`edit/${row.id}`),
-                            },
-                            {
-                                label: () => 'Delete',
-                                onClick: (row) => handleDeleteModal(row.id),
-                            },
-                        ]}
+                        searchPlaceholder="Search sub categories..."
+                        actions={actions}
                         currentPage={currentPage}
                         totalPages={totalPages}
                         onPageChange={handlePageChange}
@@ -128,4 +128,4 @@ const ProductCategoriesTable = ({ data, refetch, loading }) => {
     );
 };
 
-export default ProductCategoriesTable;
+export default ProductSubCategoriesTable;

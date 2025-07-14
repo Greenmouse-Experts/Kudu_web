@@ -3,6 +3,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { exportToCSV } from "../helpers/exportToCSV";
 import Loader from "./Loader";
+import { useDebounce } from "../hooks/useDebounce";
 
 function Table({
   title,
@@ -16,10 +17,20 @@ function Table({
   hasNumber = false,
   currentPage = 1,
   totalPages = 1,
-  onPageChange
+  onPageChange,
+  disableInternalSearch = false,
+  searchQuery = "",
+  onSearchChange,
+  searchPlaceholder = "Search..."
 }) {
   const [processedColumns, setProcessedColumns] = useState(columns);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [internalSearchTerm, setInternalSearchTerm] = useState("");
+  
+  // Use external search if provided, otherwise use internal search
+  const searchTerm = disableInternalSearch ? searchQuery : internalSearchTerm;
+  
+  // Debounce search term to avoid excessive filtering
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
   // 1️⃣ Add numbering column if requested
   useEffect(() => {
@@ -31,17 +42,31 @@ function Table({
   }, [hasNumber, columns]);
 
 
-  // 2️⃣ Build a filtered version of the data
+  // 2️⃣ Build a filtered version of the data with debounced search
   const filteredData = useMemo(() => {
-    if (!searchTerm) return data;
-    const lower = searchTerm.toLowerCase();
-    return allData.filter(row =>
+    const dataToFilter = allData || data || [];
+    
+    // If external search is being used, don't filter here - data is already filtered
+    if (disableInternalSearch) {
+      return dataToFilter;
+    }
+    
+    if (!debouncedSearchTerm) return dataToFilter;
+    const lower = debouncedSearchTerm.toLowerCase();
+    return dataToFilter.filter(row =>
       Object.values(row).some(value =>
         value != null &&
         String(value).toLowerCase().includes(lower)
       )
     );
-  }, [allData, data, searchTerm]);
+  }, [allData, data, debouncedSearchTerm, disableInternalSearch]);
+
+  // Reset pagination when searching
+  useEffect(() => {
+    if (debouncedSearchTerm && onPageChange && currentPage !== 1) {
+      onPageChange(1);
+    }
+  }, [debouncedSearchTerm, onPageChange]);
 
 
 
@@ -61,14 +86,45 @@ function Table({
 
         {/* wrap search + export together */}
         <div className="flex items-center gap-3 w-full md:w-auto">
-          {/* 🔍 Search Input */}
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            placeholder="Search..."
-            className="border px-3 py-2 rounded-md w-full md:w-64 outline-none focus:ring-0 focus:border-gray-300"
-          />
+          {/* 🔍 Professional Search Input with debouncing */}
+          <div className="relative">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={e => {
+                if (disableInternalSearch && onSearchChange) {
+                  onSearchChange(e.target.value);
+                } else {
+                  setInternalSearchTerm(e.target.value);
+                }
+              }}
+              placeholder={searchPlaceholder}
+              className="border px-3 py-2 pl-10 rounded-md w-full md:w-64 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            />
+            <svg
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+            {searchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
+          </div>
 
           {/* ⬇️ Export Button */}
           {exportData && (
@@ -190,26 +246,54 @@ function Table({
         </div>
       </div>
 
-      {/* 🔢 Pagination (unchanged) */}
+      {/* 🔢 Professional Pagination with search state management */}
       {totalPages > 1 && onPageChange && (
-        <div className="mt-4 flex justify-between items-center">
-          <button
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1 || searchTerm}
-            className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span>
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages || searchTerm}
-            className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50"
-          >
-            Next
-          </button>
+        <div className="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4 border-t pt-4">
+          <div className="text-sm text-gray-600">
+            {(debouncedSearchTerm && !disableInternalSearch) || (disableInternalSearch && searchQuery) ? (
+              <span>
+                Showing {filteredData.length} filtered result{filteredData.length !== 1 ? 's' : ''} 
+                {(allData || data || []).length > 0 && ` of ${(allData || data || []).length} total`}
+              </span>
+            ) : (
+              <span>
+                Page {currentPage} of {totalPages} ({(allData || data || []).length} total records)
+              </span>
+            )}
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onPageChange(currentPage - 1)}
+              disabled={currentPage === 1 || (debouncedSearchTerm && !disableInternalSearch) || (disableInternalSearch && searchQuery)}
+              className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+            >
+              Previous
+            </button>
+            
+            {!((debouncedSearchTerm && !disableInternalSearch) || (disableInternalSearch && searchQuery)) && (
+              <span className="px-2 text-sm">
+                Page {currentPage} of {totalPages}
+              </span>
+            )}
+            
+            <button
+              onClick={() => onPageChange(currentPage + 1)}
+              disabled={currentPage === totalPages || (debouncedSearchTerm && !disableInternalSearch) || (disableInternalSearch && searchQuery)}
+              className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+            >
+              Next
+            </button>
+            
+            {debouncedSearchTerm && (
+              <button
+                onClick={() => setSearchTerm("")}
+                className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+              >
+                Clear Search
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
@@ -227,12 +311,17 @@ Table.propTypes = {
     })
   ).isRequired,
   data: PropTypes.array.isRequired,
+  allData: PropTypes.array,
   exportData: PropTypes.bool,
   isLoading: PropTypes.bool,
   hasNumber: PropTypes.bool,
   currentPage: PropTypes.number,
   totalPages: PropTypes.number,
-  onPageChange: PropTypes.func
+  onPageChange: PropTypes.func,
+  disableInternalSearch: PropTypes.bool,
+  searchQuery: PropTypes.string,
+  onSearchChange: PropTypes.func,
+  searchPlaceholder: PropTypes.string
 };
 
 export default Table;

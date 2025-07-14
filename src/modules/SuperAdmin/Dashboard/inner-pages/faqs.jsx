@@ -16,7 +16,7 @@ const App = () => {
           <Loader />
         </div>
       ) : (
-        <Faqs data={faqs} refetch={() => refetch()} />
+        <Faqs data={faqs} refetch={() => refetch()} loading={isLoading} />
       )}
     </div>
   );

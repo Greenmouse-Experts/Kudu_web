@@ -9,31 +9,8 @@ function Navbar() {
 
     return (
         <header className="flex items-center pt-5 justify-between Abinah All mt-5">
-            {/* Search Bar */}
-            <div className="flex items-center bg-white rounded-lg px-4 py-4 w-full max-w-md">
-                <i className="text-gray-400 mr-2">
-                    {/* Search Icon */}
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="2"
-                        stroke="currentColor"
-                        className="w-5 h-5"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M21 21l-4.35-4.35M15.75 10.5a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z"
-                        />
-                    </svg>
-                </i>
-                <input
-                    type="text"
-                    placeholder="Search with keyword"
-                    className="flex-grow bg-transparent text-gray-700 placeholder-gray-400 focus:outline-none"
-                />
-            </div>
+            {/* Search Bar Removed - Use table-level search instead */}
+            <div className="flex-1"></div>
 
             {/* Action Icons */}
             <div className="flex items-center space-x-5 mx-8">
