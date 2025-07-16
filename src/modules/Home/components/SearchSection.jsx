@@ -46,7 +46,7 @@ const MyComponent = ({ categories }) => {
                 backgroundPosition: "center",
             }}
         >
-            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-30 md:px-20 md:mt-2 sm:mt-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-30 md:px-20 sm:px-6 px-3 py-3 lg:gap-10 md:gap-8 gap-5 h-full">>
                 {/* Desktop View - Top Categories + Banner */}
                 <div className="hidden md:flex items-stretch rounded-lg overflow-hidden">
                     {/* Left - Top Categories */}
@@ -96,23 +96,26 @@ const MyComponent = ({ categories }) => {
                 </div>
 
                 {/* Mobile View - Swiper */}
-                <div className="block md:hidden">
+                <div className="block md:hidden mt-2 mx-1">
                     <Swiper
                         modules={[Autoplay]}
                         autoplay={{ delay: 3000 }}
                         loop={true}
-                        className="h-[350px] mt-8"
+                        className="w-full rounded-xl overflow-hidden shadow-lg"
                     >
                         {slides.map((slide, index) => (
                             <SwiperSlide key={index}>
-                                <div
-                                    style={{
-                                        backgroundImage: `url(${slide.mobileImage})`,
-                                        backgroundSize: "cover",
-                                        backgroundPosition: "center",
-                                    }}
-                                    className="w-full h-full rounded-lg"
-                                />
+                                <div className="relative w-full h-48 sm:h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                                    <img
+                                        src={slide.mobileImage}
+                                        alt={`Mobile Slide ${index + 1}`}
+                                        className="max-w-full max-h-full object-contain rounded-lg"
+                                        loading="lazy"
+                                        style={{
+                                            filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))'
+                                        }}
+                                    />
+                                </div>
                             </SwiperSlide>
                         ))}
                     </Swiper>

@@ -28,6 +28,21 @@ const PostProducts = ({ data, paginate, totalData, loading, refetch }) => {
         });
     };
 
+    const handleDeleteModal = (product) => {
+        console.log(product);
+        openModal({
+            size: "sm",
+            content: (
+                <Modal
+                    title={`Are you sure you want to delete "${product.name}"? This action cannot be undone.`}
+                    redirect={handleRedirect}
+                    api={`/admin/general/product/delete?productId=${product.id}`}
+                    method={'DELETE'}
+                />
+            ),
+        });
+    };
+
     return (
         <div className="All">
             <div className="rounded-md pb-2 w-full gap-5">
@@ -78,6 +93,10 @@ const PostProducts = ({ data, paginate, totalData, loading, refetch }) => {
                                     return row.status === 'inactive' ? 'Publish' : 'Unpublish';
                                 },
                                 onClick: (row) => handlePublishModal(row),
+                            },
+                            {
+                                label: () => 'Delete',
+                                onClick: (row) => handleDeleteModal(row),
                             },
                         ]}
                         currentPage={paginate.page}
