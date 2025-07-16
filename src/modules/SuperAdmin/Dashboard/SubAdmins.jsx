@@ -89,7 +89,7 @@ const SubAdmins = () => {
         
         const confirmDelete = () => {
             mutate({
-                url: `/admin/sub-admins/delete?subAdminId=${adminId}`,
+                url: `/admin/sub-admin/delete?subAdminId=${adminId}`,
                 method: 'DELETE',
                 headers: true,
                 onSuccess: (response) => {

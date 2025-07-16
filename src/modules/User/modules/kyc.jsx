@@ -16,6 +16,9 @@ export default function UpdatedKYC() {
 
   const { mutate } = useApiMutation();
 
+  // Check if user is a vendor - KYC is only for vendors
+  const isVendor = user?.accountType !== 'Customer';
+
   const [updatedKYC] = useUpdateKycMutation();
 
   const cardOptions = [
@@ -44,6 +47,12 @@ export default function UpdatedKYC() {
   } = useForm();
 
   const onSubmit = (data) => {
+    // Only allow submission if user is a vendor
+    if (!isVendor) {
+      toast.error("KYC submission is only available for vendor accounts.");
+      return;
+    }
+
     setIsLoading(true)
 
     const { name, number, ...rest } = data;
@@ -70,6 +79,12 @@ export default function UpdatedKYC() {
 
 
   const getKYC = () => {
+    // Only fetch KYC data if user is a vendor
+    if (!isVendor) {
+      setLoader(false);
+      return;
+    }
+
     mutate({
       url: `/vendor/kyc`,
       method: "GET",
@@ -114,6 +129,22 @@ export default function UpdatedKYC() {
         <Loader />
       </div>
     )
+  }
+
+  // Show message if user is not a vendor
+  if (!isVendor) {
+    return (
+      <div className="bg-white rounded-lg w-full p-6">
+        <h2 className="text-lg font-bold mb-2">KYC Verification</h2>
+        <div className='w-full h-[5px] mb-4 border' />
+        <div className="text-center py-8">
+          <p className="text-gray-600 mb-4">KYC verification is only available for vendor accounts.</p>
+          <p className="text-sm text-gray-500">
+            To access KYC verification, please switch to a vendor account or upgrade your account type.
+          </p>
+        </div>
+      </div>
+    );
   }
 
 
