@@ -9,12 +9,16 @@ const Stores = () => {
     const [storesData, setAllStores] = useState([]);
     const [pagination, setPagination] = useState({});
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
     const { mutate } = useApiMutation();
 
     const fetchData = async (page) => {
+        setLoading(true);
+        setError(null);
+        
         try {
             const storesRequest = new Promise((resolve, reject) => {
                 mutate({
@@ -22,18 +26,28 @@ const Stores = () => {
                     method: 'GET',
                     headers: true,
                     hideToast: true,
-                    onSuccess: (response) => resolve(response.data),
-                    onError: reject,
+                    onSuccess: (response) => {
+                        resolve(response.data);
+                    },
+                    onError: (error) => {
+                        reject(error);
+                    },
                 });
             });
             const [stores] = await Promise.all([
                 storesRequest,
             ]);
 
-            setAllStores(stores.data)
-            // setPagination(stores.pagination);
+            setAllStores(stores.data || []);
+            
+            // Handle pagination if provided by backend
+            if (stores.pagination) {
+                setPagination(stores.pagination);
+            }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching vendor stores data:', error);
+            setError(error.message || 'Failed to load stores');
+            setAllStores([]);
         } finally {
             setLoading(false);
         }
@@ -50,15 +64,38 @@ const Stores = () => {
                 <div className="w-full h-screen flex items-center justify-center">
                     <Loader />
                 </div>
+            ) : error ? (
+                <div className="bg-white rounded-lg w-full shadow">
+                    <h2 className="text-lg font-bold p-6">Stores</h2>
+                    <div className="w-full h-[1px] border" />
+                    <div className="mt-5 p-6">
+                        <div className="text-center">
+                            <div className="text-red-500 text-lg font-semibold mb-4">
+                                Error Loading Stores
+                            </div>
+                            <p className="text-gray-600 mb-4">{error}</p>
+                            <Button 
+                                className="bg-kuduOrange text-white" 
+                                onClick={() => fetchData(1)}
+                            >
+                                Try Again
+                            </Button>
+                        </div>
+                    </div>
+                </div>
             ) : (
                 <div className="bg-white rounded-lg w-full shadow">
                     <h2 className="text-lg font-bold p-6">Stores</h2>
                     <div className="w-full h-[1px] border" />
                     <div className="mt-5">
-                        {storesData.length > 0
-                            ?
-                            <AllStore data={storesData} paginate={pagination} refetch={(page) => fetchData(page)} />
-                            :
+                        {storesData.length > 0 ? (
+                            <AllStore 
+                                data={storesData} 
+                                allData={storesData} 
+                                paginate={pagination} 
+                                refetch={(page) => fetchData(page)} 
+                            />
+                        ) : (
                             <div className="w-full">
                                 <div className="empty-store">
                                     <div className="text-center">
@@ -76,8 +113,7 @@ const Stores = () => {
                                     </div>
                                 </div>
                             </div>
-
-                        }
+                        )}
                     </div>
                 </div>
             )}

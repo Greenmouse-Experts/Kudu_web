@@ -21,7 +21,9 @@ function Table({
   disableInternalSearch = false,
   searchQuery = "",
   onSearchChange,
-  searchPlaceholder = "Search..."
+  searchPlaceholder = "Search...",
+  onAdd,
+  addButtonText = "Add New"
 }) {
   const [processedColumns, setProcessedColumns] = useState(columns);
   const [internalSearchTerm, setInternalSearchTerm] = useState("");
@@ -125,6 +127,19 @@ function Table({
               </button>
             )}
           </div>
+
+          {/* ⬇️ Add Button */}
+          {onAdd && (
+            <button
+              onClick={onAdd}
+              className="px-3 py-2 flex gap-2 items-center rounded-md bg-orange-500 text-white hover:bg-orange-600 transition-colors"
+            >
+              <span className="text-xs">{addButtonText}</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </button>
+          )}
 
           {/* ⬇️ Export Button */}
           {exportData && (
@@ -321,7 +336,9 @@ Table.propTypes = {
   disableInternalSearch: PropTypes.bool,
   searchQuery: PropTypes.string,
   onSearchChange: PropTypes.func,
-  searchPlaceholder: PropTypes.string
+  searchPlaceholder: PropTypes.string,
+  onAdd: PropTypes.func,
+  addButtonText: PropTypes.string
 };
 
 export default Table;

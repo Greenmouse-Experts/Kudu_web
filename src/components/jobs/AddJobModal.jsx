@@ -129,17 +129,30 @@ const AddJobModal = ({ closeModal, refetch }) => {
       settitle(job.title);
       setworkplaceType(job.workplaceType);
       setjobType(job.jobType);
-      setmessage(job.description);
+      
+      // Handle both HTML content (existing jobs) and plain text (new format)
+      const description = job.description;
+      if (description.includes('<') && description.includes('>')) {
+        // It's HTML content, convert to Draft.js and extract plain text
+        const blocksFromHTML = htmlToDraftjs(description);
+        const { contentBlocks, entityMap } = blocksFromHTML;
+        const contentState = ContentState.createFromBlockArray(
+          contentBlocks,
+          entityMap
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        setDescriptionEditor(editorState);
+        // Extract plain text for the message state
+        setmessage(contentState.getPlainText());
+      } else {
+        // It's plain text, create Draft.js content from it
+        const contentState = ContentState.createFromText(description);
+        setDescriptionEditor(EditorState.createWithContent(contentState));
+        setmessage(description);
+      }
+      
       setlocation(job.location);
-      // setphoto(job.photo);
       setselectedItem(job);
-      const blocksFromHTML = htmlToDraftjs(job.description);
-      const { contentBlocks, entityMap } = blocksFromHTML;
-      const contentState = ContentState.createFromBlockArray(
-        contentBlocks,
-        entityMap
-      );
-      setDescriptionEditor(EditorState.createWithContent(contentState));
     }
   }, [job]);
 
@@ -230,13 +243,9 @@ const AddJobModal = ({ closeModal, refetch }) => {
                 editorState={descriptionEditor}
                 setEditorState={(newState) => {
                   setDescriptionEditor(newState);
-                  setmessage(
-                    renderDraftContent(
-                      JSON.stringify(
-                        convertToRaw(descriptionEditor.getCurrentContent())
-                      )
-                    )
-                  );
+                  // Extract plain text instead of HTML
+                  const plainText = newState.getCurrentContent().getPlainText();
+                  setmessage(plainText);
                 }}
               />
             </div>
