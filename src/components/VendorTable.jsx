@@ -41,7 +41,7 @@ const VendorTable = ({ data, totalData, refetch }) => {
         const userKYC = kycData.find((item) => item.vendorId === id);
 
         if (userKYC) {
-            navigate(`kyc/${id}`)
+            navigate(`/admin/all-vendors/kyc/${id}`);
         }
         else {
             openModal({

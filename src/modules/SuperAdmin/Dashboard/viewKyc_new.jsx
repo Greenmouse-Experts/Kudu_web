@@ -98,14 +98,14 @@ export default function ViewKYC() {
     }
 
     const getKYC = () => {
-        if (!id) {
-            console.log('❌ No vendor ID provided:', id);
+        if (!id || isNaN(parseInt(id, 10))) {
+            console.log('❌ Invalid vendor ID:', id);
             setError('Invalid vendor ID provided');
             setIsLoading(false);
             return;
         }
 
-        console.log('🔍 Fetching KYC data for vendor ID:', id, '(type:', typeof id, ')');
+        console.log('🔍 Fetching KYC data for vendor ID:', id);
 
         mutate({
             url: `/admin/kyc`,
@@ -117,47 +117,23 @@ export default function ViewKYC() {
                     console.log('✅ Raw KYC API Response:', response);
                     console.log('📊 KYC Data Array:', response.data.data);
                     
-                    // The ID from URL params is always a string, let's try both string and number comparison
-                    const vendorIdString = String(id);
-                    const vendorIdNumber = parseInt(id, 10);
-                    
-                    console.log('🔢 Looking for vendor ID as string:', vendorIdString);
-                    console.log('🔢 Looking for vendor ID as number:', vendorIdNumber);
+                    // Convert id to number for comparison since URL params are strings
+                    const vendorId = parseInt(id, 10);
+                    console.log('🔢 Looking for vendor ID:', vendorId, '(type:', typeof vendorId, ')');
                     
                     // Log all vendor IDs in the data for comparison
                     const allVendorIds = response.data.data.map(item => ({
                         vendorId: item.vendorId,
                         type: typeof item.vendorId,
-                        id: item.id,
-                        businessName: item.businessName
+                        id: item.id
                     }));
                     console.log('🆔 All vendor IDs in KYC data:', allVendorIds);
                     
-                    // Try multiple comparison methods
-                    let userKYC = response.data.data.find((item) => {
-                        // Try exact string match
-                        if (String(item.vendorId) === vendorIdString) {
-                            console.log('✅ Found match using string comparison');
-                            return true;
-                        }
-                        // Try number comparison
-                        if (typeof item.vendorId === 'number' && item.vendorId === vendorIdNumber) {
-                            console.log('✅ Found match using number comparison');
-                            return true;
-                        }
-                        // Try converting both to string for comparison
-                        if (String(item.vendorId).toLowerCase() === String(vendorIdString).toLowerCase()) {
-                            console.log('✅ Found match using case-insensitive string comparison');
-                            return true;
-                        }
-                        return false;
-                    });
-                    
+                    const userKYC = response.data.data.find((item) => item.vendorId === vendorId);
                     console.log('🎯 Found KYC data for vendor:', userKYC);
                     
                     if (!userKYC) {
-                        console.log('❌ No KYC data found for vendor ID:', id);
-                        console.log('❌ Available vendor IDs:', allVendorIds.map(v => v.vendorId));
+                        console.log('❌ No KYC data found for vendor ID:', vendorId);
                         setError('No KYC data found for this vendor');
                         setIsLoading(false);
                         return;
