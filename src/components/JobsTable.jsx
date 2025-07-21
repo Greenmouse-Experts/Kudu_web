@@ -1,8 +1,7 @@
 import React from "react";
 import ReviewTable from "./ReviewTable";
-import { FaRegEdit, FaMapMarkerAlt, FaClock } from "react-icons/fa";
-import { RiDeleteBin5Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const JobsTable = ({ 
   data, 
@@ -19,13 +18,13 @@ const JobsTable = ({
   onPageChange,
   totalItems
 }) => {
+  const navigate = useNavigate();
   const columns = [
     { key: "title", label: "Job Title" },
     { key: "location", label: "Location" },
     { key: "type", label: "Type" },
     { key: "status", label: "Status" },
-    { key: "description", label: "Description" },
-    { key: "actions", label: "Actions" }
+    { key: "description", label: "Description" }
   ];
 
   const renderRow = (item) => ({
@@ -62,51 +61,27 @@ const JobsTable = ({
           dangerouslySetInnerHTML={{ __html: item?.description?.slice(0, 150) + "..." || "" }}
         />
       </div>
-    ),
-    actions: (
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-3">
-          <FaRegEdit
-            color="blue"
-            size={16}
-            className="cursor-pointer hover:scale-110 transition-transform"
-            onClick={() => onEdit(item)}
-            title="Edit Job"
-          />
-          <RiDeleteBin5Line
-            color="red"
-            size={16}
-            className="cursor-pointer hover:scale-110 transition-transform"
-            onClick={() => onDelete(item.id)}
-            title="Delete Job"
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          {item.status === "active" ? (
-            <button
-              className="text-xs px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 text-center"
-              onClick={() => onDeactivate(item.id)}
-            >
-              Close Job
-            </button>
-          ) : (
-            <button
-              className="text-xs px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 text-center"
-              onClick={() => onRepost(item.id)}
-            >
-              Repost Job
-            </button>
-          )}
-          <Link
-            className="text-xs px-2 py-1 border border-gray-300 rounded hover:bg-gray-100 text-center"
-            to={`applicants/${item.id}`}
-          >
-            View Applicants
-          </Link>
-        </div>
-      </div>
     )
   });
+
+  const actions = [
+    {
+      label: () => "Edit",
+      onClick: (row) => onEdit(row),
+    },
+    {
+      label: () => "Delete", 
+      onClick: (row) => onDelete(row.id),
+    },
+    {
+      label: (row) => row.status === "active" ? "Close Job" : "Repost Job",
+      onClick: (row) => row.status === "active" ? onDeactivate(row.id) : onRepost(row.id),
+    },
+    {
+      label: () => "View Applicants",
+      onClick: (row) => navigate(`applicants/${row.id}`),
+    }
+  ];
 
   const exportData = data?.map(item => ({
     Title: item.title || "",
@@ -122,6 +97,7 @@ const JobsTable = ({
       columns={columns}
       data={data}
       renderRow={renderRow}
+      actions={actions}
       loading={loading}
       disableInternalSearch={true}
       searchQuery={searchQuery}

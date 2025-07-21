@@ -38,12 +38,41 @@ const VendorTable = ({ data, totalData, refetch }) => {
     const navigate = useNavigate();
 
     const routeKYC = (id) => {
-        const userKYC = kycData.find((item) => item.vendorId === id);
+        console.log('🔍 [VendorTable] Looking for KYC data for vendor ID:', id, '(type:', typeof id, ')');
+        console.log('🆔 [VendorTable] Available KYC data:', kycData.map(item => ({
+            vendorId: item.vendorId,
+            type: typeof item.vendorId,
+            businessName: item.businessName || 'No business name'
+        })));
+
+        // Improved ID matching logic - consistent with ViewKYC component
+        const vendorIdString = String(id).trim();
+        const vendorIdNumber = parseInt(id, 10);
+        
+        const userKYC = kycData.find((item) => {
+            // Try exact string match
+            if (String(item.vendorId) === vendorIdString) {
+                console.log('✅ [VendorTable] Found KYC match using string comparison');
+                return true;
+            }
+            // Try number comparison
+            if (typeof item.vendorId === 'number' && item.vendorId === vendorIdNumber) {
+                console.log('✅ [VendorTable] Found KYC match using number comparison');
+                return true;
+            }
+            // Try case-insensitive comparison
+            if (String(item.vendorId).toLowerCase() === String(vendorIdString).toLowerCase()) {
+                console.log('✅ [VendorTable] Found KYC match using case-insensitive comparison');
+                return true;
+            }
+            return false;
+        });
 
         if (userKYC) {
+            console.log('✅ [VendorTable] KYC data found, navigating to ViewKYC page');
             navigate(`/admin/all-vendors/kyc/${id}`);
-        }
-        else {
+        } else {
+            console.log('❌ [VendorTable] No KYC data found for vendor ID:', id);
             openModal({
                 size: "sm",
                 content: <>
@@ -56,7 +85,6 @@ const VendorTable = ({ data, totalData, refetch }) => {
                     </div>
                 </>
             })
-
         }
     };
 

@@ -30,7 +30,13 @@ const Stores = () => {
                         resolve(response.data);
                     },
                     onError: (error) => {
-                        reject(error);
+                        // Handle 404 as empty state, not error
+                        if (error.response?.status === 404 || error.message?.includes('No stores found')) {
+                            console.log('No stores found for vendor - showing empty state');
+                            resolve({ data: [], pagination: {} });
+                        } else {
+                            reject(error);
+                        }
                     },
                 });
             });
@@ -96,21 +102,25 @@ const Stores = () => {
                                 refetch={(page) => fetchData(page)} 
                             />
                         ) : (
-                            <div className="w-full">
-                                <div className="empty-store">
-                                    <div className="text-center">
-                                        <img
-                                            src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
-                                            alt="Empty Store Illustration"
-                                            className="w-80 h-80 mx-auto"
-                                        />
-                                    </div>
-                                    <h1 className="text-center text-lg font-bold mb-4">No Store Found</h1>
-                                    <div className="text-center text-black-100 mb-6 leading-loose text-sm">
-                                        <Button className='md:w-1/4 w-full bg-kuduOrange p-3' onClick={() => navigate('create')}>
-                                            Add New Store
-                                        </Button>
-                                    </div>
+                            <div className="empty-store bg-white rounded-lg p-8">
+                                <div className="text-center">
+                                    <img
+                                        src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
+                                        alt="Empty Store Illustration"
+                                        className="w-80 h-80 mx-auto"
+                                    />
+                                </div>
+                                <h1 className="text-center text-lg font-bold mb-4">No Store Found</h1>
+                                <div className="text-center text-gray-600 mb-6">
+                                    <p>You haven't created any stores yet. Start selling by creating your first store!</p>
+                                </div>
+                                <div className="text-center">
+                                    <Button 
+                                        className='md:w-1/4 w-full bg-kuduOrange p-3' 
+                                        onClick={() => navigate('create')}
+                                    >
+                                        Add New Store
+                                    </Button>
                                 </div>
                             </div>
                         )}
