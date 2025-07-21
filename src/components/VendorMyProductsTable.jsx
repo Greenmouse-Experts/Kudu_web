@@ -81,19 +81,45 @@ const VendorMyProductsTable = ({
                 </button>
             </div>
             <div className="bg-white rounded-md p-6 w-full">
-                <ReviewTable
-                    title="My Products"
-                    columns={columns}
-                    data={transformedData}
-                    allData={transformedData}
-                    exportData={true}
-                    isLoading={loading}
-                    hasNumber={true}
-                    actions={actions}
-                    currentPage={1}
-                    totalPages={1}
-                    onPageChange={null}
-                />
+                {transformedData.length > 0 ? (
+                    <ReviewTable
+                        title="My Products"
+                        columns={columns}
+                        data={transformedData}
+                        allData={transformedData}
+                        exportData={true}
+                        isLoading={loading}
+                        hasNumber={true}
+                        actions={actions}
+                        currentPage={1}
+                        totalPages={1}
+                        onPageChange={null}
+                    />
+                ) : (
+                    <div className="empty-store bg-white rounded-lg p-8">
+                        <div className="text-center">
+                            <img
+                                src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736780988/Shopping_bag-bro_1_vp1yri.png"
+                                alt="Empty Products Illustration"
+                                className="w-80 h-80 mx-auto"
+                            />
+                        </div>
+                        <h1 className="text-center text-lg font-bold mb-4">No Products Found</h1>
+                        <div className="text-center text-gray-600 mb-6">
+                            <p>You haven't created any products yet. Start selling by adding your first product!</p>
+                        </div>
+                        <div className="text-center">
+                            <button
+                                className="bg-kuduOrange text-white px-6 py-3 rounded-md hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                onClick={onCreateProduct}
+                                disabled={!hasStores}
+                                title={!hasStores ? 'No stores found for this vendor' : ''}
+                            >
+                                {!hasStores ? 'Create Store First' : 'Add Your First Product'}
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -90,6 +90,17 @@ const MyProducts = () => {
             onSuccess: (response) => {
                 getAuctionProducts(response.data.data)
             },
+            onError: (error) => {
+                // Handle 404 as empty state for products
+                if (error.response?.status === 404 || error.message?.includes('No products found')) {
+                    console.log('No products found for vendor - showing empty state');
+                    getAuctionProducts([]);
+                } else {
+                    console.error('Error fetching products:', error);
+                    setProducts([]);
+                    setLoading(false);
+                }
+            }
         }); 
     }
 
@@ -105,9 +116,16 @@ const MyProducts = () => {
                 setProducts(merged);
                 setLoading(false);
             },
-            onError: () => {
-                setProducts(data);
-                setLoading(false)
+            onError: (error) => {
+                // Handle 404 as empty state for auction products
+                if (error.response?.status === 404 || error.message?.includes('No auction products found')) {
+                    console.log('No auction products found for vendor');
+                    setProducts(data || []);
+                } else {
+                    console.error('Error fetching auction products:', error);
+                    setProducts(data || []);
+                }
+                setLoading(false);
             }
         });
     }
