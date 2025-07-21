@@ -131,7 +131,7 @@ const JobList = ({ data, refetch, loading }) => {
   }, []);
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="space-y-6">
       <JobsTable
         data={paginatedData}
         onEdit={handleEdit}
