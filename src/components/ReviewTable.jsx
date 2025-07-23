@@ -78,8 +78,6 @@ function Table({
     exportToCSV(exportCols, filteredData, `export-${title || "data"}`);
   };
 
-  console.log(filteredData);
-
   return (
     <div className="md:px-5 px-3 pt-6 pb-12 md:rounded-lg overflow-hidden bg-white">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
@@ -170,21 +168,21 @@ function Table({
         </div>
       </div>
 
-      <div className="overflow-hidden border-2 border-gray-200 rounded-lg bg-white shadow-sm">
+      <div className="overflow-hidden border rounded-lg bg-white shadow-sm">
         <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           <table className="table-auto text-left w-full min-w-[600px]">
-            <thead className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200">
+            <thead className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
               <tr>
                 {processedColumns.map(col => (
                   <th
                     key={col.key}
-                    className={`px-4 py-5 text-sm font-semibold text-gray-700 whitespace-nowrap border-r border-gray-200 last:border-r-0 ${col.className || ''}`}
+                    className={`px-3 py-4 text-sm font-semibold text-gray-700 whitespace-nowrap ${col.className || ''}`}
                   >
                     {col.label}
                   </th>
                 ))}
                 {actions.length > 0 && (
-                  <th className="py-5 px-4 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">
+                  <th className="py-4 px-4 text-left text-sm font-semibold text-gray-600 whitespace-nowrap">
                     Actions
                   </th>
                 )}
@@ -210,12 +208,12 @@ function Table({
               filteredData.map((row, rowIndex) => (
                 <tr
                   key={rowIndex}
-                  className="border-b-2 border-gray-100 hover:bg-orange-50/30 transition-colors duration-150 group"
+                  className="border-t border-gray-100 hover:bg-orange-50/30 transition-colors duration-150 group"
                 >
                   {processedColumns.map((col, colIndex) => (
                     <td
                       key={colIndex}
-                      className={`px-4 py-5 text-sm text-gray-900 border-r border-gray-100 last:border-r-0 ${col.className || ''}`}
+                      className={`px-3 py-4 text-sm text-gray-900 ${col.className || ''}`}
                     >
                       {col.key === "number"
                         ? rowIndex + 1
@@ -225,12 +223,12 @@ function Table({
                     </td>
                   ))}
                   {actions.length > 0 && (
-                    <td className="py-5 px-4">
+                    <td className="py-4 px-4">
                       <Menu placement="left">
                         <MenuHandler>
                           <IconButton
                             variant="text"
-                            className="text-gray-600 hover:text-orange-600 hover:bg-orange-50 transition-colors duration-150"
+                            className="text-gray-400 hover:text-orange-600 hover:bg-orange-50 transition-colors duration-150 opacity-0 group-hover:opacity-100"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="9" viewBox="0 0 32 9" fill="none">
                               <mask id="path-1-outside-1_6231_8791" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="9" fill="black">
