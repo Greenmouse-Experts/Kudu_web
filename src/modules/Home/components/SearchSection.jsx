@@ -46,7 +46,7 @@ const MyComponent = ({ categories }) => {
                 backgroundPosition: "center",
             }}
         >
-            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-30 md:px-20 sm:px-6 px-3 py-3 lg:gap-10 md:gap-8 gap-5 h-full">>
+            <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-30 md:px-20 sm:px-6 px-3 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
                 {/* Desktop View - Top Categories + Banner */}
                 <div className="hidden md:flex items-stretch rounded-lg overflow-hidden">
                     {/* Left - Top Categories */}
