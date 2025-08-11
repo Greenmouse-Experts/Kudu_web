@@ -199,8 +199,9 @@ export default function NewHome() {
                 <Loader />
               </div>
             ) : (
-              // <TrendingJobs jobs={jobs?.slice(0, 12)} />
-              <></>
+              <>
+                <TrendingJobs jobs={jobs?.slice(0, 12)} />
+              </>
             )}
           </div>
 
