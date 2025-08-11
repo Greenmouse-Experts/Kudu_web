@@ -26,7 +26,7 @@ export default function NewHome() {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { data: jobs, isLoading } = useGetJobClient();
+  // const { data: jobs, isLoading } = useGetJobClient();
 
   const currency = useGeoLocatorCurrency();
 
@@ -192,17 +192,8 @@ export default function NewHome() {
                         )
                         }
                     </div> */}
-
           <div className="w-full lg:flex md:flex gap-3 md:mt-3">
-            {isLoading ? (
-              <div className="w-full h-screen flex items-center justify-center">
-                <Loader />
-              </div>
-            ) : (
-              <>
-                <TrendingJobs jobs={jobs?.slice(0, 12)} />
-              </>
-            )}
+            <TrendingJobs />
           </div>
 
           <div className="w-full lg:flex md:flex flex-col gap-3 md:mt-3">
