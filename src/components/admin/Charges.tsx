@@ -36,9 +36,9 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
     const handleDialogClick = (
       e: React.MouseEvent<HTMLDialogElement, MouseEvent>,
     ) => {
-      console.log("clicked");
       // if (mutation.isPending) return null;
-      if (e.target === ref) {
+      // Fix: compare to dialog element, not ref
+      if (e.target === (ref && "current" in ref ? ref.current : null)) {
         onClose();
       }
     };
@@ -252,7 +252,7 @@ export default function Charges() {
                 No charges create charge
               </div>
             )}
-            {query.data?.data.map((item) => {
+            {query.data?.data?.map((item) => {
               return <ChargeItem key={item.id} charge={item} />;
             })}
           </>
@@ -274,6 +274,7 @@ const ChargeItem = (props: { charge: Charge }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isStatusPending, setIsStatusPending] = useState(false);
   const editDialogRef = useRef<HTMLDialogElement>(null);
   const queryClient = useQueryClient();
 
@@ -317,6 +318,33 @@ const ChargeItem = (props: { charge: Charge }) => {
     },
   });
 
+  // Activate/deactivate mutation
+  const statusMutation = useMutation({
+    mutationFn: async (activate: boolean) => {
+      setIsStatusPending(true);
+      const endpoint = activate
+        ? `/admin/product/charges/${charge.id}/status/activate`
+        : `/admin/product/charges/${charge.id}/status/deactivate`;
+      await apiClient.patch(endpoint);
+    },
+    onSuccess: (_data, activate) => {
+      toast.success(
+        activate
+          ? "Charge activated successfully!"
+          : "Charge deactivated successfully!",
+      );
+      setIsStatusPending(false);
+      queryClient.invalidateQueries({ queryKey: ["charges_admin"] });
+    },
+    onError: (error: any) => {
+      toast.error(
+        error?.response?.data?.message ||
+          "Failed to update charge status. Please try again.",
+      );
+      setIsStatusPending(false);
+    },
+  });
+
   // Open edit dialog
   const handleEditOpen = () => {
     setIsEditing(true);
@@ -337,6 +365,18 @@ const ChargeItem = (props: { charge: Charge }) => {
     editMutation.mutate(formData as Record<string, any>);
   };
 
+  // Activate/deactivate handlers
+  const handleActivate = () => {
+    if (!isStatusPending) {
+      statusMutation.mutate(true);
+    }
+  };
+  const handleDeactivate = () => {
+    if (!isStatusPending) {
+      statusMutation.mutate(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg shadow p-4 mb-3 flex flex-col gap-2 border border-gray-100">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -350,17 +390,34 @@ const ChargeItem = (props: { charge: Charge }) => {
           <button
             className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600 active:scale-95 text-sm"
             onClick={handleEditOpen}
-            disabled={isDeleting}
+            disabled={isDeleting || isStatusPending}
           >
             Edit
           </button>
           <button
             className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600 active:scale-95 text-sm"
             onClick={() => setShowConfirm(true)}
-            disabled={isDeleting}
+            disabled={isDeleting || isStatusPending}
           >
             Delete
           </button>
+          {charge.is_active ? (
+            <button
+              className="px-3 py-1 rounded bg-kuduOrange500 text-white hover:bg-yellow-600 active:scale-95 text-sm"
+              onClick={handleDeactivate}
+              disabled={isStatusPending || isDeleting}
+            >
+              {isStatusPending ? "Deactivating..." : "Deactivate"}
+            </button>
+          ) : (
+            <button
+              className="px-3 py-1 rounded bg-green-500 text-white hover:bg-green-600 active:scale-95 text-sm"
+              onClick={handleActivate}
+              disabled={isStatusPending || isDeleting}
+            >
+              {isStatusPending ? "Activating..." : "Activate"}
+            </button>
+          )}
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-gray-700 mt-2">
