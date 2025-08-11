@@ -496,25 +496,35 @@ const ChargeItem = (props: { charge: Charge }) => {
             </label>
             <label className="text-sm font-medium text-gray-700">
               Charge Currency
-              <input
-                type="text"
+              <select
                 name="charge_currency"
-                defaultValue={charge.charge_currency}
                 className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
-                placeholder="e.g. USD"
                 disabled={editMutation.isPending}
-              />
+                required
+                defaultValue={charge.charge_currency}
+              >
+                <option value="" disabled>
+                  Select currency
+                </option>
+                <option value="USD">USD</option>
+                <option value="NGN">NGN</option>
+              </select>
             </label>
             <label className="text-sm font-medium text-gray-700">
               Calculation Type
-              <input
-                type="text"
+              <select
                 name="calculation_type"
-                defaultValue={charge.calculation_type}
                 className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
-                placeholder="e.g. fixed, percentage"
                 disabled={editMutation.isPending}
-              />
+                required
+                defaultValue={charge.calculation_type}
+              >
+                <option value="" disabled>
+                  Select type
+                </option>
+                <option value="fixed">Fixed</option>
+                <option value="percentage">Percentage</option>
+              </select>
             </label>
             <label className="text-sm font-medium text-gray-700">
               Minimum Product Amount
