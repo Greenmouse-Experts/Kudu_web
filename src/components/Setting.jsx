@@ -131,7 +131,7 @@ const Setting = () => {
                 Payment Gateway
               </button>
               <button
-                className={`px-4 py-4 rounded-md ${activeTab === "paymentGateway" ? "bg-[#FFF1E9] text-black font-semibold" : "bg-gray-100"}`}
+                className={`px-4 py-4 rounded-md ${activeTab === "Charges" ? "bg-[#FFF1E9] text-black font-semibold" : "bg-gray-100"}`}
                 onClick={() => setActiveTab("Charges")}
               >
                 Charges

@@ -8,16 +8,12 @@ const apiClient = axios.create({
   },
 });
 
-export default apiClient;
-
 const getBearerToken = () => {
   const token = localStorage.getItem("kuduUserToken");
   return `Bearer ${token}`;
 };
 
-axios.defaults.baseURL = baseURL;
-axios.defaults.headers.common["Authorization"] = getBearerToken();
-axios.interceptors.request.use(
+apiClient.interceptors.request.use(
   function (config) {
     const token = getBearerToken();
     if (token) {
@@ -27,9 +23,10 @@ axios.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error);
-  }
+  },
 );
-axios.interceptors.response.use(
+
+apiClient.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -39,5 +36,8 @@ axios.interceptors.response.use(
       // return (window.location.href = "/login");
     }
     return Promise.reject(error);
-  }
+  },
 );
+
+export default apiClient;
+export { apiClient };

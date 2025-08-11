@@ -8,7 +8,6 @@ export default function Charges() {
       return resp.data;
     },
   });
-
   const query = useQuery({
     queryKey: ["charges_admin"],
     queryFn: async () => {
