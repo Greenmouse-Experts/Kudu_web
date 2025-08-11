@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
+import apiClient from "./apiFactory";
 
 export function useGetAdminJobs() {
   return useQuery({
@@ -63,32 +64,31 @@ export function useUpdateJob() {
 }
 
 export function useDeactivateJob(id) {
-    const queryClient = useQueryClient();
-  
-    return useMutation({
-      mutationFn: async (data) => {
-        const response = await axios.patch(`/admin/job/close?jobId=${id}`, data);
-        return response.data.data;
-      },
-      onSuccess: (res) => {
-        toast.success("Job updated successfully");
-        const id = res.id;
-        queryClient.invalidateQueries({
-          queryKey: ["admin-jobs", "admin-job", id],
-        });
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
-  }
+  const queryClient = useQueryClient();
 
+  return useMutation({
+    mutationFn: async (data) => {
+      const response = await axios.patch(`/admin/job/close?jobId=${id}`, data);
+      return response.data.data;
+    },
+    onSuccess: (res) => {
+      toast.success("Job updated successfully");
+      const id = res.id;
+      queryClient.invalidateQueries({
+        queryKey: ["admin-jobs", "admin-job", id],
+      });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+}
 
 export function useGetJobClient() {
   return useQuery({
     queryKey: ["client-jobs"],
     queryFn: async () => {
-      const response = await axios.get(`/fetch/jobs`);
+      const response = await apiClient.get(`/fetch/jobs`);
       return response.data.data;
     },
   });
@@ -98,7 +98,7 @@ export function useViewJobClient(jobId) {
   return useQuery({
     queryKey: ["client-job", jobId],
     queryFn: async () => {
-      const response = await axios.get(`/view/job?jobId=${jobId}`);
+      const response = await apiClient.get(`/view/job?jobId=${jobId}`);
       return response.data.data;
     },
   });

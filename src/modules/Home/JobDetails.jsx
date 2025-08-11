@@ -26,9 +26,9 @@ export default function JobDetails() {
     setform({ ...form, [e.target.name]: e.target.value });
   };
 
-  const { data: jobDetail, isLoading } = useViewJobClient(jobId);
+  const { data: jobDetail, isLoading, isFetching } = useViewJobClient(jobId);
 
-  if (isLoading)
+  if (isFetching)
     return (
       <div className="py-40">
         <Loader />
@@ -54,7 +54,7 @@ export default function JobDetails() {
         onSuccess: () => {
           navigate(-1);
         },
-      }
+      },
     );
   };
 
@@ -70,6 +70,11 @@ export default function JobDetails() {
     }
   };
 
+  // return (
+  //   <div className="w-full min-h-screen py-[200px]">
+  //     {JSON.stringify(jobDetail)}
+  //   </div>
+  // );
   return (
     <>
       <div className="w-full flex flex-col">
