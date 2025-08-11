@@ -236,7 +236,7 @@ export default function Charges() {
           <div className="py-8 text-center text-gray-500">Loading...</div>
         ) : (
           <>
-            {query.data?.data?.length <= 1 && (
+            {query.data?.data?.length < 1 && (
               <div className="p-2 text-lg  opacity-80">
                 No charges create charge
               </div>
