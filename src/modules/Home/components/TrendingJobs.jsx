@@ -22,7 +22,7 @@ const TrendingJobs = (props) => {
       </>
     );
   if (query.isError) return <>Error fetching jobs</>;
-  const jobs = query.data;
+  const jobs = query.data?.data;
 
   const filteredJobs =
     jobs?.filter((job) =>
