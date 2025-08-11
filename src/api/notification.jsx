@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { toast } from "react-toastify";
+import apiClient from "./apiFactory";
 
 let token = localStorage.getItem("kuduUserToken");
 
@@ -9,7 +9,7 @@ export function useNotification() {
     queryKey: ["notification"],
     queryFn: async () => {
       if (token) {
-        const response = await axios.get(`/user/notifications`);
+        const response = await apiClient.get(`/user/notifications`);
         return response.data.data;
       }
       return [];
@@ -22,8 +22,8 @@ export function useMarkNotificationAsRead() {
 
   return useMutation({
     mutationFn: async (notificationId) => {
-      return axios.patch(
-        `/user/mark/notification/as/read?notificationId=${notificationId}`
+      return apiClient.patch(
+        `/user/mark/notification/as/read?notificationId=${notificationId}`,
       );
     },
     onSuccess: () => {

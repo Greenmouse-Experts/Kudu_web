@@ -109,7 +109,7 @@ export function useApplyJob() {
 
   return useMutation({
     mutationFn: async (data) => {
-      const response = await axios.post(`/apply/job`, data);
+      const response = await apiClient.post(`/apply/job`, data);
       return response.data.data;
     },
     onSuccess: (res) => {
