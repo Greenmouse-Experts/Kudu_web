@@ -169,7 +169,7 @@ const Setting = () => {
                 </div>
 
                 {/* Form */}
-                <form
+                <tab
                   className="grid grid-cols-2 gap-6"
                   onSubmit={handleSubmit(onSubmit)}
                 >
@@ -224,7 +224,7 @@ const Setting = () => {
                       Update Info
                     </button>
                   </div>
-                </form>
+                </tab>
               </>
             )}
 
