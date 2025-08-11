@@ -37,7 +37,9 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
     const handleDialogClick = (
       e: React.MouseEvent<HTMLDialogElement, MouseEvent>,
     ) => {
-      if (e.target === ref && !mutation.isPending) {
+      console.log("clicked");
+      // if (mutation.isPending) return null;
+      if (e.target === ref) {
         onClose();
       }
     };
