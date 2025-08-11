@@ -30,7 +30,6 @@ interface ChargeDialogProps {
   mutation: ReturnType<typeof useMutation>;
   onClose: () => void;
 }
-
 const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
   ({ mutation, onClose }, ref) => {
     // Prevent dialog from closing if mutation is pending
@@ -112,23 +111,35 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
             </label>
             <label className="text-sm font-medium text-gray-700">
               Charge Currency
-              <input
-                type="text"
+              <select
                 name="charge_currency"
                 className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
-                placeholder="e.g. USD"
                 disabled={mutation.isPending}
-              />
+                required
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Select currency
+                </option>
+                <option value="USD">USD</option>
+                <option value="NGN">NGN</option>
+              </select>
             </label>
             <label className="text-sm font-medium text-gray-700">
               Calculation Type
-              <input
-                type="text"
+              <select
                 name="calculation_type"
                 className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
-                placeholder="e.g. fixed, percentage"
                 disabled={mutation.isPending}
-              />
+                required
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Select type
+                </option>
+                <option value="fixed">Fixed</option>
+                <option value="percentage">Percentage</option>
+              </select>
             </label>
             <label className="text-sm font-medium text-gray-700">
               Minimum Product Amount
