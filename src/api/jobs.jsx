@@ -28,7 +28,7 @@ export function useCreateJob() {
 
   return useMutation({
     mutationFn: async (data) => {
-      const response = await axios.post(`/admin/job/post`, data);
+      const response = await apiClient.post(`/admin/job/post`, data);
       return response.data.data;
     },
     onSuccess: (res) => {
@@ -47,7 +47,7 @@ export function useUpdateJob() {
 
   return useMutation({
     mutationFn: async (data) => {
-      const response = await axios.put(`/admin/job/update`, data);
+      const response = await apiClient.put(`/admin/job/update`, data);
       return response.data.data;
     },
     onSuccess: (res) => {
@@ -68,7 +68,10 @@ export function useDeactivateJob(id) {
 
   return useMutation({
     mutationFn: async (data) => {
-      const response = await axios.patch(`/admin/job/close?jobId=${id}`, data);
+      const response = await apiClient.patch(
+        `/admin/job/close?jobId=${id}`,
+        data,
+      );
       return response.data.data;
     },
     onSuccess: (res) => {
