@@ -74,7 +74,7 @@ const VendorMyProductsTable = ({
         <button
           className="bg-kuduOrange text-white px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={onCreateProduct}
-          disabled={!hasStores}
+          disabled={false}
           title={!hasStores ? "No stores found for this vendor" : ""}
         >
           Create New Product
