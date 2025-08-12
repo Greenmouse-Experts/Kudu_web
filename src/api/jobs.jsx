@@ -7,7 +7,7 @@ export function useGetAdminJobs() {
   return useQuery({
     queryKey: ["admin-jobs"],
     queryFn: async () => {
-      const response = await axios.get(`/admin/jobs`);
+      const response = await apiClient.get(`/admin/jobs`);
       return response.data.data;
     },
   });
@@ -17,7 +17,7 @@ export function useGetAdminJobById(id) {
   return useQuery({
     queryKey: ["admin-job", id],
     queryFn: async () => {
-      const response = await axios.get(`/admin/job?jobId=${id}`);
+      const response = await apiClient.get(`/admin/job?jobId=${id}`);
       return response.data.data;
     },
   });
