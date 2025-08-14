@@ -351,7 +351,28 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
     // Handle modal closure if necessary.
   };
 
-  if (query.isFetching) return <>loading</>;
+  if (query.isFetching)
+    return (
+      <div className="w-full flex flex-col items-center justify-center p-4 rounded-lg bg-white py-6">
+        <div className="animate-spin  text-xl font-bold opacity-80">...</div>
+      </div>
+    );
+
+  if (query.isError) {
+    return (
+      <div className="w-full flex flex-col items-center justify-center p-4 rounded-lg bg-white py-6">
+        <div>
+          <div className="">Error Loading Checkout Info</div>
+          <button
+            onClick={() => query.refetch}
+            className="bg-kuduOrange text-white font-bold py-2 px-4 rounded hover:bg-kuduDarkOrange focus:outline-none focus:ring-2 focus:ring-kuduDarkOrange"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
   const charges_total = total_price - total_price_without_charges;
 
   // return <></>;
