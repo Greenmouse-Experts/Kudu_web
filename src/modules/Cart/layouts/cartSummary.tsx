@@ -258,21 +258,21 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
         cart_items,
       };
     }
+    console.log(charges, "ss");
 
     // Find the appropriate charge based on quantity
     const charge = charges?.find((char) => {
-      const qty = parseFloat(quantity.toString());
       const minAmount = parseFloat(char.minimum_product_amount);
       const maxAmount = char.maximum_product_amount
         ? parseFloat(char.maximum_product_amount)
         : null;
 
-      // Quantity should be >= minimum
-      const meetsMinimum = qty >= minAmount;
+      // Base price should be >= minimum
+      const meetsMinimum = basePrice >= minAmount;
 
-      // If there's a maximum, quantity should be <= maximum
-      // If no maximum, then any quantity above minimum is valid
-      const meetsMaximum = maxAmount ? qty <= maxAmount : true;
+      // If there's a maximum, base price should be <= maximum
+      // If no maximum, then any price above minimum is valid
+      const meetsMaximum = maxAmount ? basePrice <= maxAmount : true;
 
       return meetsMinimum && meetsMaximum;
     });
