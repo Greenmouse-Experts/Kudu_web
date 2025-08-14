@@ -243,11 +243,18 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
   const charges = query.data?.data;
   const item_amounts = cart.map((cart_items) => {
     const quantity = cart_items.quantity;
-    const initial_price = cart_items.product.discount_price;
+    const discount = parseFloat(cart_items.product.discount_price);
+    const basePrice =
+      discount != 0 ? discount : parseFloat(cart_items.product.price);
+    console.log(basePrice, "price");
+    const initial_price = basePrice * quantity; // Calculate total for this item without charges
+
     // Early return if charges are not available
     if (!charges || charges?.length < 1) {
       return {
         full_price: initial_price,
+        base_price: initial_price,
+        charge_amount: 0,
         cart_items,
       };
     }
@@ -269,34 +276,43 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
 
       return meetsMinimum && meetsMaximum;
     });
+
     if (!charge) {
       return {
         full_price: initial_price,
+        base_price: initial_price,
+        charge_amount: 0,
         cart_items,
       };
     }
 
     let price;
-    const basePrice = parseFloat(cart_items.product.discount_price);
+    let chargeAmount = 0;
 
     if (charge.calculation_type === "fixed") {
-      // Fixed charge: add the charge amount to the base price, then multiply by quantity
+      // Fixed charge: add the charge amount to base price, then multiply by quantity
+      chargeAmount = parseFloat(charge.charge_amount) * quantity;
       price = (basePrice + parseFloat(charge.charge_amount)) * quantity;
     } else if (charge.calculation_type === "percentage") {
-      // Percentage charge: calculate percentage of base price, add to base price, then multiply by quantity
-      const percentageAmount =
+      // Percentage charge: calculate percentage of base price per unit, then multiply by quantity
+      const percentagePerUnit =
         (basePrice * parseFloat(charge.charge_percentage)) / 100;
-      price = (basePrice + percentageAmount) * quantity;
+      chargeAmount = percentagePerUnit * quantity;
+      price = (basePrice + percentagePerUnit) * quantity;
     } else {
       // Fallback: just use base price if calculation type is unknown
-      price = basePrice * quantity;
+      price = initial_price;
+      chargeAmount = 0;
     }
 
     return {
       full_price: price,
+      base_price: initial_price,
+      charge_amount: chargeAmount,
       cart_items,
     };
   });
+  console.log(charges);
 
   const total_price = item_amounts.reduce((total, item) => {
     return total + (item.full_price || 0);
@@ -431,8 +447,8 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
               <span className="text-base font-semibold text-black">
                 {currency[0].symbol}
                 {(ipInfo.currency_name === "Naira"
-                  ? total_price_without_charges
-                  : total_price
+                  ? total_price
+                  : total_price_without_charges
                 ).toLocaleString("en-US")}
               </span>
             </div>
