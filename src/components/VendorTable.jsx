@@ -197,6 +197,13 @@ const VendorTable = ({ data, totalData, refetch }) => {
               { key: "accountType", label: "User Type" },
               { key: "dateJoined", label: "Date Joined" },
               {
+                key: "phoneNumber",
+                label: "Phone",
+                render: (value) => {
+                  return <span>{value}</span>;
+                },
+              },
+              {
                 key: "status",
                 label: "Status",
                 render: (value) => (
