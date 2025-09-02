@@ -97,8 +97,8 @@ const ServiceCategories = () => {
   //@ts-ignore
   const actions: Actions<ServiceCategory> = [
     {
-      label: "view  sub-categories",
-      key: "Sub Categories",
+      label: "Sub Categories",
+      key: "sub-categories",
       action: (item) => {
         navigate(`/admin/services/sub-category/${item.id}`);
       },
@@ -143,7 +143,28 @@ const ServiceCategories = () => {
   return (
     <div className="min-h-screen p-4 bg-base-100" id="root" data-theme="kudu">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold mb-3">Service Categories</h2>
+        <h2 className="text-xl font-bold mb-3">
+          Service Categories{" "}
+          <span>
+            {categories.isFetching && (
+              <>
+                <div className="loading text-primary"></div>
+              </>
+            )}
+            {categories.isError && (
+              <>
+                <div className="ml-2 ">
+                  <button
+                    onClick={() => categories.refetch()}
+                    className="btn btn-accent"
+                  >
+                    reload
+                  </button>
+                </div>
+              </>
+            )}
+          </span>
+        </h2>
         <button className="btn btn-primary" onClick={openModal}>
           Add Category
         </button>

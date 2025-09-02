@@ -81,6 +81,7 @@ export default function PopUp(props: {
       <Portal>
         {isOpen && (
           <div
+            id="root"
             data-theme="kudu"
             ref={(el) => {
               setPopperElement(el);
@@ -98,7 +99,7 @@ export default function PopUp(props: {
               {props?.actions?.map((action) => (
                 <button
                   key={action.key}
-                  className="btn btn-ghost  btn-sm"
+                  className="btn px-2 py-1 capitalize btn-ghost text-current/70 text-sm "
                   onClick={() => action.action(props.item)}
                 >
                   {action.label}

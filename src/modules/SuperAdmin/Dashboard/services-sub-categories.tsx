@@ -136,7 +136,29 @@ export default function ServiceSubCategories() {
   return (
     <div className="min-h-screen p-4 bg-base-100" id="root" data-theme="kudu">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold mb-3">Service SubCategories</h2>
+        <h2 className="text-xl font-bold mb-3">
+          Service SubCategories{" "}
+          <span>
+            {categories.isFetching && (
+              <>
+                <div className="loading text-primary"></div>
+              </>
+            )}
+            {categories.isError && (
+              <>
+                <div className="ml-2 ">
+                  <button
+                    onClick={() => categories.refetch()}
+                    className="btn btn-accent"
+                  >
+                    reload
+                  </button>
+                </div>
+              </>
+            )}
+          </span>
+        </h2>
+
         <button className="btn btn-primary" onClick={openModal}>
           Add Category
         </button>

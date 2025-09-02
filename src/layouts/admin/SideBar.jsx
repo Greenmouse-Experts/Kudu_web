@@ -12,10 +12,9 @@ import {
   Store,
   ShoppingBag,
   DollarSign,
-  Laptop,
   FileText,
   Search,
-  MoveRight,
+  ChevronDown, // Changed from MoveRight to ChevronDown
 } from "lucide-react";
 
 const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
@@ -66,7 +65,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
   return (
     <>
       <div
-        className={`bg-kudu-made h-full px-6 pt-6 rounded-md flex-col w-full md:w-[20%] relative md:fixed flex ${onMobile ? "overflow-y-auto" : "overflow-hidden"} bg-mobiDarkCloud transition-all mb-10`}
+        className={`bg-kudu-made h-full px-6 pt-6 rounded-md flex-col w-full md:w-[20%] relative md:fixed flex ${onMobile ? "overflow-y-auto" : "overflow-hidden"}  transition-all mb-10`}
       >
         <div
           className={`h-full bg-white pb-20 rounded-md flex-col w-full md:w-[21%] relative md:fixed flex ${onMobile ? "overflow-y-auto" : "overflow-hidden"} bg-mobiDarkCloud transition-all mb-10`}
@@ -110,7 +109,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 </i>
                 <span className="text-md font-semibold">Users</span>
                 <i className="ml-5 right-0">
-                  <MoveRight size={20} />
+                  <ChevronDown size={20} />
                 </i>
               </button>
               {dropdownStates.users && (
@@ -156,7 +155,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 </i>
                 <span className="text-md font-semibold">Products</span>
                 <i className="ml-5 right-0">
-                  <MoveRight size={20} />
+                  <ChevronDown size={20} />
                 </i>
               </button>
               {dropdownStates.products && (
@@ -212,7 +211,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 </i>
                 <span className="text-md font-semibold">Services</span>
                 <i className="ml-5 right-0">
-                  <MoveRight size={20} />
+                  <ChevronDown size={20} />
                 </i>
               </button>
               {dropdownStates.services && (
@@ -245,7 +244,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 </i>
                 <span className="text-md font-semibold">Stores</span>
                 <i className="ml-5 right-0">
-                  <MoveRight size={20} />
+                  <ChevronDown size={20} />
                 </i>
               </button>
               {dropdownStates.stores && (
@@ -284,7 +283,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 </i>
                 <span className="text-md font-semibold">Orders</span>
                 <i className="ml-5 right-0">
-                  <MoveRight size={20} />
+                  <ChevronDown size={20} />
                 </i>
               </button>
               {dropdownStates.orders && (
@@ -352,7 +351,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 </i>
                 <span className="text-md font-semibold">Pages</span>
                 <i className="ml-5 right-0">
-                  <MoveRight size={20} />
+                  <ChevronDown size={20} />
                 </i>
               </button>
               {dropdownStates.pages && (
@@ -391,7 +390,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 <FaLaptop className="mr-5" size={20} />
                 <span className="text-md font-semibold">Jobs</span>
                 <i className="ml-5 right-0">
-                  <MoveRight size={20} />
+                  <ChevronDown size={20} />
                 </i>
               </button>
               {dropdownStates.jobs && (

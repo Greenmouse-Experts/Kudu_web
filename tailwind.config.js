@@ -1,20 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-
+// import { mtConfig } from "@material-tailwind/react";
 const withMT = require("@material-tailwind/react/utils/withMT");
 
+// module.exports = mtConfig();
 module.exports = withMT({
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       screens: {
-        'xs': '320px',        // Extra small devices (mobile)
-        'sm': '640px',        // Small devices (tablets)
-        'md': '1024px',       // Large devices (laptops/desktops)
-        'lg': '1280px',       // Extra large devices (desktops)
-        'xl': '1536px',
+        xs: "320px", // Extra small devices (mobile)
+        sm: "640px", // Small devices (tablets)
+        md: "1024px", // Large devices (laptops/desktops)
+        lg: "1280px", // Extra large devices (desktops)
+        xl: "1536px",
       },
       colors: {
         background: "var(--background)",
@@ -42,12 +40,12 @@ module.exports = withMT({
         kuduLightGreen: "rgba(193, 255, 165, 1)",
         kuduBlue: "rgba(18, 84, 255, 1)",
         kuduMade: "#F6F7FB",
-        
       },
       backgroundImage: {
-        'custom-bg': "url('/images/signInBg.png')",
-        'signUp-bg': "url('/images/signUpBg.png')",
-        'senseBanner': "url('https://res.cloudinary.com/do2kojulq/image/upload/v1735564234/kudu_mart/Frame_1618873123_cleanup_e75ord.png')"
+        "custom-bg": "url('/images/signInBg.png')",
+        "signUp-bg": "url('/images/signUpBg.png')",
+        senseBanner:
+          "url('https://res.cloudinary.com/do2kojulq/image/upload/v1735564234/kudu_mart/Frame_1618873123_cleanup_e75ord.png')",
       },
     },
   },
