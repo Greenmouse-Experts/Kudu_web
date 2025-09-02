@@ -43,7 +43,7 @@ const CreateSubscription = () => {
     data.auctionProductLimit = Number(data.auctionProductLimit);
     data.price = Number(data.price);
     data.allowsAuction = data.allowsAuction === "true";
-    data.serviceLimit = Number(data.serviceLimit);
+    // data.serviceLimit = Number(data.serviceLimit);
     data.allowsServiceAds = data.allowsServiceAds === "true"; // Added parsing for allowsServiceAds
     data.serviceAdsLimit = Number(data.serviceAdsLimit); // Added parsing for serviceAdsLimit
 
@@ -216,7 +216,7 @@ const CreateSubscription = () => {
                     </div>
                   )}
 
-                  <div className="mb-4">
+                  {/* <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
                       htmlFor="email"
@@ -239,7 +239,7 @@ const CreateSubscription = () => {
                         {errors.serviceLimit.message}
                       </p>
                     )}
-                  </div>
+                  </div>*/}
 
                   <div className="mb-4">
                     <label
