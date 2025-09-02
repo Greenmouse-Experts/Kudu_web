@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { useState } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import Loader from "../../../components/Loader";

@@ -14,7 +14,8 @@ import {
   DollarSign,
   FileText,
   Search,
-  ChevronDown, // Changed from MoveRight to ChevronDown
+  ChevronDown,
+  Bell, // Added Bell icon for notifications
 } from "lucide-react";
 
 const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
@@ -28,6 +29,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
     services: false, // Added for services dropdown
     pages: false,
     jobs: false,
+    notifications: false, // Added for notifications dropdown
   });
   const { openModal } = useModal();
   const navigate = useNavigate();
@@ -41,6 +43,8 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
       services: type === "services" ? !prevState.services : false, // Handler for services dropdown
       pages: type === "pages" ? !prevState.pages : false,
       jobs: type === "jobs" ? !prevState.jobs : false,
+      notifications:
+        type === "notifications" ? !prevState.notifications : false, // Handler for notifications dropdown
     }));
   };
 
@@ -217,6 +221,13 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
               {dropdownStates.services && (
                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                   <Link
+                    to={"services"}
+                    onClick={() => handleChildren("")}
+                    className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Services
+                  </Link>
+                  <Link
                     to={"services/categories"}
                     onClick={() => handleChildren("")}
                     className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
@@ -377,7 +388,6 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                   >
                     Testimonial
                   </Link>
-                  {/* <Link to={'products-categories/sub-category'} onClick={() => handleChildren('')} className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100">Product SubCategories</Link> */}
                 </div>
               )}
             </div>
@@ -458,6 +468,40 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
               </i>
               <span className={`text-md font-semibold`}>User Inquiries</span>
             </Link>
+
+            {/* Notifications Link */}
+            <div className="relative">
+              <button
+                onClick={() => handleChildren("notifications")}
+                className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full"
+              >
+                <i className="mr-5">
+                  <Bell size={20} />
+                </i>
+                <span className="text-md font-semibold">Notifications</span>
+                <i className="ml-5 right-0">
+                  <ChevronDown size={20} />
+                </i>
+              </button>
+              {dropdownStates.notifications && (
+                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                  <Link
+                    to={"/admin/notifications"}
+                    onClick={() => handleChildren("")}
+                    className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    All Notifications
+                  </Link>
+                  <Link
+                    to={"/admin/notification-settings"}
+                    onClick={() => handleChildren("")}
+                    className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Notification Settings
+                  </Link>
+                </div>
+              )}
+            </div>
 
             <div className="w-full h-px px-4 border-mobiSilverDivider border-bottom border"></div>
           </nav>

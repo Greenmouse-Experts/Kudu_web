@@ -47,9 +47,11 @@ import AdminRoles from "../modules/SuperAdmin/Dashboard/AdminRoles.jsx";
 import CreateSubAdmin from "../modules/SuperAdmin/Dashboard/CreateSubAdmin.jsx";
 import CreateRole from "../modules/SuperAdmin/Dashboard/CreateRole.jsx";
 import Permissions from "../modules/SuperAdmin/Dashboard/Permissions.jsx";
-import AdminNotifications from "../modules/SuperAdmin/Dashboard/AdminNotifications";
 import ServiceCategories from "../modules/SuperAdmin/Dashboard/serviceCategories.js";
 import ServiceSubCategories from "../modules/SuperAdmin/Dashboard/services-sub-categories.js";
+import AdminServices from "../modules/SuperAdmin/Dashboard/services.js";
+import AdminViewService from "../modules/SuperAdmin/Dashboard/view-service.js";
+import AdminNotifications from "../modules/SuperAdmin/Dashboard/admin-notifications.js";
 
 export const adminRoutes = [
   {
@@ -253,6 +255,22 @@ export const adminRoutes = [
         path: "services/sub-category/:id",
         element: <ServiceSubCategories />,
       },
+      {
+        path: "services/",
+        element: <AdminServices />,
+      },
+      {
+        path: "services/:id",
+        element: <AdminViewService />,
+      },
+      {
+        path: "notifications",
+        element: <AdminNotifications />,
+      },
+      // {
+      //   path: "notifications/:id",
+      //   element: <AdminViewNotification />,
+      // },
       {
         path: "permissions",
         element: <Permissions />,

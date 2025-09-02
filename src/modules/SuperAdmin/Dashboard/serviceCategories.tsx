@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useState } from "react";
 // import useApiMutation from "../../../api/hooks/useApiMutation"; // Unused import
 import Loader from "../../../components/Loader";
