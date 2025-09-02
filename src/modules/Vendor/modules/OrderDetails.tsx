@@ -18,14 +18,76 @@ import useAppState from "../../../hooks/appState";
 import ProductReview from "../../Products/productReviews";
 import { LuArrowLeft } from "react-icons/lu";
 import TrackOrder from "../../../components/TrackOrder";
-import VendorOrderDetails from "../../Vendor/modules/OrderDetails";
+interface ProductStoreCurrency {
+  name: string;
+  symbol: string;
+}
 
-const OrderDetails = () => {
+interface ProductStore {
+  name: string;
+  currency: ProductStoreCurrency;
+}
+
+interface ProductSubCategory {
+  id: string;
+  name: string;
+}
+
+interface Product {
+  id: string;
+  sku: string;
+  name: string;
+  price: string;
+  store: ProductStore;
+  views: number;
+  status: string;
+  storeId: string;
+  keywords: string | null;
+  quantity: number;
+  vendorId: string;
+  warranty: string;
+  condition: string;
+  createdAt: string;
+  image_url: string;
+  seo_title: string | null;
+  updatedAt: string;
+  video_url: string | null;
+  categoryId: string;
+  description: string;
+  sub_category: ProductSubCategory;
+  return_policy: string;
+  specification: string;
+  discount_price: string;
+  meta_description: string | null;
+  additional_images: string[];
+}
+
+interface OrderItem {
+  product: Product;
+  id: string;
+  vendorId: string;
+  orderId: string;
+  quantity: number;
+  price: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface OrderDetailsResponse {
+  message: string;
+  data: OrderItem[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+const VendorOrderDetails = () => {
   const { user } = useAppState();
   const navigate = useNavigate();
-  if (user?.accountType == "Vendor") {
-    return <VendorOrderDetails />;
-  }
+
   const {
     register,
     handleSubmit,
@@ -35,13 +97,12 @@ const OrderDetails = () => {
     formState: { errors },
   } = useForm();
 
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
   const [rating, setRating] = useState(0);
-  const [orderDetails, setOrderDetails] = useState({});
-  const [disabled, setDisabled] = useState(false);
+  const [orderDetails, setOrderDetails] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<any[]>([]);
 
   const { mutate } = useApiMutation();
 
@@ -51,70 +112,83 @@ const OrderDetails = () => {
 
   const getOrderDetails = () => {
     setIsLoading(true);
+    ///@ts-ignore
     mutate({
       url: `/user/order/items?orderId=${id}`,
       method: "GET",
       headers: true,
       hideToast: true,
-      onSuccess: (response) => {
-        setOrderDetails(response.data.data);
-        getProductReviews(response.data.data[0].product.id);
+      onSuccess: (response: { data: { data: any[] } }) => {
+        // Filter order items by vendorId
+        const filteredOrderDetails = response.data.data.filter(
+          (item) => item.vendorId === user?.id,
+        );
+        setOrderDetails(filteredOrderDetails);
+        if (filteredOrderDetails.length > 0) {
+          getProductReviews(filteredOrderDetails[0].product.id);
+        }
         setIsLoading(false);
       },
-      onError: (error) => {
+      onError: () => {
         setIsLoading(false);
       },
     });
   };
 
-  const getProductReviews = (productId) => {
+  const getProductReviews = (productId: string) => {
+    ///@ts-ignore
+
     mutate({
       url: `/user/get/review?productId=${productId}`,
       method: "GET",
       headers: true,
       hideToast: true,
-      onSuccess: (response) => {
+      onSuccess: (response: { data: { data: any[] } }) => {
         setReviews(response.data.data);
       },
-      onError: (error) => {},
+      onError: () => {},
     });
   };
 
-  const ratingChanged = (newRating) => {
+  const ratingChanged = (newRating: number) => {
     setRating(newRating);
   };
 
-  const onSubmit = (data) => {
-    setDisabled(true);
+  const onSubmit = (data: { comment: string }) => {
+    if (orderDetails.length === 0 || !orderDetails[0]?.product?.id) {
+      return;
+    }
+    ///@ts-ignore
+
     mutate({
       url: "/user/add/review",
       method: "POST",
       headers: true,
       data: {
         orderId: id,
-        productId: productDetails.id,
+        productId: orderDetails[0].product.id,
         rating: rating,
         comment: data.comment,
       },
-      onSuccess: (response) => {
-        setDisabled(false);
+      onSuccess: () => {
+        // Optionally refetch reviews or update state
       },
-      onError: () => {
-        setDisabled(false);
-      },
+      onError: () => {},
     });
   };
 
-  const markDelivered = (orderId) => {
+  const markDelivered = (orderItemId: string) => {
+    ///@ts-ignore
+
     mutate({
       url: `/user/order/item/update/status`,
       method: "POST",
       headers: true,
       data: {
-        orderItemId: orderId,
+        orderItemId: orderItemId,
         status: "delivered",
       },
-      onSuccess: (response) => {
+      onSuccess: () => {
         getOrderDetails();
       },
     });
@@ -132,10 +206,17 @@ const OrderDetails = () => {
     );
   }
 
+  if (orderDetails.length === 0) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <p>No order details found.</p>
+      </div>
+    );
+  }
+  const vendor_id = user?.id;
   const productDetails = orderDetails[0].product;
-
   const isVendorType = user.id === orderDetails[0].vendorId;
-
+  // return <></>;
   return (
     <div className="w-full flex-col gap-5 flex">
       <div className=" w-full flex flex-col md:flex-row justify-between gap-6">
@@ -244,14 +325,14 @@ const OrderDetails = () => {
               onSubmit={handleSubmit(onSubmit)}
             >
               <textarea
-                id="review"
-                name="comment"
-                {...register("comment")}
-                required
+                id="comment"
+                {...register("comment", { required: true })}
                 placeholder="Leave a review"
-                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 h-32 resize-none rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                style={{ outline: "none" }}
+                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 h-32 resize-none rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
               />
+              {errors.comment && (
+                <p className="text-red-500 text-sm">Comment is required.</p>
+              )}
 
               <p>Leave a rating</p>
               <ReactStars
@@ -281,9 +362,10 @@ const OrderDetails = () => {
         orderId={orderDetails[0].id}
         status={orderDetails[0].status}
         refetch={handleRefetch}
+        admin={false} // Assuming this prop is expected for TrackOrder
       />
     </div>
   );
 };
 
-export default OrderDetails;
+export default VendorOrderDetails;
