@@ -8,39 +8,29 @@
     }
 }
 
+@utility border {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
 @utility text-balance {
     text-wrap: balance;
 }
-@utility border {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-}
+/* Removed custom border utility as daisyUI provides it */
 
 @layer utilities {
-    :root {
-        --background: #ffffff;
-        --foreground: #171717;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --background: #0a0a0a;
-            --foreground: #ededed;
-        }
-    }
+    /* Removed custom :root definitions as daisyUI handles them */
 
     .btn {
-        @apply p-2 border rounded-md bg-gray-100 hover:bg-gray-300 flex items-center justify-center;
+        /* Removed custom button styles, allowing daisyUI to manage them */
     }
 
     body {
-        color: #0a0a0a;
-        background: rgba(241, 241, 242, 1);
-        font-family: "Montserrat", sans-serif !important;
-        font-size: 14px;
+        /* Removed custom body styles to allow daisyUI theme to control them */
+        /* font-family: "Montserrat", sans-serif !important; */
+        /* font-size: 14px; */
     }
 
     input[type="radio"]:checked + .radio-indicator > div {
-        background-color: rgba(255, 111, 34, 1);
+        /* Removed custom radio indicator style */
     }
 
     /* Line clamp utilities for text truncation */
@@ -59,7 +49,7 @@
     }
 
     input {
-        font-family: "Montserrat", sans-serif !important;
+        /* Removed custom input font style */
     }
 
     button:disabled {
@@ -72,7 +62,7 @@
     }
 
     .font-sans {
-        font-family: "Montserrat", sans-serif !important;
+        /* Removed custom font-sans style */
     }
 
     a {
@@ -91,56 +81,7 @@
     min-height: 20vh;
 }
 
-/* Chrome, Safari, Edge - Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    /* Width of the scrollbar */
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-    /* Track color */
-    border-radius: 10px;
-    /* Rounded track edges */
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* Color of the scrollbar thumb */
-    border-radius: 10px;
-    /* Rounded thumb */
-    border: 3px solid transparent;
-    /* Padding around the thumb */
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-    /* Change thumb color on hover */
-}
-
-/* Custom scrollbar styles for permissions modal */
-.custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: #d1d5db #f3f4f6;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #f3f4f6;
-    border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
-}
+/* Removed custom scrollbar styles to allow for potential daisyUI integration or default browser behavior */
 
 .pending {
     background-color: rgba(187, 193, 5, 0.2);

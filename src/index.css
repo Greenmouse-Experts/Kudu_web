@@ -1,8 +1,11 @@
 @import "tailwindcss";
+@import "app.css";
+
 @plugin "daisyui" {
     root: "#root";
     themes: kudu --default;
 }
+
 @config '../tailwind.config.js';
 
 @plugin "daisyui/theme" {
