@@ -76,7 +76,7 @@ export default function ProfileOrders() {
     <>
       <div className="bg-white rounded-lg w-full shadow">
         <h2 className="text-lg font-bold p-6">Orders</h2>
-        <div className="w-full h-[1px] border" />
+        <div className="w-full h-px border" />
         <div className="mt-5">
           <div className="flex border-b w-full justify-between px-4 text-xs sm:text-sm">
             <button

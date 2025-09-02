@@ -44,7 +44,7 @@ export default function AdvertList() {
         <div className="w-full p-6 bg-white shadow rounded-lg">
             <div className="flex w-full justify-between">
                 <h2 className="text-lg font-bold mb-4">Adverts</h2>
-                <Button className="bg-kuduOrange p-2" onClick={() => navigate("create-advert")}>
+                <Button className="bg-kudu-orange p-2" onClick={() => navigate("create-advert")}>
                     Create Advert
                 </Button>
             </div>
@@ -102,9 +102,9 @@ export default function AdvertList() {
                                         </p>
                                     </div>
                                     <span
-                                        className={`text-xs text-white mt-8 shadow-md rounded-lg capitalize px-3 py-2 rounded-sm leading-loose 
+                                        className={`text-xs text-white mt-8 shadow-md rounded-lg capitalize px-3 py-2 rounded-xs leading-loose 
                                             ${advert.status === "approved" ? "bg-green-500" : advert.status === "pending" ? 
-                                                "bg-kuduOrange" : "bg-red-500"}`}
+                                                "bg-kudu-orange" : "bg-red-500"}`}
                                     >
                                         {advert.status}
                                         {advert.status === "pending" ? " (Awaiting admin approval)" : ""}

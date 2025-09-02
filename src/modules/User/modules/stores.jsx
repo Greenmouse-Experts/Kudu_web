@@ -73,7 +73,7 @@ const Stores = () => {
             ) : error ? (
                 <div className="bg-white rounded-lg w-full shadow">
                     <h2 className="text-lg font-bold p-6">Stores</h2>
-                    <div className="w-full h-[1px] border" />
+                    <div className="w-full h-px border" />
                     <div className="mt-5 p-6">
                         <div className="text-center">
                             <div className="text-red-500 text-lg font-semibold mb-4">
@@ -81,7 +81,7 @@ const Stores = () => {
                             </div>
                             <p className="text-gray-600 mb-4">{error}</p>
                             <Button 
-                                className="bg-kuduOrange text-white" 
+                                className="bg-kudu-orange text-white" 
                                 onClick={() => fetchData(1)}
                             >
                                 Try Again
@@ -92,7 +92,7 @@ const Stores = () => {
             ) : (
                 <div className="bg-white rounded-lg w-full shadow">
                     <h2 className="text-lg font-bold p-6">Stores</h2>
-                    <div className="w-full h-[1px] border" />
+                    <div className="w-full h-px border" />
                     <div className="mt-5">
                         {storesData.length > 0 ? (
                             <AllStore 
@@ -116,7 +116,7 @@ const Stores = () => {
                                 </div>
                                 <div className="text-center">
                                     <Button 
-                                        className='md:w-1/4 w-full bg-kuduOrange p-3' 
+                                        className='md:w-1/4 w-full bg-kudu-orange p-3' 
                                         onClick={() => navigate('create')}
                                     >
                                         Add New Store

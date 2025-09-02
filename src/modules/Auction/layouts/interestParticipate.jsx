@@ -91,14 +91,14 @@ const InterestParticipate = ({ content, reload }) => {
                     </p>
                     <div className="flex my-2 gap-2 py-2 w-full justify-center">
                         {ipInfo.currency_name === 'Naira' ?
-                            <PaymentButton noWidth config={config} onSuccess={onSuccess} onClose={onClose} bgColor="bg-white w-full border-[rgba(0,0,0,0.1)] !text-[rgba(66,133,244,1)]">
-                                <span className="text-sm font-[500] normal-case">
+                            <PaymentButton noWidth config={config} onSuccess={onSuccess} onClose={onClose} bgColor="bg-white w-full border-[rgba(0,0,0,0.1)] text-[rgba(66,133,244,1)]!">
+                                <span className="text-sm font-medium normal-case">
                                     Show Interest & Pay Fee
                                 </span>
                             </PaymentButton>
                             :
-                            <DollarPaymentButton onSuccess={onSuccess} bgColor="bg-white w-full border-[rgba(0,0,0,0.1)] !text-[rgba(66,133,244,1)]" amount={totalPrice}>
-                                <span className="text-sm font-[500] normal-case">
+                            <DollarPaymentButton onSuccess={onSuccess} bgColor="bg-white w-full border-[rgba(0,0,0,0.1)] text-[rgba(66,133,244,1)]!" amount={totalPrice}>
+                                <span className="text-sm font-medium normal-case">
                                     Show Interest & Pay Fee
                                 </span>
                             </DollarPaymentButton>

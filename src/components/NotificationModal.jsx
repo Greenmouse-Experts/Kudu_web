@@ -62,7 +62,7 @@ const NotificationModal = ({ title, message, type = "success", buttonText = "OK"
       <div className="flex justify-center mt-6">
         <button
           onClick={handleClose}
-          className={`${getButtonClass()} px-6 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`}
+          className={`${getButtonClass()} px-6 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2`}
         >
           {buttonText}
         </button>

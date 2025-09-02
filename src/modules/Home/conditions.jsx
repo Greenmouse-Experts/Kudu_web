@@ -7,7 +7,7 @@ const Conditions = () => {
         {
             title: "Introduction",
             description:
-                "At Kudu Mart, we prioritize trust, safety, and customer satisfaction. These Terms and Conditions outline the rules governing the use of our platform to ensure a secure and enjoyable experience for all users.",
+                "At Kudu Mart, we prioritize trust, safety, and customer satisfaction. These Terms and Conditions outline-solid the rules governing the use of our platform to ensure a secure and enjoyable experience for all users.",
         },
         {
             title: "Acceptance of Terms",

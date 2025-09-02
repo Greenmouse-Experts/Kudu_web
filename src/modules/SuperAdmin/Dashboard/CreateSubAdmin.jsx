@@ -121,7 +121,7 @@ const CreateSubAdmin = () => {
                                 id="name"
                                 {...register('name', { required: 'Name is required' })}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                 placeholder="Enter full name"
                             />
                             {errors.name && (
@@ -145,7 +145,7 @@ const CreateSubAdmin = () => {
                                     }
                                 })}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                                 placeholder="Enter email address"
                             />
                             {errors.email && (
@@ -162,7 +162,7 @@ const CreateSubAdmin = () => {
                                 id="roleId"
                                 {...register('roleId', { required: 'Role is required' })}
                                 onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                             >
                                 <option value="">Select a role</option>
                                 {roles.map((role) => (
@@ -188,7 +188,7 @@ const CreateSubAdmin = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="px-6 py-2 bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {loading ? 'Creating...' : 'Create Sub Admin'}
                             </button>

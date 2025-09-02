@@ -36,11 +36,11 @@ const TableComponent = () => {
           {/* Table Headers */}
           <thead className="bg-black h-[60px] rounded-lg text-white text-left">
             <tr>
-              <th className="px-4 py-2 text-sm font-[400]">Image</th>
-              <th className="px-4 py-2 text-sm font-[400]">Product Info</th>
-              <th className="px-4 py-2 text-sm font-[400]">Condition</th>
-              <th className="px-4 py-2 text-sm font-[400]">Sale Info</th>
-              <th className="px-4 py-2 text-sm font-[400]">Bids</th>
+              <th className="px-4 py-2 text-sm font-normal">Image</th>
+              <th className="px-4 py-2 text-sm font-normal">Product Info</th>
+              <th className="px-4 py-2 text-sm font-normal">Condition</th>
+              <th className="px-4 py-2 text-sm font-normal">Sale Info</th>
+              <th className="px-4 py-2 text-sm font-normal">Bids</th>
             </tr>
           </thead>
           <tbody>
@@ -56,7 +56,7 @@ const TableComponent = () => {
                     />
                     <div className="flex flex-col gap-2">
                       <h3 className="font-semibold text-sm">{item.name}</h3>
-                      <Button className="mt-2 px-3 py-1 border rounded-md text-kuduOrange border-kuduOrange bg-white transition">
+                      <Button className="mt-2 px-3 py-1 border rounded-md text-kudu-orange border-kudu-orange bg-white transition">
                         Monitor
                       </Button>
                     </div>
@@ -69,7 +69,7 @@ const TableComponent = () => {
                   <p className="text-gray-400 text-sm">Value $0.00 USD</p>
                 </td>
                 {/* Condition Column */}
-                <td className="px-4 py-4 bg-white font-[500]">{item.condition}</td>
+                <td className="px-4 py-4 bg-white font-medium">{item.condition}</td>
                 {/* Sale Info Column */}
                 <td className="px-4 py-4 bg-white">
                   <p className="text-blue-600 font-medium text-sm">{item.seller}</p>

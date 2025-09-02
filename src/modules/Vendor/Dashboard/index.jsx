@@ -72,7 +72,7 @@ export default function Dashboard() {
                                 }
                                 tableHeader={TableHeaders}>
                                 {TableData.map((data, index) => (
-                                    <tr key={index} className={`text-sm py-5 ${index % 2 === 0 ? 'bg-white' : 'bg-kuduTableGrey'}`}>
+                                    <tr key={index} className={`text-sm py-5 ${index % 2 === 0 ? 'bg-white' : 'bg-kudu-table-grey'}`}>
                                         <td className="px-3 py-5 text-dark">{index + 1}</td>
                                         <td className="px-3 py-3 text-dark">{data.name}</td>
                                         <td className="px-3 py-3 text-dark">{data.role}</td>
@@ -89,7 +89,7 @@ export default function Dashboard() {
                             </Table>
                         </div>
 
-                        <div className="lg:w-[35%] md:w-[35%] w-full flex-grow h-full flex flex-col gap-5">
+                        <div className="lg:w-[35%] md:w-[35%] w-full grow h-full flex flex-col gap-5">
                             <UserAnalysis />
                         </div>
                     </div>

@@ -19,7 +19,7 @@ const ProductReview = ({ reviews }) => {
             {reviews.length > 0 ?
                 <div className="space-y-4 mb-4">
                     {reviews.map((review) => (
-                        <div key={review.id} className="p-3 rounded shadow-sm flex items-center justify-between">
+                        <div key={review.id} className="p-3 rounded-sm shadow-sm flex items-center justify-between">
                             <div className="flex items-center">
                                 <div className="w-10 h-10 flex items-center justify-center bg-gray-300 text-gray-700 font-bold rounded-full mr-3">
                                     {getInitials(`${review.user.firstName} ${review.user.lastName}`)}
@@ -27,7 +27,7 @@ const ProductReview = ({ reviews }) => {
                                 <div>
                                     <p className="font-medium text-gray-800">
                                         {review.user.firstName} {review.user.lastName}
-                                        <span className="font-[400] mx-2 text-sm text-gray-500"> - {" "} {" "}
+                                        <span className="font-normal mx-2 text-sm text-gray-500"> - {" "} {" "}
                                             {dateFormat(review.createdAt, 'dd MMM yyyy')}
                                         </span>
                                     </p>

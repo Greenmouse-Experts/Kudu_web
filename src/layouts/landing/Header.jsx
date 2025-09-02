@@ -137,7 +137,7 @@ export default function Header({ openMenu }) {
 
   return (
     <>
-      <div className="fixed w-full z-[95] lg:py-0 md:py-0">
+      <div className="fixed w-full z-95 lg:py-0 md:py-0">
         {/* Main Header */}
         <div className="w-full flex items-center bg-white justify-between lg:px-28 md:gap-8 px-5">
           <div className="lg:hidden md:hidden flex my-2">
@@ -163,7 +163,7 @@ export default function Header({ openMenu }) {
                   >
                     {options.svg}
                     {options.info > 0 && (
-                      <div className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-kuduOrange text-white">
+                      <div className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-kudu-orange text-white">
                         <p className="text-[9px]">{options.info}</p>
                       </div>
                     )}
@@ -190,7 +190,7 @@ export default function Header({ openMenu }) {
                           fill="black"
                         />
                       </svg>
-                      <span className="mr-1 text-[14px] font-[500] mt-[4px]">
+                      <span className="mr-1 text-[14px] font-medium mt-[4px]">
                         {" "}
                         Register / Login{" "}
                       </span>
@@ -212,7 +212,7 @@ export default function Header({ openMenu }) {
             )}
 
             {user && (
-              <div className="text-kuduOrange flex items-center gap-1">
+              <div className="text-kudu-orange flex items-center gap-1">
                 <Menu>
                   <MenuHandler>
                     <div className="flex items-center relative">
@@ -236,7 +236,7 @@ export default function Header({ openMenu }) {
                     {arrOptions.map((options, index) =>
                       options.modal ? (
                         <span
-                          className="block px-4 py-2 text-sm text-gray-700 hover:outline-none cursor-pointer"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:outline-hidden cursor-pointer"
                           key={index}
                           onClick={() => handleLogOutModal()}
                         >
@@ -287,12 +287,12 @@ export default function Header({ openMenu }) {
         </div>
       </div>
 
-      <div className="bg-white fixed w-full z-[95] Desk border-b-2">
+      <div className="bg-white fixed w-full z-95 Desk border-b-2">
         <div className="w-full flex items-center justify-between">
           {/* Mobile Navigation Toggle */}
           <div className="md:hidden">
             <button
-              className="text-black focus:outline-none"
+              className="text-black focus:outline-hidden"
               aria-label="Open Menu"
               id="mobile-menu-button"
               onClick={() => toggleMenu()}
@@ -317,7 +317,7 @@ export default function Header({ openMenu }) {
           {/* Desktop Navigation */}
           <header className="w-full">
             {/* Top Bar */}
-            <div className="w-full bg-kuduOrange text-white py-3 md:px-24">
+            <div className="w-full bg-kudu-orange text-white py-3 md:px-24">
               {/* Left Section */}
               <div className="flex justify-center items-center  xl:space-x-52 md:space-x-24">
                 {/* Swift Delivery Care */}
@@ -391,7 +391,7 @@ export default function Header({ openMenu }) {
                 {/* Get the Kudu App */}
                 <Link 
       to="/download-app" 
-      className="bg-white text-kuduOrange px-3 py-2 rounded-lg flex items-center space-x-4 hover:opacity-80 transition-opacity duration-200"
+      className="bg-white text-kudu-orange px-3 py-2 rounded-lg flex items-center space-x-4 hover:opacity-80 transition-opacity duration-200"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -415,7 +415,7 @@ export default function Header({ openMenu }) {
           strokeLinejoin="round"
         />
       </svg>
-      <span className="text-sm font-medium text-kuduOrange">
+      <span className="text-sm font-medium text-kudu-orange">
         Get the Kudu App
       </span>
     </Link>
@@ -450,7 +450,7 @@ export default function Header({ openMenu }) {
                       >
                         {options.svg}
                         {options.info > 0 && (
-                          <div className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-kuduOrange text-white">
+                          <div className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-kudu-orange text-white">
                             <p className="text-[9px]">{options.info}</p>
                           </div>
                         )}
@@ -477,7 +477,7 @@ export default function Header({ openMenu }) {
                               fill="black"
                             />
                           </svg>
-                          <span className="mr-1 text-[15px] font-[500] mt-[4px]">
+                          <span className="mr-1 text-[15px] font-medium mt-[4px]">
                             {" "}
                             Register / Login{" "}
                           </span>
@@ -499,7 +499,7 @@ export default function Header({ openMenu }) {
                 )}
 
                 {user && (
-                  <div className="text-kuduOrange flex items-center gap-1">
+                  <div className="text-kudu-orange flex items-center gap-1">
                     <Menu>
                       <MenuHandler>
                         <div className="flex items-center relative">
@@ -516,7 +516,7 @@ export default function Header({ openMenu }) {
                                 fill="rgba(255, 111, 34, 1)"
                               />
                             </svg>
-                            <span className="mr-1 text-[15px] font-[500] mt-[4px]">
+                            <span className="mr-1 text-[15px] font-medium mt-[4px]">
                               {" "}
                               {user.firstName}{" "}
                             </span>
@@ -527,7 +527,7 @@ export default function Header({ openMenu }) {
                         {arrOptions.map((options, index) =>
                           options.modal ? (
                             <span
-                              className="block px-4 py-2 text-sm text-gray-700 hover:outline-none cursor-pointer"
+                              className="block px-4 py-2 text-sm text-gray-700 hover:outline-hidden cursor-pointer"
                               key={index}
                               onClick={() => handleLogOutModal()}
                             >
@@ -550,17 +550,17 @@ export default function Header({ openMenu }) {
 
                 <Link
                   to={"/auction"}
-                  className="bg-kuduDarkGrey text-white py-2 px-4 rounded-md"
+                  className="bg-kudu-dark-grey text-white py-2 px-4 rounded-md"
                 >
-                  <span className="mr-1 text-sm font-[500]">Auction</span>
+                  <span className="mr-1 text-sm font-medium">Auction</span>
                 </Link>
 
                 {user && (
                   <span
-                    className="bg-kuduOrange text-white py-2 px-4 cursor-pointer rounded-lg"
+                    className="bg-kudu-orange text-white py-2 px-4 cursor-pointer rounded-lg"
                     onClick={() => handleVendorModal()}
                   >
-                    <span className="mr-1 text-sm font-[500]">
+                    <span className="mr-1 text-sm font-medium">
                       Sell on Kudu
                     </span>
                   </span>

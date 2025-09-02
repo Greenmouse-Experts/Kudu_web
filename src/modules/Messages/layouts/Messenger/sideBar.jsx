@@ -11,7 +11,7 @@ const UserCard = ({ user, currentUser, onClick }) => {
 
     return (
         <div className="flex items-start w-full gap-4 py-2 border-b border-gray-200 cursor-pointer" onClick={onClick}>
-            <div className="flex-shrink-0 w-14 h-14">
+            <div className="shrink-0 w-14 h-14">
                 <Imgix
                     src={renderedUser.photo ? renderedUser?.photo : 'https://res.cloudinary.com/do2kojulq/image/upload/v1735426601/kudu_mart/profile_icon_yq3gnr.png'}
                     alt={user.firstName}
@@ -42,7 +42,7 @@ export default function ChatSideBar({setOpenedMessage, currentUser, conversation
 
     return (
         <>
-            <div className="md:w-[32%] w-full flex flex-col gap-2 mt-[1px] bg-white relative">
+            <div className="md:w-[32%] w-full flex flex-col gap-2 mt-px bg-white relative">
                 {/** Search Bar */}
                 <div className="w-full flex px-10 md:py-5 py-2 md:mt-0 mt-2 relative">
                     <SearchInput />

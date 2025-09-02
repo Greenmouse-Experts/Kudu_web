@@ -20,7 +20,7 @@ const ProductsSection = ({ productsArr, ads }) => {
                 <Imgix
                     src={ad.media_url}
                     sizes="100vw"
-                    className="w-full h-auto max-h-[100vh] object-contain rounded"
+                    className="w-full h-auto max-h-screen object-contain rounded-sm"
                 />
             </div>)
         })

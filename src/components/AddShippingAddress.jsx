@@ -83,7 +83,7 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
             <div className="col-span-2">
                 <label className="block text-sm font-medium mt-4">Country</label>
                 <select
-                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
+                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden text-sm mb-3"
                     {...register("country", { required: "Country is required" })}
                     onChange={(e) => handleCountryChange(e.target.value)}
                 >
@@ -101,7 +101,7 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
             <div className="col-span-2">
                 <label className="block text-sm font-medium mt-4">State</label>
                 <select
-                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
+                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden text-sm mb-3"
                     {...register("state", { required: "State is required" })}
                     onChange={(e) => handleStateChange(e.target.value)}
                     disabled={!selectedCountry}
@@ -120,7 +120,7 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
             <div className="col-span-2">
                 <label className="block text-sm font-medium mt-4">City</label>
                 <select
-                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
+                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden text-sm mb-3"
                     onChange={(e) => handleCityChange(e.target.value)}
                     {...register("city", { required: "City is required" })}
                     disabled={!selectedState}
@@ -151,7 +151,7 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
                         required: "Address is required",
                     })}
                     placeholder="Your house address"
-                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                     style={{ outline: "none" }}
                     required
                 />
@@ -165,7 +165,7 @@ const AddShippingAddress = ({ isOpen, closeModal, countries }) => {
             <div className="col-span-2 mb-4 flex justify-start">
                 <button
                     type="submit"
-                    className="bg-kuduOrange text-white text-sm font-medium py-4 px-4 rounded-md hover:bg-orange-600"
+                    className="bg-kudu-orange text-white text-sm font-medium py-4 px-4 rounded-md hover:bg-orange-600"
                 >
                     Create Shipping Address
                 </button>

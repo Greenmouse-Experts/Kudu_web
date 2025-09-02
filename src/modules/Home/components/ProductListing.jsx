@@ -57,7 +57,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
 
 
     return (
-        <div className="flex flex-col lg:flex-row w-full max-w-screen-xl mx-auto">
+        <div className="flex flex-col lg:flex-row w-full max-w-(--breakpoint-xl) mx-auto">
             <aside className="lg:w-1/5 p-4 rounded-lg shadow-md bg-white mb-6 h-fit -mt-8 md:mt-0 lg:mb-0 lg:top-1">
                 <h2 className="text-base font-semibold mb-4">Category</h2>
                 {categories && categories.length > 0 && (<div>
@@ -111,7 +111,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                             </div>
                         )}
                         renderThumb={({ props }) => (
-                            <div {...props} className="h-5 w-5 bg-kuduOrange rounded-full" />
+                            <div {...props} className="h-5 w-5 bg-kudu-orange rounded-full" />
                         )}
                     />
                     <div className="flex justify-between mt-2">
@@ -125,7 +125,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                                 id="title"
                                 placeholder="Min"
                                 onChange={(e) => handleMin(e.target.value)}
-                                className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                             />
                         </div>
                         <div className="flex">
@@ -134,12 +134,12 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                                 id="title"
                                 onChange={(e) => handleMax(e.target.value)}
                                 placeholder="Max"
-                                className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                             />
                         </div>
                     </div>
                     <div className="mt-4 flex gap-3">
-                        <Button onClick={applyFilter} className="bg-kuduOrange shadow-md w-full">APPLY</Button>
+                        <Button onClick={applyFilter} className="bg-kudu-orange shadow-md w-full">APPLY</Button>
                         <Button onClick={clearFilter} className="bg-white shadow-md border w-full text-black">Clear</Button>
                     </div>
                 </div>
@@ -148,7 +148,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
             <main className="lg:w-4/5 lg:pl-6 sm:pl-0">
                 <div className="flex justify-between border items-center mb-6 bg-white p-5 rounded-md">
                     <h1 className="text-xl font-bold">Products</h1>
-                    {/* <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="border p-2 rounded">
+                    {/* <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="border p-2 rounded-sm">
                         <option value="popularity">Sort by Popularity</option>
                         <option value="priceLow">Price: Low to High</option>
                         <option value="priceHigh">Price: High to Low</option>
@@ -206,7 +206,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                                             </div>
 
 
-                                            <div className="p-3 flex flex-col justify-between flex-grow">
+                                            <div className="p-3 flex flex-col justify-between grow">
                                                 <div>
                                                     <h3 className="text-base font-medium mt-1 leading-loose truncate whitespace-nowrap overflow-hidden w-full">
                                                         {product.name}
@@ -226,7 +226,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                                                         </p>
                                                     )}
                                                     <div className="flex gap-2 mt-2">
-                                                        <p className="text-sm text-kuduRomanSilver">Qty Available: {product.quantity}</p>
+                                                        <p className="text-sm text-kudu-roman-silver">Qty Available: {product.quantity}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -249,7 +249,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                                         onPageChange(pagination.page - 1);
                                     }}
                                     disabled={pagination.page === 1}
-                                    className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+                                    className="px-4 py-2 bg-gray-200 rounded-sm disabled:opacity-50"
                                 >
                                     Previous
                                 </button>
@@ -260,7 +260,7 @@ const ProductListing = ({ data, categories, pagination, onPageChange, subCategor
                                         onPageChange(pagination.page + 1);
                                     }}
                                     disabled={pagination.page === pagination.total}
-                                    className="px-4 py-2 bg-kuduOrange text-white rounded disabled:opacity-50"
+                                    className="px-4 py-2 bg-kudu-orange text-white rounded-sm disabled:opacity-50"
                                 >
                                     Next
                                 </button>

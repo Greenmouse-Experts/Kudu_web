@@ -247,7 +247,7 @@ export default function ViewProduct() {
   return (
     <>
       <div className="w-full flex flex-col">
-        <div className="w-full flex flex-col h-full xl:px-80 lg:pl-40 lg:pr-36 md:px-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
+        <div className="w-full flex flex-col h-full xl:px-80 lg:pl-40 lg:pr-36 md:px-4 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-kudu-light-blue h-full">
           <div className="w-full flex flex-col gap-4">
             <div className="w-full py-3 flex md:mt-20 mt-14 gap-3">
               {/*labels.map((label, index) => (
@@ -260,7 +260,7 @@ export default function ViewProduct() {
             </div>
             <div className="w-full flex md:flex-row flex-col mt-10 md:mt-0 gap-4">
               <div className="lg:w-[65%] md:w-[55%] w-full flex flex-col gap-3">
-                <div className="flex w-full h-[26rem]">
+                <div className="flex w-full h-104">
                   <Carousel
                     className="rounded-xl bg-white shadow-lg"
                     autoplay
@@ -326,13 +326,13 @@ export default function ViewProduct() {
                     </span>
                   </div>
 
-                  <div className="w-full h-[1px] border" />
+                  <div className="w-full h-px border" />
 
                   <div className="w-full flex flex-col gap-5">
                     <div className="w-full flex flex-col gap-6">
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="md:w-[40%] w-full flex flex-col gap-1">
-                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kudu-roman-silver uppercase">
                             Condition
                           </span>
                           <span className="text-sm">
@@ -344,7 +344,7 @@ export default function ViewProduct() {
                       {/** Brand */}
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="w-full flex flex-col gap-1">
-                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kudu-roman-silver uppercase">
                             Description
                           </span>
                           <span className="text-sm">
@@ -355,7 +355,7 @@ export default function ViewProduct() {
 
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="w-full flex flex-col gap-1">
-                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kudu-roman-silver uppercase">
                             Specification
                           </span>
                           <span className="text-sm">
@@ -367,7 +367,7 @@ export default function ViewProduct() {
                       {/** Case Size */}
                       <div className="w-full md:flex-row flex flex-col gap-2">
                         <div className="md:w-[40%] w-full flex flex-col gap-1">
-                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kudu-roman-silver uppercase">
                             Return Policy
                           </span>
                           <span className="text-sm">
@@ -377,7 +377,7 @@ export default function ViewProduct() {
                           </span>
                         </div>
                         <div className="md:w-[60%] w-full flex flex-col gap-1">
-                          <span className="text-sm font-bold text-kuduRomanSilver uppercase">
+                          <span className="text-sm font-bold text-kudu-roman-silver uppercase">
                             Warranty
                           </span>
                           <span className="text-sm">
@@ -389,7 +389,7 @@ export default function ViewProduct() {
                       </div>
                     </div>
 
-                    <div className="w-full h-[1px] border" />
+                    <div className="w-full h-px border" />
 
                     <div className="w-full flex flex-col gap-4">
                       <div className="w-full flex gap-1">
@@ -434,7 +434,7 @@ export default function ViewProduct() {
                         </span>
                       </div>
                     </div>
-                    <div className="w-full h-[1px] border" />
+                    <div className="w-full h-px border" />
                   </div>
                 </div>
               </div>
@@ -464,16 +464,16 @@ export default function ViewProduct() {
                   })()}
                   <div className="w-full">
                     <div className="flex gap-2 mt-2">
-                      <p className="text-sm font-bold text-kuduRomanSilver">
+                      <p className="text-sm font-bold text-kudu-roman-silver">
                         Quantity Available: {product.quantity}
                       </p>
                     </div>
                   </div>
                   {/* <Button
                                         type="submit"
-                                        className="w-full py-2 px-4 flex justify-center gap-2 bg-transparent rounded-md border border-kuduOrange text-kuduOrange transition-colors"
+                                        className="w-full py-2 px-4 flex justify-center gap-2 bg-transparent rounded-md border border-kudu-orange text-kudu-orange transition-colors"
                                     >
-                                        <span className='flex text-sm font-[500]'>
+                                        <span className='flex text-sm font-medium'>
                                             Request Call Back
                                         </span>
                                     </Button> */}
@@ -575,7 +575,7 @@ export default function ViewProduct() {
                 <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-8 rounded-md bg-white shadow shadow-md">
                   <p className="text-lg font-bold">Safety Tips</p>
                   <ul
-                    className="text-sm font-[500] md:px-4 flex flex-col gap-2"
+                    className="text-sm font-medium md:px-4 flex flex-col gap-2"
                     style={{ listStyle: "disc" }}
                   >
                     <li>Meet with the seller at a safe public place.</li>
@@ -594,24 +594,24 @@ export default function ViewProduct() {
                     <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
                       <>
                         <div className="flex items-center gap-5">
-                          <span className="flex flex-col justify-center h-full text-base font-[600]">
+                          <span className="flex flex-col justify-center h-full text-base font-semibold">
                             Quantity
                           </span>
                           <div className="flex items-center gap-2">
                             <button
                               onClick={handleDecrease}
                               disabled={product.quantity === 0}
-                              className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
+                              className="bg-kudu-orange text-white px-3 py-1 rounded-sm hover:bg-orange-600"
                             >
                               -
                             </button>
-                            <span className="px-4 py-1 text-sm font-semibold rounded">
+                            <span className="px-4 py-1 text-sm font-semibold rounded-sm">
                               {quantity}
                             </span>
                             <button
                               onClick={handleIncrease}
                               disabled={product.quantity === 0 || quantity >= product.quantity}
-                              className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
+                              className="bg-kudu-orange text-white px-3 py-1 rounded-sm hover:bg-orange-600"
                             >
                               +
                             </button>
@@ -621,7 +621,7 @@ export default function ViewProduct() {
                           type="submit"
                           onClick={() => handleAddToCart()}
                           disabled={disabled}
-                          className="w-full py-3 px-4 flex justify-center rounded-md gap-3 bg-kuduOrange text-white transition-colors"
+                          className="w-full py-3 px-4 flex justify-center rounded-md gap-3 bg-kudu-orange text-white transition-colors"
                         >
                           <span className="flex mt-[2px]">
                             <svg
@@ -666,7 +666,7 @@ export default function ViewProduct() {
                     <Button
                       type="submit"
                       onClick={() => showContact()}
-                      className=" w-full py-4 px-4 flex justify-center gap-2 bg-kuduOrange text-white rounded-lg transition-colors"
+                      className=" w-full py-4 px-4 flex justify-center gap-2 bg-kudu-orange text-white rounded-lg transition-colors"
                     >
                       <span className="flex mt-[2px]">
                         <svg

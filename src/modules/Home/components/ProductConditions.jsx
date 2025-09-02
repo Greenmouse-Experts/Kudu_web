@@ -50,7 +50,7 @@ export default function ProductConditions({ productsArr }) {
                             key={index}
                             onClick={() => handleActiveCondition(item.id)}
                             className={`group flex flex-col gap-4 py-3 md:py-5 justify-center items-center cursor-pointer rounded-lg shadow-sm transition-all 
-                                ${isActive ? "bg-kuduOrange text-white" : "bg-white text-black hover:bg-kuduOrange hover:text-white"}
+                                ${isActive ? "bg-kudu-orange text-white" : "bg-white text-black hover:bg-kudu-orange hover:text-white"}
                             `}
                         >
                             <IconComponent
@@ -63,7 +63,7 @@ export default function ProductConditions({ productsArr }) {
                                 className="transition-all block md:hidden"
                                 style={{ color: isActive ? "white" : item.color }}
                             />
-                            <p className="lg:text-sm md:text-sm text-xs font-[500]">
+                            <p className="lg:text-sm md:text-sm text-xs font-medium">
                                 {item.name}
                             </p>
                         </div>

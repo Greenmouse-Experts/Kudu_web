@@ -104,7 +104,7 @@ const Monitor = ({ auctionProductId, currency }) => {
         </div>
         {bidders.length > 0 ? bidders.map((bids, index) => (
           <div className="flex justify-between py-2 border-b border-gray-300" key={index}>
-            <div className="p-1 rounded flex items-center justify-between">
+            <div className="p-1 rounded-sm flex items-center justify-between">
               <div className="flex items-center">
                 <div className="w-10 h-10 flex items-center justify-center bg-gray-300 text-gray-700 font-bold rounded-full mr-3">
                   {getInitials(`${bids.user.firstName} ${bids.user.lastName}`)}
@@ -115,7 +115,7 @@ const Monitor = ({ auctionProductId, currency }) => {
                   </p>
                   <p className="text-gray-800">
                     Bids Count
-                    <span className="font-[400] mx-1 text-sm text-gray-500"> - {" "}
+                    <span className="font-normal mx-1 text-sm text-gray-500"> - {" "}
                       {bids.bidCount}
                     </span>
                   </p>

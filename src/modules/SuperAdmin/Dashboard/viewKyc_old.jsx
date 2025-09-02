@@ -77,7 +77,7 @@ export default function ViewKYC() {
                             <input
                                 type="text"
                                 name="note"
-                                className="border rounded p-2 w-full"
+                                className="border rounded-sm p-2 w-full"
                                 style={{ outline: "none" }}
                                 // Remove "disabled" so the admin can type their note
                                 {...register("note", { required: "Admin Note is required" })}
@@ -87,7 +87,7 @@ export default function ViewKYC() {
                         <div className="flex gap-4 justify-center w-full">
                             <button
                                 type="submit"
-                                className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-1/2"
+                                className="bg-kudu-orange text-white py-2 px-6 rounded-lg w-1/2"
                             >
                                 {isLoadRej ? <PulseLoader color="#ffffff" size={5} /> : "Submit"}
                             </button>
@@ -261,7 +261,7 @@ export default function ViewKYC() {
                         <input
                             type="text"
                             name="businessName"
-                            className="border rounded p-2 w-full"
+                            className="border rounded-sm p-2 w-full"
                             disabled
                             style={{ outline: "none", }}
                             {...register("businessName", { required: "Business name is required" })}
@@ -275,7 +275,7 @@ export default function ViewKYC() {
                             type="email"
                             name="contactEmail"
                             disabled
-                            className="border rounded p-2 w-full"
+                            className="border rounded-sm p-2 w-full"
                             style={{ outline: "none", }}
                             {...register("contactEmail", { required: "Contact email is required" })}
                             required
@@ -288,7 +288,7 @@ export default function ViewKYC() {
                             type="number"
                             name="contactPhoneNumber"
                             disabled
-                            className="border rounded p-2 w-full"
+                            className="border rounded-sm p-2 w-full"
                             style={{ outline: "none", }}
                             {...register("contactPhoneNumber", { required: "Contact Phone Number is required" })}
                             required
@@ -301,7 +301,7 @@ export default function ViewKYC() {
                             type="text"
                             name="businessDescription"
                             disabled
-                            className="border rounded p-2 w-full"
+                            className="border rounded-sm p-2 w-full"
                             style={{ outline: "none", }}
                             {...register("businessDescription", { required: "Business Description is required" })}
                             required
@@ -315,7 +315,7 @@ export default function ViewKYC() {
                             name="businessLink"
                             disabled
                             style={{ outline: "none", }}
-                            className="border rounded p-2 w-full"
+                            className="border rounded-sm p-2 w-full"
                             {...register("businessLink", { required: "Business link is required" })}
                             required
                         />
@@ -328,7 +328,7 @@ export default function ViewKYC() {
                             name="businessAddress"
                             disabled
                             style={{ outline: "none", }}
-                            className="border rounded p-2 w-full"
+                            className="border rounded-sm p-2 w-full"
                             {...register("businessAddress", { required: "Business address is required" })}
                             required
                         />
@@ -341,7 +341,7 @@ export default function ViewKYC() {
                             name="businessRegistrationNumber"
                             disabled
                             style={{ outline: "none", }}
-                            className="border rounded p-2 w-full"
+                            className="border rounded-sm p-2 w-full"
                             {...register("businessRegistrationNumber", { required: "Business Registration Number is required" })}
                             required
                         />
@@ -359,7 +359,7 @@ export default function ViewKYC() {
                                 name="name"
                                 disabled
                                 style={{ outline: "none", }}
-                                className="border rounded p-2 w-full"
+                                className="border rounded-sm p-2 w-full"
                                 {...register("name", { required: "Name is required" })}
                                 required
                             />
@@ -372,7 +372,7 @@ export default function ViewKYC() {
                                 name="number"
                                 disabled
                                 style={{ outline: "none", }}
-                                className="border rounded p-2 w-full"
+                                className="border rounded-sm p-2 w-full"
                                 {...register("number", { required: "Number is required" })}
                                 required
                             />
@@ -385,7 +385,7 @@ export default function ViewKYC() {
                 <button 
                     onClick={() => kycData.id && submitKyc(kycData.id, null, 'approve')} 
                     disabled={!kycData.id}
-                    className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-[15%] disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="bg-kudu-orange text-white py-2 px-6 rounded-lg w-[15%] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isLoadApp ? <PulseLoader color="#ffffff" size={5} /> : "Approve"}
                 </button>

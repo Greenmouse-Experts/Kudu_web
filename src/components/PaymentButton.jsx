@@ -29,7 +29,7 @@ const PaymentButton = ({ config, onSuccess, disabled, user, onClose, children, b
         <Button
             onClick={handleClick}
             disabled={disabled}
-            className={`${noWidth ? '' : 'w-3/4'} py-3 px-4 flex justify-center gap-2 ${bgColor ? bgColor : 'bg-kuduOrange'} text-white rounded-lg font-[500] transition-colors`}
+            className={`${noWidth ? '' : 'w-3/4'} py-3 px-4 flex justify-center gap-2 ${bgColor ? bgColor : 'bg-kudu-orange'} text-white rounded-lg font-medium transition-colors`}
         >
             {children}
         </Button>

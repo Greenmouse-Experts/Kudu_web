@@ -31,17 +31,17 @@ export default function NewHome() {
   const currency = useGeoLocatorCurrency();
 
   const colorMap = [
-    "bg-kuduStrayBlue",
-    "bg-kuduPink",
-    "bg-kuduOrangeLight",
-    "bg-kuduLightGreen",
-    "bg-kuduPurple",
-    "bg-kuduStrayBlue",
-    "bg-kuduPink",
-    "bg-kuduOrangeLight",
-    "bg-kuduLightGreen",
-    "bg-kuduPurple",
-    "bg-kuduStrayBlue",
+    "bg-kudu-stray-blue",
+    "bg-kudu-pink",
+    "bg-kudu-orange-light",
+    "bg-kudu-light-green",
+    "bg-kudu-purple",
+    "bg-kudu-stray-blue",
+    "bg-kudu-pink",
+    "bg-kudu-orange-light",
+    "bg-kudu-light-green",
+    "bg-kudu-purple",
+    "bg-kudu-stray-blue",
   ];
 
   // Fetch products from API

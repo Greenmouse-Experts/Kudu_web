@@ -84,7 +84,7 @@ const BidInformation = ({ content, currentBid }) => {
                 <div className="flex justify-between py-2 border-b border-gray-300">
                     <span className="font-medium">Time Left:</span>
                     <span className="flex flex-col gap-1">
-                        <span className="text-[rgba(255,15,0,1)] font-[500] w-full text-end">{getTimeLeftData}</span>
+                        <span className="text-[rgba(255,15,0,1)] font-medium w-full text-end">{getTimeLeftData}</span>
                         {content.auctionStatus === 'upcoming' ?
                             <span className="text-[rgba(0,0,0,0.5)] italic text-xs">before auction commences</span>
                             :
@@ -105,7 +105,7 @@ const BidInformation = ({ content, currentBid }) => {
                     <>
                         <div className="flex justify-between py-2 border-b border-gray-300">
                             <span className="font-medium">Current Bid:</span>
-                            <span className="font-[500]">{content.store.currency.symbol} {currentBidAmt ? formatNumberWithCommas(currentBidAmt) : '0'}</span>
+                            <span className="font-medium">{content.store.currency.symbol} {currentBidAmt ? formatNumberWithCommas(currentBidAmt) : '0'}</span>
                         </div>
                         <form
                             onSubmit={handleSubmit(onSubmit)}
@@ -113,14 +113,14 @@ const BidInformation = ({ content, currentBid }) => {
                             <div className="flex flex-col gap-3 justify-between pb-3">
                                 <span className="font-medium">Your Bid:</span>
                                 <div className="flex flex-row gap-2">
-                                    <p className="font-[500] mt-2">{content.store.currency.symbol}</p>
+                                    <p className="font-medium mt-2">{content.store.currency.symbol}</p>
                                     <input type="text" {...register("bidAmount", {
                                         required: "Bid Amount is required"
                                     })}
-                                        placeholder="Enter Amount" className="border focus:outline-none border-gray-300 rounded-lg p-2 w-full" />
+                                        placeholder="Enter Amount" className="border focus:outline-hidden border-gray-300 rounded-lg p-2 w-full" />
                                 </div>
                             </div>
-                            <Button type="submit" disabled={isLoading} className="w-full py-2 px-4 flex justify-center gap-2 bg-kuduOrange normal-case text-white rounded-lg font-[500] transition-colors">
+                            <Button type="submit" disabled={isLoading} className="w-full py-2 px-4 flex justify-center gap-2 bg-kudu-orange normal-case text-white rounded-lg font-medium transition-colors">
                                 <span className="font-semibold text-sm normal-case">Bid Now</span>
                             </Button>
                         </form>

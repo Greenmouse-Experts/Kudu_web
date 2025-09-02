@@ -131,7 +131,7 @@ function Forget() {
                                         },
                                     })}
                                     placeholder="Your email address"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none", }}
                                     required
                                 />
@@ -141,7 +141,7 @@ function Forget() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-3 bg-kuduOrange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+                                className="w-full py-3 bg-kudu-orange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
                             >
                                 Get Reset Password Link  →
                             </button>
@@ -176,7 +176,7 @@ function Forget() {
                                         id="email"
                                         {...register("otpCode", { required: "OTP Code is required" })}
                                         placeholder="Enter OTP sent to your email address"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none", }}
                                         required
                                     />
@@ -196,7 +196,7 @@ function Forget() {
                                             type={showPassword ? "text" : "password"}
                                             id="password"
                                             placeholder="Enter password"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
                                             {...register("newPassword", {
                                                 required: "newPassword is required",
@@ -239,7 +239,7 @@ function Forget() {
                                             type={showPassword ? "text" : "password"}
                                             id="confirmPassword"
                                             placeholder="Confirm password"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
                                             {...register("confirmPassword", {
                                                 required: "Confirm Password is required",
@@ -284,7 +284,7 @@ function Forget() {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="w-full py-3 bg-kuduOrange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+                                    className="w-full py-3 bg-kudu-orange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
                                 >
                                     Reset Password →
                                 </button>

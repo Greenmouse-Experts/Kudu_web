@@ -35,13 +35,13 @@ const ConfirmModal = ({ title, message, onConfirm, confirmText = "Yes", confirmC
       <div className="flex justify-center mt-6 gap-4">
         <button
           onClick={handleConfirm}
-          className={`${getConfirmButtonClass()} px-6 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`}
+          className={`${getConfirmButtonClass()} px-6 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2`}
         >
           {confirmText}
         </button>
         <button
           onClick={handleCancel}
-          className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
+          className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-2 font-medium rounded-lg transition-all duration-200 focus:outline-hidden focus:ring-2 focus:ring-gray-300 focus:ring-offset-2"
         >
           Cancel
         </button>

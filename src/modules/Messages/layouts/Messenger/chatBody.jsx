@@ -116,14 +116,14 @@ const ChatInterface = ({
 
 
   if (isLoading || isGettingMessage) return (
-    <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-[1px] pt-20 bg-white relative border-l-2 overflow-auto">
+    <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-px pt-20 bg-white relative border-l-2 overflow-auto">
       <Loader />
     </div>
   );
 
 
   return (
-    <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-[1px] bg-white relative border-l-2 overflow-auto">
+    <div className="md:w-[68%] w-full flex flex-col gap-2 md:mt-px bg-white relative border-l-2 overflow-auto">
       <div className="flex items-center justify-between gap-4 p-4 border-b-2">
         <span
           className="md:hidden flex"
@@ -156,7 +156,7 @@ const ChatInterface = ({
             />
           )}
           <div>
-            <h2 className="text-sm font-[500]">{product?.name}</h2>
+            <h2 className="text-sm font-medium">{product?.name}</h2>
             <p className="text-sm font-bold">
               {" "}
               {product?.price && currencyFormat(product?.price)}
@@ -178,7 +178,7 @@ const ChatInterface = ({
           >
             <div
               className={`flex items-center gap-2 max-w-xs px-4 py-2 rounded-lg text-sm ${message.userId === userId
-                ? "bg-kuduOrange text-white"
+                ? "bg-kudu-orange text-white"
                 : "bg-[rgba(242,246,250,1)] text-black"
                 }`}
             >
@@ -208,7 +208,7 @@ const ChatInterface = ({
                   <img
                     src={fileObj}
                     alt="preview"
-                    className="w-full h-24 object-cover rounded"
+                    className="w-full h-24 object-cover rounded-sm"
                   />
                   <span
                     onClick={() => removeImage(index)}
@@ -232,7 +232,7 @@ const ChatInterface = ({
         >
           <input
             type="text"
-            className="md:w-3/4 w-full px-4 py-2 rounded-lg md:px-6 md:py-2 bg-transparent outline-none text-[13px] md:text-lg text-gray-700 disabled:cursor-not-allowed"
+            className="md:w-3/4 w-full px-4 py-2 rounded-lg md:px-6 md:py-2 bg-transparent outline-hidden text-[13px] md:text-lg text-gray-700 disabled:cursor-not-allowed"
             placeholder="Message"
             disabled={isSending}
             value={text}
@@ -310,7 +310,7 @@ const ChatInterface = ({
                 <button
                   type="submit"
                   disabled={isSending}
-                  className="py-1 px-4 bg-[rgba(72,133,237,1)] text-white font-[500] text-xs rounded-md disabled:opacity-90 disabled:cursor-not-allowed"
+                  className="py-1 px-4 bg-[rgba(72,133,237,1)] text-white font-medium text-xs rounded-md disabled:opacity-90 disabled:cursor-not-allowed"
                 >
                   {isSending ? "Sending" : "Send"}
                 </button>

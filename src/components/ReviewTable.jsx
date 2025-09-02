@@ -101,7 +101,7 @@ function Table({
                 }
               }}
               placeholder={searchPlaceholder}
-              className="border px-3 py-2 pl-10 rounded-md w-full md:w-64 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              className="border px-3 py-2 pl-10 rounded-md w-full md:w-64 outline-hidden focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             />
             <svg
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
@@ -171,7 +171,7 @@ function Table({
       <div className="overflow-hidden border rounded-lg bg-white shadow-sm">
         <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
           <table className="table-auto text-left w-full min-w-[600px]">
-            <thead className="bg-gradient-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+            <thead className="bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
               <tr>
                 {processedColumns.map(col => (
                   <th
@@ -284,7 +284,7 @@ function Table({
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1 || (debouncedSearchTerm && !disableInternalSearch) || (disableInternalSearch && searchQuery)}
-              className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 rounded-sm bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
             >
               Previous
             </button>
@@ -298,7 +298,7 @@ function Table({
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages || (debouncedSearchTerm && !disableInternalSearch) || (disableInternalSearch && searchQuery)}
-              className="px-4 py-2 rounded bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 rounded-sm bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
             >
               Next
             </button>
@@ -306,7 +306,7 @@ function Table({
             {debouncedSearchTerm && (
               <button
                 onClick={() => setSearchTerm("")}
-                className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                className="px-4 py-2 rounded-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors"
               >
                 Clear Search
               </button>

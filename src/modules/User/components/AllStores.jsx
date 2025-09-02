@@ -75,7 +75,7 @@ const AllStore = ({ data, allData, paginate, refetch }) => {
                             onPageChange={fetchNew}
                         />
                         <div className="text-center text-black-100 mt-6 pb-6 leading-loose text-sm px-6">
-                            <Button className='md:w-1/4 w-full bg-kuduOrange p-3' onClick={() => navigate('create')}>
+                            <Button className='md:w-1/4 w-full bg-kudu-orange p-3' onClick={() => navigate('create')}>
                                 Add New Store
                             </Button>
                         </div>
@@ -95,7 +95,7 @@ const AllStore = ({ data, allData, paginate, refetch }) => {
                         </div>
                         <div className="text-center">
                             <Button 
-                                className='md:w-1/4 w-full bg-kuduOrange p-3' 
+                                className='md:w-1/4 w-full bg-kudu-orange p-3' 
                                 onClick={() => navigate('create')}
                             >
                                 Add New Store

@@ -381,7 +381,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
           <div className="">Error Loading Checkout Info</div>
           <button
             onClick={() => query.refetch}
-            className="bg-kuduOrange text-white font-bold py-2 px-4 rounded hover:bg-kuduDarkOrange focus:outline-none focus:ring-2 focus:ring-kuduDarkOrange"
+            className="bg-kudu-orange text-white font-bold py-2 px-4 rounded-sm hover:bg-kuduDarkOrange focus:outline-hidden focus:ring-2 focus:ring-kuduDarkOrange"
           >
             Retry
           </button>
@@ -399,7 +399,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
           CART Summary
         </h1>
       </div>
-      <div className="w-full h-[1px] -mt-4 border-[1.5px]" />
+      <div className="w-full h-px -mt-4 border-[1.5px]" />
       <div className="w-full flex flex-col px-4 gap-4">
         <div className="w-full flex justify-between items-center">
           <div className="w-full flex">
@@ -455,14 +455,14 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
           </div>
         )}
       </div>
-      <div className="w-full h-[1px] mt-1 border-[1.5px]" />
+      <div className="w-full h-px mt-1 border-[1.5px]" />
       {user.location && (
         <>
           <span className="flex justify-between">
             <p className="text-sm px-4 mt-2 font-semibold">Delivery Address</p>
             <span
               onClick={handleModal}
-              className="text-kuduOrange cursor-pointer mt-2 px-4 font-[500] underline"
+              className="text-kudu-orange cursor-pointer mt-2 px-4 font-medium underline"
             >
               Change Location
             </span>
@@ -482,19 +482,19 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
               onSuccess={onSuccess}
               onClose={onClose}
             >
-              <span className="text-sm font-[500] normal-case">
+              <span className="text-sm font-medium normal-case">
                 Checkout ₦{formatNumberWithCommas(total_price)}
               </span>
             </PaymentButton>
           ) : (
             <DollarPaymentButton amount={total_price}>
-              <span className="text-sm font-[500] normal-case">
+              <span className="text-sm font-medium normal-case">
                 Checkout ${formatNumberWithCommas(totalPrice)}
               </span>
             </DollarPaymentButton>
           )
         ) : (
-          <Button className="bg-kuduOrange" onClick={handleModal}>
+          <Button className="bg-kudu-orange" onClick={handleModal}>
             Set Delivery Location
           </Button>
         )}

@@ -133,7 +133,7 @@ const EditBankAccount = () => {
             <div className="rounded-md pb-2 w-full gap-5">
                 <h2 className="text-lg font-semibold text-black-700">Edit Bank Account</h2>
             </div>
-            <div className="w-full flex flex-grow mt-3">
+            <div className="w-full flex grow mt-3">
                 <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
 
                     <form
@@ -154,7 +154,7 @@ const EditBankAccount = () => {
                                     id="title"
                                     {...register("bankName", { required: "Bank Name is required" })}
                                     placeholder="Enter bank name"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -173,7 +173,7 @@ const EditBankAccount = () => {
                                     id="title"
                                     {...register("accountNumber", { required: "Account Number is required" })}
                                     placeholder="Enter account number"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -192,7 +192,7 @@ const EditBankAccount = () => {
                                     id="title"
                                     {...register("accountName", { required: "Account Name is required" })}
                                     placeholder="Enter account name"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -213,7 +213,7 @@ const EditBankAccount = () => {
                                                 id="title"
                                                 {...register("swiftCode", { required: "Swift Code is required" })}
                                                 placeholder="Enter swift code"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                                 required
                                             />
@@ -231,7 +231,7 @@ const EditBankAccount = () => {
                                                 id="title"
                                                 {...register("routingNumber", { required: "Routing Number is required" })}
                                                 placeholder="Enter routing number"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                                 required
                                             />
@@ -250,7 +250,7 @@ const EditBankAccount = () => {
                                                 id="title"
                                                 {...register("bankAddress")}
                                                 placeholder="Enter bank address"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                             />
                                         </div>
@@ -262,7 +262,7 @@ const EditBankAccount = () => {
                                 <button
                                     type="submit"
                                     disabled={disabled}
-                                    className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                    className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                                 >
                                     Edit Account
                                 </button>

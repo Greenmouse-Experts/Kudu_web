@@ -13,7 +13,7 @@ const VendorLayout = () => {
 
     return (
         <>
-            <div className="w-full flex flex-col md:flex-row h-full animate__animated animate__fadeIn bg-kuduLightGray">
+            <div className="w-full flex flex-col md:flex-row h-full animate__animated animate__fadeIn bg-kudu-light-gray">
                 <Header openMenu={toggleMenu} />
                 <div className="hidden md:flex">
                     <SideBar />

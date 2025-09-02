@@ -47,7 +47,7 @@ import AdminRoles from "../modules/SuperAdmin/Dashboard/AdminRoles.jsx";
 import CreateSubAdmin from "../modules/SuperAdmin/Dashboard/CreateSubAdmin.jsx";
 import CreateRole from "../modules/SuperAdmin/Dashboard/CreateRole.jsx";
 import Permissions from "../modules/SuperAdmin/Dashboard/Permissions.jsx";
-import AdminNotifications from "../modules/SuperAdmin/Dashboard/AdminNotifications.js";
+import AdminNotifications from "../modules/SuperAdmin/Dashboard/AdminNotifications";
 
 export const adminRoutes = [
   {

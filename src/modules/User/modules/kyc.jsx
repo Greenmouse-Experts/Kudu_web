@@ -164,7 +164,7 @@ export default function UpdatedKYC() {
               <input
                 type="text"
                 name="businessName"
-                className="border rounded p-2 w-full"
+                className="border rounded-sm p-2 w-full"
                 style={{ outline: "none", }}
                 {...register("businessName", { required: "Business name is required" })}
                 required
@@ -176,7 +176,7 @@ export default function UpdatedKYC() {
               <input
                 type="email"
                 name="contactEmail"
-                className="border rounded p-2 w-full"
+                className="border rounded-sm p-2 w-full"
                 style={{ outline: "none", }}
                 {...register("contactEmail", { required: "Contact email is required" })}
                 required
@@ -188,7 +188,7 @@ export default function UpdatedKYC() {
               <input
                 type="text"
                 name="contactPhoneNumber"
-                className="border rounded p-2 w-full"
+                className="border rounded-sm p-2 w-full"
                 style={{ outline: "none", }}
                 {...register("contactPhoneNumber", { required: "Contact Phone Number is required" })}
                 required
@@ -200,7 +200,7 @@ export default function UpdatedKYC() {
               <input
                 type="text"
                 name="businessDescription"
-                className="border rounded p-2 w-full"
+                className="border rounded-sm p-2 w-full"
                 style={{ outline: "none", }}
                 {...register("businessDescription", { required: "Business Description is required" })}
                 required
@@ -213,7 +213,7 @@ export default function UpdatedKYC() {
                 type="text"
                 name="businessLink"
                 style={{ outline: "none", }}
-                className="border rounded p-2 w-full"
+                className="border rounded-sm p-2 w-full"
                 {...register("businessLink")}
               />
             </div>
@@ -224,7 +224,7 @@ export default function UpdatedKYC() {
                 type="text"
                 name="businessAddress"
                 style={{ outline: "none", }}
-                className="border rounded p-2 w-full"
+                className="border rounded-sm p-2 w-full"
                 {...register("businessAddress", { required: "Business address is required" })}
                 required
               />
@@ -236,7 +236,7 @@ export default function UpdatedKYC() {
                 type="text"
                 name="businessRegistrationNumber"
                 style={{ outline: "none", }}
-                className="border rounded p-2 w-full"
+                className="border rounded-sm p-2 w-full"
                 {...register("businessRegistrationNumber")}
               />
             </div>
@@ -250,7 +250,7 @@ export default function UpdatedKYC() {
                 <label className="block text-sm font-medium mb-3">Card Name</label>
                 <select
                   {...register("name", { required: "Card Name is required" })}
-                  className="w-full px-4 py-3 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                  className="w-full px-4 py-3 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                   style={{ outline: "none" }}
                   required
                 >
@@ -268,7 +268,7 @@ export default function UpdatedKYC() {
                   type="text"
                   name="number"
                   style={{ outline: "none", }}
-                  className="border rounded p-2 w-full"
+                  className="border rounded-sm p-2 w-full"
                   {...register("number", { required: "Number is required" })}
                   required
                 />
@@ -282,7 +282,7 @@ export default function UpdatedKYC() {
                   type="date"
                   name="expiryDate"
                   style={{ outline: "none", }}
-                  className="border rounded p-2 w-full"
+                  className="border rounded-sm p-2 w-full"
                   {...register("expiryDate", { required: "Card Expiry Date is required" })}
                   required
                 />
@@ -293,7 +293,7 @@ export default function UpdatedKYC() {
         </div>
 
         {Object.keys(kycData || {}).length === 0 ?
-          <button className="bg-kuduOrange text-white py-2 px-6 rounded-lg md:w-[15%] w-full">{isLoading ? <PulseLoader color="#ffffff" size={5} /> :
+          <button className="bg-kudu-orange text-white py-2 px-6 rounded-lg md:w-[15%] w-full">{isLoading ? <PulseLoader color="#ffffff" size={5} /> :
             user.isVerified ? "Update" : "Submit"}</button>
           :
           <></>

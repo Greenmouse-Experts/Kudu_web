@@ -208,7 +208,7 @@ const OrderDetails = () => {
                     <p className="text-gray-600">QTY: {orderDetails[0].quantity}</p>
                     <p className="text-black font-semibold text-base">{productDetails.store.currency.symbol} {productDetails.price}</p>
                     <p className="flex gap-2">Delivery Status:
-                      <span className={`${orderDetails[0].status !== 'delivered' && orderDetails[0].status !== 'cancelled' ? 'text-kuduOrange' : orderDetails[0].status === 'cancelled' ? 'text-red-500' : 'text-green-500'} font-[600]`}>
+                      <span className={`${orderDetails[0].status !== 'delivered' && orderDetails[0].status !== 'cancelled' ? 'text-kudu-orange' : orderDetails[0].status === 'cancelled' ? 'text-red-500' : 'text-green-500'} font-semibold`}>
                         <p className="text-sm capitalize">
                           {orderDetails[0].status}
                         </p>
@@ -243,13 +243,13 @@ const OrderDetails = () => {
                 {...register("comment")}
                 required
                 placeholder="Leave a review"
-                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 h-32 resize-none rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 h-32 resize-none rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                 style={{ outline: "none" }}
               />
 
               <p>Leave a rating</p>
               <ReactStars count={5} size={25} activeColor={"rgba(255, 111, 34, 1)"} onChange={ratingChanged} value={rating} />
-              <Button type="submit" className="bg-kuduOrange text-white px-6 py-2 w-full mt-4 rounded-lg font-semibold">
+              <Button type="submit" className="bg-kudu-orange text-white px-6 py-2 w-full mt-4 rounded-lg font-semibold">
                 Submit
               </Button>
 

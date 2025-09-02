@@ -11,7 +11,7 @@ export default function DownloadApp() {
   };
 
   return (
-    <div className="pt-24 pb-12 bg-gradient-to-br from-kuduOrange to-orange-600 min-h-screen px-4">
+    <div className="pt-24 pb-12 bg-linear-to-br from-kudu-orange to-orange-600 min-h-screen px-4">
       <div className="max-w-6xl mx-auto">
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           <div className="flex flex-col lg:flex-row">
@@ -87,7 +87,7 @@ export default function DownloadApp() {
                 <div className="mt-4">
                   <Link 
                     to="/" 
-                    className="inline-flex items-center text-kuduOrange hover:text-orange-600 transition-colors duration-200 text-sm"
+                    className="inline-flex items-center text-kudu-orange hover:text-orange-600 transition-colors duration-200 text-sm"
                   >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -99,7 +99,7 @@ export default function DownloadApp() {
             </div>
 
             {/* Right Section - App Preview */}
-            <div className="lg:w-1/2 bg-gradient-to-br from-kuduOrange/10 to-orange-100 p-6 lg:p-8 flex items-center justify-center">
+            <div className="lg:w-1/2 bg-linear-to-br from-kudu-orange/10 to-orange-100 p-6 lg:p-8 flex items-center justify-center">
               <div className="relative">
                 <img
                   src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1737404892/Group_1321314900_l9puj7.png"
@@ -109,12 +109,12 @@ export default function DownloadApp() {
                 />
                 {/* Floating elements for visual appeal */}
                 <div className="absolute -top-2 -right-2 bg-white rounded-full p-2 shadow-lg">
-                  <svg className="w-4 h-4 text-kuduOrange" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 text-kudu-orange" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
                 <div className="absolute -bottom-2 -left-2 bg-white rounded-full p-2 shadow-lg">
-                  <svg className="w-4 h-4 text-kuduOrange" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 text-kudu-orange" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
                   </svg>
                 </div>

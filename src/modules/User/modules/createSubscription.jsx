@@ -43,7 +43,7 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                         onClick={closeAddNewSubModal}
                 />
                     </div>
-                    <div className="w-full flex flex-grow">
+                    <div className="w-full flex grow">
                         <div className="shadow-xl py-2 px-5 w-full bg-white flex rounded-xl flex-col gap-10">
 
                             <form
@@ -64,7 +64,7 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                                             id="name"
                                             {...register("name", { required: "Plan name is required" })}
                                             placeholder="Enter plan name"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -86,7 +86,7 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                                             id="productLimit"
                                             {...register("productLimit", { required: "Product Limit is required" })}
                                             placeholder="Enter product limit"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -108,7 +108,7 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                                             id="auctionProductLimit"
                                             {...register("auctionProductLimit", { required: "Auction Product Limit is required" })}
                                             placeholder="Enter auction product limit"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -127,7 +127,7 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                                         </label>
                                         <select
                                             id="allowsAuction"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
                                             {...register("allowsAuction", { required: "This field is required" })}
                                         >
@@ -150,13 +150,13 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                                                 name="duration"
                                                 {...register("duration", { required: "Subscription duration is required" })}
                                                 placeholder="Enter duration"
-                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 required
                                             />
                                             <select
                                                 name="billingCycle"
                                                 disabled
-                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             >
                                                 <option value="Monthly">Monthly</option>
                                             </select>
@@ -179,7 +179,7 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                                             id="price"
                                             {...register("price", { required: "Plan Price is required" })}
                                             placeholder="Enter price"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -192,7 +192,7 @@ const CreateSubscription = ({closeAddNewSubModal}) => {
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
-                                        className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                        className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                                     >
                                         {isLoading ? <PulseLoader color="#ffffff"  size={10}/> : "Create New Subscription Plan"}
                                     </button>

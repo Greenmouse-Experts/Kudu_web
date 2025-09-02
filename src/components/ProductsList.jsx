@@ -90,7 +90,7 @@ const ProductListing = ({ productsArr = [], displayError = false, rowNo = 6 }) =
               </div>
 
               {/* Info Section */}
-              <div className="p-3 flex flex-col justify-between flex-grow">
+              <div className="p-3 flex flex-col justify-between grow">
                 <div>
                   <h3 className="text-base font-medium mt-1 leading-loose truncate">
                     {item.name}
@@ -112,7 +112,7 @@ const ProductListing = ({ productsArr = [], displayError = false, rowNo = 6 }) =
                   )}
 
                   <div className="flex gap-2 mt-2">
-                    <p className="text-sm text-kuduRomanSilver">Qty Available: {item.quantity}</p>
+                    <p className="text-sm text-kudu-roman-silver">Qty Available: {item.quantity}</p>
                   </div>
                 </div>
               </div>

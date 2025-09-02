@@ -26,8 +26,8 @@ export default function Cart() {
   }
 
   return (
-    <div className="w-full flex flex-col h-full bg-kuduLightBlue">
-      <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
+    <div className="w-full flex flex-col h-full bg-kudu-light-blue">
+      <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kudu-light-blue h-full">
         <div className="w-full flex md:flex-row flex-col gap-10 items-start md:my-24 my-20">
           <div className="md:w-[68%] w-full mt-10 md:mt-0 flex">
             <CartBlock

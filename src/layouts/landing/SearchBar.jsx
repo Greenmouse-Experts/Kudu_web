@@ -36,11 +36,11 @@ const SearchBar = () => {
             required: "Please enter a search term", // Validation rule
           })}
           placeholder="Search for an item or product"
-          className="flex-1 py-3 px-4 text-sm text-black bg-[#FFF2EA] outline-none min-w-0"
+          className="flex-1 py-3 px-4 text-sm text-black bg-[#FFF2EA] outline-hidden min-w-0"
         />
 
         {/* Filter Button & Dropdown 
-      <div className="relative z-50 flex-shrink-0">
+      <div className="relative z-50 shrink-0">
         <Menu>
           <MenuHandler>
             <button
@@ -60,7 +60,7 @@ const SearchBar = () => {
           </MenuHandler>
           <MenuList>
             {/* Dropdown Menu *
-            <div className="w-48 z-[9999] outline-none">
+            <div className="w-48 z-9999 outline-hidden">
               {filters.map((filter, index) => (
                 <button
                   key={index}
@@ -79,7 +79,7 @@ const SearchBar = () => {
       </div>*/}
 
         {/* Search Button */}
-        <button type="submit" className="bg-kuduOrange text-white py-2 px-3 sm:py-3 sm:px-2 text-sm flex items-center justify-center flex-shrink-0">
+        <button type="submit" className="bg-kudu-orange text-white py-2 px-3 sm:py-3 sm:px-2 text-sm flex items-center justify-center shrink-0">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"

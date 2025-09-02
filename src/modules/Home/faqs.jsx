@@ -202,7 +202,7 @@ const FAQs = () => {
         id: 2,
         question: "Q: Are there guidelines for selling and buying?",
         answer:
-          "A: Yes, all users must follow Kudu’s terms of service, which outline prohibited items, transaction rules, and acceptable conduct.",
+          "A: Yes, all users must follow Kudu’s terms of service, which outline-solid prohibited items, transaction rules, and acceptable conduct.",
       },
       {
         id: 3,

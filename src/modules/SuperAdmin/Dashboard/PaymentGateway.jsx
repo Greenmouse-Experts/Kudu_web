@@ -109,7 +109,7 @@ const PaymentGateway = ({ data, refetch }) => {
                     <div className="col-span-2 flex justify-start">
                         <button
                             type="submit"
-                            className="bg-kuduOrange text-white text-sm font-medium py-4 px-4 rounded-md hover:bg-orange-600"
+                            className="bg-kudu-orange text-white text-sm font-medium py-4 px-4 rounded-md hover:bg-orange-600"
                         >
                             {data ? 'Edit Gateway' : 'Create Gateway'}
                         </button>
@@ -157,13 +157,13 @@ const PaymentGateway = ({ data, refetch }) => {
                     <div className="flex justify-center mt-5 gap-4">
                         <Button
                             onClick={() => activate(id)}
-                            className="bg-green-500 text-white outline-none px-4 py-2 rounded-lg"
+                            className="bg-green-500 text-white outline-hidden px-4 py-2 rounded-lg"
                         >
                             Activate
                         </Button>
                         <button
                             onClick={closeModal}
-                            className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
+                            className="bg-gray-300 text-black px-4 py-2 font-medium rounded-lg"
                         >
                             Cancel
                         </button>
@@ -182,7 +182,7 @@ const PaymentGateway = ({ data, refetch }) => {
                     <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">Payment Gateway</h2>
                     <span
                         onClick={() => newGateway()}
-                        className="bg-kuduOrange text-white cursor-pointer px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
+                        className="bg-kudu-orange text-white cursor-pointer px-6 py-2 rounded-md hover:bg-orange-600 text-center inline-block"
                     >
                         Create New Payment Gateway
                     </span>

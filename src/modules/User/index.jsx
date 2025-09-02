@@ -33,7 +33,7 @@ export default function UserProfile() {
     }
 
     return (
-        <div className="w-full flex flex-col h-full bg-kuduLightBlue">
+        <div className="w-full flex flex-col h-full bg-kudu-light-blue">
             <div className="w-full flex flex-col xl:px-40 lg:pl-20 mt-24 lg:pr-24 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
                 <div className="w-full flex md:flex-row flex-col h-full relative gap-8 items-start">
                     {/* Mobile Sidebar Toggle Button */}
@@ -47,7 +47,7 @@ export default function UserProfile() {
 
                     {/* Sidebar (Collapsible on Mobile) */}
                     <div
-                        className={`fixed inset-0 bg-white z-[9999] md:z-[0] md:w-[25%] shadow-lg rounded-lg overflow-auto p-4 transform transition-transform duration-300 md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0 flex" : "-translate-x-full hidden"
+                        className={`fixed inset-0 bg-white z-9999 md:z-0 md:w-[25%] shadow-lg rounded-lg overflow-auto p-4 transform transition-transform duration-300 md:relative md:translate-x-0 ${isSidebarOpen ? "translate-x-0 flex" : "-translate-x-full hidden"
                             } md:flex flex-col shadow-lg`}
                     >
                         {/* Close Button for Mobile */}

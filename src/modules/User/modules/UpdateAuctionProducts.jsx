@@ -267,7 +267,7 @@ const UpdateAuctionProducts = () => {
             <div className="rounded-md pb-2 w-full gap-5">
                 <h2 className="text-lg font-semibold text-black-700">Update Auction Product</h2>
             </div>
-            <div className="w-full flex flex-grow mt-3">
+            <div className="w-full flex grow mt-3">
                 <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
                     <form
                         className="w-full flex flex-col items-center justify-center p-4"
@@ -285,7 +285,7 @@ const UpdateAuctionProducts = () => {
                                 <select
                                     id='storeId'
                                     {...register("storeId", { required: "Store is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     onChange={(event) => handleStoreChange(event.target.value)}
                                     required
@@ -309,7 +309,7 @@ const UpdateAuctionProducts = () => {
                                 <select
                                     id='category'
                                     {...register("category", { required: "Category is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     onChange={(event) => getSubCategories(event.target.value)}
                                     required
@@ -331,7 +331,7 @@ const UpdateAuctionProducts = () => {
                                 <select
                                     id='categoryId'
                                     {...register("categoryId", { required: "Sub Category is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 >
@@ -355,7 +355,7 @@ const UpdateAuctionProducts = () => {
                                     id="name"
                                     {...register("name", { required: "Product Name is required" })}
                                     placeholder="Enter name of product"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -371,7 +371,7 @@ const UpdateAuctionProducts = () => {
                                 <select
                                     id='condition'
                                     {...register("condition", { required: "Condition is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 >
@@ -437,7 +437,7 @@ const UpdateAuctionProducts = () => {
                                         id="price"
                                         {...register("price", { required: "Product Price is required" })}
                                         placeholder="Enter Price"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         required
                                     />
@@ -458,7 +458,7 @@ const UpdateAuctionProducts = () => {
                                             type="number"
                                             id="bid_increment"
                                             placeholder="Enter Bid Increment"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             {...register("bidIncrement", { required: "bid increment is required" })}
                                             min={0}
@@ -477,7 +477,7 @@ const UpdateAuctionProducts = () => {
                                         type="number"
                                         id="max_bid"
                                         placeholder="Enter Max Bid"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         {...register("maxBidsPerUser", { required: "max bid is required" })}
                                         min={0}
@@ -496,7 +496,7 @@ const UpdateAuctionProducts = () => {
                                     type="text"
                                     id="participant_interest_fee"
                                     placeholder="Enter Participant Interest Fee"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     {...register("participantsInterestFee", { required:"participant interest fee is required"})}
                                     required
@@ -515,7 +515,7 @@ const UpdateAuctionProducts = () => {
                                         type="datetime-local"
                                         id="start_date"
                                         placeholder="Enter Start Date"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         {...register("startDate", { required:"start date is required"})}
                                         required
@@ -533,7 +533,7 @@ const UpdateAuctionProducts = () => {
                                         type="datetime-local"
                                         id="end_date"
                                         placeholder="Enter Start Date"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         {...register("endDate", { required:"end date is required"})}
                                         required
@@ -555,7 +555,7 @@ const UpdateAuctionProducts = () => {
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
-                                                className="w-full h-24 object-cover rounded"
+                                                className="w-full h-24 object-cover rounded-sm"
                                             />
                                             <button
                                                 onClick={() => removeImage(index)}
@@ -573,7 +573,7 @@ const UpdateAuctionProducts = () => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                                 disabled={btnDisabled}
                             >
                                 Update Product

@@ -85,7 +85,7 @@ const AdminAdverts = ({ data, paginate, totalData, loading, refetch }) => {
                                 id="reason"
                                 {...register("adminNote", { required: "Reason to unpublish AD is required" })}
                                 placeholder="Reason to unpublish this AD"
-                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                 style={{ outline: "none" }}
                                 required
                             />
@@ -95,14 +95,14 @@ const AdminAdverts = ({ data, paginate, totalData, loading, refetch }) => {
                         </div>
                         <div className="w-full flex justify-center gap-4 mt-1">
                             <Button type="submit"
-                                className="bg-kuduOrange p-3 rounded-lg"
+                                className="bg-kudu-orange p-3 rounded-lg"
                             >
                                 Unpublish AD
                             </Button>
                             <button
                                 onClick={closeModal}
                                 type='button'
-                                className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
+                                className="bg-gray-300 text-black px-4 py-2 font-medium rounded-lg"
                             >
                                 Cancel
                             </button>

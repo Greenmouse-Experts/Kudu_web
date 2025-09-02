@@ -30,9 +30,9 @@ export default function Footer() {
                     </p>
                     <div className="w-full flex gap-2">
                         <input type="text" placeholder="Enter your email address"
-                            className="w-full md:w-80 lg:w-96 h-10 px-3 bg-transparent border-b-[0.3px] focus:outline-none active:outline-none
+                            className="w-full md:w-80 lg:w-96 h-10 px-3 bg-transparent border-b-[0.3px] focus:outline-hidden active:outline-hidden
                         border-[rgba(217,217,217,0.6)] text-white text-sm" />
-                        <Button className="bg-kuduOrange !py-1 h-10 text-white text-xs">Subscribe</Button>
+                        <Button className="bg-kudu-orange py-1! h-10 text-white text-xs">Subscribe</Button>
                     </div>
                 </div>*/}
 
@@ -146,10 +146,10 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="w-full h-[1px] border-t border-gray-700 my-8" />
+                <div className="w-full h-px border-t border-gray-700 my-8" />
 
                 {/*<div className="md:flex hidden w-full">
-                    <div className="flex flex-grow">
+                    <div className="flex grow">
                         <div className="flex flex-col gap-3">
                             <h3 className="text-lg text-white font-semibold">Delivery Partners</h3>
                             <div className="flex gap-5">
@@ -273,7 +273,7 @@ export default function Footer() {
                 </div>*/}
             </div>
             <div className="py-5 flex w-full justify-center" style={{ backgroundColor: 'rgba(49, 49, 51, 1)' }}>
-                <p className="text-sm text-kuduGray">Copyright © 2025 Kudu.com. All rights reserved</p>
+                <p className="text-sm text-kudu-gray">Copyright © 2025 Kudu.com. All rights reserved</p>
             </div>
         </>
     )

@@ -95,7 +95,7 @@ const CreateSubscription = () => {
                     <div className="rounded-md pb-2 w-full flex justify-between gap-5">
                         <h2 className="text-lg font-semibold text-black-700 mt-4">Create Subscription Plan</h2>
                     </div>
-                    <div className="w-full flex flex-grow mt-3">
+                    <div className="w-full flex grow mt-3">
                         <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
 
                             <form
@@ -116,7 +116,7 @@ const CreateSubscription = () => {
                                             id="name"
                                             {...register("name", { required: "Plan name is required" })}
                                             placeholder="Enter plan name"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -138,7 +138,7 @@ const CreateSubscription = () => {
                                             id="productLimit"
                                             {...register("productLimit", { required: "Product Limit is required" })}
                                             placeholder="Enter product limit"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -157,7 +157,7 @@ const CreateSubscription = () => {
                                         </label>
                                         <select
                                             id="allowsAuction"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
                                             {...register("allowsAuction", { required: "This field is required" })}
                                             onChange={(e) => handleAllowAuctions(e.target.value)}
@@ -185,7 +185,7 @@ const CreateSubscription = () => {
                                                 id="auctionProductLimit"
                                                 {...register("auctionProductLimit", { required: "Auction Product Limit is required" })}
                                                 placeholder="Enter auction product limit"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                                 required
                                             />
@@ -206,7 +206,7 @@ const CreateSubscription = () => {
                                         </label>
                                         <select
                                             id="allowsAuction"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
                                             onChange={(e) => handleAllowAdverts(e.target.value)}
                                         >
@@ -231,7 +231,7 @@ const CreateSubscription = () => {
                                                     name="maxAds"
                                                     {...register("maxAds", { required: "Maximum number of ads is required" })}
                                                     placeholder="Enter number of Ads"
-                                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                     style={{ outline: "none" }}
                                                     required
                                                 />
@@ -253,13 +253,13 @@ const CreateSubscription = () => {
                                                         name="adsDurationDays"
                                                         {...register("adsDurationDays", { required: "Advert duration is required" })}
                                                         placeholder="Enter duration"
-                                                        className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                        className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                         required
                                                     />
                                                     <select
                                                         name="billingCycle"
                                                         disabled
-                                                        className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                        className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                     >
                                                         <option value="Monthly">Days</option>
                                                     </select>
@@ -287,13 +287,13 @@ const CreateSubscription = () => {
                                                 name="duration"
                                                 {...register("duration", { required: "Subscription duration is required" })}
                                                 placeholder="Enter duration"
-                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 required
                                             />
                                             <select
                                                 name="billingCycle"
                                                 disabled
-                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="md:w-1/2 w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             >
                                                 <option value="Monthly">Monthly</option>
                                             </select>
@@ -314,7 +314,7 @@ const CreateSubscription = () => {
                                         <select
                                             id="planCurrency"
                                             {...register("currencyId", { required: "Currency is required" })}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none", }}
                                         >
                                             <option value="" disabled>Tap to Select</option>
@@ -337,7 +337,7 @@ const CreateSubscription = () => {
                                             id="price"
                                             {...register("price", { required: "Plan Price is required" })}
                                             placeholder="Enter price"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -351,7 +351,7 @@ const CreateSubscription = () => {
                                     <button
                                         type="submit"
                                         disabled={disabled}
-                                        className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                        className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                                     >
                                         Create New Subscription Plan
                                     </button>

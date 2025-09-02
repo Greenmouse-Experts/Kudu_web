@@ -242,7 +242,7 @@ function GlobalFilter({
             onChange(e.target.value);
           }}
           placeholder={`${count} records...`}
-          className="px-2 py-1 h-full border-2 border-gray-400 rounded-l-md w-10/12  outline-none"
+          className="px-2 py-1 h-full border-2 border-gray-400 rounded-l-md w-10/12  outline-hidden"
         />
         <p className="w-2/12 h-full center-item rounded-r-md bg-primary "><FaSearch className="text-xl py-1 rounded-r-md bg-primary text-white text-center"/></p>
       </div>
@@ -416,7 +416,7 @@ export function SelectColumnFilter({
         onChange={(e) => {
           setFilter(e.target.value || undefined);
         }}
-        className="bg-light outline-none"
+        className="bg-light outline-hidden"
       >
         <option value="">All</option>
         {options.map((option, i) => (

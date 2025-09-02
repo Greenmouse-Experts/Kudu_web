@@ -90,7 +90,7 @@ const CartItem = ({ item, removeFromCart, refetch }) => {
                                 <div className="flex items-center gap-2 text-sm">
                                     <div className="w-full">
                                         <div className="flex gap-2 mt-2">
-                                            <p className="text-sm font-bold text-kuduRomanSilver">
+                                            <p className="text-sm font-bold text-kudu-roman-silver">
                                                 Quantity Available: {item.product.quantity}
                                             </p>
                                         </div>
@@ -136,7 +136,7 @@ const CartItem = ({ item, removeFromCart, refetch }) => {
                         </svg>
                         <button
                             onClick={() => removeFromCart(item)}
-                            className="text-kuduOrange mt-2 font-[500] hover:underline text-sm"
+                            className="text-kudu-orange mt-2 font-medium hover:underline text-sm"
                         >
                             REMOVE
                         </button>
@@ -154,17 +154,17 @@ const CartItem = ({ item, removeFromCart, refetch }) => {
                                 <button
                                     disabled={disabled}
                                     onClick={() => handleDecrease(item)}
-                                    className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
+                                    className="bg-kudu-orange text-white px-3 py-1 rounded-sm hover:bg-orange-600"
                                 >
                                     -
                                 </button>
-                                <span className="px-4 py-1 text-sm font-semibold rounded">
+                                <span className="px-4 py-1 text-sm font-semibold rounded-sm">
                                     {item.quantity}
                                 </span>
                                 <button
                                     disabled={disabled}
                                     onClick={() => handleIncrease(item)}
-                                    className="bg-kuduOrange text-white px-3 py-1 rounded hover:bg-orange-600"
+                                    className="bg-kudu-orange text-white px-3 py-1 rounded-sm hover:bg-orange-600"
                                 >
                                     +
                                 </button>

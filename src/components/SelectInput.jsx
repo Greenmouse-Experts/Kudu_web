@@ -37,7 +37,7 @@ export default function SelectInput({ options, onSelect, placeholder = "Select a
             <button
                 onClick={toggleDropdown}
                 style={{ borderColor: 'rgba(201, 201, 201, 1)' }}
-                className="w-full px-4 py-3 text-left bg-white border text-black font-[500] rounded-lg shadow-sm focus:outline-none flex justify-between items-center"
+                className="w-full px-4 py-3 text-left bg-white border text-black font-medium rounded-lg shadow-sm focus:outline-hidden flex justify-between items-center"
             >
                 {selectedOption ? selectedOption.label : placeholder}
                 <span>
@@ -54,7 +54,7 @@ export default function SelectInput({ options, onSelect, placeholder = "Select a
                         <li
                             key={option.value}
                             onClick={() => handleOptionClick(option)}
-                            className="px-4 py-2 hover:bg-kuduOrange hover:text-white cursor-pointer"
+                            className="px-4 py-2 hover:bg-kudu-orange hover:text-white cursor-pointer"
                         >
                             {option.label}
                         </li>

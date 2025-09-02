@@ -58,7 +58,7 @@ export default function JobListings() {
                 placeholder="Search available jobs"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-transparent outline-none px-3 py-1"
+                className="w-full bg-transparent outline-hidden px-3 py-1"
               />
             </div>
 

@@ -23,7 +23,7 @@ const CartBlock = ({cart, removeFromCart, reload}) => {
                 <div className="flex flex-col px-10 gap-4">
                     <h1 className="md:text-lg text-base font-semibold my-3 md:mb-6 md:mt-4">CART ({cart.length})</h1>
                 </div>
-                <div className="w-full h-[1px] md:-mt-4 border border-[1.5px]" />
+                <div className="w-full h-px md:-mt-4 border border-[1.5px]" />
                 <div className="w-full flex flex-col gap-5 md:px-10 px-3 bg-white">
                     {cart.length > 0 && cart.map((item) => (
                         <CartItem

@@ -74,7 +74,7 @@ const ProductCategoriesTable = ({ data, refetch, loading }) => {
                 <div className="rounded-md pb-2 w-full flex justify-between gap-5">
                     <h2 className="text-lg font-semibold text-black-700 mb-4 mt-4">Products Categories</h2>
                     <span className="text-white flex items-start h-auto">
-                        <span className="mr-1 text-sm bg-kuduOrange py-2 px-4 cursor-pointer rounded-lg font-[500]" onClick={() => navigate('add-category')}>
+                        <span className="mr-1 text-sm bg-kudu-orange py-2 px-4 cursor-pointer rounded-lg font-medium" onClick={() => navigate('add-category')}>
                             Add Product Category
                         </span>
                     </span>

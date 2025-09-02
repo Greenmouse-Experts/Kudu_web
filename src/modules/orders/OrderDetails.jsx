@@ -435,7 +435,7 @@ export default function OrderDetails() {
                     {order?.orderReview[0] && (
                       <div>
                         <textarea
-                          className="h-24 p-2 w-full rounded mt-2 border border-gray-400 "
+                          className="h-24 p-2 w-full rounded-sm mt-2 border border-gray-400 "
                           readOnly={true}
                         >
                           {order?.orderReview[0]?.review}

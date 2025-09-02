@@ -123,7 +123,7 @@ export default function Wallet() {
                             id="title"
                             {...register("amount", { required: "Amount is required" })}
                             placeholder="Enter amount"
-                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                             style={{ outline: "none" }}
                             required
                         />
@@ -131,7 +131,7 @@ export default function Wallet() {
                     <div className="col-span-2 flex justify-center">
                         <Button
                             type="submit"
-                            className="bg-kuduOrange text-white normal-case text-sm font-medium rounded-md hover:bg-orange-600"
+                            className="bg-kudu-orange text-white normal-case text-sm font-medium rounded-md hover:bg-orange-600"
                         >
                             Initiate Withdrawal
                         </Button>
@@ -161,7 +161,7 @@ export default function Wallet() {
                     <div className="mt-4">
                         <div className="w-full flex md:flex-row flex-col gap-3 justify-between">
                             <div className="w-full flex flex-col gap-2">
-                                <p className="text-kuduRomanSilver font-semibold text-sm md:text-base">
+                                <p className="text-kudu-roman-silver font-semibold text-sm md:text-base">
                                     Wallet Balance
                                 </p>
                                 <p className="text-lg md:text-2xl font-bold">
@@ -175,7 +175,7 @@ export default function Wallet() {
                                 </p>
                             </div>
                             <div className="">
-                                <Button className="bg-kuduOrange" onClick={() => initiateWithdrawal(bankInformation[0].id)}>
+                                <Button className="bg-kudu-orange" onClick={() => initiateWithdrawal(bankInformation[0].id)}>
                                     Withdraw
                                 </Button>
                             </div>

@@ -100,7 +100,7 @@ function SignUp() {
         >
 
             {/* Form Card */}
-            <div className="w-full max-w-screen-md mx-auto px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
+            <div className="w-full max-w-(--breakpoint-md) mx-auto px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
                 <div className="w-full px-4 py-4 bg-white rounded-lg">
                     {/* Logo Section */}
                     <div className="mb-6 flex justify-center">
@@ -129,7 +129,7 @@ function SignUp() {
                                 id="firstName"
                                 placeholder="Enter First Name"
                                 {...register("firstName", { required: "First name is required" })}
-                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                             />
                             {errors.firstName && (
                                 <p className="text-red-500 text-sm">{errors.firstName.message}</p>
@@ -146,7 +146,7 @@ function SignUp() {
                                 id="lastName"
                                 placeholder="Enter Last Name"
                                 {...register("lastName", { required: "Last name is required" })}
-                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                             />
                             {errors.lastName && (
                                 <p className="text-red-500 text-sm">{errors.lastName.message}</p>
@@ -173,8 +173,8 @@ function SignUp() {
                                 }}
                                 containerClass="w-full"
                                 dropdownClass="flex flex-col gap-2 text-black font-sans"
-                                buttonClass="!bg-gray-100 !border !border-gray-100 hover:!bg-gray-100"
-                                inputClass="!w-full px-4 font-sans !h-[54px] !py-4 !bg-gray-100 !border !border-gray-100 !rounded-lg focus:outline-none placeholder-gray-400 !text-sm mb-3"
+                                buttonClass="bg-gray-100! border! border-gray-100! hover:bg-gray-100!"
+                                inputClass="w-full! px-4 font-sans h-[54px]! py-4! bg-gray-100! border! border-gray-100! rounded-lg! focus:outline-hidden placeholder-gray-400 text-sm! mb-3"
                             />
                             {errors.phone && (
                                 <p className="text-red-500 text-sm">Phone number is required</p>
@@ -203,7 +203,7 @@ function SignUp() {
                                         message: "Enter a valid email address",
                                     },
                                 })}
-                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                             />
                             {errors.email && (
                                 <p className="text-red-500 text-sm">{errors.email.message}</p>
@@ -227,7 +227,7 @@ function SignUp() {
                                             message: "Password must be at least 6 characters",
                                         },
                                     })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                 />
                                 <button
                                     type="button"
@@ -277,7 +277,7 @@ function SignUp() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full py-3 bg-kuduOrange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+                                className="w-full py-3 bg-kudu-orange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
                             >
                                 Sign Up →
                             </button>

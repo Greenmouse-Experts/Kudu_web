@@ -182,10 +182,10 @@ const ProfileSideBar = ({ close }) => {
 
             {/* Alerts Section */}
             {user.accountType !== 'Customer' && !user.isVerified ?
-                <div className="mt-1 mb-6 bg-kuduOrange px-1 py-1 w-full rounded-lg">
+                <div className="mt-1 mb-6 bg-kudu-orange px-1 py-1 w-full rounded-lg">
                     <div className="flex items-center justify-between text-white px-3 py-2 rounded-md">
                         <div className="flex items-center">
-                            <span className="text-sm font-[600]">
+                            <span className="text-sm font-semibold">
                                 Become verified by completing your KYC
                             </span>
                         </div>
@@ -208,14 +208,14 @@ const ProfileSideBar = ({ close }) => {
                             className="flex items-center py-3 px-3 border-b border-gray-200 last:border-0 hover:bg-gray-100 cursor-pointer"
                         >
                             <span className="text-xl mr-4">{item.icon}</span>
-                            <span className="text-sm font-[500]">{item.label}</span>
+                            <span className="text-sm font-medium">{item.label}</span>
                         </Link>
                         :
                         <span
                             onClick={() => handleVendorModal()}
                             className="flex items-center py-3 px-3 border-b border-gray-200 last:border-0 hover:bg-gray-100 cursor-pointer">
                             <span className="text-xl mr-4">{item.icon}</span>
-                            <span className="text-sm font-[500]">{item.label}</span>
+                            <span className="text-sm font-medium">{item.label}</span>
                         </span>
                 ))}
             </div>

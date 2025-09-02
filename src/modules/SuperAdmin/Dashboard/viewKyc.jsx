@@ -91,7 +91,7 @@ export default function ViewKYC() {
                 <input
                   type="text"
                   name="note"
-                  className="border rounded p-2 w-full"
+                  className="border rounded-sm p-2 w-full"
                   style={{ outline: "none" }}
                   // Remove "disabled" so the admin can type their note
                   {...register("note", { required: "Admin Note is required" })}
@@ -101,7 +101,7 @@ export default function ViewKYC() {
               <div className="flex gap-4 justify-center w-full">
                 <button
                   type="submit"
-                  className="bg-kuduOrange text-white py-2 px-6 rounded-lg w-1/2"
+                  className="bg-kudu-orange text-white py-2 px-6 rounded-lg w-1/2"
                 >
                   {isLoadRej ? (
                     <PulseLoader color="#ffffff" size={5} />
@@ -505,13 +505,13 @@ export default function ViewKYC() {
                       <img
                         src={doc}
                         alt={`ID Document ${index + 1}`}
-                        className="w-full h-48 object-cover rounded border"
+                        className="w-full h-48 object-cover rounded-sm border"
                         onError={(e) => {
                           e.target.style.display = "none";
                           e.target.nextSibling.style.display = "block";
                         }}
                       />
-                      <div className="hidden bg-gray-100 h-48 flex items-center justify-center rounded border">
+                      <div className="hidden bg-gray-100 h-48 flex items-center justify-center rounded-sm border">
                         <span className="text-gray-500">
                           Unable to load image
                         </span>

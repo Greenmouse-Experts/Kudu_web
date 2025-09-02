@@ -264,7 +264,7 @@ const UpdateProduct = () => {
             <div className="rounded-md pb-2 w-full gap-5">
                 <h2 className="text-lg font-semibold text-black-700">Update Product</h2>
             </div>
-            <div className="w-full flex flex-grow mt-3">
+            <div className="w-full flex grow mt-3">
                 <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
                     <form
                         className="w-full flex flex-col items-center justify-center p-4"
@@ -282,7 +282,7 @@ const UpdateProduct = () => {
                                 <select
                                     id='storeId'
                                     {...register("storeId", { required: "Store is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     onChange={(event) => handleStoreChange(event.target.value)}
                                     required
@@ -306,7 +306,7 @@ const UpdateProduct = () => {
                                 <select
                                     id='category'
                                     {...register("category", { required: "Category is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     onChange={(event) => getSubCategories(event.target.value)}
                                     required
@@ -328,7 +328,7 @@ const UpdateProduct = () => {
                                 <select
                                     id='categoryId'
                                     {...register("categoryId", { required: "Sub Category is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 >
@@ -352,7 +352,7 @@ const UpdateProduct = () => {
                                     id="name"
                                     {...register("name", { required: "Product Name is required" })}
                                     placeholder="Enter name of product"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -368,7 +368,7 @@ const UpdateProduct = () => {
                                 <select
                                     id='condition'
                                     {...register("condition", { required: "Condition is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 >
@@ -440,7 +440,7 @@ const UpdateProduct = () => {
                                             }
                                         })}
                                         placeholder="Enter Product Quantity"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         required
                                     />
@@ -463,7 +463,7 @@ const UpdateProduct = () => {
                                         id="price"
                                         {...register("price", { required: "Product Price is required" })}
                                         placeholder="Enter Price"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                         required
                                     />
@@ -485,7 +485,7 @@ const UpdateProduct = () => {
                                         id="discount_price"
                                         {...register("discount_price")}
                                         placeholder="Enter Discount Price"
-                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                         style={{ outline: "none" }}
                                     />
                                 </div>
@@ -504,7 +504,7 @@ const UpdateProduct = () => {
                                     id="warranty"
                                     {...register("warranty", { required: "Product Warranty is required" })}
                                     placeholder="Enter Product Warranty"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -523,7 +523,7 @@ const UpdateProduct = () => {
                                     id="return_policy"
                                     {...register("return_policy", { required: "Return Policy is required" })}
                                     placeholder="Return Policy"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -543,7 +543,7 @@ const UpdateProduct = () => {
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
-                                                className="w-full h-24 object-cover rounded"
+                                                className="w-full h-24 object-cover rounded-sm"
                                             />
                                             <span
                                                 onClick={() => removeImage(index)}
@@ -570,7 +570,7 @@ const UpdateProduct = () => {
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
-                                                className="w-full h-24 object-cover rounded"
+                                                className="w-full h-24 object-cover rounded-sm"
                                             />
                                             <span
                                                 onClick={() => handleRemoveAdditionalFile(index)}
@@ -588,7 +588,7 @@ const UpdateProduct = () => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                                 disabled={btnDisabled}
                             >
                                 Update Product

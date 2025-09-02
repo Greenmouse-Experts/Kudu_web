@@ -118,7 +118,7 @@ export default function CategoriesSection({ data }) {
                                         />
                                     </div>
                                     <span
-                                        className={`font-medium text-lg ${category.active ? "text-kuduOrange" : "text-black"
+                                        className={`font-medium text-lg ${category.active ? "text-kudu-orange" : "text-black"
                                             }`}
                                     >
                                         {category.name}
@@ -184,7 +184,7 @@ export default function CategoriesSection({ data }) {
                                     <div className={`w-[90px] h-[90px] rounded-full flex items-center justify-center ${category.color}`}>
                                         <img src={category.img} alt={category.name} className="w-[50px] h-[50px] object-contain" />
                                     </div>
-                                    <span className={`font-medium text-sm ${category.active ? 'text-kuduOrange' : 'text-black'}`}>
+                                    <span className={`font-medium text-sm ${category.active ? 'text-kudu-orange' : 'text-black'}`}>
                                         {category.name}
                                     </span>
                                 </div>

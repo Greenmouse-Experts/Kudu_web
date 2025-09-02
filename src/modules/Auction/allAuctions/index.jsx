@@ -37,10 +37,10 @@ const BreadCrumbs = () => {
 export default function AllAuctions() {
     return (
         <>
-            <div className="w-full flex flex-col h-full bg-kuduLightBlue">
-                <div className="w-full flex flex-col h-full md:gap-10 bg-kuduLightBlue h-full mt-14 md:mt-16">
+            <div className="w-full flex flex-col h-full bg-kudu-light-blue">
+                <div className="w-full flex flex-col h-full md:gap-10 bg-kudu-light-blue h-full mt-14 md:mt-16">
                     <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-5 bg-white shadow-lg flex">
-                        <div className="flex flex-grow">
+                        <div className="flex grow">
                             <div className="flex flex-col justify-center">
                                 <BreadCrumbs />
                             </div>
@@ -53,10 +53,10 @@ export default function AllAuctions() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col justify-center">
-                                    <p className="text-[rgba(57,57,57,1)] text-xs pt-1 font-[500]">Monitor</p>
+                                    <p className="text-[rgba(57,57,57,1)] text-xs pt-1 font-medium">Monitor</p>
                                 </div>
                             </div>
-                            <Button className="bg-kuduBlue text-xs normal-case">
+                            <Button className="bg-kudu-blue text-xs normal-case">
                                 Auction your Product
                             </Button>
                         </div>

@@ -228,7 +228,7 @@ const UpdateStore = () => {
             <div className="rounded-md pb-2 w-full gap-5">
                 <h2 className="text-lg font-semibold text-black-700 mb-4">Update Store</h2>
             </div>
-            <div className="w-full flex flex-grow">
+            <div className="w-full flex grow">
                 <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
                     <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col items-center justify-center p-4">
                         <div className="w-full p-6">
@@ -239,7 +239,7 @@ const UpdateStore = () => {
                                     type="text"
                                     {...register("name", { required: "Store name is required" })}
                                     placeholder="Enter store's name"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     required
                                 />
                                 {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
@@ -252,7 +252,7 @@ const UpdateStore = () => {
                                     type="text"
                                     {...register("address", { required: "Store address is required" })}
                                     placeholder="Enter store address"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     required
                                 />
                                 {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
@@ -268,7 +268,7 @@ const UpdateStore = () => {
                                             {...register("country", { required: "Country is required" })}
                                             onChange={handleCountryChange}
                                             value={selectedCountry ? JSON.stringify(selectedCountry) : ""}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             required
                                         >
                                             <option value="" disabled>Select a country</option>
@@ -287,7 +287,7 @@ const UpdateStore = () => {
                                             {...register("state", { required: "State is required" })}
                                             onChange={handleStateChange}
                                             value={selectedState ? JSON.stringify(selectedState) : ""}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             required
                                         >
                                             <option value="" disabled>Select state</option>
@@ -306,7 +306,7 @@ const UpdateStore = () => {
                                             {...register("city", { required: "City is required" })}
                                             onChange={handleCityChange}
                                             value={selectedCity ? JSON.stringify(selectedCity) : ""}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             required
                                         >
                                             <option value="" disabled>Select city</option>
@@ -327,7 +327,7 @@ const UpdateStore = () => {
                                     type="text"
                                     {...register("tipsOnFinding", { required: "Tips on finding store is required" })}
                                     placeholder="Tips on finding store"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     required
                                 />
                                 {errors.tipsOnFinding && <p className="text-red-500 text-sm">{errors.tipsOnFinding.message}</p>}
@@ -340,7 +340,7 @@ const UpdateStore = () => {
                                         <label className="block text-md font-semibold mb-3">Store Currency</label>
                                         <select
                                             {...register("currencyId", { required: "Currency is required" })}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             required
                                         >
                                             {currencies.map((currency) => (
@@ -363,7 +363,7 @@ const UpdateStore = () => {
                                             type="text"
                                             {...register("monday_friday", { required: "Business Hours are required" })}
                                             placeholder="Start Time and End Time"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             required
                                         />
                                     </div>
@@ -374,7 +374,7 @@ const UpdateStore = () => {
                                             type="text"
                                             {...register("saturday", { required: "Business Hours are required" })}
                                             placeholder="Start Time and End Time"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             required
                                         />
                                     </div>
@@ -385,7 +385,7 @@ const UpdateStore = () => {
                                             type="text"
                                             {...register("sunday", { required: "Business Hours are required" })}
                                             placeholder="Start Time and End Time"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             required
                                         />
                                     </div>
@@ -403,7 +403,7 @@ const UpdateStore = () => {
                                                 type="text"
                                                 {...register(`city${index}`, { required: "Delivery City is required" })}
                                                 placeholder="Enter delivery city"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 required
                                             />
                                         </div>
@@ -414,7 +414,7 @@ const UpdateStore = () => {
                                                 type="number"
                                                 {...register(`price${index}`, { required: "Price is required" })}
                                                 placeholder="Enter price"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 required
                                             />
                                         </div>
@@ -425,7 +425,7 @@ const UpdateStore = () => {
                                                 type="text"
                                                 {...register(`arrival_day${index}`, { required: "Arrival day is required" })}
                                                 placeholder="Enter arrival day"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 required
                                             />
                                         </div>
@@ -434,7 +434,7 @@ const UpdateStore = () => {
                                 <button
                                     type="button"
                                     onClick={addDeliveryOption}
-                                    className="bg-kuduOrange mt-2 hover:bg-blue-700 cursor-pointer text-white text-sm py-2 px-4 rounded"
+                                    className="bg-kudu-orange mt-2 hover:bg-blue-700 cursor-pointer text-white text-sm py-2 px-4 rounded-sm"
                                 >
                                     + Add Delivery Option
                                 </button>
@@ -444,7 +444,7 @@ const UpdateStore = () => {
                             <button
                                 type="submit"
                                 disabled={disabled}
-                                className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                             >
                                 Update Store
                             </button>

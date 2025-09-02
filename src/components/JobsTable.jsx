@@ -27,7 +27,7 @@ const JobsTable = ({
       className: "min-w-[200px] w-[25%]",
       render: (value, item) => (
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-linear-to-br from-orange-100 to-orange-200 rounded-lg flex items-center justify-center shrink-0">
             <FaBriefcase className="text-orange-600 text-sm" />
           </div>
           <div className="min-w-0 flex-1">
@@ -212,10 +212,10 @@ const JobsTable = ({
 
   return (
     <div className="bg-white rounded-xl shadow-lg border-2 border-gray-200 overflow-hidden">
-      <div className="px-6 py-5 bg-gradient-to-r from-orange-50 via-orange-100 to-orange-50 border-b-2 border-orange-200">
+      <div className="px-6 py-5 bg-linear-to-r from-orange-50 via-orange-100 to-orange-50 border-b-2 border-orange-200">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-linear-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
               <FaBriefcase className="text-white text-lg" />
             </div>
             <div>

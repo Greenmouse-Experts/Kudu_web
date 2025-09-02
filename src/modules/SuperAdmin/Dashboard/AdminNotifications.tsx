@@ -10,7 +10,7 @@ export default function AdminNotifications() {
         <p className="text-gray-600 text-lg mb-6">Nothing found here.</p>
         <button
           onClick={() => navigate(-1)}
-          className="px-6 py-2 bg-kuduOrange text-white rounded-md transition-colors duration-200 font-medium shadow"
+          className="px-6 py-2 bg-kudu-orange text-white rounded-md transition-colors duration-200 font-medium shadow"
         >
           Return to previous page
         </button>

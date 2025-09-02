@@ -241,13 +241,13 @@ const SubAdmins = () => {
                                 placeholder="Search subadmin..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 flex-1"
+                                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500 flex-1"
                             />
                             <div className="relative">
                                 <select
                                     value={sortBy}
                                     onChange={(e) => setSortBy(e.target.value)}
-                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white min-w-0 w-40 truncate"
+                                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-hidden focus:ring-2 focus:ring-orange-500 bg-white min-w-0 w-40 truncate"
                                 >
                                     <option value="newest">Newest First</option>
                                     <option value="oldest">Oldest First</option>
@@ -259,7 +259,7 @@ const SubAdmins = () => {
                         <div className="flex flex-wrap gap-3">
                             <button
                                 onClick={() => setShowRoleModal(true)}
-                                className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 border border-transparent"
+                                className="inline-flex items-center px-5 py-2.5 bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 border border-transparent"
                             >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -268,7 +268,7 @@ const SubAdmins = () => {
                             </button>
                             <Link
                                 to="/admin/sub-admins/create"
-                                className="inline-flex items-center px-5 py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 border border-transparent"
+                                className="inline-flex items-center px-5 py-2.5 bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 border border-transparent"
                             >
                                 <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -385,7 +385,7 @@ const SubAdmins = () => {
                     <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200">
                         <div className="flex items-center">
                             <span className="text-sm text-gray-700">Items per page:</span>
-                            <select className="ml-2 border border-gray-300 rounded px-2 py-1 text-sm">
+                            <select className="ml-2 border border-gray-300 rounded-sm px-2 py-1 text-sm">
                                 <option>10</option>
                                 <option>25</option>
                                 <option>50</option>
@@ -432,7 +432,7 @@ const SubAdmins = () => {
                                             type="text"
                                             value={editForm.name}
                                             onChange={(e) => setEditForm({...editForm, name: e.target.value})}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500"
                                             placeholder="Enter full name"
                                         />
                                     </div>
@@ -445,7 +445,7 @@ const SubAdmins = () => {
                                             type="email"
                                             value={editForm.email}
                                             onChange={(e) => setEditForm({...editForm, email: e.target.value})}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500"
                                             placeholder="Enter email address"
                                         />
                                     </div>
@@ -457,7 +457,7 @@ const SubAdmins = () => {
                                         <select
                                             value={editForm.roleId}
                                             onChange={(e) => setEditForm({...editForm, roleId: e.target.value})}
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500"
                                         >
                                             <option value="">Select a role</option>
                                             {roles.map((role) => (
@@ -479,7 +479,7 @@ const SubAdmins = () => {
                                 </button>
                                 <button
                                     onClick={handleUpdateAdmin}
-                                    className="px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                                    className="px-6 py-2 bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                                 >
                                     Update Admin
                                 </button>
@@ -545,7 +545,7 @@ const SubAdmins = () => {
                                         }
                                         setShowRoleModal(false);
                                     }}
-                                    className="px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                                    className="px-6 py-2 bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                                 >
                                     Select Role
                                 </button>

@@ -105,7 +105,7 @@ const MyComponent = ({ categories }) => {
                     >
                         {slides.map((slide, index) => (
                             <SwiperSlide key={index}>
-                                <div className="relative w-full h-48 sm:h-56 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                                <div className="relative w-full h-48 sm:h-56 bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center">
                                     <img
                                         src={slide.mobileImage}
                                         alt={`Mobile Slide ${index + 1}`}

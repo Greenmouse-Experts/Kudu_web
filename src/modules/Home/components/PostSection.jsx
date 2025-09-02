@@ -4,7 +4,7 @@ export default function PostSection() {
     return (
         <>
             <div className="lg:flex md:hidden sm:hidden w-[20%] flex-col gap-1">
-                <div className="bg-kuduOrange py-2 px-5 rounded-md flex justify-center">
+                <div className="bg-kudu-orange py-2 px-5 rounded-md flex justify-center">
                     <div className="w-full flex flex-col items-center gap-2">
                         <p className="text-white text-sm text-center capitalize">
                             Ready to sell your products?

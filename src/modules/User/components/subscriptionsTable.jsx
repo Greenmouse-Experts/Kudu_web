@@ -81,20 +81,20 @@ const SubscriptionTable = ({ data, refetch }) => {
                                 onClose={onClose}
                                 noWidth
                             >
-                                <span className="text-sm font-[500] normal-case">
+                                <span className="text-sm font-medium normal-case">
                                     Subscribe
                                 </span>
                             </PaymentButton>
                             :
                             <DollarPaymentButton amount={planObj.amount} noWidth onSuccess={handlePaymentSuccess}>
-                                <span className="text-sm font-[500] normal-case">
+                                <span className="text-sm font-medium normal-case">
                                     Subscribe
                                 </span>
                             </DollarPaymentButton>
                         }
                         <button
                             onClick={closeModal}
-                            className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
+                            className="bg-gray-300 text-black px-4 py-2 font-medium rounded-lg"
                         >
                             Cancel
                         </button>
@@ -115,7 +115,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Plan Name</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {plan.name}
                             </div>
@@ -123,7 +123,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Plan Amount</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {formatNumberWithCommas(plan.price)}
                             </div>
@@ -131,7 +131,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Plan Validity</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {plan.duration} month(s)
                             </div>
@@ -139,7 +139,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Product Limit</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {plan.productLimit}
                             </div>
@@ -148,7 +148,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Allows Auction</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {plan.allowsAuction ? 'Yes' : 'No'}
                             </div>
@@ -157,7 +157,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Auction Product Limit</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {plan.auctionProductLimit}
                             </div>
@@ -166,7 +166,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Maximum Number of Ads</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {plan.maxAds}
                             </div>
@@ -175,7 +175,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                         <div className="">
                             <label className="block text-sm font-medium mt-4">Ads duration days</label>
                             <div
-                                className="w-full p-2 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-1"
+                                className="w-full p-2 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-1"
                             >
                                 {plan.adsDurationDays}
                             </div>
@@ -184,7 +184,7 @@ const SubscriptionTable = ({ data, refetch }) => {
                     <div className="flex justify-end w-full mt-5 gap-4">
                         <button
                             onClick={closeModal}
-                            className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
+                            className="bg-gray-300 text-black px-4 py-2 font-medium rounded-lg"
                         >
                             Cancel
                         </button>

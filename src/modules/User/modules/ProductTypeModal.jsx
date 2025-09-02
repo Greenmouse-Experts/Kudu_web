@@ -8,12 +8,12 @@ const ProductTypeModal = ({ openAddNewAuctionProductForm, openAddNewProductForm 
         </h1>
         <div className="flex justify-center mt-4">
             <button
-                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
+                className="bg-kudu-dark-grey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded-sm mr-2"
                 onClick={openAddNewAuctionProductForm}
             >
                 Auction
             </button>
-            <button className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
+            <button className="bg-kudu-orange hover:bg-kudu-dark-grey text-white text-sm py-2 px-4 rounded-sm"
                 onClick={openAddNewProductForm}
             >
                 Non-Auction

@@ -117,7 +117,7 @@ export default function About() {
                 {/* Hero Section */}
                 <section className="w-full Ju mt-16">
                     <div className="container mx-auto flex flex-col md:flex-row xl:px-20 lg:px-20 md:px-2 sm:px-1 gap-8">
-                        <div className="flex-[2] md:text-left">
+                        <div className="flex-2 md:text-left">
                             <h1 className="text-xl sm:text-4xl font-bold text-black leading-loose mb-4">
                                 Welcome to Kudu Mart, your ultimate destination for secure and seamless online shopping
                             </h1>
@@ -130,7 +130,7 @@ export default function About() {
                                 Visit Store
                             </button>
                         </div>
-                        <div className="flex-[1] rounded-lg">
+                        <div className="flex-1 rounded-lg">
                             <img src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1738147549/Group_1321314967_dopyks.png" className="" draggable="false" alt="" />
                         </div>
                     </div>

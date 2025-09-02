@@ -19,7 +19,7 @@ export default function Input({ icon, appendIcon, type, style, placeholder, back
                 <input
                     type={type === 'password' ? (passwordOpen ? 'text' : type) : type}
                     placeholder={`${placeholder}`}
-                    className="peer w-full h-full bg-transparent font-sans font-normal outline-none focus:outline-none disabled:border-0 disabled:cursor-auto transition-all placeholder:opacity-100 text-sm px-3 py-2 rounded-[7px]"
+                    className="peer w-full h-full bg-transparent font-sans font-normal outline-hidden focus:outline-hidden disabled:border-0 disabled:cursor-auto transition-all placeholder:opacity-100 text-sm px-3 py-2 rounded-[7px]"
                     style={{ borderColor: 'transparent', border: '0px !important' }}
                     {...register(name, rules)}
                     value={inputValue}

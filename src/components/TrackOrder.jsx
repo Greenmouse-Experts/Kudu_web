@@ -94,29 +94,29 @@ const TrackOrder = ({ userType, orderId, status, admin, refetch }) => {
                     isFirstStep={(value) => setIsFirstStep(value)}
                 >
                     <Step className="h-4 w-4">
-                        <div className="absolute -bottom-[3.5rem] w-max text-center">
-                            <span className={activeStep === 0 ? "text-kuduOrange" : "text-black"}>
+                        <div className="absolute -bottom-14 w-max text-center">
+                            <span className={activeStep === 0 ? "text-kudu-orange" : "text-black"}>
                                 Pending
                             </span>
                         </div>
                     </Step>
                     <Step className="h-4 w-4">
-                        <div className="absolute -bottom-[3.5rem] w-max text-center">
-                            <span className={activeStep === 1 ? "text-kuduOrange" : "text-black"}>
+                        <div className="absolute -bottom-14 w-max text-center">
+                            <span className={activeStep === 1 ? "text-kudu-orange" : "text-black"}>
                                 Processing
                             </span>
                         </div>
                     </Step>
                     <Step className="h-4 w-4">
-                        <div className="absolute -bottom-[3.5rem] w-max text-center">
-                            <span className={activeStep === 2 ? "text-kuduOrange" : "text-black"}>
+                        <div className="absolute -bottom-14 w-max text-center">
+                            <span className={activeStep === 2 ? "text-kudu-orange" : "text-black"}>
                                 Shipped
                             </span>
                         </div>
                     </Step>
                     <Step className="h-4 w-4">
-                        <div className="absolute -bottom-[3.5rem] w-max text-center">
-                            <span className={activeStep === 3 ? "text-kuduOrange" : ""}>
+                        <div className="absolute -bottom-14 w-max text-center">
+                            <span className={activeStep === 3 ? "text-kudu-orange" : ""}>
                                 Delivered
                             </span>
                         </div>
@@ -188,7 +188,7 @@ const TrackOrder = ({ userType, orderId, status, admin, refetch }) => {
                                             handleDeliveryCodeSubmit();
                                         }
                                     }}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-hidden focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
                                     placeholder="Enter delivery code"
                                     autoFocus
                                 />
@@ -207,7 +207,7 @@ const TrackOrder = ({ userType, orderId, status, admin, refetch }) => {
                             </button>
                             <button
                                 onClick={handleDeliveryCodeSubmit}
-                                className="px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                                className="px-6 py-2 bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                             >
                                 Confirm Delivery
                             </button>

@@ -58,7 +58,7 @@ const AddProductCategory = () => {
                     <div className="rounded-md pb-2 w-full flex justify-between gap-5">
                         <h2 className="text-lg font-semibold text-black-700 mt-4">Create Product Category</h2>
                     </div>
-                    <div className="w-full flex flex-grow mt-3">
+                    <div className="w-full flex grow mt-3">
                         <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
 
                             <form
@@ -79,7 +79,7 @@ const AddProductCategory = () => {
                                             id="name"
                                             {...register("name", { required: "Plan name is required" })}
                                             placeholder="Enter category name"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -102,7 +102,7 @@ const AddProductCategory = () => {
                                                     <img
                                                         src={fileObj}
                                                         alt="preview"
-                                                        className="w-full h-24 object-cover rounded"
+                                                        className="w-full h-24 object-cover rounded-sm"
                                                     />
                                                 </div>
                                             ))}
@@ -113,7 +113,7 @@ const AddProductCategory = () => {
                                     {/* Submit Button */}
                                     <button
                                         type="submit"
-                                        className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                        className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                                     >
                                         Create New Category
                                     </button>

@@ -5,7 +5,7 @@ const PhonesBanner = () => {
             <div className="flex flex-col md:flex-row items-center justify-between relative w-full min-w-screen-xl mx-auto h-auto md:h-60">
                 {/* Background section with equal split */}
                 <div className="flex flex-row w-full h-full gap-5">
-                    <div className="bg-kuduSkyBlue w-1/2 p-6 md:h-[300px] h-[280px] lg:h-full"></div>
+                    <div className="bg-kudu-sky-blue w-1/2 p-6 md:h-[300px] h-[280px] lg:h-full"></div>
                     <div className="w-1/2 md:h-full h-[280px]" style={{ backgroundColor: "rgba(100, 158, 255, 1)" }}></div>
                 </div>
 

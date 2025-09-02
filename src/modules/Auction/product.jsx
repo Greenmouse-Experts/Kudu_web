@@ -105,10 +105,10 @@ export default function ViewAuctionProduct() {
 
     return (
         <>
-            <div className="w-full flex flex-col h-full bg-kuduLightBlue">
-                <div className="w-full flex flex-col md:gap-10 bg-kuduLightBlue h-full mt-14 md:mt-16 ">
+            <div className="w-full flex flex-col h-full bg-kudu-light-blue">
+                <div className="w-full flex flex-col md:gap-10 bg-kudu-light-blue h-full mt-14 md:mt-16 ">
                     {/*<div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-5 bg-white shadow-lg flex">
-                        <div className="flex flex-grow">
+                        <div className="flex grow">
                             <div className="flex flex-col justify-center">
                                 <BreadCrumbs />
                             </div>
@@ -121,7 +121,7 @@ export default function ViewAuctionProduct() {
                                     </svg>
                                 </div>
                                 <div className="flex flex-col justify-center">
-                                    <p className="text-[rgba(57,57,57,1)] text-xs pt-1 font-[500]">Monitor</p>
+                                    <p className="text-[rgba(57,57,57,1)] text-xs pt-1 font-medium">Monitor</p>
                                 </div>
                             </div>
                         </div>
@@ -129,12 +129,12 @@ export default function ViewAuctionProduct() {
                     <div className="w-full xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 mt-10 border-b border-[rgba(204,204,204,1)] flex">
                         <span className="md:text-lg text-base font-semibold mb-3">{product.name}</span>
                     </div>
-                    <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kuduLightBlue h-full">
+                    <div className="w-full flex flex-col xl:px-80 lg:pl-44 lg:pr-36 md:px-4 px-5 py-3 md:py-0 lg:gap-10 md:gap-8 gap-5 bg-kudu-light-blue h-full">
                         <div className="w-full flex gap-3">
                             <div className="flex flex-wrap md:flex-row flex-col w-full gap-2 mb-8">
                                 {/* First Div */}
                                 <div className="flex-1 md:flex-[0_0_30%] rounded-md h-full">
-                                    <div className="w-full flex h-[20rem] justify-center">
+                                    <div className="w-full flex h-80 justify-center">
                                         <Carousel
                                             className="rounded-xl bg-white shadow-lg"
                                             autoplay

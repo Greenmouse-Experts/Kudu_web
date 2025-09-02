@@ -171,8 +171,8 @@ const MyProducts = () => {
       )}
 
       {addNewModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-          <div className="bg-white rounded-lg w-11/12 md:w-3/5 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-100">
+          <div className="bg-white rounded-lg w-11/12 md:w-3/5 h-[95%] max-w-(--breakpoint-md) overflow-y-auto scrollbar-none">
             <AddNewProduct
               closeAddNewModal={closeAddNewModal}
               stores={stores}
@@ -183,8 +183,8 @@ const MyProducts = () => {
       )}
 
       {addNewAuctionModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-          <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-screen-md overflow-y-auto scrollbar-none">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-100">
+          <div className="bg-white rounded-lg w-11/12 h-[95%] max-w-(--breakpoint-md) overflow-y-auto scrollbar-none">
             <AddNewAuctionProduct
               closeAddNewModal={closeAddNewModal}
               stores={stores}
@@ -195,8 +195,8 @@ const MyProducts = () => {
       )}
 
       {openAddNewProductOptionModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-          <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-100">
+          <div className="bg-white p-8 rounded-lg w-5/12 max-w-(--breakpoint-md) mx-auto">
             <ProductTypeModal
               openAddNewAuctionProductForm={openAddNewAuctionProductForm}
               openAddNewProductForm={openAddNewProductForm}
@@ -206,20 +206,20 @@ const MyProducts = () => {
       )}
 
       {delModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-[100]">
-          <div className="bg-white p-8 rounded-lg w-5/12 max-w-screen-md mx-auto">
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-100">
+          <div className="bg-white p-8 rounded-lg w-5/12 max-w-(--breakpoint-md) mx-auto">
             <h1 className="text-center font-large">
               Are you sure you want to delete this product
             </h1>
             <div className="flex justify-center mt-4">
               <button
-                className="bg-kuduDarkGrey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded mr-2"
+                className="bg-kudu-dark-grey hover:bg-gray-400 text-white text-sm py-2 px-4 rounded-sm mr-2"
                 onClick={handleCloseDelModal}
               >
                 Cancel
               </button>
               <button
-                className="bg-kuduOrange hover:bg-kuduDarkGrey text-white text-sm py-2 px-4 rounded"
+                className="bg-kudu-orange hover:bg-kudu-dark-grey text-white text-sm py-2 px-4 rounded-sm"
                 onClick={deleteProduct}
               >
                 Delete Product

@@ -159,7 +159,7 @@ const AddNewStore = () => {
             <div className="rounded-md pb-2 w-full gap-5">
                 <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Add New Store</h2>
             </div>
-            <div className="w-full flex flex-grow mt-3">
+            <div className="w-full flex grow mt-3">
                 <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
 
                     <form
@@ -180,7 +180,7 @@ const AddNewStore = () => {
                                     id="name"
                                     {...register("name", { required: "Store name is required" })}
                                     placeholder="Enter store's name"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -202,7 +202,7 @@ const AddNewStore = () => {
                                     id="address"
                                     {...register("address", { required: "Store address is required" })}
                                     placeholder="Enter store address"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -224,7 +224,7 @@ const AddNewStore = () => {
                                         <select
                                             id='country'
                                             {...register("country", { required: "Country is required" })}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             onChange={(event) => handleCountryChange(event.target.value)}
                                             required
@@ -249,7 +249,7 @@ const AddNewStore = () => {
                                         <select
                                             id='state'
                                             {...register("state", { required: "State is required" })}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             onChange={(event) => handleStateChange(event.target.value)}
                                             required
@@ -274,7 +274,7 @@ const AddNewStore = () => {
                                         <select
                                             id='city'
                                             {...register("city", { required: "City is required" })}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             onChange={(event) => handleCityChange(event.target.value)}
                                             required
@@ -303,7 +303,7 @@ const AddNewStore = () => {
                                     id="findStore"
                                     {...register("tipsOnFinding", { required: "Tips on finding store is required" })}
                                     placeholder="Tips on finding store"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -325,7 +325,7 @@ const AddNewStore = () => {
                                         <select
                                             id='currencyId'
                                             {...register("currencyId", { required: "Currency is required" })}
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         >
@@ -354,7 +354,7 @@ const AddNewStore = () => {
                                             id="monday_friday"
                                             {...register("monday_friday", { required: "Business Hours are required" })}
                                             placeholder="Start Time and End Time"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -372,7 +372,7 @@ const AddNewStore = () => {
                                             id="saturday"
                                             {...register("saturday", { required: "Business Hours are required" })}
                                             placeholder="Start Time and End Time"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -390,7 +390,7 @@ const AddNewStore = () => {
                                             id="sunday"
                                             {...register("sunday", { required: "Business Hours are required" })}
                                             placeholder="Start Time and End Time"
-                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                            className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                             style={{ outline: "none" }}
                                             required
                                         />
@@ -415,7 +415,7 @@ const AddNewStore = () => {
                                                 id="city"
                                                 {...register(`city${index}`, { required: "Delivery City is required" })}
                                                 placeholder="Enter delivery city"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                                 required
                                             />
@@ -433,7 +433,7 @@ const AddNewStore = () => {
                                                 id="price"
                                                 {...register(`price${index}`, { required: "Price is required" })}
                                                 placeholder="Enter price"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                                 required
                                             />
@@ -451,14 +451,14 @@ const AddNewStore = () => {
                                                 id="arrival_day"
                                                 {...register(`arrival_day${index}`, { required: "Arrival day is required" })}
                                                 placeholder="Enter arrival day"
-                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                                className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                                 style={{ outline: "none" }}
                                                 required
                                             />
                                         </div>
                                     </div>
                                 ))}
-                                <span className="bg-kuduOrange mt-2 hover:bg-blue-700 cursor-pointer text-white text-sm  py-2 px-4 rounded"
+                                <span className="bg-kudu-orange mt-2 hover:bg-blue-700 cursor-pointer text-white text-sm  py-2 px-4 rounded-sm"
                                     onClick={() => populateDeliveryOption()}>
                                     + Add Delivery Option
                                 </span>
@@ -467,7 +467,7 @@ const AddNewStore = () => {
                             {/* Submit Button */}
                             <button
                                 type="submit"
-                                className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                             >
                                 Create New Store
                             </button>

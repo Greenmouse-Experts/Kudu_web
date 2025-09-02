@@ -52,7 +52,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
 
     return (
         <>
-            <div className={`bg-kuduMade h-full px-6 pt-6 rounded-md flex-col w-full md:w-[20%] relative md:fixed flex ${onMobile ? 'overflow-y-auto' : 'overflow-hidden'} bg-mobiDarkCloud transition-all mb-10`}>
+            <div className={`bg-kudu-made h-full px-6 pt-6 rounded-md flex-col w-full md:w-[20%] relative md:fixed flex ${onMobile ? 'overflow-y-auto' : 'overflow-hidden'} bg-mobiDarkCloud transition-all mb-10`}>
                 <div className={`h-full bg-white pb-20 rounded-md flex-col w-full md:w-[21%] relative md:fixed flex ${onMobile ? 'overflow-y-auto' : 'overflow-hidden'} bg-mobiDarkCloud transition-all mb-10`}>
                     {/* Logo */}
                     <div className="px-4 flex flex-col gap-2">
@@ -64,7 +64,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                 style={{ width: "80px", height: "80px" }}
                             />
                         </Link>
-                        <div className='w-full h-[1px] mb-4 border-mobiSilverDivider border-bottom border'></div>
+                        <div className='w-full h-px mb-4 border-mobiSilverDivider border-bottom border'></div>
                     </div>
 
                     {/* Navigation Items */}
@@ -77,7 +77,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                     stroke={'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             </i>
-                            <span className="text-md font-[600]">Dashboard</span>
+                            <span className="text-md font-semibold">Dashboard</span>
                         </Link>
                         <div className='relative'>
                             <button onClick={() => handleChildren('users')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-[#FFF1E9] w-full">
@@ -87,7 +87,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                         <path d="M23.65 13C23.65 18.8818 18.8818 23.65 13 23.65C7.11824 23.65 2.35 18.8818 2.35 13C2.35 7.11824 7.11824 2.35 13 2.35C18.8818 2.35 23.65 7.11824 23.65 13ZM13 25.15C19.7104 25.15 25.15 19.7104 25.15 13C25.15 6.28956 19.7104 0.85 13 0.85C6.28956 0.85 0.85 6.28956 0.85 13C0.85 19.7104 6.28956 25.15 13 25.15Z" fill="currentColor" stroke="currentColor" strokeWidth="0.3" />
                                     </svg>
                                 </i>
-                                <span className="text-md font-[600]">Users</span>
+                                <span className="text-md font-semibold">Users</span>
                                 <i className="ml-5 right-0">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
@@ -111,7 +111,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                             stroke={'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </i>
-                                <span className="text-md font-[600]">Products</span>
+                                <span className="text-md font-semibold">Products</span>
                                 <i className="ml-5 right-0">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
@@ -136,7 +136,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                         <path d="M1.58479 1.6V0H22.4138V1.6H1.58479ZM1.69062 24V14.4H0V12.8L1.58479 4.8H22.4138L24 12.8V14.4H22.308V24H20.9335V14.4H14.061V24H1.69062ZM3.06512 22.4H12.6866V14.4H3.06512V22.4ZM1.38824 12.8H22.6104L21.3349 6.4H2.66377L1.38824 12.8Z" fill="#7F7F7F" />
                                     </svg>
                                 </i>
-                                <span className="text-md font-[600]">Stores</span>
+                                <span className="text-md font-semibold">Stores</span>
                                 <i className="ml-5 right-0">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
@@ -160,7 +160,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                         <path d="M23.3966 13.1724L14.0863 3.86212C13.9475 3.72223 13.7823 3.61131 13.6002 3.53583C13.4182 3.46035 13.223 3.4218 13.0259 3.42243H4.33625C4.13734 3.42243 3.94657 3.50145 3.80592 3.6421C3.66527 3.78275 3.58625 3.97352 3.58625 4.17243V12.8621C3.58562 13.0592 3.62417 13.2544 3.69965 13.4364C3.77513 13.6184 3.88604 13.7836 4.02594 13.9224L13.3363 23.2327C13.4755 23.3721 13.6409 23.4826 13.8229 23.558C14.0049 23.6334 14.2 23.6722 14.397 23.6722C14.594 23.6722 14.7891 23.6334 14.9711 23.558C15.1531 23.4826 15.3185 23.3721 15.4578 23.2327L23.3966 15.294C23.5359 15.1547 23.6464 14.9893 23.7218 14.8073C23.7972 14.6253 23.836 14.4302 23.836 14.2332C23.836 14.0362 23.7972 13.8411 23.7218 13.6591C23.6464 13.4771 23.5359 13.3117 23.3966 13.1724ZM14.3966 22.1724L5.08625 12.8621V4.92243H13.0259L22.3363 14.2327L14.3966 22.1724ZM9.58625 8.29743C9.58625 8.51994 9.52027 8.73744 9.39665 8.92245C9.27304 9.10745 9.09734 9.25165 8.89177 9.3368C8.6862 9.42195 8.46 9.44422 8.24177 9.40082C8.02354 9.35741 7.82309 9.25026 7.66575 9.09293C7.50842 8.93559 7.40127 8.73514 7.35787 8.51691C7.31446 8.29868 7.33674 8.07248 7.42189 7.86691C7.50703 7.66135 7.65123 7.48564 7.83623 7.36203C8.02124 7.23841 8.23875 7.17243 8.46125 7.17243C8.75962 7.17243 9.04577 7.29096 9.25675 7.50194C9.46772 7.71291 9.58625 7.99906 9.58625 8.29743Z" fill="currentColor" />
                                     </svg>
                                 </i>
-                                <span className="text-md font-[600]">Orders</span>
+                                <span className="text-md font-semibold">Orders</span>
                                 <i className="ml-5 right-0">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
@@ -183,7 +183,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                     <path d="M20.7 18H2.3C1.69 18 1.10499 17.7893 0.673654 17.4142C0.242321 17.0391 0 16.5304 0 16V2C0 1.46957 0.242321 0.960859 0.673654 0.585786C1.10499 0.210714 1.69 0 2.3 0H20.7C21.31 0 21.895 0.210714 22.3263 0.585786C22.7577 0.960859 23 1.46957 23 2V16C23 16.5304 22.7577 17.0391 22.3263 17.4142C21.895 17.7893 21.31 18 20.7 18ZM2.3 4V16H20.7V4H2.3ZM10.35 13.121L6.08695 9.414L7.71305 8L10.35 10.293L15.287 6L16.913 7.414L10.35 13.121Z" fill="currentColor" />
                                 </svg>
                             </i>
-                            <span className={`text-md font-[600]`}>Transactions</span>
+                            <span className={`text-md font-semibold`}>Transactions</span>
                         </Link>
 
                         <Link to={'/admin/withdrawal-request'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/withdrawal-request') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
@@ -191,7 +191,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                             <i className="mr-5">
                                 <IoCashOutline size={20} />
                             </i>
-                            <span className={`text-md font-[600]`}>Withdrawal Request</span>
+                            <span className={`text-md font-semibold`}>Withdrawal Request</span>
                         </Link>
 
                         <div className='relative'>
@@ -202,7 +202,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                             stroke={'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </i>
-                                <span className="text-md font-[600]">Pages</span>
+                                <span className="text-md font-semibold">Pages</span>
                                 <i className="ml-5 right-0">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
@@ -222,7 +222,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                         <div className='relative'>
                             <button onClick={() => handleChildren('jobs')} className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full">
                                 <FaLaptop className="mr-5" size={20} />
-                                <span className="text-md font-[600]">Jobs</span>
+                                <span className="text-md font-semibold">Jobs</span>
                                 <i className="ml-5 right-0">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 14L6 8H18L12 14Z" fill="currentColor" />
@@ -245,7 +245,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                     <path d="M22.9787 8.98242V12.9758M22.9787 12.9758V18.2331M22.9787 12.9758H20.288C19.968 12.9758 19.6507 13.0344 19.352 13.1504C17.0947 14.0264 17.0947 17.2838 19.352 18.1598C19.652 18.2758 19.968 18.3344 20.288 18.3344H22.9787" stroke="#7F7F7F" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </i>
-                            <span className={`text-md font-[600]`}>Adverts</span>
+                            <span className={`text-md font-semibold`}>Adverts</span>
                         </Link>
 
                         <Link to={'subscriptions'} className={`flex items-center px-4 h-[57px] rounded-lg text-[#7F7F7F] hover:bg-gray-100 transition`}>
@@ -255,7 +255,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                     <path d="M24 21.9684H24.15V21.8184V10.9094V10.7594H24H2.18182H2.03182V10.9094V21.8184V21.9684H2.18182H24ZM2.18182 8.87754H24C24.5389 8.87754 25.0557 9.09161 25.4367 9.47265C25.8178 9.85369 26.0318 10.3705 26.0318 10.9094V21.8184C26.0318 22.3573 25.8178 22.8741 25.4367 23.2552C25.0557 23.6362 24.5389 23.8503 24 23.8503H2.18182C1.64295 23.8503 1.12615 23.6362 0.745106 23.2552C0.364066 22.8741 0.15 22.3573 0.15 21.8184V10.9094C0.15 10.3705 0.364066 9.85369 0.745106 9.47265C1.12615 9.09161 1.64295 8.87754 2.18182 8.87754Z" fill="#7F7F7F" stroke="white" strokeWidth="0.3" />
                                 </svg>
                             </i>
-                            <span className={`text-md font-[600]`}>Subscription</span>
+                            <span className={`text-md font-semibold`}>Subscription</span>
                         </Link>
 
 
@@ -266,7 +266,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                     <path d="M23.65 13C23.65 18.8818 18.8818 23.65 13 23.65C7.11824 23.65 2.35 18.8818 2.35 13C2.35 7.11824 7.11824 2.35 13 2.35C18.8818 2.35 23.65 7.11824 23.65 13ZM13 25.15C19.7104 25.15 25.15 19.7104 25.15 13C25.15 6.28956 19.7104 0.85 13 0.85C6.28956 0.85 0.85 6.28956 0.85 13C0.85 19.7104 6.28956 25.15 13 25.15Z" fill="currentColor" stroke="currentColor" strokeWidth="0.3" />
                                 </svg>
                             </i>
-                            <span className={`text-md font-[600]`}>User Inquiries</span>
+                            <span className={`text-md font-semibold`}>User Inquiries</span>
                         </Link>
 
 
@@ -277,7 +277,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                         stroke={'currentColor'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                                 </svg>
                             </i>
-                            <span className={`text-md font-[600]`}>Notification</span>
+                            <span className={`text-md font-semibold`}>Notification</span>
                         </Link> */}
 
                         {/*<Link to={'/admin/sublevel'} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/sublevel') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
@@ -289,10 +289,10 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                                     />
                                 </svg>
                             </i>
-                            <span className={`text-md font-[600]`}>Sub Admins</span>
+                            <span className={`text-md font-semibold`}>Sub Admins</span>
                         </Link>*/}
 
-                        <div className='w-full h-[1px] px-4 border-mobiSilverDivider border-bottom border'></div>
+                        <div className='w-full h-px px-4 border-mobiSilverDivider border-bottom border'></div>
                     </nav>
 
                     {/* Footer */}
@@ -300,11 +300,11 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                         <Link to={'/admin/settings'} onClick={() => handleMenuClick()} className={`flex items-center px-4 h-[57px] rounded-lg transition ${isActive('/admin/settings') ? 'bg-[#FFF1E9] text-black' : 'text-[#7F7F7F] hover:bg-gray-100'
                             }`}>
                             <i className={`fas fa-cog mr-5`}></i>
-                            <span className="text-md font-[600]">Settings</span>
+                            <span className="text-md font-semibold">Settings</span>
                         </Link>
-                        <span onClick={() => handleMenuClick(handleLogOutModal)} className={`flex cursor-pointer items-center py-2 px-4 h-[57px] rounded-lg text-red-500 hover:bg-kuduLightGray  transition`}>
+                        <span onClick={() => handleMenuClick(handleLogOutModal)} className={`flex cursor-pointer items-center py-2 px-4 h-[57px] rounded-lg text-red-500 hover:bg-kudu-light-gray  transition`}>
                             <i className="fas fa-sign-out-alt mr-5"></i>
-                            <span className="text-md font-[600]">Logout</span>
+                            <span className="text-md font-semibold">Logout</span>
                         </span>
                     </div>
                 </div>

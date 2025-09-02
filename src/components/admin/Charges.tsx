@@ -72,7 +72,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               <input
                 type="text"
                 name="name"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 required
                 disabled={mutation.isPending}
               />
@@ -82,7 +82,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               <input
                 type="text"
                 name="description"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 disabled={mutation.isPending}
               />
             </label>
@@ -91,7 +91,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               <input
                 type="number"
                 name="charge_amount"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 step="any"
                 disabled={mutation.isPending}
@@ -102,7 +102,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               <input
                 type="number"
                 name="charge_percentage"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 max="100"
                 step="any"
@@ -113,7 +113,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               Charge Currency
               <select
                 name="charge_currency"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 disabled={mutation.isPending}
                 required
                 defaultValue=""
@@ -129,7 +129,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               Calculation Type
               <select
                 name="calculation_type"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 disabled={mutation.isPending}
                 required
                 defaultValue=""
@@ -146,7 +146,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               <input
                 type="number"
                 name="minimum_product_amount"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 step="any"
                 disabled={mutation.isPending}
@@ -157,7 +157,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
               <input
                 type="number"
                 name="maximum_product_amount"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 step="any"
                 disabled={mutation.isPending}
@@ -177,7 +177,7 @@ const ChargeDialog = forwardRef<HTMLDialogElement, ChargeDialogProps>(
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-md bg-kuduOrange text-white hover:bg-orange-500 active:scale-95"
+              className="px-4 py-2 rounded-md bg-kudu-orange text-white hover:bg-orange-500 active:scale-95"
               disabled={mutation.isPending}
             >
               {mutation.isPending ? "Submitting..." : "Submit"}
@@ -237,7 +237,7 @@ export default function Charges() {
         </h2>
         <button
           onClick={handleDialogOpen}
-          className="py-2 text-white rounded-md bg-kuduOrange hover:bg-kuduOrange px-4 active:scale-95 w-full sm:w-auto"
+          className="py-2 text-white rounded-md bg-kudu-orange hover:bg-kudu-orange px-4 active:scale-95 w-full sm:w-auto"
         >
           Create Charge
         </button>
@@ -388,14 +388,14 @@ const ChargeItem = (props: { charge: Charge }) => {
         </div>
         <div className="flex gap-2">
           <button
-            className="px-3 py-1 rounded bg-blue-500 text-white hover:bg-blue-600 active:scale-95 text-sm"
+            className="px-3 py-1 rounded-sm bg-blue-500 text-white hover:bg-blue-600 active:scale-95 text-sm"
             onClick={handleEditOpen}
             disabled={isDeleting || isStatusPending}
           >
             Edit
           </button>
           <button
-            className="px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600 active:scale-95 text-sm"
+            className="px-3 py-1 rounded-sm bg-red-500 text-white hover:bg-red-600 active:scale-95 text-sm"
             onClick={() => setShowConfirm(true)}
             disabled={isDeleting || isStatusPending}
           >
@@ -403,7 +403,7 @@ const ChargeItem = (props: { charge: Charge }) => {
           </button>
           {charge.is_active ? (
             <button
-              className="px-3 py-1 rounded bg-kuduOrange500 text-white hover:bg-yellow-600 active:scale-95 text-sm"
+              className="px-3 py-1 rounded-sm bg-kudu-orange500 text-white hover:bg-yellow-600 active:scale-95 text-sm"
               onClick={handleDeactivate}
               disabled={isStatusPending || isDeleting}
             >
@@ -411,7 +411,7 @@ const ChargeItem = (props: { charge: Charge }) => {
             </button>
           ) : (
             <button
-              className="px-3 py-1 rounded bg-green-500 text-white hover:bg-green-600 active:scale-95 text-sm"
+              className="px-3 py-1 rounded-sm bg-green-500 text-white hover:bg-green-600 active:scale-95 text-sm"
               onClick={handleActivate}
               disabled={isStatusPending || isDeleting}
             >
@@ -465,14 +465,14 @@ const ChargeItem = (props: { charge: Charge }) => {
             </div>
             <div className="flex gap-2 justify-end mt-2">
               <button
-                className="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300"
+                className="px-4 py-2 rounded-sm bg-gray-200 text-gray-700 hover:bg-gray-300"
                 onClick={() => setShowConfirm(false)}
                 disabled={isDeleting}
               >
                 Cancel
               </button>
               <button
-                className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600 active:scale-95"
+                className="px-4 py-2 rounded-sm bg-red-500 text-white hover:bg-red-600 active:scale-95"
                 onClick={() => deleteMutation.mutate()}
                 disabled={isDeleting}
               >
@@ -506,7 +506,7 @@ const ChargeItem = (props: { charge: Charge }) => {
                 type="text"
                 name="name"
                 defaultValue={charge.name}
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 required
                 disabled={editMutation.isPending}
               />
@@ -517,7 +517,7 @@ const ChargeItem = (props: { charge: Charge }) => {
                 type="text"
                 name="description"
                 defaultValue={charge.description}
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 disabled={editMutation.isPending}
               />
             </label>
@@ -527,7 +527,7 @@ const ChargeItem = (props: { charge: Charge }) => {
                 type="number"
                 name="charge_amount"
                 defaultValue={charge.charge_amount}
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 step="any"
                 disabled={editMutation.isPending}
@@ -544,7 +544,7 @@ const ChargeItem = (props: { charge: Charge }) => {
                     ? parseFloat(charge.charge_percentage).toFixed(2)
                     : ""
                 }
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 max="100"
                 step="0.01"
@@ -555,7 +555,7 @@ const ChargeItem = (props: { charge: Charge }) => {
               Charge Currency
               <select
                 name="charge_currency"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 disabled={editMutation.isPending}
                 required
                 defaultValue={charge.charge_currency}
@@ -571,7 +571,7 @@ const ChargeItem = (props: { charge: Charge }) => {
               Calculation Type
               <select
                 name="calculation_type"
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 disabled={editMutation.isPending}
                 required
                 defaultValue={charge.calculation_type}
@@ -589,7 +589,7 @@ const ChargeItem = (props: { charge: Charge }) => {
                 type="number"
                 name="minimum_product_amount"
                 defaultValue={charge.minimum_product_amount}
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 step="any"
                 disabled={editMutation.isPending}
@@ -601,7 +601,7 @@ const ChargeItem = (props: { charge: Charge }) => {
                 type="number"
                 name="maximum_product_amount"
                 defaultValue={charge.maximum_product_amount}
-                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-none focus:ring-2 focus:ring-kuduOrange"
+                className="mt-1 px-3 py-2 border rounded-md w-full focus:outline-hidden focus:ring-2 focus:ring-kudu-orange"
                 min="0"
                 step="any"
                 disabled={editMutation.isPending}
@@ -630,7 +630,7 @@ const ChargeItem = (props: { charge: Charge }) => {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-md bg-kuduOrange text-white hover:bg-orange-500 active:scale-95"
+              className="px-4 py-2 rounded-md bg-kudu-orange text-white hover:bg-orange-500 active:scale-95"
               disabled={editMutation.isPending}
             >
               {editMutation.isPending ? "Saving..." : "Save"}

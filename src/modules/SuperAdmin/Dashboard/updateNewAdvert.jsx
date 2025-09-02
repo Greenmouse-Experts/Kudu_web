@@ -116,7 +116,7 @@ const UpdateAdvert = () => {
             <div className="rounded-md pb-2 w-full gap-5">
                 <h2 className="text-lg font-semibold text-black-700 mt-4 mb-4">Update Advert</h2>
             </div>
-            <div className="w-full flex flex-grow mt-3">
+            <div className="w-full flex grow mt-3">
                 <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
 
                     <form
@@ -134,7 +134,7 @@ const UpdateAdvert = () => {
                                 <select
                                     id='categoryId'
                                     {...register("categoryId", { required: "Category is required" })}
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 >
@@ -157,7 +157,7 @@ const UpdateAdvert = () => {
                                     id="title"
                                     {...register("title", { required: "Advert Title is required" })}
                                     placeholder="Enter title of advert"
-                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -175,7 +175,7 @@ const UpdateAdvert = () => {
                                     id="description"
                                     {...register("description", { required: "Advert description is required" })}
                                     placeholder="Describe your advert"
-                                    className="w-full px-4 py-4 h-60 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
+                                    className="w-full px-4 py-4 h-60 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                                     style={{ outline: "none" }}
                                     required
                                 />
@@ -234,7 +234,7 @@ const UpdateAdvert = () => {
                                             <img
                                                 src={fileObj}
                                                 alt="preview"
-                                                className="w-full h-24 object-cover rounded"
+                                                className="w-full h-24 object-cover rounded-sm"
                                             />
                                         </div>
                                     ))}
@@ -242,7 +242,7 @@ const UpdateAdvert = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-kuduOrange text-white py-2 px-4 rounded-md font-bold"
+                                className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                             >
                                 Update Advert
                             </button>

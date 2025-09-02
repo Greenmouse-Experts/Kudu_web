@@ -214,7 +214,7 @@ export default function Contact() {
                   <input
                     type="checkbox"
                     id="notRobot"
-                    className="h-4 w-4 text-orange-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-orange-500 border-gray-300 rounded-sm"
                   />
                   <label
                     htmlFor="notRobot"

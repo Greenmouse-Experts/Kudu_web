@@ -69,7 +69,7 @@ export default function Messenger() {
     <>
       <div className="w-full flex justify-between md:shadow-lg md:py-5 py-3 bg-white px-6 gap-10 rounded-t-md">
         <div className="md:w-[32%] w-full h-full flex justify-between items-center">
-          <span className="md:text-lg text-base font-semibold flex flex-grow">
+          <span className="md:text-lg text-base font-semibold flex grow">
             MESSAGES
           </span>
           <span className="md:flex hidden">
@@ -89,7 +89,7 @@ export default function Messenger() {
         </div>
 
         <div className="md:w-[68%] h-full md:flex hidden justify-between items-center">
-          <span className="text-sm mt-1 font-semibold flex flex-grow">
+          <span className="text-sm mt-1 font-semibold flex grow">
             {renderedUser?.firstName}{" "}
             {renderedUser?.lastName}
           </span>

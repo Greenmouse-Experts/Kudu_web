@@ -119,13 +119,13 @@ const AddFaqModal = ({ selectedItem }) => {
         <div className="flex justify-center mt-5 gap-4">
           <Button
             onClick={selectedItem ? handleUpdate : handleCreate}
-            className="bg-red-500 text-white outline-none px-4 py-2 rounded-lg"
+            className="bg-red-500 text-white outline-hidden px-4 py-2 rounded-lg"
           >
             {selectedItem ? "Update" : "Add"}
           </Button>
           <button
             onClick={closeModal}
-            className="bg-gray-300 text-black px-4 py-2 font-[500] rounded-lg"
+            className="bg-gray-300 text-black px-4 py-2 font-medium rounded-lg"
           >
             Cancel
           </button>

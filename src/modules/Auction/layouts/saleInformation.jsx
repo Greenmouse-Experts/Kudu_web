@@ -15,14 +15,14 @@ const SalesInformation = ({ content }) => {
                     <span className="font-medium">Sale Date:</span>
                     <span className="text-sm font-semibold">
                         <p>{NumericDate(content.startDate).date}</p>
-                        <p className="text-xs font-[400]">{NumericDate(content.startDate).time}</p>
+                        <p className="text-xs font-normal">{NumericDate(content.startDate).time}</p>
                     </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-300">
                     <span className="font-medium">End Date:</span>
                     <span className="text-sm font-semibold">
                         <p>{NumericDate(content.endDate).date}</p>
-                        <p className="text-xs font-[400]">{NumericDate(content.endDate).time}</p>
+                        <p className="text-xs font-normal">{NumericDate(content.endDate).time}</p>
                     </span>
                 </div>
             </div>

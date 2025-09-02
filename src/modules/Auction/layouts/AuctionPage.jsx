@@ -93,7 +93,7 @@ const AuctionPage = ({ auctions, hideHeader }) => {
                   </div>
 
                   {/* Condition Badge */}
-                  <span className={`absolute top-2 right-2 ${auction.condition === "brand_new" ? "bg-[#34A853]" : "bg-[#FF0F00]"} text-white px-2 py-1 text-xs rounded`}>
+                  <span className={`absolute top-2 right-2 ${auction.condition === "brand_new" ? "bg-[#34A853]" : "bg-[#FF0F00]"} text-white px-2 py-1 text-xs rounded-sm`}>
                     {capitalizeEachWord(auction.condition)}
                   </span>
 

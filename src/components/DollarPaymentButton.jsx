@@ -107,7 +107,7 @@ const CheckoutForm = ({ closeModal, amount, successCall }) => {
             />
             <div className="mt-4 flex justify-center">
                 <Button
-                    className="bg-kuduOrange w-1/2"
+                    className="bg-kudu-orange w-1/2"
                     type="submit"
                     disabled={!stripe || loading}
                 >
@@ -157,7 +157,7 @@ const DollarPaymentButton = ({ amount, children, noWidth, bgColor, onSuccess }) 
     return (
         <Button
             onClick={handleModal}
-            className={`${noWidth ? '' : 'w-3/4'} py-3 px-4 flex justify-center gap-2 ${bgColor || 'bg-kuduOrange'} shadow-md text-white rounded-lg font-[500] transition-colors`}
+            className={`${noWidth ? '' : 'w-3/4'} py-3 px-4 flex justify-center gap-2 ${bgColor || 'bg-kudu-orange'} shadow-md text-white rounded-lg font-medium transition-colors`}
         >
             {children}
         </Button>
