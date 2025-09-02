@@ -1,6 +1,69 @@
 @import "tailwindcss";
-
+@plugin "daisyui" {
+    root: "#root";
+    themes: kudu --default;
+}
 @config '../tailwind.config.js';
+
+@plugin "daisyui/theme" {
+    name: "kudu";
+    default: false;
+    prefersdark: false;
+    color-scheme: "light";
+    --color-base-100: oklch(100% 0 0);
+    --color-base-200: oklch(97% 0 0);
+    --color-base-300: oklch(92% 0 0);
+    --color-base-content: oklch(20% 0 0);
+    --color-primary: oklch(76.5% 0.224 35.059);
+    --color-primary-content: oklch(42% 0.095 57.708);
+    --color-secondary: oklch(75% 0.183 55.934);
+    --color-secondary-content: oklch(40% 0.123 38.172);
+    --color-accent: oklch(0% 0 0);
+    --color-accent-content: oklch(100% 0 0);
+    --color-neutral: oklch(37% 0.01 67.558);
+    --color-neutral-content: oklch(92% 0.003 48.717);
+    --color-info: oklch(74% 0.16 232.661);
+    --color-info-content: oklch(39% 0.09 240.876);
+    --color-success: oklch(76% 0.177 163.223);
+    --color-success-content: oklch(37% 0.077 168.94);
+    --color-warning: oklch(82% 0.189 84.429);
+    --color-warning-content: oklch(41% 0.112 45.904);
+    --color-error: oklch(70% 0.191 22.216);
+    --color-error-content: oklch(39% 0.141 25.723);
+    --color-background: oklch(100% 0 0);
+    --color-foreground: oklch(10% 0 0);
+    --color-kuduOrange: oklch(76.5% 0.224 35.059);
+    --color-kuduOrangeFade: oklch(76.5% 0.224 35.059 / 0.7);
+    --color-kuduGray: oklch(55.5% 0 0);
+    --color-kuduLightBlue: oklch(94.3% 0 0);
+    --color-kuduOrange500: oklch(79.7% 0.242 23.548);
+    --color-kuduPeach: oklch(95.6% 0.066 26.517);
+    --color-kuduGrayPeach: oklch(93.6% 0 0);
+    --color-kuduDarkBlue: oklch(23.3% 0.033 265.816);
+    --color-kuduSkyBlue: oklch(86.8% 0.099 210.916);
+    --color-kuduGreen: oklch(66.7% 0.225 147.458);
+    --color-kuduRed: oklch(71.1% 0.466 18.664);
+    --color-kuduDarkGrey: oklch(24.4% 0 0);
+    --color-kuduLightGray: oklch(96.2% 0 0);
+    --color-kuduTableGrey: oklch(96.2% 0 0);
+    --color-kuduRomanSilver: oklch(44.8% 0 0);
+    --color-kuduDarkFade: oklch(82.5% 0 0);
+    --color-kuduPink: oklch(89.1% 0.179 347.009);
+    --color-kuduStrayBlue: oklch(76.4% 0.166 258.391);
+    --color-kuduOrangeLight: oklch(95.7% 0.068 27.831);
+    --color-kuduPurple: oklch(86.4% 0.167 316.37);
+    --color-kuduLightGreen: oklch(84.2% 0.163 127.818);
+    --color-kuduBlue: oklch(57.3% 0.274 241.614);
+    --color-kuduMade: oklch(96.2% 0 0);
+    --radius-selector: 1rem;
+    --radius-field: 0.5rem;
+    --radius-box: 1rem;
+    --size-selector: 0.25rem;
+    --size-field: 0.25rem;
+    --border: 1px;
+    --depth: 1;
+    --noise: 0;
+}
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -10,222 +73,3 @@
   If we ever want to remove these styles, we need to add an explicit border
   color utility to any element that depends on these defaults.
 */
-@layer base {
-    *,
-    ::after,
-    ::before,
-    ::backdrop,
-    ::file-selector-button {
-        border-color: var(--color-gray-200, currentcolor);
-    }
-}
-
-@utility text-balance {
-    text-wrap: balance;
-}
-@utility border {
-    border: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-@layer utilities {
-    :root {
-        --background: #ffffff;
-        --foreground: #171717;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --background: #0a0a0a;
-            --foreground: #ededed;
-        }
-    }
-
-    .btn {
-        @apply p-2 border rounded-md bg-gray-100 hover:bg-gray-300 flex items-center justify-center;
-    }
-
-    body {
-        color: #0a0a0a;
-        background: rgba(241, 241, 242, 1);
-        font-family: "Montserrat", sans-serif !important;
-        font-size: 14px;
-    }
-
-    input[type="radio"]:checked + .radio-indicator > div {
-        background-color: rgba(255, 111, 34, 1);
-    }
-
-    /* Line clamp utilities for text truncation */
-    .line-clamp-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .line-clamp-3 {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    input {
-        font-family: "Montserrat", sans-serif !important;
-    }
-
-    button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-
-    .kuduImage {
-        mix-blend-mode: multiply;
-    }
-
-    .font-sans {
-        font-family: "Montserrat", sans-serif !important;
-    }
-
-    a {
-        outline: none !important;
-    }
-}
-
-@media (min-width: 1280px) {
-    .clip-diagonal {
-        clip-path: polygon(25% 0, 100% 0, 100% 100%, 0 100%);
-    }
-}
-
-.DraftEditor-root,
-.DraftEditor-editorContainer > div {
-    min-height: 20vh;
-}
-
-/* Chrome, Safari, Edge - Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-    /* Width of the scrollbar */
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-    /* Track color */
-    border-radius: 10px;
-    /* Rounded track edges */
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* Color of the scrollbar thumb */
-    border-radius: 10px;
-    /* Rounded thumb */
-    border: 3px solid transparent;
-    /* Padding around the thumb */
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #555;
-    /* Change thumb color on hover */
-}
-
-/* Custom scrollbar styles for permissions modal */
-.custom-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: #d1d5db #f3f4f6;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: #f3f4f6;
-    border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #d1d5db;
-    border-radius: 3px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
-}
-
-.pending {
-    background-color: rgba(187, 193, 5, 0.2);
-    color: rgba(187, 193, 5, 1);
-}
-
-.active,
-.open {
-    background-color: rgba(5, 193, 104, 0.2);
-    color: rgba(20, 202, 116, 1);
-}
-
-.carouix span.block {
-    display: none !important;
-}
-
-.table-x tr:last-child th:first-child {
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
-    /* Optional: Bottom-left corner for specific use cases */
-}
-
-.table-x tr:first-child th:last-child {
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
-    /* Optional: Bottom-right corner */
-}
-
-.table-x tr {
-    border-radius: 10px;
-}
-
-@media (max-width: 548px) {
-    .Abi {
-        display: none;
-    }
-
-    .Abinah {
-        display: none;
-    }
-
-    .okayb {
-        height: auto !important;
-    }
-}
-@media (max-width: 1023px) {
-    .Desk {
-        display: none !important;
-    }
-    .view {
-        display: none !important;
-    }
-    .All {
-        padding: 0px 30px !important;
-    }
-}
-
-.react-tel-input .country-list .country.highlight {
-    background-color: #f97316 !important; /* Orange background */
-    color: white !important; /* White text */
-}
-
-.Box {
-    box-shadow: 0px 4px 28px 0px #0000000d !important;
-    padding: 45px 25px !important;
-    border-radius: 50px !important;
-}
-
-.rdw-option-active {
-    background-color: rgba(255, 111, 34, 1) !important;
-    color: white !important;
-}
-
-/*@utility border {
-    @apply "p-2 p-4";
-}*/

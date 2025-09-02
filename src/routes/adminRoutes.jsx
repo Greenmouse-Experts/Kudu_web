@@ -48,6 +48,8 @@ import CreateSubAdmin from "../modules/SuperAdmin/Dashboard/CreateSubAdmin.jsx";
 import CreateRole from "../modules/SuperAdmin/Dashboard/CreateRole.jsx";
 import Permissions from "../modules/SuperAdmin/Dashboard/Permissions.jsx";
 import AdminNotifications from "../modules/SuperAdmin/Dashboard/AdminNotifications";
+import ServiceCategories from "../modules/SuperAdmin/Dashboard/serviceCategories.js";
+import ServiceSubCategories from "../modules/SuperAdmin/Dashboard/services-sub-categories.js";
 
 export const adminRoutes = [
   {
@@ -242,6 +244,14 @@ export const adminRoutes = [
       {
         path: "sub-admins/create",
         element: <CreateSubAdmin />,
+      },
+      {
+        path: "services/categories",
+        element: <ServiceCategories />,
+      },
+      {
+        path: "services/sub-category/:id",
+        element: <ServiceSubCategories />,
       },
       {
         path: "permissions",
