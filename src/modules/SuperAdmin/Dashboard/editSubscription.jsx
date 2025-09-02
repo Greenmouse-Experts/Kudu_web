@@ -32,6 +32,8 @@ const EditSubscription = () => {
     data.auctionProductLimit = Number(data.auctionProductLimit);
     data.price = Number(data.price);
     data.allowsAuction = data.allowsAuction === "true";
+    data.allowsServiceAds = data.allowsServiceAds === "true"; // Added for new field
+    data.serviceAdsLimit = Number(data.serviceAdsLimit); // Added for new field
     delete data.allowsAdvert;
 
     setDisabled(true);
@@ -66,6 +68,15 @@ const EditSubscription = () => {
       setAdverts(true);
       setValue("maxAds", ""); // Reset the field value
       setValue("adsDurationDays", ""); // Reset the field value
+    }
+  };
+
+  const handleAllowServiceAds = (value) => {
+    if (value === "true") {
+      // If "allowsServiceAds" is true, we might want to reset or handle "serviceAdsLimit"
+      // For now, we'll assume it's handled by the form's default values or initial state.
+    } else {
+      setValue("serviceAdsLimit", ""); // Reset the field value if "allowsServiceAds" is false
     }
   };
 
@@ -120,6 +131,9 @@ const EditSubscription = () => {
     setValue("adsDurationDays", plans[0].adsDurationDays);
     setValue("currencyId", plans[0].currencyId);
     setValue("price", plans[0].price);
+    // Set values for new fields
+    setValue("allowsServiceAds", plans[0].allowsServiceAds);
+    setValue("serviceAdsLimit", plans[0].serviceAdsLimit);
     setLoading(false);
   }, [plans, setValue]);
 
@@ -197,6 +211,62 @@ const EditSubscription = () => {
                       </p>
                     )}
                   </div>
+
+                  {/* New fields for Service Ads */}
+                  <div className="mb-4">
+                    <label
+                      className="block text-md font-semibold mb-3"
+                      htmlFor="allowsServiceAds"
+                    >
+                      Allow Service Ads
+                    </label>
+                    <select
+                      id="allowsServiceAds"
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
+                      style={{ outline: "none" }}
+                      {...register("allowsServiceAds", {
+                        required: "Allow Service Ads is required",
+                      })}
+                      onChange={(e) => handleAllowServiceAds(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Tap to Select
+                      </option>
+                      <option value={"true"}>True</option>
+                      <option value={"false"}>False</option>
+                    </select>
+                    {errors.allowsServiceAds && (
+                      <p className="text-red-500 text-sm">
+                        {errors.allowsServiceAds.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="mb-4">
+                    <label
+                      className="block text-md font-semibold mb-3"
+                      htmlFor="serviceAdsLimit"
+                    >
+                      Service Ads Limit
+                    </label>
+                    <input
+                      type="number" // Use type="number" for numeric input
+                      id="serviceAdsLimit"
+                      {...register("serviceAdsLimit", {
+                        required: "Service Ads Limit is required",
+                        valueAsNumber: true, // Ensure the value is treated as a number
+                      })}
+                      placeholder="Enter service ads limit"
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
+                      style={{ outline: "none" }}
+                    />
+                    {errors.serviceAdsLimit && (
+                      <p className="text-red-500 text-sm">
+                        {errors.serviceAdsLimit.message}
+                      </p>
+                    )}
+                  </div>
+                  {/* End of new fields for Service Ads */}
 
                   <div className="mb-4">
                     <label
@@ -391,7 +461,7 @@ const EditSubscription = () => {
                       <option value="" disabled>
                         Tap to Select
                       </option>
-                      {currencies.map((currency, index) => (
+                      {currencies.map((currency) => (
                         <option value={currency.id}>{currency.name}</option>
                       ))}
                     </select>
