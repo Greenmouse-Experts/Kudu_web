@@ -12,5 +12,5 @@ export default function AdminNotifications() {
     },
   });
 
-  return <div>ssssadad {JSON.stringify(notifications.data)}</div>;
+  return <div>Work In Progress {JSON.stringify(notifications.data)}</div>;
 }
