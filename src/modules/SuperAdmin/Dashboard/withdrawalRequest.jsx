@@ -242,7 +242,7 @@ const WithdrawalRequest = () => {
                               : "bg-gray-100 text-gray-600"
                         }`}
                       >
-                        {value}
+                        {value == "accepted" ? "paid" : value}
                       </span>
                     ),
                   },
