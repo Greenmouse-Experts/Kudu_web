@@ -3,14 +3,13 @@ import useApiMutation from "../../../api/hooks/useApiMutation";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../../components/Loader";
+import { toast } from "react-toastify";
 
 const EditSubscription = () => {
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -32,8 +31,8 @@ const EditSubscription = () => {
     data.auctionProductLimit = Number(data.auctionProductLimit);
     data.price = Number(data.price);
     data.allowsAuction = data.allowsAuction === "true";
-    data.allowsServiceAds = data.allowsServiceAds === "true"; // Added for new field
-    data.serviceAdsLimit = Number(data.serviceAdsLimit); // Added for new field
+    data.allowsServiceAds = data.allowsServiceAds === "true";
+    data.serviceAdsLimit = Number(data.serviceAdsLimit);
     delete data.allowsAdvert;
 
     setDisabled(true);
@@ -43,10 +42,12 @@ const EditSubscription = () => {
       data: data,
       headers: true,
       onSuccess: (response) => {
+        toast.success("Subscription plan updated successfully");
         navigate(-1);
         setDisabled(false);
       },
       onError: () => {
+        toast.error("Failed to update subscription plan");
         setDisabled(false);
       },
     });
@@ -72,10 +73,7 @@ const EditSubscription = () => {
   };
 
   const handleAllowServiceAds = (value) => {
-    if (value === "true") {
-      // If "allowsServiceAds" is true, we might want to reset or handle "serviceAdsLimit"
-      // For now, we'll assume it's handled by the form's default values or initial state.
-    } else {
+    if (value === "false") {
       setValue("serviceAdsLimit", ""); // Reset the field value if "allowsServiceAds" is false
     }
   };
@@ -165,7 +163,7 @@ const EditSubscription = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="email"
+                      htmlFor="name"
                     >
                       Plan Name
                     </label>
@@ -190,7 +188,7 @@ const EditSubscription = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="email"
+                      htmlFor="productLimit"
                     >
                       Product Limit
                     </label>
@@ -224,9 +222,7 @@ const EditSubscription = () => {
                       id="allowsServiceAds"
                       className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                       style={{ outline: "none" }}
-                      {...register("allowsServiceAds", {
-                        required: "Allow Service Ads is required",
-                      })}
+                      {...register("allowsServiceAds")}
                       onChange={(e) => handleAllowServiceAds(e.target.value)}
                     >
                       <option value="" disabled>
@@ -253,7 +249,6 @@ const EditSubscription = () => {
                       type="number" // Use type="number" for numeric input
                       id="serviceAdsLimit"
                       {...register("serviceAdsLimit", {
-                        required: "Service Ads Limit is required",
                         valueAsNumber: true, // Ensure the value is treated as a number
                       })}
                       placeholder="Enter service ads limit"
@@ -271,7 +266,7 @@ const EditSubscription = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="email"
+                      htmlFor="allowsAuction"
                     >
                       Allow Auctions
                     </label>
@@ -299,7 +294,7 @@ const EditSubscription = () => {
                     <div className="mb-4">
                       <label
                         className="block text-md font-semibold mb-3"
-                        htmlFor="email"
+                        htmlFor="auctionProductLimit"
                       >
                         Auction Product Limit
                       </label>
@@ -325,12 +320,12 @@ const EditSubscription = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="email"
+                      htmlFor="allowsAdvert"
                     >
                       Allow Adverts
                     </label>
                     <select
-                      id="allowsAuction"
+                      id="allowsAdvert"
                       className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
                       style={{ outline: "none" }}
                       {...register("allowsAdvert", {
@@ -351,13 +346,13 @@ const EditSubscription = () => {
                       <div className="mb-4">
                         <label
                           className="block text-md font-semibold mb-3"
-                          htmlFor="email"
+                          htmlFor="maxAds"
                         >
                           Maximum Number of Ads
                         </label>
                         <input
                           type="text"
-                          id="auctionProductLimit"
+                          id="maxAds"
                           name="maxAds"
                           {...register("maxAds", {
                             required: "Maximum number of ads is required",
@@ -377,13 +372,14 @@ const EditSubscription = () => {
                       <div>
                         <label
                           className="block text-md font-semibold mb-3"
-                          htmlFor="email"
+                          htmlFor="adsDurationDays"
                         >
                           Advert Duration
                         </label>
                         <div className="mb-4 flex gap-4">
                           <input
                             type="text"
+                            id="adsDurationDays"
                             name="adsDurationDays"
                             {...register("adsDurationDays", {
                               required: "Advert duration is required",
@@ -413,13 +409,14 @@ const EditSubscription = () => {
                   <div>
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="email"
+                      htmlFor="duration"
                     >
                       Plan Duration
                     </label>
                     <div className="mb-4 flex gap-4">
                       <input
                         type="text"
+                        id="duration"
                         name="duration"
                         {...register("duration", {
                           required: "Subscription duration is required",
@@ -446,12 +443,12 @@ const EditSubscription = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="email"
+                      htmlFor="currencyId"
                     >
                       Currency
                     </label>
                     <select
-                      id="planCurrency"
+                      id="currencyId"
                       {...register("currencyId", {
                         required: "Currency is required",
                       })}
@@ -462,7 +459,9 @@ const EditSubscription = () => {
                         Tap to Select
                       </option>
                       {currencies.map((currency) => (
-                        <option value={currency.id}>{currency.name}</option>
+                        <option key={currency.id} value={currency.id}>
+                          {currency.name}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -470,7 +469,7 @@ const EditSubscription = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="email"
+                      htmlFor="price"
                     >
                       Plan Price
                     </label>

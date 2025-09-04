@@ -2,15 +2,16 @@ import { Menu } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 import { usePopper } from "react-popper";
 import Portal from "../Portal";
-type Actions = {
+type Actions<T> = {
   key: string;
   label: string;
-  action: (item: any) => any;
+  action: (item: T) => any;
+  render?: (item: T) => React.ReactNode | any;
 };
 type currentIndex = number;
 type item = any;
 export default function PopUp(props: {
-  actions: Actions[];
+  actions: Actions<T>[];
   item: any;
   currentIndex: currentIndex | null;
   setIndex: (index: number | null) => void;
@@ -96,15 +97,19 @@ export default function PopUp(props: {
             {...attributes.popper}
           >
             <div className="flex flex-col gap-1">
-              {props?.actions?.map((action) => (
-                <button
-                  key={action.key}
-                  className="btn px-2 py-1 capitalize btn-ghost text-current/70 text-sm "
-                  onClick={() => action.action(props.item)}
-                >
-                  {action.label}
-                </button>
-              ))}
+              {props?.actions?.map((action) =>
+                action.render ? (
+                  action.render(props.item)
+                ) : (
+                  <button
+                    key={action.key}
+                    className="btn px-2 py-1 capitalize btn-ghost text-current/70 text-sm "
+                    onClick={() => action.action(props.item)}
+                  >
+                    {action.label}
+                  </button>
+                ),
+              )}
             </div>
           </div>
         )}

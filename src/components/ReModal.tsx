@@ -1,4 +1,6 @@
+import { X } from "lucide-react";
 import { useRef, forwardRef, useImperativeHandle } from "react";
+import { ToastContainer } from "react-toastify";
 
 const ReModal = forwardRef(
   (
@@ -26,18 +28,22 @@ const ReModal = forwardRef(
         onClick={handleCloseOnClickOutside}
         className="modal"
       >
-        <form method="dialog" id="my_modal_2" className="modal-box bg-base-100">
-          <button
-            className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2"
-            onClick={(e) => {
-              e.preventDefault();
-              dialogRef.current?.close();
-            }}
-          >
-            ✕
-          </button>
+        <div className="modal-box bg-base-100">
+          {/*<ToastContainer />*/}
+
+          <div className="flex justify-end">
+            <button
+              className="btn btn-sm btn-circle  top-2 right-2"
+              onClick={(e) => {
+                e.preventDefault();
+                dialogRef.current?.close();
+              }}
+            >
+              <X />
+            </button>
+          </div>
           {children}
-        </form>
+        </div>
       </dialog>
     );
   },

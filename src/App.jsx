@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
 import { ModalProvider } from "./hooks/modal";
 import ReusableModal from "./components/ReusableModal";
@@ -20,15 +20,13 @@ function App() {
   // Simplified authentication check - only handle critical redirects
   if (!tokenValid) {
     // Only remove token and user data if no valid token
-    localStorage.removeItem('kuduUserToken');
+    localStorage.removeItem("kuduUserToken");
     dispatch(setKuduUser(null));
   }
 
-
-    useEffect(() => {
-      dispatch(setIPInfo(ipInfo))
-    }, [ipInfo]);
-
+  useEffect(() => {
+    dispatch(setIPInfo(ipInfo));
+  }, [ipInfo]);
 
   return (
     <ModalProvider>
@@ -38,4 +36,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

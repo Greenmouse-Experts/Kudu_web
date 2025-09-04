@@ -52,6 +52,7 @@ import ServiceSubCategories from "../modules/SuperAdmin/Dashboard/services-sub-c
 import AdminServices from "../modules/SuperAdmin/Dashboard/services.js";
 import AdminViewService from "../modules/SuperAdmin/Dashboard/view-service.js";
 import AdminNotifications from "../modules/SuperAdmin/Dashboard/admin-notifications.js";
+import ViewServiceCategories from "../modules/SuperAdmin/Dashboard/view-service-category.js";
 
 export const adminRoutes = [
   {
@@ -250,6 +251,10 @@ export const adminRoutes = [
       {
         path: "services/categories",
         element: <ServiceCategories />,
+      },
+      {
+        path: "services/categories/:id",
+        element: <ViewServiceCategories />,
       },
       {
         path: "services/sub-category/:id",

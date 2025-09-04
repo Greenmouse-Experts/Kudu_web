@@ -98,6 +98,13 @@ const ServiceCategories = () => {
   //@ts-ignore
   const actions: Actions<ServiceCategory> = [
     {
+      label: "View",
+      key: "view",
+      action: (item) => {
+        navigate(`/admin/services/categories/${item.id}`);
+      },
+    },
+    {
       label: "Sub Categories",
       key: "sub-categories",
       action: (item) => {

@@ -5,20 +5,21 @@ import { useState } from "react";
 // import CaryBinApi from "../services/CarybinBaseUrl";
 // import { Link } from "react-router-dom";
 
-export type columnType = {
+export type columnType<T> = {
   key: string;
   label: string;
-  render?: (value: any, item: any) => any;
+  render?: (value: T[keyof T], item: T) => React.ReactNode;
 };
 
 export type Actions<T> = {
   key: string;
   label: string;
   action: (item?: T) => any;
+  render: (item: T) => React.ReactNode | any;
 };
 interface CustomTableProps<T> {
   data?: T[];
-  columns?: columnType[];
+  columns?: columnType<T>[];
   actions?: Actions<T>[];
   user?: any;
 }

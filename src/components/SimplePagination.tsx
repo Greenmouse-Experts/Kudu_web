@@ -10,6 +10,7 @@ export const SimplePagination = ({
   return (
     <div className="flex items-center gap-2  py-2 justify-center mb-2">
       <button
+        type="button"
         onClick={paginate.prevPage}
         className="btn btn-square btn-primary btn-sm"
       >
@@ -17,6 +18,7 @@ export const SimplePagination = ({
       </button>
       <>{paginate.params.page}</>
       <button
+        type="button"
         onClick={() => paginate.nextPage(total)}
         className="btn btn-square btn-primary btn-sm"
       >

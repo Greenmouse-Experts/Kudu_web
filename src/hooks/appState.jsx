@@ -13,29 +13,59 @@ const useAppState = () => {
 };
 
 export default useAppState;
-
-export const usePagination = () => {
-  const [params, setParams] = useState({ page: 1, limit: 10 });
+export const usePagination = ({ initialLimit } = {}) => {
+  const [params, setParams] = useState({ page: 1, limit: initialLimit || 10 });
 
   const handlePageChange = (page) => {
-    setParams({ ...params, page });
+    setParams((prev) => ({ ...prev, page }));
   };
-  const nextPage = (total) => {
-    console.log("nextPage");
 
-    if (params.page <= Math.ceil(total / params.limit)) {
+  const nextPage = (total) => {
+    if (total == params.limit) {
       handlePageChange(params.page + 1);
+
+      return console.log(total, params.limit);
     }
   };
-  const prevPage = (total) => {
-    console.log("prevPage");
+
+  const prevPage = () => {
     if (params.page > 1) {
       handlePageChange(params.page - 1);
     }
   };
 
   const handleLimitChange = (limit) => {
-    setParams({ ...params, limit });
+    setParams((prev) => ({ ...prev, limit }));
+  };
+
+  return { params, handlePageChange, handleLimitChange, nextPage, prevPage };
+};
+
+export const useSmallPagination = ({ initialLimit } = {}) => {
+  const [params, setParams] = useState({ page: 1, limit: initialLimit || 5 });
+
+  const handlePageChange = (page) => {
+    setParams((prev) => ({ ...prev, page }));
+  };
+
+  const nextPage = (total) => {
+    if (total == params.limit) {
+      handlePageChange(params.page + 1);
+
+      return console.log(total, params.limit);
+    }
+    // if (params.page = Math.ceil(total / params.limit)) {
+    // }
+  };
+
+  const prevPage = () => {
+    if (params.page > 1) {
+      handlePageChange(params.page - 1);
+    }
+  };
+
+  const handleLimitChange = (limit) => {
+    setParams((prev) => ({ ...prev, limit }));
   };
 
   return { params, handlePageChange, handleLimitChange, nextPage, prevPage };

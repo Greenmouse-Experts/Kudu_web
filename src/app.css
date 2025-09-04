@@ -8,6 +8,9 @@
     }
 }
 
+.Toastify__toast-container {
+    z-index: 10000; /* higher than <dialog> backdrop */
+}
 @utility border {
     border: 1px solid rgba(0, 0, 0, 0.15);
 }
