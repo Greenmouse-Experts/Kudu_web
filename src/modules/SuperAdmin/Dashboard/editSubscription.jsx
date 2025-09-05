@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../../components/Loader";
 import { toast } from "react-toastify";
+import apiClient from "../../../api/apiFactory";
+import { useMutation } from "@tanstack/react-query";
 
 const EditSubscription = () => {
   const {
@@ -23,8 +25,21 @@ const EditSubscription = () => {
   const [currencies, setCurrencies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(false);
-
+  const edit_mutation = useMutation({
+    mutationFn: async (data) => {
+      let resp = await apiClient.put("/admin/subscription/plan/update", data);
+      return resp;
+    },
+    onSuccess: (response) => {
+      toast.success("Subscription plan updated successfully");
+      navigate(-1);
+    },
+    onError: () => {
+      toast.error("Failed to update subscription plan");
+    },
+  });
   const onSubmit = (data) => {
+    console.log(data);
     data.planId = plans[0].id;
     data.duration = Number(data.duration);
     data.productLimit = Number(data.productLimit);
@@ -34,23 +49,7 @@ const EditSubscription = () => {
     data.allowsServiceAds = data.allowsServiceAds === "true";
     data.serviceAdsLimit = Number(data.serviceAdsLimit);
     delete data.allowsAdvert;
-
-    setDisabled(true);
-    mutate({
-      url: "/admin/subscription/plan/update",
-      method: "PUT",
-      data: data,
-      headers: true,
-      onSuccess: (response) => {
-        toast.success("Subscription plan updated successfully");
-        navigate(-1);
-        setDisabled(false);
-      },
-      onError: () => {
-        toast.error("Failed to update subscription plan");
-        setDisabled(false);
-      },
-    });
+    edit_mutation.mutate(data);
   };
 
   const handleAllowAuctions = (value) => {
@@ -145,7 +144,7 @@ const EditSubscription = () => {
 
   return (
     <>
-      <div className="min-h-screen">
+      <div className="min-h-screen" data-theme="kudu">
         <div className="All">
           <div className="rounded-md pb-2 w-full flex justify-between gap-5">
             <h2 className="text-lg font-semibold text-black-700 mt-4">
@@ -155,8 +154,14 @@ const EditSubscription = () => {
           <div className="w-full flex grow mt-3">
             <div className="shadow-xl py-2 px-5 md:w-3/5 w-full bg-white flex rounded-xl flex-col gap-10">
               <form
-                className="w-full flex flex-col items-center justify-center p-4"
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit, (errors) => {
+                  // Loop over all validation errors
+                  Object.values(errors).forEach((err) => {
+                    if (err?.message) {
+                      toast.error(err.message);
+                    }
+                  });
+                })}
               >
                 <div className="w-full p-6">
                   {/* Plan Name */}
@@ -494,10 +499,12 @@ const EditSubscription = () => {
                   {/* Submit Button */}
                   <button
                     type="submit"
-                    disabled={disabled}
-                    className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
+                    disabled={edit_mutation.isPending}
+                    className="btn btn-primary btn-block"
                   >
-                    Edit Subscription Plan
+                    {edit_mutation.isPending
+                      ? "Updating..."
+                      : "Edit Subscription Plan"}
                   </button>
                 </div>
               </form>

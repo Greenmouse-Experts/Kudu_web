@@ -159,7 +159,7 @@ export default function VendorServices() {
                     {service.location_city}, {service.location_state}
                   </span>
                 </div>
-                {service?.status}
+                {/*{service?.status}*/}
                 <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200">
                   <div className="flex flex-wrap gap-2">
                     <div className="badge badge-outline badge-sm">
