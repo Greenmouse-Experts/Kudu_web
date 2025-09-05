@@ -45,11 +45,6 @@ export const VendorViewService = () => {
       return response.data;
     },
   });
-
-  if (query.isLoading) return <div>Loading...</div>;
-  if (query.isError) return <div>Error loading service data</div>;
-
-  const service = query.data?.data[0];
   const nav = useNavigate();
   const delete_service = useMutation({
     mutationFn: async (data: any) => {
@@ -68,6 +63,11 @@ export const VendorViewService = () => {
       toast.error("Failed to create service");
     },
   });
+
+  if (query.isLoading) return <div>Loading...</div>;
+  if (query.isError) return <div>Error loading service data</div>;
+
+  const service = query.data?.data[0];
 
   return (
     <div className="p-6 bg-base-100 rounded-lg shadow-xl" data-theme="kudu">
