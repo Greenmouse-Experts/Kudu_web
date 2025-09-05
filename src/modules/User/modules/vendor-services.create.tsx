@@ -332,24 +332,19 @@ interface Category {
 interface CategoryResponse {
   data: Category[];
 }
+
 const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
   const [selected, setSelected] = useState<Category | null>(null);
   const [page, setPage] = useState(1);
   const limit = 10;
 
   const categories = useQuery<CategoryResponse>({
-    queryKey: ["categories", "services"],
+    queryKey: ["categories", "services", page, limit],
     queryFn: () =>
       apiClient
-        .get(`categories/with/sub-categories?page=${page}&limit=${limit}`)
+        .get(`/service/categories?page=${page}&limit=${limit}`)
         .then((res) => res.data),
   });
-
-  const totalPages = Math.ceil((categories.data?.data.length || 0) / limit);
-  const paginatedData = categories.data?.data.slice(
-    (page - 1) * limit,
-    page * limit,
-  );
 
   const handleSelect = (item: Category) => {
     setSelected(item);
@@ -368,7 +363,7 @@ const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
           {/*{categories.isFetching && (
             <div className="badge badge-primary badge-lg">Loading...</div>
           )}*/}
-          {paginatedData?.map((item) => (
+          {categories.data?.data?.map((item) => (
             <button
               key={item.id}
               type="button"
@@ -376,14 +371,14 @@ const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
               onClick={() => handleSelect(item)}
             >
               {item.name}
-              <span className="text-xs opacity-70 ml-1">
+              {/*<span className="text-xs opacity-70 ml-1">
                 ({(item as any)?.subCategories?.length || 0})
-              </span>
+              </span>*/}
             </button>
           ))}
         </div>
 
-        {totalPages > 1 && (
+        {/*{categories?.data?.data?.length > 1 && (
           <div className="join flex justify-center">
             <button
               type="button"
@@ -397,13 +392,13 @@ const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
             <button
               type="button"
               className="join-item btn btn-xs"
-              onClick={() => setPage(Math.min(totalPages, page + 1))}
-              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+              // disabled={}
             >
               »
             </button>
           </div>
-        )}
+        )}*/}
       </div>
     </>
   );
@@ -423,7 +418,7 @@ const SubCategorySelect = ({
     queryKey: ["sub-categories", "services", categoryId],
     queryFn: () =>
       apiClient
-        .get(`/category/sub-categories?categoryId=${categoryId}`)
+        .get(`/service/subcategories/${categoryId}?page=${page}&limit=${limit}`)
         .then((res) => res.data),
   });
 
