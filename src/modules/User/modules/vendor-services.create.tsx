@@ -8,11 +8,9 @@ import { useState } from "react";
 export default function VendorCreateService() {
   const { register, handleSubmit, setValue, control, watch } = useForm({
     defaultValues: {
-      title: "Professional Deep Cleaning Service for Homes",
-      description:
-        "Transform your home with our comprehensive deep cleaning service. We handle everything from kitchen appliances to bathroom sanitization, window cleaning, and carpet deep cleaning. Our team uses eco-friendly products safe for children and pets. Perfect for move-in/move-out or seasonal cleaning.",
-      image_url:
-        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+      title: "",
+      description: "",
+      image_url: "",
       video_url: "https://www.youtube.com/watch?v=cleaning_demo_123",
       service_category_id: 1,
       service_subcategory_id: 7,
@@ -21,13 +19,9 @@ export default function VendorCreateService() {
       location_country: "Nigeria",
       is_negotiable: true,
       work_experience_years: 5,
-      additional_images: [
-        "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=400",
-        "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400",
-        "https://images.unsplash.com/photo-1563453392212-326f5e854473?w=400",
-      ],
-      price: 25000.0,
-      discount_price: 20000.0,
+      additional_images: [],
+      price: 0,
+      discount_price: 0,
       // attributes: [
       //   { attributeId: 1, value: 12 },
       //   { attributeId: 3, value: "five years experience" },
