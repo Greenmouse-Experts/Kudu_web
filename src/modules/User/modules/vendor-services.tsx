@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
+import { Link } from "react-router-dom";
 
 interface ServiceCategory {
   id: number;
@@ -59,6 +60,15 @@ export default function VendorServices() {
 
   return (
     <div data-theme="kudu" className="container mx-auto px-4 py-12 w-full ">
+      <div className="items-center flex mb-2">
+        <h2></h2>
+        <Link
+          className="btn btn-accent btn-soft ml-auto"
+          to={"/profile/services/create"}
+        >
+          Create
+        </Link>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {query.data?.data &&
           query.data.data.map((service: VendorService) => (

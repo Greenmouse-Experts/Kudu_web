@@ -1,11 +1,12 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import DropZone from "../../../components/DropZone";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 export default function VendorCreateService() {
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setValue, control, watch } = useForm({
     defaultValues: {
       title: "Professional Deep Cleaning Service for Homes",
       description:
@@ -27,20 +28,22 @@ export default function VendorCreateService() {
       ],
       price: 25000.0,
       discount_price: 20000.0,
-      attributes: [
-        { attributeId: 1, value: 12 },
-        { attributeId: 3, value: "five years experience" },
-        { attributeId: 6, value: true },
-      ],
+      // attributes: [
+      //   { attributeId: 1, value: 12 },
+      //   { attributeId: 3, value: "five years experience" },
+      //   { attributeId: 6, value: true },
+      // ],
     },
   });
-
+  const cat_id = watch("service_category_id");
+  const mainImage = watch("image_url");
+  const additionalImages = watch("additional_images");
   const create_service = useMutation({
     mutationFn: async (data: any) => {
       let resp = await apiClient.post("/vendor/services", data);
       return resp.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast.success("Service created successfully");
     },
     onError: (error) => {
@@ -87,9 +90,36 @@ export default function VendorCreateService() {
               placeholder="Tell customers what makes your service special..."
             />
           </div>
+          <div className="form-control flex flex-col mt-4 gap-2">
+            <label className="label">
+              <span className="label-text font-semibold">Category</span>
+            </label>
+            <div>
+              <Controller
+                control={control}
+                name="service_category_id"
+                render={({ field: { onChange } }) => (
+                  <CategorySelect onChange={onChange} />
+                )}
+              ></Controller>
+            </div>
+          </div>
+          <div className="form-control flex flex-col mt-4 gap-2">
+            <label className="label">
+              <span className="label-text font-semibold">Sub Category</span>
+            </label>
+            <div>
+              <Controller
+                control={control}
+                name="service_subcategory_id"
+                render={({ field: { onChange } }) => (
+                  <SubCategorySelect onChange={onChange} categoryId={cat_id} />
+                )}
+              ></Controller>
+            </div>
+          </div>
         </div>
       </div>
-
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl mb-6">Media</h2>
@@ -103,12 +133,21 @@ export default function VendorCreateService() {
             <DropZone
               text="Drop your main service image here"
               single={true}
-              onUpload={(files: File[]) => {
-                if (files.length > 0) {
-                  setValue("image_url", URL.createObjectURL(files[0]));
+              onUpload={(url: string) => {
+                if (url.trim()) {
+                  setValue("image_url", url);
                 }
               }}
             />
+            {mainImage && (
+              <div className="mt-4">
+                <img
+                  src={mainImage}
+                  alt="Main service preview"
+                  className="rounded-lg object-cover h-48 w-full"
+                />
+              </div>
+            )}
           </div>
 
           <div className="form-control">
@@ -121,11 +160,43 @@ export default function VendorCreateService() {
             <DropZone
               text="Upload multiple images to showcase your service"
               single={false}
-              onUpload={(files: File[]) => {
-                const urls = files.map((file) => URL.createObjectURL(file));
-                setValue("additional_images", urls);
+              onUpload={(urls: string) => {
+                if (!additionalImages) {
+                  return;
+                }
+                if (additionalImages.length < 3) {
+                  return setValue("additional_images", [
+                    ...additionalImages,
+                    urls[0],
+                  ]);
+                }
               }}
             />
+            {additionalImages && additionalImages.length > 0 && (
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {additionalImages.map((img, idx) => (
+                  <div key={idx} className="relative group">
+                    <img
+                      src={img}
+                      alt={`Additional service preview ${idx + 1}`}
+                      className="rounded-lg object-cover h-32 w-full"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newImages = additionalImages.filter(
+                          (_, i) => i !== idx,
+                        );
+                        setValue("additional_images", newImages);
+                      }}
+                      className="absolute top-1 right-1 btn btn-circle btn-xs btn-error opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -249,3 +320,183 @@ export default function VendorCreateService() {
     </form>
   );
 }
+
+interface Category {
+  id: string;
+  name: string;
+  symbol: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface CategoryResponse {
+  data: Category[];
+}
+const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
+  const [selected, setSelected] = useState<Category | null>(null);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  const categories = useQuery<CategoryResponse>({
+    queryKey: ["categories", "services"],
+    queryFn: () =>
+      apiClient
+        .get(`categories/with/sub-categories?page=${page}&limit=${limit}`)
+        .then((res) => res.data),
+  });
+
+  const totalPages = Math.ceil((categories.data?.data.length || 0) / limit);
+  const paginatedData = categories.data?.data.slice(
+    (page - 1) * limit,
+    page * limit,
+  );
+
+  const handleSelect = (item: Category) => {
+    setSelected(item);
+    onChange(item.id);
+  };
+
+  return (
+    <>
+      <div className="space-y-3">
+        {selected && (
+          <div className="badge badge-primary badge-lg badge-soft">
+            Selected: {selected.name}
+          </div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {/*{categories.isFetching && (
+            <div className="badge badge-primary badge-lg">Loading...</div>
+          )}*/}
+          {paginatedData?.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`btn btn-sm ${selected?.id === item.id ? "btn-primary" : "btn-ghost"}`}
+              onClick={() => handleSelect(item)}
+            >
+              {item.name}
+              <span className="text-xs opacity-70 ml-1">
+                ({(item as any)?.subCategories?.length || 0})
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {totalPages > 1 && (
+          <div className="join flex justify-center">
+            <button
+              type="button"
+              className="join-item btn btn-xs"
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
+            >
+              «
+            </button>
+            <button className="join-item btn btn-xs">Page {page}</button>
+            <button
+              type="button"
+              className="join-item btn btn-xs"
+              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              disabled={page === totalPages}
+            >
+              »
+            </button>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+const SubCategorySelect = ({
+  onChange,
+  categoryId,
+}: {
+  onChange: (item: any) => any;
+  categoryId: string | number;
+}) => {
+  const [selected, setSelected] = useState<Category | null>(null);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const categories = useQuery<CategoryResponse>({
+    queryKey: ["sub-categories", "services", categoryId],
+    queryFn: () =>
+      apiClient
+        .get(`/category/sub-categories?categoryId=${categoryId}`)
+        .then((res) => res.data),
+  });
+
+  const totalPages = Math.ceil((categories.data?.data.length || 0) / limit);
+  const paginatedData = categories.data?.data.slice(
+    (page - 1) * limit,
+    page * limit,
+  );
+
+  const handleSelect = (item: Category) => {
+    setSelected(item);
+    onChange(item.id);
+  };
+
+  return (
+    <>
+      <div className="space-y-3">
+        {selected && (
+          <div className="badge badge-primary badge-lg badge-soft">
+            Selected: {selected.name}
+          </div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {categories.isFetching && (
+            <div className="badge badge-primary badge-soft badge-lg">
+              Loading...
+            </div>
+          )}
+
+          {}
+          {categories.data?.data?.length === 0 ? (
+            <div className="text-sm text-base-content/60">
+              No sub-categories found
+            </div>
+          ) : (
+            paginatedData?.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={`btn btn-sm ${selected?.id === item.id ? "btn-primary" : "btn-ghost"}`}
+                onClick={() => handleSelect(item)}
+              >
+                {item.name}
+                <span className="text-xs opacity-70 ml-1">({item.symbol})</span>
+              </button>
+            ))
+          )}
+        </div>
+
+        {totalPages > 1 && (
+          <div className="join flex justify-center">
+            <button
+              type="button"
+              className="join-item btn btn-xs"
+              onClick={() => setPage(Math.max(1, page - 1))}
+              disabled={page === 1}
+            >
+              «
+            </button>
+            <button className="join-item btn btn-xs" type="button">
+              Page {page}
+            </button>
+            <button
+              type="button"
+              className="join-item btn btn-xs"
+              onClick={() => setPage(Math.min(totalPages, page + 1))}
+              disabled={page === totalPages}
+            >
+              »
+            </button>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
