@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link, useParams } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import apiClient from "../../../api/apiFactory";
+import { toast } from "react-toastify";
 
 interface VendorService {
   message: string;
@@ -49,6 +50,24 @@ export const VendorViewService = () => {
   if (query.isError) return <div>Error loading service data</div>;
 
   const service = query.data?.data[0];
+  const nav = useNavigate();
+  const delete_service = useMutation({
+    mutationFn: async (data: any) => {
+      let resp = await apiClient.delete(
+        `/vendor/services/${service?.id}`,
+        data,
+      );
+      return resp.data;
+    },
+    onSuccess: () => {
+      toast.success("Service deleted successfully");
+      nav("/profile/services");
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to create service");
+    },
+  });
 
   return (
     <div className="p-6 bg-base-100 rounded-lg shadow-xl" data-theme="kudu">
@@ -60,7 +79,13 @@ export const VendorViewService = () => {
           <Link to={`/profile/service/edit/${id}`} className="btn btn-primary">
             Edit
           </Link>
-          <button className="btn btn-error">Delete</button>
+          <button
+            disabled={delete_service.isPending}
+            className="btn btn-error"
+            onClick={() => delete_service.mutate({})}
+          >
+            Delete
+          </button>
         </div>
       </div>
 
