@@ -1,6 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface ServiceCategory {
   id: number;
@@ -58,6 +59,36 @@ export default function VendorServices() {
     return <div>Error: {JSON.stringify(query.error)}</div>;
   }
 
+  const publish_service = useMutation({
+    mutationFn: async (id: string) => {
+      let resp = await apiClient.patch(`/vendor/services/${id}/publish`);
+      return resp.data;
+    },
+    onSuccess: () => {
+      toast.success("Service published successfully");
+      query.refetch();
+      // nav("/profile/service/" + service?.id);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to create service");
+    },
+  });
+  const unpublish_service = useMutation({
+    mutationFn: async (id: string) => {
+      let resp = await apiClient.patch(`/vendor/services/${id}/unpublish`);
+      return resp.data;
+    },
+    onSuccess: () => {
+      toast.success("Service unpublished successfully");
+      query.refetch();
+      // nav("/profile/service/" + service?.id);
+    },
+    onError: (error) => {
+      console.error(error);
+      toast.error("Failed to create service");
+    },
+  });
   return (
     <div data-theme="kudu" className="container mx-auto px-4 py-12 w-full ">
       <div className="items-center flex mb-2">
@@ -119,6 +150,7 @@ export default function VendorServices() {
                     {service.location_city}, {service.location_state}
                   </span>
                 </div>
+                {service?.status}
                 <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200">
                   <div className="flex flex-wrap gap-2">
                     <div className="badge badge-outline badge-sm">
@@ -134,6 +166,28 @@ export default function VendorServices() {
                   >
                     View Details
                   </Link>
+                  {service?.status === "active" && (
+                    <button
+                      onClick={() => unpublish_service.mutate(service.id)}
+                      disabled={
+                        unpublish_service.isPending || publish_service.isPending
+                      }
+                      className="btn btn-success btn-sm"
+                    >
+                      Active
+                    </button>
+                  )}
+                  {service?.status === "inactive" && (
+                    <button
+                      onClick={() => publish_service.mutate(service.id)}
+                      disabled={
+                        unpublish_service.isPending || publish_service.isPending
+                      }
+                      className="btn btn-error btn-sm"
+                    >
+                      Inactive
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
