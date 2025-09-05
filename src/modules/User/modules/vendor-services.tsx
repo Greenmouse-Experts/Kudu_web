@@ -128,9 +128,12 @@ export default function VendorServices() {
                       {service.subCategory.name}
                     </div>
                   </div>
-                  <button className="btn btn-primary btn-sm">
+                  <Link
+                    to={`/profile/service/${service.id}`}
+                    className="btn btn-primary btn-sm"
+                  >
                     View Details
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

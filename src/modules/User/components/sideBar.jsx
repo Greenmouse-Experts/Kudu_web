@@ -36,7 +36,7 @@ const ProfileSideBar = ({ close }) => {
     }, 200);
   };
 
-  const isVendor = user.accountType !== "Customer";
+  const isVendor = user?.accountType !== "Customer";
 
   const navItems = [
     {
@@ -52,7 +52,7 @@ const ProfileSideBar = ({ close }) => {
       vendor: true,
     },
     {
-      label: `${!user.isVerified ? "Complete KYC" : "View KYC"}`,
+      label: `${!user?.isVerified ? "Complete KYC" : "View KYC"}`,
       icon: <UserCheck size={20} color="#FF6F22" />,
       route: "updated-kyc",
       vendor: true,
@@ -161,7 +161,7 @@ const ProfileSideBar = ({ close }) => {
       <div className="flex flex-col gap-3 items-center p-4">
         <Imgix
           src={
-            user.photo ||
+            user?.photo ||
             `https://res.cloudinary.com/do2kojulq/image/upload/v1735426614/kudu_mart/victor-diallo_p03kd2.png`
           }
           alt="Profile"
@@ -172,15 +172,15 @@ const ProfileSideBar = ({ close }) => {
         />
         <Link to={"/profile"}>
           <h2 className="mt-2 text-lg font-semibold">
-            {user.firstName} {user.lastName}
+            {user?.firstName} {user?.lastName}
           </h2>
         </Link>
-        {user.accountType !== "Customer" && (
+        {user?.accountType !== "Customer" && (
           <p className="w-full justify-center flex items-center my-1">
             <Badge
-              bgColor={user.isVerified ? "bg-green-500" : "bg-red-500"}
+              bgColor={user?.isVerified ? "bg-green-500" : "bg-red-500"}
               textColor={"text-white"}
-              text={user.isVerified ? "Verified" : "Unverified"}
+              text={user?.isVerified ? "Verified" : "Unverified"}
             />
           </p>
         )}
@@ -190,7 +190,7 @@ const ProfileSideBar = ({ close }) => {
       </div>
 
       {/* Alerts Section */}
-      {user.accountType !== "Customer" && !user.isVerified ? (
+      {user?.accountType !== "Customer" && !user?.isVerified ? (
         <div className="mt-1 mb-6 bg-kudu-orange px-1 py-1 w-full rounded-lg">
           <div className="flex items-center justify-between text-white px-3 py-2 rounded-md">
             <div className="flex items-center">

@@ -26,6 +26,8 @@ import InterestedAuctions from "../modules/User/modules/InterestedAuctions";
 import ErrorBoundary from "../components/ErrorBoundary";
 import VendorServices from "../modules/User/modules/vendor-services";
 import VendorCreateService from "../modules/User/modules/vendor-services.create";
+import { VendorViewService } from "../modules/User/modules/vendor-view-service";
+import VendorEditService from "../modules/User/modules/vendor-edit-service";
 
 export const userRoutes = [
   {
@@ -136,6 +138,14 @@ export const userRoutes = [
           {
             path: "services/create",
             element: <VendorCreateService />,
+          },
+          {
+            path: "service/:id",
+            element: <VendorViewService />,
+          },
+          {
+            path: "service/edit/:id",
+            element: <VendorEditService />,
           },
         ],
       },

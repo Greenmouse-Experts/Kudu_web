@@ -3,7 +3,7 @@ import DropZone from "../../../components/DropZone";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function VendorCreateService() {
   const { register, handleSubmit, setValue, control, watch } = useForm({
@@ -327,8 +327,14 @@ interface CategoryResponse {
   data: Category[];
 }
 
-const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
-  const [selected, setSelected] = useState<Category | null>(null);
+export const CategorySelect = ({
+  onChange,
+  initial,
+}: {
+  onChange: (item: any) => any;
+  initial?: Category | null;
+}) => {
+  const [selected, setSelected] = useState<Category | null>(initial || null);
   const [page, setPage] = useState(1);
   const limit = 10;
 
@@ -339,6 +345,11 @@ const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
         .get(`/service/categories?page=${page}&limit=${limit}`)
         .then((res) => res.data),
   });
+  useEffect(() => {
+    if (initial) {
+      setSelected(initial);
+    }
+  }, [initial]);
 
   const handleSelect = (item: Category) => {
     setSelected(item);
@@ -347,6 +358,7 @@ const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
 
   return (
     <>
+      {/*{<>{JSON.stringify(initial)}</>}*/}
       <div className="space-y-3">
         {selected && (
           <div className="badge badge-primary badge-lg badge-soft">
@@ -354,9 +366,9 @@ const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
           </div>
         )}
         <div className="flex flex-wrap gap-2">
-          {/*{categories.isFetching && (
+          {categories.isFetching && (
             <div className="badge badge-primary badge-lg">Loading...</div>
-          )}*/}
+          )}
           {categories.data?.data?.map((item) => (
             <button
               key={item.id}
@@ -365,49 +377,31 @@ const CategorySelect = ({ onChange }: { onChange: (item: any) => any }) => {
               onClick={() => handleSelect(item)}
             >
               {item.name}
-              {/*<span className="text-xs opacity-70 ml-1">
-                ({(item as any)?.subCategories?.length || 0})
-              </span>*/}
             </button>
           ))}
         </div>
-
-        {/*{categories?.data?.data?.length > 1 && (
-          <div className="join flex justify-center">
-            <button
-              type="button"
-              className="join-item btn btn-xs"
-              onClick={() => setPage(Math.max(1, page - 1))}
-              disabled={page === 1}
-            >
-              «
-            </button>
-            <button className="join-item btn btn-xs">Page {page}</button>
-            <button
-              type="button"
-              className="join-item btn btn-xs"
-              onClick={() => setPage(page + 1)}
-              // disabled={}
-            >
-              »
-            </button>
-          </div>
-        )}*/}
       </div>
     </>
   );
 };
 
-const SubCategorySelect = ({
+export const SubCategorySelect = ({
   onChange,
   categoryId,
+  initial,
 }: {
   onChange: (item: any) => any;
   categoryId: string | number;
+  initial?: Category | null;
 }) => {
-  const [selected, setSelected] = useState<Category | null>(null);
+  const [selected, setSelected] = useState<Category | null>(initial || null);
   const [page, setPage] = useState(1);
   const limit = 10;
+  useEffect(() => {
+    if (initial) {
+      setSelected(initial);
+    }
+  }, [initial]);
   const categories = useQuery<CategoryResponse>({
     queryKey: ["sub-categories", "services", categoryId],
     queryFn: () =>
