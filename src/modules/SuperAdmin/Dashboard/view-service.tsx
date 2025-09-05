@@ -86,7 +86,7 @@ export default function AdminViewService() {
   const services = useQuery<ServicesQueryResponse>({
     queryKey: ["services", id],
     queryFn: async () => {
-      const response = await apiClient.get(`/service/${id}`);
+      const response = await apiClient.get(`admin/services/${id}`);
       return response.data;
     },
   });

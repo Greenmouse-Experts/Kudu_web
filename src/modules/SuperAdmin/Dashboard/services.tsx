@@ -96,7 +96,7 @@ export default function AdminServices() {
   const services = useQuery<SuperAdmin>({
     queryKey: ["services", page_params.params],
     queryFn: async () => {
-      const response = await apiClient("/services", {
+      const response = await apiClient("admin/services", {
         params: {
           limit: page_params.limit,
           page: page_params.page,

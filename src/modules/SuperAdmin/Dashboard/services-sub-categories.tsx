@@ -16,6 +16,7 @@ import { useReModal } from "../../../hooks/new_hooks";
 import ReModal from "../../../components/ReModal";
 import DropZone from "../../../components/DropZone";
 import { toast } from "react-toastify";
+import { formatDate } from "date-fns";
 interface ServiceCategory {
   id: number;
   name: string;
@@ -118,7 +119,7 @@ export default function ServiceSubCategories() {
       },
     },
   ];
-  const columns: columnType[] = [
+  const columns: columnType<ServiceCategory>[] = [
     { key: "id", label: "ID" },
     { key: "name", label: "Name" },
     {
@@ -132,8 +133,22 @@ export default function ServiceSubCategories() {
         />
       ),
     },
-    { key: "createdAt", label: "Created At" },
-    { key: "updatedAt", label: "Updated At" },
+    {
+      key: "createdAt",
+      label: "Created At",
+      render: (item, row) => {
+        const date = new Date(item);
+        return <>{date.toLocaleDateString()}</>;
+      },
+    },
+    {
+      key: "updatedAt",
+      label: "Updated At",
+      render: (item, row) => {
+        const date = new Date(item);
+        return <>{date.toLocaleDateString()}</>;
+      },
+    },
   ];
   return (
     <div className="min-h-screen p-4 bg-base-100" id="root" data-theme="kudu">

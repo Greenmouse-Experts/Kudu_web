@@ -137,13 +137,17 @@ const ServiceCategories = () => {
     {
       key: "image",
       label: "Image",
-      render: (item) => (
-        <img
-          src={item?.image || ""}
-          alt={item?.name}
-          className="w-10 h-10 object-cover rounded-md"
-        />
-      ),
+      render: (_, item) => {
+        return item?.image?.trim() ? (
+          <img
+            src={item?.image || ""}
+            alt={item?.name}
+            className="w-10 h-10 object-cover rounded-md"
+          />
+        ) : (
+          <>N/A</>
+        );
+      },
     },
     { key: "createdAt", label: "Created At" },
     { key: "updatedAt", label: "Updated At" },
