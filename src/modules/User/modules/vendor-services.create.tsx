@@ -4,6 +4,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { usePagination } from "../../../hooks/appState";
+import { SimplePagination } from "../../../components/SimplePagination";
 
 export default function VendorCreateService() {
   const { register, handleSubmit, setValue, control, watch } = useForm({
@@ -335,14 +337,18 @@ export const CategorySelect = ({
   initial?: Category | null;
 }) => {
   const [selected, setSelected] = useState<Category | null>(initial || null);
-  const [page, setPage] = useState(1);
-  const limit = 10;
-
+  // const [page, setPage] = useState(1);
+  // const limit = 10;
+  const paginate = usePagination();
   const categories = useQuery<CategoryResponse>({
-    queryKey: ["categories", "services", page, limit],
+    queryKey: ["categories", "services", paginate.params],
     queryFn: () =>
       apiClient
-        .get(`/service/categories?page=${page}&limit=${limit}`)
+        .get(`/service/categories`, {
+          params: {
+            ...paginate.params,
+          },
+        })
         .then((res) => res.data),
   });
   useEffect(() => {
@@ -380,6 +386,10 @@ export const CategorySelect = ({
             </button>
           ))}
         </div>
+        <SimplePagination
+          paginate={paginate}
+          total={categories.data?.data?.length || 0}
+        />
       </div>
     </>
   );
@@ -395,26 +405,23 @@ export const SubCategorySelect = ({
   initial?: Category | null;
 }) => {
   const [selected, setSelected] = useState<Category | null>(initial || null);
-  const [page, setPage] = useState(1);
-  const limit = 10;
+
   useEffect(() => {
     if (initial) {
       setSelected(initial);
     }
   }, [initial]);
+  const paginate = usePagination();
+
   const categories = useQuery<CategoryResponse>({
-    queryKey: ["sub-categories", "services", categoryId],
+    queryKey: ["sub-categories", "services", categoryId, paginate.params],
     queryFn: () =>
       apiClient
-        .get(`/service/subcategories/${categoryId}?page=${page}&limit=${limit}`)
+        .get(`/service/subcategories/${categoryId}`, {
+          params: paginate.params,
+        })
         .then((res) => res.data),
   });
-
-  const totalPages = Math.ceil((categories.data?.data.length || 0) / limit);
-  const paginatedData = categories.data?.data.slice(
-    (page - 1) * limit,
-    page * limit,
-  );
 
   const handleSelect = (item: Category) => {
     setSelected(item);
@@ -442,7 +449,7 @@ export const SubCategorySelect = ({
               No sub-categories found
             </div>
           ) : (
-            paginatedData?.map((item) => (
+            categories.data?.data?.map((item) => (
               <button
                 key={item.id}
                 type="button"
@@ -455,30 +462,10 @@ export const SubCategorySelect = ({
             ))
           )}
         </div>
-
-        {totalPages > 1 && (
-          <div className="join flex justify-center">
-            <button
-              type="button"
-              className="join-item btn btn-xs"
-              onClick={() => setPage(Math.max(1, page - 1))}
-              disabled={page === 1}
-            >
-              «
-            </button>
-            <button className="join-item btn btn-xs" type="button">
-              Page {page}
-            </button>
-            <button
-              type="button"
-              className="join-item btn btn-xs"
-              onClick={() => setPage(Math.min(totalPages, page + 1))}
-              disabled={page === totalPages}
-            >
-              »
-            </button>
-          </div>
-        )}
+        <SimplePagination
+          paginate={paginate}
+          total={categories.data?.data?.length || 0}
+        />
       </div>
     </>
   );
