@@ -234,13 +234,13 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                   >
                     Service Categories
                   </Link>
-                  <Link
+                  {/* <Link
                     to={"services/sub-categories"}
                     onClick={() => handleChildren("")}
                     className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Service Sub-Categories
-                  </Link>
+                  </Link>*/}
                 </div>
               )}
             </div>
