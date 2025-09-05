@@ -2,6 +2,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { SimplePagination } from "../../../components/SimplePagination";
+import { usePagination } from "../../../hooks/appState";
 
 interface ServiceCategory {
   id: number;
@@ -43,22 +45,21 @@ interface VendorServicesResponse {
   data: VendorService[];
 }
 export default function VendorServices() {
+  const page_params = usePagination();
+
   const query = useQuery<VendorServicesResponse>({
-    queryKey: ["vendorServices"],
+    queryKey: [
+      "vendorServices",
+      page_params.params.page,
+      page_params.params.limit,
+    ],
     queryFn: async () => {
-      const response = await apiClient.get("/vendor/services");
+      const response = await apiClient.get("/vendor/services", {
+        params: page_params.params,
+      });
       return response.data;
     },
   });
-
-  if (query.isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (query.isError) {
-    return <div>Error: {JSON.stringify(query.error)}</div>;
-  }
-
   const publish_service = useMutation({
     mutationFn: async (id: string) => {
       let resp = await apiClient.patch(`/vendor/services/${id}/publish`);
@@ -89,6 +90,14 @@ export default function VendorServices() {
       toast.error("Failed to create service");
     },
   });
+  if (query.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (query.isError) {
+    return <div>Error: {JSON.stringify(query.error)}</div>;
+  }
+
   return (
     <div data-theme="kudu" className="container mx-auto px-4 py-12 w-full ">
       <div className="items-center flex mb-2">
@@ -193,6 +202,10 @@ export default function VendorServices() {
             </div>
           ))}
       </div>
+      <SimplePagination
+        paginate={page_params}
+        total={query.data?.data.length || 0}
+      />
     </div>
   );
 }
