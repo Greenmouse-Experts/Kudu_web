@@ -243,29 +243,31 @@ const EditSubscription = () => {
                     )}
                   </div>
 
-                  <div className="mb-4">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="serviceAdsLimit"
-                    >
-                      Service Ads Limit
-                    </label>
-                    <input
-                      type="number" // Use type="number" for numeric input
-                      id="serviceAdsLimit"
-                      {...register("serviceAdsLimit", {
-                        valueAsNumber: true, // Ensure the value is treated as a number
-                      })}
-                      placeholder="Enter service ads limit"
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                    />
-                    {errors.serviceAdsLimit && (
-                      <p className="text-red-500 text-sm">
-                        {errors.serviceAdsLimit.message}
-                      </p>
-                    )}
-                  </div>
+                  {!hideAdverts && (
+                    <div className="mb-4">
+                      <label
+                        className="block text-md font-semibold mb-3"
+                        htmlFor="serviceAdsLimit"
+                      >
+                        Service Ads Limit
+                      </label>
+                      <input
+                        type="number" // Use type="number" for numeric input
+                        id="serviceAdsLimit"
+                        {...register("serviceAdsLimit", {
+                          valueAsNumber: true, // Ensure the value is treated as a number
+                        })}
+                        placeholder="Enter service ads limit"
+                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
+                        style={{ outline: "none" }}
+                      />
+                      {errors.serviceAdsLimit && (
+                        <p className="text-red-500 text-sm">
+                          {errors.serviceAdsLimit.message}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   {/* End of new fields for Service Ads */}
 
                   <div className="mb-4">

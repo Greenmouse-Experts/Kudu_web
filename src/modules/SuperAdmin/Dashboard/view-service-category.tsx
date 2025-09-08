@@ -13,6 +13,7 @@ import ReModal from "../../../components/ReModal";
 import { useEffect, useState } from "react";
 import { all } from "axios";
 import { SimplePagination } from "../../../components/SimplePagination";
+import { useCategorie } from "../../../store/holders";
 
 interface Option {
   id: number;
@@ -39,6 +40,7 @@ interface CreateAttributeType {
 }
 
 export default function ViewServiceCategories() {
+  const { categories: cat, setCategories } = useCategorie();
   const { id } = useParams();
   const page_params = usePagination();
   const sub_attributes = useQuery<AttributesResponse>({
@@ -227,6 +229,38 @@ export default function ViewServiceCategories() {
       data-theme="kudu"
       className="flex flex-col  bg-base-100 p-2 shadow rounded-md"
     >
+      {cat && (
+        <div className="card card-side bg-base-200 shadow-sm rounded-box m-2">
+          <figure className="px-4 py-2">
+            {cat.image ? (
+              <div className="size-25">
+                <div className="w-24 h-24 rounded-full">
+                  <img src={cat.image} alt={cat.name} />
+                </div>
+              </div>
+            ) : (
+              <div className="w-24 h-24">
+                <div className="bg-neutral grid place-items-center h-24 text-neutral-content rounded-full w-24">
+                  <span className="text-3xl ">
+                    {cat.name.substring(0, 1).toUpperCase()}
+                  </span>
+                </div>
+              </div>
+            )}
+          </figure>
+          <div className="card-body">
+            <h2 className="card-title">{cat.name}</h2>
+            <div className="flex flex-col text-sm text-base-content/60">
+              <span>
+                Created: {new Date(cat.createdAt).toLocaleDateString()}
+              </span>
+              <span>
+                Updated: {new Date(cat.updatedAt).toLocaleDateString()}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mb-2 flex items-center p-2">
         <div className="text-xl font-bold">Service Attributes</div>
         <button className="btn btn-primary ml-auto" onClick={openModal}>
@@ -235,7 +269,7 @@ export default function ViewServiceCategories() {
       </div>
       <div>
         <CustomTable data={data || []} columns={columns} actions={actions} />
-        <SimplePagination paginate={page_params} total={data?.length} />
+        <SimplePagination paginate={page_params} total={data?.length || 0} />
       </div>
       <div className="mt-12 border-t pt-4 border-current/20">
         <ServiceSubCategories />

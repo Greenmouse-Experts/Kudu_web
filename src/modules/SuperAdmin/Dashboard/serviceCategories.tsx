@@ -17,6 +17,7 @@ import ReModal from "../../../components/ReModal";
 import DropZone from "../../../components/DropZone";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useCategorie } from "../../../store/holders";
 interface ServiceCategory {
   id: number;
   name: string;
@@ -40,6 +41,7 @@ const ServiceCategories = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const [editItem, setEditItem] = useState<ServiceCategory | null>(null);
+  const { categories: cat, setCategories } = useCategorie();
   const categories = useQuery<ServiceCategoriesResponse>({
     queryKey: ["service-categories", paginate.params],
     queryFn: async () => {
@@ -101,6 +103,7 @@ const ServiceCategories = () => {
       label: "View",
       key: "view",
       action: (item) => {
+        setCategories(item);
         navigate(`/admin/services/categories/${item.id}`);
       },
     },
