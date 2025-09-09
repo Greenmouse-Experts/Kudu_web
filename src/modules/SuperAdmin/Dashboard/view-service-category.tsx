@@ -146,46 +146,51 @@ export default function ViewServiceCategories() {
       label: "add option",
       key: "add-option",
       // action: (item: Attribute) => add_options.mutate(item),
-      render: (item) => (
-        <div className="dropdown dropdown-left dropdown-top">
-          <label tabIndex={0} className="btn btn-primary w-full btn-soft">
-            Add Option
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                let form = new FormData(e.target as HTMLFormElement);
-                let name = form.get("option_name") as string;
-                toast.promise(
-                  add_options.mutateAsync({ item: item, name: name }),
-                  {
-                    pending: "Adding option...",
-                  },
-                );
-              }}
-            >
-              <input
-                name="option_name"
-                id="option_name"
-                type="text"
-                placeholder="New Option"
-                className="input input-bordered w-full mb-2"
-              />
-              <button
-                disabled={add_options.isPending}
-                type="submit"
-                className="btn btn-block btn-primary btn-sm"
+      render: (item: Attribute) => {
+        if (item.data_type === "bool" || item.data_type === "int") return null;
+        return (
+          <>
+            <div className="dropdown dropdown-left dropdown-top">
+              <label tabIndex={0} className="btn btn-primary w-full btn-soft">
+                Add Option
+              </label>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
               >
-                Add
-              </button>
-            </form>
-          </ul>
-        </div>
-      ),
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    let form = new FormData(e.target as HTMLFormElement);
+                    let name = form.get("option_name") as string;
+                    toast.promise(
+                      add_options.mutateAsync({ item: item, name: name }),
+                      {
+                        pending: "Adding option...",
+                      },
+                    );
+                  }}
+                >
+                  <input
+                    name="option_name"
+                    id="option_name"
+                    type="text"
+                    placeholder="New Option"
+                    className="input input-bordered w-full mb-2"
+                  />
+                  <button
+                    disabled={add_options.isPending}
+                    type="submit"
+                    className="btn btn-block btn-primary btn-sm"
+                  >
+                    Add
+                  </button>
+                </form>
+              </ul>
+            </div>
+          </>
+        );
+      },
     },
     {
       key: "delete-option",
