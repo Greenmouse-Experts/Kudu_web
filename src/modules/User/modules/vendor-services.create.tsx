@@ -1,4 +1,4 @@
-import { Controller, useForm } from "react-hook-form";
+import { Control, Controller, useForm } from "react-hook-form";
 import DropZone from "../../../components/DropZone";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
@@ -49,7 +49,21 @@ export default function VendorCreateService() {
   });
 
   const onSubmit = (data: any) => {
-    create_service.mutate(data);
+    const attributesArray = Object.entries(data.attributes || {}).map(
+      ([id, value]) => ({
+        attributeId: Number(id),
+        value,
+      }),
+    );
+
+    const payload = {
+      ...data,
+      attributes: attributesArray,
+    };
+
+    toast.promise(create_service.mutateAsync(payload), {
+      pending: "creating service",
+    });
   };
 
   return (
@@ -110,6 +124,24 @@ export default function VendorCreateService() {
                 name="service_subcategory_id"
                 render={({ field: { onChange } }) => (
                   <SubCategorySelect onChange={onChange} categoryId={cat_id} />
+                )}
+              ></Controller>
+            </div>
+          </div>
+          {/*ATTRIBUTES SELECT*/}
+          <div className="form-control flex flex-col mt-4 gap-2">
+            <label className="label">
+              <span className="label-text font-semibold">attributes</span>
+            </label>
+            <div>
+              <Controller
+                control={control}
+                name="service_subcategory_id"
+                render={({ field: { onChange } }) => (
+                  <>
+                    <Attributes id={cat_id} control={control} />
+                  </>
+                  // <SubCategorySelect onChange={onChange} categoryId={cat_id} />
                 )}
               ></Controller>
             </div>
@@ -468,5 +500,198 @@ export const SubCategorySelect = ({
         />
       </div>
     </>
+  );
+};
+
+interface AttributeOption {
+  id: number;
+  option_value: string;
+}
+
+interface Attribute {
+  id: number;
+  name: string;
+  input_type: "single_select" | "bool_input" | "text_input" | "number_input";
+  data_type: "str_array" | "bool" | "string" | "number";
+  options: AttributeOption[];
+}
+
+interface AttributesResponse {
+  data: Attribute[];
+}
+
+export const Attributes = ({
+  id,
+  control,
+}: {
+  id: string | number;
+  control: Control<any>;
+}) => {
+  const { data, isLoading, isError } = useQuery<AttributesResponse>({
+    queryKey: ["attributes", id],
+    queryFn: () =>
+      apiClient
+        .get(`/services/categories/${id}/attributes`)
+        .then((res) => res.data),
+  });
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="card bg-base-200 shadow-sm animate-pulse">
+            <div className="card-body p-4">
+              <div className="h-4 bg-base-300 rounded w-1/4 mb-2"></div>
+              <div className="h-10 bg-base-300 rounded"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="alert alert-error shadow-lg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>Failed to load attributes. Please try again later.</span>
+      </div>
+    );
+  }
+
+  if (!data?.data?.length) {
+    return (
+      <div className="alert alert-info shadow-lg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <span>No additional specifications required for this category</span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {data.data.map((attribute) => (
+        <div key={attribute.id} className="card bg-base-100 shadow-sm border">
+          <div className="card-body p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-lg flex items-center gap-2">
+                {attribute.name}
+                <div className="badge badge-ghost badge-sm">
+                  {attribute.input_type.replace("_", " ")}
+                </div>
+              </h3>
+            </div>
+
+            {attribute.input_type === "single_select" && (
+              <Controller
+                control={control}
+                name={`attributes.${attribute.id}`}
+                defaultValue={attribute.options?.[0]?.option_value || ""}
+                render={({ field }) => (
+                  <select
+                    {...field}
+                    className="select select-bordered w-full select-md"
+                    disabled={attribute.options.length === 0}
+                  >
+                    <option value="">Select an option</option>
+                    {attribute.options.map((option) => (
+                      <option key={option.id} value={option.option_value}>
+                        {option.option_value}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
+            )}
+
+            {attribute.input_type === "bool_input" && (
+              <Controller
+                control={control}
+                name={`attributes.${attribute.id}`}
+                defaultValue={false}
+                render={({ field }) => (
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      {...field}
+                      className="toggle toggle-primary"
+                      checked={field.value}
+                    />
+                    <span className="label-text">
+                      {field.value ? "Yes" : "No"}
+                    </span>
+                  </label>
+                )}
+              />
+            )}
+
+            {attribute.input_type === "text_input" && (
+              <Controller
+                control={control}
+                name={`attributes.${attribute.id}`}
+                defaultValue=""
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="text"
+                    placeholder={`Enter ${attribute.name.toLowerCase()}`}
+                    className="input input-bordered w-full"
+                  />
+                )}
+              />
+            )}
+
+            {attribute.input_type === "number_input" && (
+              <Controller
+                control={control}
+                name={`attributes.${attribute.id}`}
+                defaultValue={0}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="number"
+                    min="0"
+                    placeholder={`Enter ${attribute.name.toLowerCase()}`}
+                    className="input input-bordered w-full"
+                  />
+                )}
+              />
+            )}
+
+            {attribute.options?.length > 0 &&
+              attribute.input_type !== "single_select" && (
+                <div className="mt-2 text-sm text-base-content/60">
+                  Available options:{" "}
+                  {attribute.options.map((o) => o.option_value).join(", ")}
+                </div>
+              )}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
