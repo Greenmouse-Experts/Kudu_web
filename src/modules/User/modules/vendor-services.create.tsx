@@ -511,7 +511,12 @@ interface AttributeOption {
 interface Attribute {
   id: number;
   name: string;
-  input_type: "single_select" | "bool_input" | "text_input" | "number_input";
+  input_type:
+    | "single_select"
+    | "bool_input"
+    | "text_input"
+    | "number_input"
+    | "multi_select";
   data_type: "str_array" | "bool" | "string" | "number";
   options: AttributeOption[];
 }
@@ -628,6 +633,42 @@ export const Attributes = ({
               />
             )}
 
+            {attribute.input_type === "multi_select" && (
+              <Controller
+                control={control}
+                name={`attributes.${attribute.id}`}
+                defaultValue={[]}
+                render={({ field }) => (
+                  <div className="space-y-2">
+                    {attribute.options.map((option) => (
+                      <label
+                        key={option.id}
+                        className="flex items-center gap-2 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          value={option.option_value}
+                          checked={field.value.includes(option.option_value)}
+                          onChange={(e) => {
+                            const newValue = e.target.checked
+                              ? [...field.value, option.option_value]
+                              : field.value.filter(
+                                  (v) => v !== option.option_value,
+                                );
+                            field.onChange(newValue);
+                          }}
+                          className="checkbox checkbox-sm checkbox-primary"
+                        />
+                        <span className="label-text">
+                          {option.option_value}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                )}
+              />
+            )}
+
             {attribute.input_type === "bool_input" && (
               <Controller
                 control={control}
@@ -683,7 +724,9 @@ export const Attributes = ({
             )}
 
             {attribute.options?.length > 0 &&
-              attribute.input_type !== "single_select" && (
+              !["single_select", "multi_select"].includes(
+                attribute.input_type,
+              ) && (
                 <div className="mt-2 text-sm text-base-content/60">
                   Available options:{" "}
                   {attribute.options.map((o) => o.option_value).join(", ")}
