@@ -80,14 +80,17 @@ export default function ServiceSubCategories() {
   });
   const edit_category = useMutation({
     mutationFn: async (item: ServiceCategory) => {
-      let resp = await apiClient.put(`/admin/service/categories/${item.id}`, {
-        ...editItem,
-        categoryId: id,
-      });
+      let resp = await apiClient.put(
+        `/admin/service/subcategories/${item.id}`,
+        {
+          ...editItem,
+          categoryId: id,
+        },
+      );
       return resp.data;
     },
     onSuccess: () => {
-      toast.success("Category deleted successfully");
+      toast.success("sub category edited successfully");
       closeEditModal();
 
       categories.refetch();
@@ -242,7 +245,7 @@ export default function ServiceSubCategories() {
                   }}
                   // disabled={!editItem.name || !editItem.image || add_category.isPending}
                 >
-                  Update Category
+                  Update Sub Category
                 </button>
               </div>
             </>
