@@ -91,121 +91,188 @@ export default function VendorServices() {
     },
   });
   if (query.isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 animate-pulse">
+        {[...Array(6)].map((_, i) => (
+          <div key={i} className="card bg-base-100 shadow-lg">
+            <figure className="h-56 w-full bg-base-200"></figure>
+            <div className="card-body space-y-4">
+              <div className="h-4 bg-base-200 rounded w-3/4"></div>
+              <div className="h-3 bg-base-200 rounded w-full"></div>
+              <div className="h-3 bg-base-200 rounded w-2/3"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (query.isError) {
-    return <div>Error: {JSON.stringify(query.error)}</div>;
+    return (
+      <div className="alert alert-error shadow-lg">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-current shrink-0 h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <div>
+          <h3 className="font-bold">Error loading services!</h3>
+          <div className="text-xs">{query.error.message}</div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div data-theme="kudu" className="container mx-auto px-4 py-12 w-full ">
-      <div className="items-center flex mb-2">
-        <h2></h2>
+    <div data-theme="kudu" className="container mx-auto px-4 py-12 w-full">
+      <div className="flex items-center mb-8">
+        <h1 className="text-3xl font-bold">My Services</h1>
         <Link
-          className="btn btn-accent btn-soft ml-auto"
+          className="btn btn-accent btn-sm md:btn-md gap-2 ml-auto"
           to={"/profile/services/create"}
         >
-          Create
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            fill="none"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+          Create New
         </Link>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-        {query.data?.data &&
-          query.data.data.map((service: VendorService) => (
-            <div key={service.id} className="card bg-base-100 shadow-lg">
-              <figure className="relative overflow-hidden">
-                <img
-                  src={service.image_url}
-                  alt={service.title}
-                  className="object-cover grayscale-50 h-56 w-full transition-transform duration-300 hover:scale-110"
-                />
-                <div className="absolute top-3 right-3 ">
-                  <div className="badge badge-primary badge-lg">
-                    ${service.price}
-                  </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {query.data?.data?.map((service: VendorService) => (
+          <div
+            key={service.id}
+            className="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow duration-200"
+          >
+            <figure className="relative h-48 overflow-hidden">
+              <img
+                src={service.image_url}
+                alt={service.title}
+                className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+              />
+              <div className="absolute top-2 right-2">
+                <div className="badge badge-primary badge-lg badge-ghost">
+                  ${service.price}
+                  {service.discount_price && ` | $${service.discount_price}`}
                 </div>
-              </figure>
-              <div className="card-body p-6 border-t border-current/20">
-                <div className="flex items-start justify-between gap-2">
-                  <h2 className="card-title text-xl font-bold line-clamp-2">
-                    {service.title}
-                  </h2>
+              </div>
+            </figure>
+
+            <div className="card-body p-4">
+              <h2 className="card-title text-lg line-clamp-1">
+                {service.title}
+                {service.status === "active" && (
+                  <div className="badge badge-success badge-sm ml-2"></div>
+                )}
+              </h2>
+
+              <p className="text-base-content/70 text-sm line-clamp-2 mb-2">
+                {service.description}
+              </p>
+
+              <div className="flex items-center gap-1.5 text-sm text-base-content/60">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <span className="line-clamp-1">
+                  {service.location_city}, {service.location_state}
+                </span>
+              </div>
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                <div className="badge badge-outline badge-sm badge-primary">
+                  {service.category.name}
                 </div>
-                <p className="text-base-content/70 text-sm mt-2 line-clamp-3">
-                  {service.description}
-                </p>
-                <div className="flex items-center gap-2 text-sm text-base-content/60 mt-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span>
-                    {service.location_city}, {service.location_state}
-                  </span>
+                <div className="badge badge-outline badge-sm badge-secondary">
+                  {service.subCategory.name}
                 </div>
-                {/*{service?.status}*/}
-                <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200">
-                  <div className="flex flex-wrap gap-2">
-                    <div className="badge badge-outline badge-sm">
-                      {service.category.name}
-                    </div>
-                    <div className="badge badge-outline badge-sm badge-secondary">
-                      {service.subCategory.name}
-                    </div>
-                  </div>
-                  <Link
-                    to={`/profile/service/${service.id}`}
-                    className="btn btn-primary btn-sm"
-                  >
-                    View Details
-                  </Link>
-                  {service?.status === "active" && (
+              </div>
+
+              <div className="card-actions justify-between items-center mt-4 pt-4 border-t border-base-200">
+                <Link
+                  to={`/profile/service/${service.id}`}
+                  className="btn btn-outline btn-primary btn-sm"
+                >
+                  Details
+                </Link>
+
+                <div className="flex items-center gap-2">
+                  {service.status === "active" ? (
                     <button
                       onClick={() => unpublish_service.mutate(service.id)}
                       disabled={
                         unpublish_service.isPending || publish_service.isPending
                       }
-                      className="btn btn-success btn-sm"
+                      className="btn btn-outline btn-success btn-sm gap-2"
                     >
+                      {unpublish_service.isPending && (
+                        <span className="loading loading-spinner loading-xs"></span>
+                      )}
                       Active
                     </button>
-                  )}
-                  {service?.status === "inactive" && (
+                  ) : (
                     <button
                       onClick={() => publish_service.mutate(service.id)}
                       disabled={
                         unpublish_service.isPending || publish_service.isPending
                       }
-                      className="btn btn-error btn-sm"
+                      className="btn btn-outline btn-error btn-sm gap-2"
                     >
+                      {publish_service.isPending && (
+                        <span className="loading loading-spinner loading-xs"></span>
+                      )}
                       Inactive
                     </button>
                   )}
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
-      <SimplePagination
-        paginate={page_params}
-        total={query.data?.data.length || 0}
-      />
+
+      <div className="mt-8">
+        <SimplePagination
+          paginate={page_params}
+          total={query.data?.data?.length || 0}
+        />
+      </div>
     </div>
   );
 }
