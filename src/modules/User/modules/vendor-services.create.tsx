@@ -24,6 +24,7 @@ export default function VendorCreateService() {
       additional_images: [],
       price: 0,
       discount_price: 0,
+      attributes: [],
       // attributes: [
       //   { attributeId: 1, value: 12 },
       //   { attributeId: 3, value: "five years experience" },
@@ -32,6 +33,9 @@ export default function VendorCreateService() {
     },
   });
   const cat_id = watch("service_category_id");
+  useEffect(() => {
+    setValue("attributes", []);
+  }, [cat_id]);
   const mainImage = watch("image_url");
   const additionalImages = watch("additional_images");
   const create_service = useMutation({
@@ -55,7 +59,6 @@ export default function VendorCreateService() {
         value,
       }),
     );
-
     const payload = {
       ...data,
       attributes: attributesArray,
@@ -573,7 +576,7 @@ interface Attribute {
   input_type:
     | "single_select"
     | "bool_input"
-    | "s"
+    | "text_input"
     | "number_input"
     | "multi_select"
     | "int_input";
@@ -693,23 +696,15 @@ export const Attributes = ({
                 )}
                 render={({ field }) => (
                   <select
+                    {...field}
                     className="select select-bordered w-full select-md"
-                    value={
-                      // map current value (option_value) to option.id for UI
-                      attribute.options.find(
-                        (o) => o.option_value === field.value,
-                      )?.id || ""
-                    }
-                    onChange={(e) => {
-                      const selectedId = Number(e.target.value);
-                      const selectedOption = attribute.options.find(
-                        (o) => o.id === selectedId,
-                      );
-                      field.onChange(
-                        selectedOption ? selectedOption.option_value : "",
-                      );
-                    }}
                     disabled={attribute.options.length === 0}
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value === "" ? "" : Number(e.target.value),
+                      )
+                    }
+                    value={field.value ?? ""}
                   >
                     <option value="">Select an option</option>
                     {attribute.options.map((option) => (
@@ -736,12 +731,12 @@ export const Attributes = ({
                       >
                         <input
                           type="checkbox"
-                          checked={field.value.includes(option.option_value)}
+                          checked={field.value.includes(option.id)} // ✅ compare with numeric id
                           onChange={(e) => {
                             const newValue = e.target.checked
-                              ? [...field.value, option.option_value]
+                              ? [...field.value, option.id] // ✅ store numeric id
                               : field.value.filter(
-                                  (v: string) => v !== option.option_value,
+                                  (v: number) => v !== option.id,
                                 );
                             field.onChange(newValue);
                           }}
@@ -797,7 +792,7 @@ export const Attributes = ({
               <Controller
                 control={control}
                 name={`attributes.${attribute.id}`}
-                defaultValue={getInitialValue(attribute.id, "")}
+                defaultValue={getInitialValue(attribute.id, 0)}
                 render={({ field }) => (
                   <input
                     {...field}
@@ -823,6 +818,12 @@ export const Attributes = ({
                     step="1"
                     placeholder={`Enter ${attribute.name.toLowerCase()}`}
                     className="input input-bordered w-full"
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value === "" ? "" : Number(e.target.value),
+                      )
+                    } // 👈 force number
+                    value={field.value ?? ""}
                   />
                 )}
               />
