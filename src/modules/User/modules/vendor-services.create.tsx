@@ -65,6 +65,31 @@ export default function VendorCreateService() {
       pending: "creating service",
     });
   };
+  // const onSubmit = (data: any) => {
+  //   const attributesArray = Object.entries(data.attributes || {}).map(
+  //     ([id, value]) => {
+  //       if (
+  //         value === undefined ||
+  //         value === null ||
+  //         (Array.isArray(value) && value.length === 0) ||
+  //         value === ""
+  //       ) {
+  //         return null;
+  //       }
+
+  //       return {
+  //         attributeId: Number(id),
+  //         value: Array.isArray(value) ? value.join(", ") : value,
+  //       };
+  //     },
+  //   ); // remove nulls
+  //   const payload = {
+  //     ...data,
+  //     attributes: attributesArray,
+  //   };
+
+  //   create_service.mutate(payload);
+  // };
 
   return (
     <form
@@ -72,6 +97,15 @@ export default function VendorCreateService() {
       className="space-y-8 p-8 max-w-4xl mx-auto"
       data-theme="kudu"
     >
+      <button
+        type="button"
+        className="btn btn-neutral"
+        onClick={() => {
+          window.history.back();
+        }}
+      >
+        Go back
+      </button>
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl mb-6">Service Details</h2>
@@ -131,7 +165,7 @@ export default function VendorCreateService() {
           {/*ATTRIBUTES SELECT*/}
           <div className="form-control flex flex-col mt-4 gap-2">
             <label className="label">
-              <span className="label-text font-semibold">attributes</span>
+              <span className="label-text font-semibold">Attributes</span>
             </label>
             <div>
               <Controller
@@ -228,7 +262,6 @@ export default function VendorCreateService() {
           </div>
         </div>
       </div>
-
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl mb-6">Pricing & Location</h2>
@@ -318,7 +351,6 @@ export default function VendorCreateService() {
           </div>
         </div>
       </div>
-
       <div className="card bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="card-title text-2xl mb-6">Experience</h2>
@@ -339,7 +371,6 @@ export default function VendorCreateService() {
           </div>
         </div>
       </div>
-
       <div className="card-actions justify-end">
         <button type="submit" className="btn btn-primary btn-lg">
           Create Service Listing
@@ -369,8 +400,6 @@ export const CategorySelect = ({
   initial?: Category | null;
 }) => {
   const [selected, setSelected] = useState<Category | null>(initial || null);
-  // const [page, setPage] = useState(1);
-  // const limit = 10;
   const paginate = usePagination();
   const categories = useQuery<CategoryResponse>({
     queryKey: ["categories", "services", paginate.params],
@@ -383,6 +412,7 @@ export const CategorySelect = ({
         })
         .then((res) => res.data),
   });
+
   useEffect(() => {
     if (initial) {
       setSelected(initial);
@@ -395,35 +425,44 @@ export const CategorySelect = ({
   };
 
   return (
-    <>
-      {/*{<>{JSON.stringify(initial)}</>}*/}
-      <div className="space-y-3">
-        {selected && (
-          <div className="badge badge-primary badge-lg badge-soft">
-            Selected: {selected.name}
+    <div className="space-y-4">
+      {selected && (
+        <div className="card bg-primary text-primary-content shadow-md">
+          <div className="card-body p-4">
+            <h3 className="card-title text-lg">Selected Category</h3>
+            <p className="font-medium">{selected.name}</p>
           </div>
-        )}
-        <div className="flex flex-wrap gap-2">
-          {categories.isFetching && (
-            <div className="badge badge-primary badge-lg">Loading...</div>
-          )}
-          {categories.data?.data?.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={`btn btn-sm ${selected?.id === item.id ? "btn-primary" : "btn-ghost"}`}
-              onClick={() => handleSelect(item)}
-            >
-              {item.name}
-            </button>
-          ))}
         </div>
-        <SimplePagination
-          paginate={paginate}
-          total={categories.data?.data?.length || 0}
-        />
+      )}
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        {categories.isFetching &&
+          Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="btn btn-ghost h-12 animate-pulse bg-base-200"
+            ></div>
+          ))}
+
+        {categories.data?.data?.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            className={`btn ${selected?.id === item.id ? "btn-primary" : "btn-outline"}
+              justify-start text-sm h-auto min-h-12 py-2`}
+            onClick={() => handleSelect(item)}
+          >
+            <span className="truncate">{item.name}</span>
+          </button>
+        ))}
       </div>
-    </>
+
+      <SimplePagination
+        paginate={paginate}
+        total={categories.data?.data?.length || 0}
+        className="mt-4 justify-center"
+      />
+    </div>
   );
 };
 
@@ -437,13 +476,13 @@ export const SubCategorySelect = ({
   initial?: Category | null;
 }) => {
   const [selected, setSelected] = useState<Category | null>(initial || null);
+  const paginate = usePagination();
 
   useEffect(() => {
     if (initial) {
       setSelected(initial);
     }
   }, [initial]);
-  const paginate = usePagination();
 
   const categories = useQuery<CategoryResponse>({
     queryKey: ["sub-categories", "services", categoryId, paginate.params],
@@ -461,48 +500,68 @@ export const SubCategorySelect = ({
   };
 
   return (
-    <>
-      <div className="space-y-3">
-        {selected && (
-          <div className="badge badge-primary badge-lg badge-soft">
-            Selected: {selected.name}
+    <div className="space-y-4">
+      {selected && (
+        <div className="card bg-accent text-accent-content shadow-md">
+          <div className="card-body p-4">
+            <div className="flex items-center justify-between">
+              <h3 className="card-title text-lg">Selected Sub-category</h3>
+              <span className="badge badge-neutral">{selected.symbol}</span>
+            </div>
+            <p className="font-medium">{selected.name}</p>
           </div>
-        )}
-        <div className="flex flex-wrap gap-2">
-          {categories.isFetching && (
-            <div className="badge badge-primary badge-soft badge-lg">
-              Loading...
-            </div>
-          )}
-
-          {}
-          {categories.data?.data?.length === 0 ? (
-            <div className="text-sm text-base-content/60">
-              No sub-categories found
-            </div>
-          ) : (
-            categories.data?.data?.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                className={`btn btn-sm ${selected?.id === item.id ? "btn-primary" : "btn-ghost"}`}
-                onClick={() => handleSelect(item)}
-              >
-                {item.name}
-                <span className="text-xs opacity-70 ml-1">({item.symbol})</span>
-              </button>
-            ))
-          )}
         </div>
-        <SimplePagination
-          paginate={paginate}
-          total={categories.data?.data?.length || 0}
-        />
+      )}
+
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        {categories.isFetching ? (
+          Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="btn btn-ghost h-12 animate-pulse bg-base-200"
+            ></div>
+          ))
+        ) : categories.data?.data?.length === 0 ? (
+          <div className="col-span-full alert alert-info">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
+            <span>No sub-categories available</span>
+          </div>
+        ) : (
+          categories.data?.data?.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={`btn ${selected?.id === item.id ? "btn-accent" : "btn-outline"}
+                flex-col h-auto min-h-[5rem] py-3 normal-case`}
+              onClick={() => handleSelect(item)}
+            >
+              <span className="font-medium">{item.name}</span>
+              <span className="text-xs opacity-75 mt-1">{item.symbol}</span>
+            </button>
+          ))
+        )}
       </div>
-    </>
+
+      <SimplePagination
+        paginate={paginate}
+        total={categories.data?.data?.length || 0}
+        className="mt-4 justify-center"
+      />
+    </div>
   );
 };
-
 interface AttributeOption {
   id: number;
   option_value: string;
@@ -514,9 +573,10 @@ interface Attribute {
   input_type:
     | "single_select"
     | "bool_input"
-    | "text_input"
+    | "s"
     | "number_input"
-    | "multi_select";
+    | "multi_select"
+    | "int_input";
   data_type: "str_array" | "bool" | "string" | "number";
   options: AttributeOption[];
 }
@@ -528,19 +588,31 @@ interface AttributesResponse {
 export const Attributes = ({
   id,
   control,
+  initial = [],
 }: {
   id: string | number;
   control: Control<any>;
+  initial?: Array<{ attributeId: number; value: any }>;
 }) => {
-  const { data, isLoading, isError } = useQuery<AttributesResponse>({
+  const { data, isFetching, isError } = useQuery<AttributesResponse>({
     queryKey: ["attributes", id],
     queryFn: () =>
       apiClient
-        .get(`/services/categories/${id}/attributes`)
+        .get(`/services/categories/${id}/attributes`, {
+          params: {
+            limit: 30,
+          },
+        })
         .then((res) => res.data),
   });
 
-  if (isLoading) {
+  const getInitialValue = (attributeId: number, fallback: any) => {
+    if (!Array.isArray(initial)) return fallback;
+    const found = initial.find((i) => i.attributeId === attributeId);
+    return found !== undefined ? found.value : fallback;
+  };
+
+  if (isFetching) {
     return (
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (
@@ -615,16 +687,33 @@ export const Attributes = ({
               <Controller
                 control={control}
                 name={`attributes.${attribute.id}`}
-                defaultValue={attribute.options?.[0]?.option_value || ""}
+                defaultValue={getInitialValue(
+                  attribute.id,
+                  attribute.options?.[0]?.option_value || "",
+                )}
                 render={({ field }) => (
                   <select
-                    {...field}
                     className="select select-bordered w-full select-md"
+                    value={
+                      // map current value (option_value) to option.id for UI
+                      attribute.options.find(
+                        (o) => o.option_value === field.value,
+                      )?.id || ""
+                    }
+                    onChange={(e) => {
+                      const selectedId = Number(e.target.value);
+                      const selectedOption = attribute.options.find(
+                        (o) => o.id === selectedId,
+                      );
+                      field.onChange(
+                        selectedOption ? selectedOption.option_value : "",
+                      );
+                    }}
                     disabled={attribute.options.length === 0}
                   >
                     <option value="">Select an option</option>
                     {attribute.options.map((option) => (
-                      <option key={option.id} value={option.option_value}>
+                      <option key={option.id} value={option.id}>
                         {option.option_value}
                       </option>
                     ))}
@@ -637,7 +726,7 @@ export const Attributes = ({
               <Controller
                 control={control}
                 name={`attributes.${attribute.id}`}
-                defaultValue={[]}
+                defaultValue={getInitialValue(attribute.id, [])}
                 render={({ field }) => (
                   <div className="space-y-2">
                     {attribute.options.map((option) => (
@@ -647,13 +736,12 @@ export const Attributes = ({
                       >
                         <input
                           type="checkbox"
-                          value={option.option_value}
                           checked={field.value.includes(option.option_value)}
                           onChange={(e) => {
                             const newValue = e.target.checked
                               ? [...field.value, option.option_value]
                               : field.value.filter(
-                                  (v) => v !== option.option_value,
+                                  (v: string) => v !== option.option_value,
                                 );
                             field.onChange(newValue);
                           }}
@@ -668,12 +756,11 @@ export const Attributes = ({
                 )}
               />
             )}
-
             {attribute.input_type === "bool_input" && (
               <Controller
                 control={control}
                 name={`attributes.${attribute.id}`}
-                defaultValue={false}
+                defaultValue={getInitialValue(attribute.id, false)}
                 render={({ field }) => (
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input
@@ -694,7 +781,7 @@ export const Attributes = ({
               <Controller
                 control={control}
                 name={`attributes.${attribute.id}`}
-                defaultValue=""
+                defaultValue={getInitialValue(attribute.id, "")}
                 render={({ field }) => (
                   <input
                     {...field}
@@ -710,12 +797,30 @@ export const Attributes = ({
               <Controller
                 control={control}
                 name={`attributes.${attribute.id}`}
-                defaultValue={0}
+                defaultValue={getInitialValue(attribute.id, "")}
                 render={({ field }) => (
                   <input
                     {...field}
                     type="number"
                     min="0"
+                    placeholder={`Enter ${attribute.name.toLowerCase()}`}
+                    className="input input-bordered w-full"
+                  />
+                )}
+              />
+            )}
+
+            {attribute.input_type === "int_input" && (
+              <Controller
+                control={control}
+                name={`attributes.${attribute.id}`}
+                defaultValue={getInitialValue(attribute.id, "")}
+                render={({ field }) => (
+                  <input
+                    {...field}
+                    type="number"
+                    min="0"
+                    step="1"
                     placeholder={`Enter ${attribute.name.toLowerCase()}`}
                     className="input input-bordered w-full"
                   />

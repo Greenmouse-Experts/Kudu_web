@@ -3,7 +3,11 @@ import apiClient from "../../../api/apiFactory";
 import { useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import DropZone from "../../../components/DropZone";
-import { CategorySelect, SubCategorySelect } from "./vendor-services.create";
+import {
+  Attributes,
+  CategorySelect,
+  SubCategorySelect,
+} from "./vendor-services.create";
 import { toast } from "react-toastify";
 
 interface VendorServiceResponse {
@@ -92,7 +96,18 @@ export default function VendorEditService() {
   });
 
   const onSubmit = (data: any) => {
-    edit_service.mutate(data);
+    const attributesArray = Object.entries(data.attributes || {}).map(
+      ([id, value]) => ({
+        attributeId: Number(id),
+        value,
+      }),
+    );
+
+    const payload = {
+      ...data,
+      attributes: attributesArray,
+    };
+    edit_service.mutate(payload);
   };
   return (
     <div>
@@ -164,6 +179,25 @@ export default function VendorEditService() {
                 ></Controller>
               </div>
             </div>
+            {/*ATTRIBUTES SELECT*/}
+            <div className="form-control flex flex-col mt-4 gap-2">
+              <label className="label">
+                <span className="label-text font-semibold">Attributes</span>
+              </label>
+              <div>
+                <Controller
+                  control={control}
+                  name="service_subcategory_id"
+                  render={({ field: { onChange } }) => (
+                    <>
+                      <Attributes id={cat_id} control={control} />
+                    </>
+                    // <SubCategorySelect onChange={onChange} categoryId={cat_id} />
+                  )}
+                ></Controller>
+              </div>
+            </div>
+            {/*ATTRIBUTES SELECT*/}
           </div>
         </div>
         <div className="card bg-base-100 shadow-xl">
