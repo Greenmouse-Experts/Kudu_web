@@ -7,7 +7,7 @@ interface VendorService {
   message: string;
   data: {
     additional_images: string[];
-    attributes: any[];
+    attributes: { name: string; values: string[] | number | boolean }[];
     id: string;
     title: string;
     description: string;
@@ -36,6 +36,7 @@ interface VendorService {
     };
   }[];
 }
+
 export const VendorViewService = () => {
   const { id } = useParams();
   const query = useQuery<VendorService>({
@@ -45,6 +46,7 @@ export const VendorViewService = () => {
       return response.data;
     },
   });
+
   const nav = useNavigate();
   const delete_service = useMutation({
     mutationFn: async (data: any) => {
@@ -70,100 +72,108 @@ export const VendorViewService = () => {
   const service = query.data?.data[0];
 
   return (
-    <div className="p-6 bg-base-100 rounded-lg shadow-xl" data-theme="kudu">
-      <div className="flex flex-col md:flex-row items-center md:items-start justify-between mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-primary mb-4 md:mb-0">
-          {service?.title}
-        </h1>
-        <div className="flex space-x-2">
-          <Link to={`/profile/service/edit/${id}`} className="btn btn-primary">
-            Edit
-          </Link>
-          <button
-            disabled={delete_service.isPending}
-            className="btn btn-error"
-            onClick={() => delete_service.mutate({})}
-          >
-            Delete
-          </button>
-        </div>
-      </div>
+    <div className="w-full p-4" data-theme="kudu">
+      <div className="card bg-base-100 shadow-xl">
+        <figure className="px-4 pt-4">
+          <img
+            src={service?.image_url}
+            alt={service?.title}
+            className="rounded-xl w-full h-96 object-cover"
+          />
+        </figure>
 
-      <div className="mb-6">
-        <img
-          src={service?.image_url}
-          alt={service?.title}
-          className="w-full rounded-lg shadow-lg object-cover"
-        />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
-        <div className="space-y-4">
-          <div>
-            <h3 className="text-xl font-semibold text-primary mb-2">
-              Description
-            </h3>
-            <p className="text-base text-base-content leading-relaxed">
-              {service?.description}
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold text-primary mb-2">Details</h3>
-            <div className="grid grid-cols-1 gap-4">
-              <div className="flex flex-col">
-                <span className="font-medium text-base-content">Price:</span>
-                <span className="font-semibold">{service?.price}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-medium text-base-content">Category:</span>
-                <span className="font-semibold">{service?.category?.name}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-medium text-base-content">
-                  Subcategory:
-                </span>
-                <span className="font-semibold">
-                  {service?.subCategory?.name}
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-medium text-base-content">Location:</span>
-                <span className="font-semibold">{`${service?.location_city}, ${service?.location_state}, ${service?.location_country}`}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-medium text-base-content">
-                  Work Experience:
-                </span>
-                <span className="font-semibold">
-                  {service?.work_experience_years} years
-                </span>
-              </div>
-              <div className="flex flex-col">
-                <span className="font-medium text-base-content">Status:</span>
-                <span className="font-semibold">{service?.status}</span>
-              </div>
+        <div className="card-body">
+          <div className="flex justify-between items-start">
+            <h1 className="text-3xl font-bold mb-4">{service?.title}</h1>
+            <div className="badge badge-primary badge-lg">
+              {service?.category?.name}
             </div>
           </div>
-        </div>
 
-        {service?.additional_images && service.additional_images.length > 0 && (
-          <div>
-            <h3 className="text-xl font-semibold mb-3 text-primary">
-              Additional Images
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {service.additional_images.map((image: string, index: number) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Additional ${index + 1}`}
-                  className="w-full h-48 object-cover rounded-lg shadow-md"
-                />
+          <div className="flex gap-2 mb-4">
+            <div className="badge badge-outline">
+              {service?.subCategory?.name}
+            </div>
+            <div className="badge badge-ghost">
+              📍 {service?.location_city}, {service?.location_country}
+            </div>
+          </div>
+
+          <div className="text-2xl font-bold mb-4">
+            ${Number(service?.price).toLocaleString()}
+            {service?.discount_price && (
+              <span className="text-lg line-through ml-2 text-gray-500">
+                ${Number(service?.discount_price).toLocaleString()}
+              </span>
+            )}
+          </div>
+
+          <p className="text-gray-600 mb-6">{service?.description}</p>
+
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Experience:</span>
+              <span className="badge badge-info">
+                {service?.work_experience_years} years
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-semibold">Negotiable:</span>
+              <span
+                className={`badge ${service?.is_negotiable ? "badge-success" : "badge-error"}`}
+              >
+                {service?.is_negotiable ? "Yes" : "No"}
+              </span>
+            </div>
+          </div>
+
+          {service?.attributes && service.attributes.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-xl font-bold mb-3">Features</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {service.attributes.map((attr, index) => (
+                  <div key={index} className="card bg-base-200 p-4">
+                    <div className="font-semibold">{attr.name}</div>
+                    <div className="text-base-content/70">
+                      {Array.isArray(attr.values)
+                        ? attr.values.join(", ")
+                        : String(attr.values)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {service?.additional_images?.length > 0 && (
+            <div className="carousel rounded-box mb-6">
+              {service.additional_images.map((img, index) => (
+                <div key={index} className="carousel-item">
+                  <img
+                    src={img}
+                    alt={`Preview ${index + 1}`}
+                    className="w-64 h-48 object-cover"
+                  />
+                </div>
               ))}
             </div>
+          )}
+
+          <div className="card-actions justify-end">
+            <Link
+              to={`/profile/services/edit/${service?.id}`}
+              className="btn btn-primary px-8"
+            >
+              Edit Service
+            </Link>
+            <button
+              onClick={() => delete_service.mutate()}
+              className="btn btn-error px-8"
+            >
+              Delete Service
+            </button>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

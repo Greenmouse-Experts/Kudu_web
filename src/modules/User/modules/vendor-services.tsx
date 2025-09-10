@@ -17,7 +17,7 @@ interface ServiceSubCategory {
 
 interface VendorService {
   additional_images: string[];
-  attributes: any[];
+  attributes: { name: string; values: string[] | number | boolean }[];
   id: string;
   title: string;
   description: string;
@@ -32,7 +32,7 @@ interface VendorService {
   work_experience_years: number;
   is_negotiable: boolean;
   price: string;
-  discount_price: null;
+  discount_price: string | null;
   status: string;
   createdAt: string;
   updatedAt: string;
