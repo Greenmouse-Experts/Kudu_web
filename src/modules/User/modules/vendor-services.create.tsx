@@ -755,17 +755,17 @@ export const Attributes = ({
               <Controller
                 control={control}
                 name={`attributes.${attribute.id}`}
-                defaultValue={getInitialValue(attribute.id, false)}
+                defaultValue={getInitialValue(attribute.id, "false")} // 👈 string default
                 render={({ field }) => (
                   <label className="flex items-center gap-3 cursor-pointer">
                     <input
                       type="checkbox"
-                      {...field}
                       className="toggle toggle-primary"
-                      checked={field.value}
+                      checked={field.value === "true"} // 👈 check against string
+                      onChange={(e) => field.onChange(String(e.target.checked))} // 👈 "true"/"false"
                     />
                     <span className="label-text">
-                      {field.value ? "Yes" : "No"}
+                      {field.value === "true" ? "Yes" : "No"}
                     </span>
                   </label>
                 )}
@@ -798,6 +798,11 @@ export const Attributes = ({
                     {...field}
                     type="number"
                     min="0"
+                    onChange={(e) =>
+                      field.onChange(
+                        e.target.value === "" ? "" : Number(e.target.value),
+                      )
+                    }
                     placeholder={`Enter ${attribute.name.toLowerCase()}`}
                     className="input input-bordered w-full"
                   />
