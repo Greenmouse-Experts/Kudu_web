@@ -43,15 +43,17 @@ function Login() {
         setIsLoading(false);
       },
       onError: (error) => {
-        if (error.response.data.message === 'Your email is not verified. A verification email has been sent to your email address.') {
+        if (
+          error.response.data.message ===
+          "Your email is not verified. A verification email has been sent to your email address."
+        ) {
           localStorage.setItem("kuduEmail", JSON.stringify(data.email));
-          navigate('/verify-account')
+          toast.error(error.response.data.message);
         }
         setIsLoading(false);
       },
     });
   };
-
 
   const handleSignInGoogle = async (data) => {
     try {
@@ -59,9 +61,9 @@ function Login() {
         firstName: data.given_name,
         lastName: data.family_name,
         email: data.email,
-        providerId: 'google.com',
-        accountType: 'Customer'
-      }
+        providerId: "google.com",
+        accountType: "Customer",
+      };
       setIsLoading(true);
       mutate({
         url: "/auth/google",
@@ -72,25 +74,22 @@ function Login() {
           dispatch(setKuduUser(response.data.data));
           setTimeout(() => {
             window.location.href = "/profile";
-          }, 2000)
+          }, 2000);
           setIsLoading(false);
         },
         onError: () => {
           setIsLoading(false);
-        }
+        },
       });
     } catch (error) {
       console.error("Google Sign-In Error:", error);
     }
   };
 
-
-
   useEffect(() => {
     dispatch(setKuduUser(null));
     localStorage.removeItem("kuduUserToken");
   }, []);
-
 
   return (
     <div
@@ -103,16 +102,15 @@ function Login() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-        height: "100vh"
+        height: "100vh",
       }}
     >
-
       {/* Form Card */}
       <div className="w-full max-w-lg px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
         <div className="w-full max-w-lg px-4 py-4 bg-white rounded-lg ">
           {/* Logo Section */}
           <div className="flex justify-center">
-            <Link to={'/'}>
+            <Link to={"/"}>
               <img
                 src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
                 alt="Kudu Logo"
@@ -200,13 +198,15 @@ function Login() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password.message}</p>
+                <p className="text-red-500 text-sm">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
             {/* Forgot Password */}
             <div className="flex justify-between items-center text-sm mb-4">
-              <Link to={'/forget'} className="text-orange-500 hover:underline">
+              <Link to={"/forget"} className="text-orange-500 hover:underline">
                 Forgot password?
               </Link>
             </div>
@@ -226,11 +226,11 @@ function Login() {
                 size="large"
                 text="signin_with"
                 theme="outlined"
-                onSuccess={credentialResponse => {
+                onSuccess={(credentialResponse) => {
                   handleSignInGoogle(jwtDecode(credentialResponse.credential));
                 }}
                 onError={() => {
-                  console.log('Login Failed');
+                  console.log("Login Failed");
                 }}
               />
             </div>
