@@ -123,7 +123,7 @@ export default function ServiceSubCategories() {
     },
   ];
   const columns: columnType<ServiceCategory>[] = [
-    { key: "id", label: "ID" },
+    // { key: "id", label: "ID" },
     { key: "name", label: "Name" },
     {
       key: "image",
@@ -256,7 +256,7 @@ export default function ServiceSubCategories() {
       <ReModal ref={modalRef}>
         <>
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Add New Category</h3>
+            <h3 className="text-lg font-semibold">Add Sub-Category</h3>
             <div className="flex flex-col gap-2">
               <label htmlFor="category-name" className="font-medium">
                 Category Name

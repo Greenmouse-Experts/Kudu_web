@@ -61,6 +61,7 @@ const ServiceCategories = () => {
       toast.success("Category added successfully");
       categories.refetch();
       closeModal();
+      setName("");
     },
     onError: (error) => {
       console.error(error);
@@ -135,7 +136,7 @@ const ServiceCategories = () => {
     },
   ];
   const columns: columnType[] = [
-    { key: "id", label: "ID" },
+    // { key: "id", label: "ID" },
     { key: "name", label: "Name" },
     {
       key: "image",

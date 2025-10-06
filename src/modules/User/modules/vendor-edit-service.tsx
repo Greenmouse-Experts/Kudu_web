@@ -99,7 +99,7 @@ export default function VendorEditService() {
     const attributesArray = Object.entries(data.attributes || {}).map(
       ([id, value]) => ({
         attributeId: Number(id),
-        value,
+        value: value,
       }),
     );
 

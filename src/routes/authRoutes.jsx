@@ -3,26 +3,31 @@ import SignUp from "../modules/Auth/signUp";
 import Forget from "../modules/Auth/forget";
 import VerifyEmail from "../modules/Auth/verifyEmail";
 import AdminLogin from "../modules/SuperAdmin";
+import VerifyEmailNew from "../modules/Auth/VerifiyEmailNew";
 
 export const authRoutes = [
-    {
-        path: '/login',
-        element: <Login />,
-    },
-    {
-        path: '/sign-up',
-        element: <SignUp />,
-    },
-    {
-        path: '/forget',
-        element: <Forget />,
-    },
-    {
-        path: '/verify-account',
-        element: <VerifyEmail />
-    },
-    {
-        path: "auth/admin/login",
-        element: <AdminLogin />
-    },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/sign-up",
+    element: <SignUp />,
+  },
+  {
+    path: "/forget",
+    element: <Forget />,
+  },
+  // {
+  //   path: "/verify-account",
+  //   element: <VerifyEmail />,
+  // },
+  {
+    path: "/verify-email",
+    element: <VerifyEmailNew />,
+  },
+  {
+    path: "auth/admin/login",
+    element: <AdminLogin />,
+  },
 ];
