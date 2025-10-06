@@ -41,7 +41,7 @@ function SignUp() {
     mutate({
       url: "/auth/register/customer",
       method: "POST",
-      data: data,
+      data: { ...data, platform: "web" },
       onSuccess: (response) => {
         localStorage.setItem("kuduEmail", JSON.stringify(data.email));
         toast.success("Verification Sent to Email");
@@ -61,6 +61,7 @@ function SignUp() {
         email: data.email,
         providerId: "google.com",
         accountType: "Customer",
+        platform: "web",
       };
       setIsLoading(true);
       mutate({
