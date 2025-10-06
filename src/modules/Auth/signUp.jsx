@@ -10,6 +10,7 @@ import useAppState from "../../hooks/appState";
 import { setKuduUser } from "../../reducers/userSlice";
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +44,7 @@ function SignUp() {
       data: data,
       onSuccess: (response) => {
         localStorage.setItem("kuduEmail", JSON.stringify(data.email));
-        navigate("/verify-email");
+        toast.success("Verification Sent to Email");
         setIsLoading(false);
       },
       onError: () => {
