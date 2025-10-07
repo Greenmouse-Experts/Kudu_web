@@ -28,6 +28,7 @@ import PublicServices from "../modules/PublicServices/public-services";
 import PublicSingleService from "../modules/PublicServices/public-single-service";
 import PublicServiceSubCateories from "../modules/PublicServices/public-services-sub";
 import PublicServicesSubcategories from "../modules/PublicServices/public-services-sub";
+import DeleteAccount from "../modules/Settings/modules/delete-account";
 
 export const landingRooutes = [
   {
@@ -113,6 +114,10 @@ export const landingRooutes = [
           {
             path: "security",
             element: <ProfileSecurity />,
+          },
+          {
+            path: "delete-account",
+            element: <DeleteAccount />,
           },
         ],
       },
