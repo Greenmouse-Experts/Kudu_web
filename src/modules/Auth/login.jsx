@@ -6,13 +6,15 @@ import { useDispatch } from "react-redux";
 import { setKuduUser } from "../../reducers/userSlice";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+import { useMutation } from "@tanstack/react-query";
+import apiClient from "../../api/apiFactory";
+import { toast } from "react-toastify";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [isLoading, setIsLoading] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -28,31 +30,72 @@ function Login() {
   } = useForm();
 
   const { mutate } = useApiMutation();
+  const login_mutation = useMutation({
+    mutationFn: async () => {
+      let resp = await apiClient.post("/auth/login", {
+        email: getValues("email"),
+        password: getValues("password"),
+        platform: "web",
+      });
+      return resp;
+    },
+    onSuccess: (response) => {
+      delete response.data.data.password;
+      localStorage.setItem("kuduUserToken", response.data.data.token);
+      dispatch(setKuduUser(response.data.data));
+      window.location.href = "/profile";
+      setIsLoading(false);
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+      if (
+        error.response.data.message ===
+        "Your email is not verified. A verification email has been sent to your email address."
+      ) {
+        localStorage.setItem("kuduEmail", JSON.stringify(data.email));
+        toast.error(error.response.data.message);
+      }
+      setIsLoading(false);
+    },
+  });
 
   const onSubmit = (data) => {
     setIsLoading(true);
-    mutate({
-      url: "/auth/login",
-      method: "POST",
-      data: data,
-      onSuccess: (response) => {
-        delete response.data.data.password;
-        localStorage.setItem("kuduUserToken", response.data.data.token);
-        dispatch(setKuduUser(response.data.data));
-        window.location.href = "/profile";
-        setIsLoading(false);
+    toast.promise(
+      async () => {
+        return await login_mutation.mutateAsync();
       },
-      onError: (error) => {
-        if (
-          error.response.data.message ===
-          "Your email is not verified. A verification email has been sent to your email address."
-        ) {
-          localStorage.setItem("kuduEmail", JSON.stringify(data.email));
-          toast.error(error.response.data.message);
-        }
-        setIsLoading(false);
+      {
+        pending: "Logging in...",
+        success: "Logged in successfully!",
+        // error: (err) => {
+        //   console.log(err, "err");
+        //   return "Failed to login!";
+        // },
       },
-    });
+    );
+    // mutate({
+    //   url: "/auth/login",
+    //   method: "POST",
+    //   data: data,
+    //   onSuccess: (response) => {
+    //     delete response.data.data.password;
+    //     localStorage.setItem("kuduUserToken", response.data.data.token);
+    //     dispatch(setKuduUser(response.data.data));
+    //     window.location.href = "/profile";
+    //     setIsLoading(false);
+    //   },
+    //   onError: (error) => {
+    //     if (
+    //       error.response.data.message ===
+    //       "Your email is not verified. A verification email has been sent to your email address."
+    //     ) {
+    //       localStorage.setItem("kuduEmail", JSON.stringify(data.email));
+    //       toast.error(error.response.data.message);
+    //     }
+    //     setIsLoading(false);
+    //   },
+    // });
   };
 
   const handleSignInGoogle = async (data) => {
@@ -214,7 +257,7 @@ function Login() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={login_mutation.isPending}
               className="w-full py-3 bg-kudu-orange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
             >
               Sign In →
