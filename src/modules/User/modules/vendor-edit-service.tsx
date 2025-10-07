@@ -9,6 +9,7 @@ import {
   SubCategorySelect,
 } from "./vendor-services.create";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 interface VendorServiceResponse {
   message: string;
@@ -72,11 +73,15 @@ export default function VendorEditService() {
           additional_images: service.additional_images,
           price: service.price,
           discount_price: service.discount_price,
+          attributes: service.attributes,
         }
       : {},
   });
   const nav = useNavigate();
   const cat_id = watch("service_category_id");
+  useEffect(() => {
+    setValue("attributes", []);
+  }, [cat_id]);
   const mainImage = watch("image_url");
   const additionalImages = watch("additional_images");
   const edit_service = useMutation({
@@ -107,6 +112,7 @@ export default function VendorEditService() {
       ...data,
       attributes: attributesArray,
     };
+    // JSON.stringify(payload());
     edit_service.mutate(payload);
   };
   return (
