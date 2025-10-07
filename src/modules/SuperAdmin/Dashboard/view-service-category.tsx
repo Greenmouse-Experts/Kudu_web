@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import boole from "../../../api/apiFactory";
+import boole, { apiClient } from "../../../api/apiFactory";
 import { usePagination, useSmallPagination } from "../../../hooks/appState";
 import ServiceSubCategories from "./services-sub-categories";
 import CustomTable, {
