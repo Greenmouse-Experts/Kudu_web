@@ -39,7 +39,7 @@ export default function ServicesSubFilters() {
 
   if (!query.data) return null;
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2" data-theme="kudu">
       {query.isLoading && (
         <span className="loading loading-spinner loading-xs"></span>
       )}

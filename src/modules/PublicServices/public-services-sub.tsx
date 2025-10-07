@@ -44,7 +44,7 @@ export default function PublicServicesSubcategories() {
     <div className="container mx-auto p-4 mt-28" data-theme="kudu">
       <h1 className="text-3xl font-bold mb-6">Our Services</h1>
       <div className="flex min-h-screen  gap-2">
-        <div className="flex-1 max-w-xs  shadow-xl h-fit">
+        <div className="flex-1 max-w-xs  flex-col md:flex-row shadow-xl h-fit">
           {/*<ServiceFilters />*/}
           <ServicesSubFilters />
         </div>
