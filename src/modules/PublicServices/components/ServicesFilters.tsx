@@ -19,7 +19,7 @@ export default function ServiceFilters() {
   const query = useQuery<API_Response>({
     queryKey: ["public-categories"],
     queryFn: async () => {
-      let resp = await apiClient.get("/categories");
+      let resp = await apiClient.get("/service/categories");
       return resp.data;
     },
   });
