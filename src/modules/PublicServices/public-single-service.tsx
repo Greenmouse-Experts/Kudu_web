@@ -189,7 +189,7 @@ export default function PublicSingleService() {
                     >
                       <span className="font-medium">{attribute.name}:</span>
                       <span className="text-base-content/80">
-                        {attribute.values.join(", ")}
+                        {attribute?.values?.join(", ")}
                       </span>
                     </div>
                   ))}
