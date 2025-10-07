@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Service } from "../public-services";
 
 export default function ServiceCard(props: Service) {
@@ -137,7 +138,12 @@ export default function ServiceCard(props: Service) {
             </div>
           </div>
           <div className="card-actions mt-4">
-            <button className="btn btn-primary btn-block">View Details</button>
+            <Link
+              to={`/services/${props.id}`}
+              className="btn btn-primary btn-block"
+            >
+              View Details
+            </Link>
           </div>
         </div>
       </div>

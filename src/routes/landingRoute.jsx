@@ -26,6 +26,8 @@ import Messages from "../modules/Messages";
 import ErrorBoundary from "../components/ErrorBoundary";
 import PublicServices from "../modules/PublicServices/public-services";
 import PublicSingleService from "../modules/PublicServices/public-single-service";
+import PublicServiceSubCateories from "../modules/PublicServices/public-services-sub";
+import PublicServicesSubcategories from "../modules/PublicServices/public-services-sub";
 
 export const landingRooutes = [
   {
@@ -191,6 +193,10 @@ export const landingRooutes = [
       {
         path: "services",
         element: <PublicServices />,
+      },
+      {
+        path: "services/category/:categoryId",
+        element: <PublicServicesSubcategories />,
       },
       {
         path: "services/:id",

@@ -1,99 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
+import { useParams, useSearchParams } from "react-router-dom";
+import { PublicServicesResponse } from "./public-services";
 import apiClient from "../../api/apiFactory";
 import ServiceCard from "./components/ServiceCard";
 import SimplePaginator from "./components/SimplePagination";
-import ServiceFilters from "./components/ServicesFilters";
-import { useSearchParams } from "react-router-dom";
+import ServicesSubFilters from "./components/ServicesSubFilters";
 
-interface ServiceAttribute {
-  name: string;
-  values?: string[];
-  value?: string | number | boolean;
-}
-
-interface ProviderLocation {
-  city: string;
-  state: string;
-  street?: string;
-  country: string;
-  address?: string;
-}
-
-interface Provider {
-  location: ProviderLocation;
-  isVerified: boolean;
-  id: string;
-  trackingId: string;
-  firstName: string;
-  lastName: string;
-  gender: string | null;
-  email: string;
-  email_verified_at: string;
-  phoneNumber: string;
-  dateOfBirth: string | null;
-  photo: string | null;
-  fcmToken: string;
-  wallet: string | null;
-  dollarWallet: string;
-  facebookId: string | null;
-  googleId: string | null;
-  accountType: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface SubCategory {
-  id: number;
-  name: string;
-}
-
-export interface Service {
-  additional_images: string[];
-  attributes: ServiceAttribute[];
-  id: string;
-  title: string;
-  description: string;
-  image_url: string;
-  video_url: string;
-  vendorId: string;
-  service_category_id: number;
-  service_subcategory_id: number;
-  location_city: string;
-  location_state: string;
-  location_country: string;
-  work_experience_years: number;
-  is_negotiable: boolean;
-  price: string;
-  discount_price: string | null;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  provider: Provider;
-  category: Category;
-  subCategory: SubCategory | null;
-}
-
-interface Pagination {
-  totalItems: number;
-  totalPages: number;
-  currentPage: number;
-  nextPage: number | null;
-  prevPage: number | null;
-}
-
-export interface PublicServicesResponse {
-  message: string;
-  data: Service[];
-  pagination: Pagination;
-}
-
-export default function PublicServices() {
+export default function PublicServicesSubcategories() {
   const [searchParams] = useSearchParams();
 
   // Convert searchParams to an object
@@ -101,11 +14,16 @@ export default function PublicServices() {
   for (const [key, value] of searchParams.entries()) {
     params[key] = value;
   }
-
+  const { categoryId } = useParams();
   const { data, isLoading, isError } = useQuery<PublicServicesResponse>({
-    queryKey: ["listings", params],
+    queryKey: ["listings", params, categoryId],
     queryFn: async () => {
-      let resp = await apiClient.get("/services", { params });
+      let resp = await apiClient.get("/services", {
+        params: {
+          ...params,
+          categoryId,
+        },
+      });
       return resp.data;
     },
   });
@@ -127,7 +45,8 @@ export default function PublicServices() {
       <h1 className="text-3xl font-bold mb-6">Our Services</h1>
       <div className="flex min-h-screen  gap-2">
         <div className="flex-1 max-w-xs  shadow-xl h-fit">
-          <ServiceFilters />
+          {/*<ServiceFilters />*/}
+          <ServicesSubFilters />
         </div>
         <main className="flex-1">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
