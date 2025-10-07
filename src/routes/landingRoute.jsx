@@ -12,7 +12,7 @@ import SellAll from "../modules/Home/SellAll";
 import Careers from "../modules/Home/Careers";
 import JobDetails from "../modules/Home/JobDetails";
 import BecomeAvendor from "../modules/Home/BecomeAvendor";
-import AdvertiseOnKudu from "../modules/Home/AdvertiseOnKudu"
+import AdvertiseOnKudu from "../modules/Home/AdvertiseOnKudu";
 import DownloadApp from "../modules/Home/DownloadApp";
 import SearchProduct from "../modules/Products/searchProduct";
 import UserSettings from "../modules/Settings";
@@ -24,11 +24,12 @@ import CategoryProduct from "../modules/Products/categoriesProduct";
 import Cart from "../modules/Cart";
 import Messages from "../modules/Messages";
 import ErrorBoundary from "../components/ErrorBoundary";
-
+import PublicServices from "../modules/PublicServices/public-services";
+import PublicSingleService from "../modules/PublicServices/public-single-service";
 
 export const landingRooutes = [
   {
-    path: '/',
+    path: "/",
     element: <LandingLayout />,
     errorElement: <ErrorBoundary />,
     children: [
@@ -37,161 +38,168 @@ export const landingRooutes = [
         element: <LandingHomepage />,
       },
       {
-        path: 'contact',
-        element: <Contact />
+        path: "contact",
+        element: <Contact />,
       },
       {
-        path: 'faqs',
-        element: < Faqs />
+        path: "faqs",
+        element: <Faqs />,
       },
       {
-        path: 'privacy',
-        element: <Privacy />
+        path: "privacy",
+        element: <Privacy />,
       },
       {
-        path: 'product/:id',
-        element: <ViewProduct />
+        path: "product/:id",
+        element: <ViewProduct />,
       },
       {
-        path: 'products/categories/:id/:name',
-        element: <CategoryProduct />
+        path: "products/categories/:id/:name",
+        element: <CategoryProduct />,
       },
       {
-        path: 'terms-condition',
-        element: <Condititons />
-      },
-
-      {
-        path: 'testimonial',
-        element: <Testimonial />
+        path: "terms-condition",
+        element: <Condititons />,
       },
 
       {
-        path: 'about',
-        element: <About />
+        path: "testimonial",
+        element: <Testimonial />,
       },
 
       {
-        path: 'see-all',
-        element: <SellAll />
+        path: "about",
+        element: <About />,
       },
 
       {
-        path: 'career',
-        element: <Careers />
+        path: "see-all",
+        element: <SellAll />,
       },
 
       {
-        path: 'jobs-details/:jobId',
-        element: <JobDetails />
+        path: "career",
+        element: <Careers />,
       },
 
       {
-        path: 'become-a-vendor',
-        element: <BecomeAvendor />
+        path: "jobs-details/:jobId",
+        element: <JobDetails />,
       },
 
       {
-        path: 'advertise-with-us',
-        element: <AdvertiseOnKudu />
+        path: "become-a-vendor",
+        element: <BecomeAvendor />,
+      },
+
+      {
+        path: "advertise-with-us",
+        element: <AdvertiseOnKudu />,
       },
       {
-        path: 'catalog',
-        element: <SearchProduct />
+        path: "catalog",
+        element: <SearchProduct />,
       },
       {
-        path: 'settings',
+        path: "settings",
         element: <UserSettings />,
         children: [
           {
-            path: 'profile',
+            path: "profile",
             element: <ProfileSettings />,
           },
           {
-            path: 'security',
+            path: "security",
             element: <ProfileSecurity />,
           },
-        ]
+        ],
       },
       {
-        path: 'cart',
-        element: <Cart />
+        path: "cart",
+        element: <Cart />,
       },
       {
-        path: 'messages',
-        element: <Messages />
+        path: "messages",
+        element: <Messages />,
       },
       {
-        path: 'notification',
-        element: <Notification />
+        path: "notification",
+        element: <Notification />,
       },
       {
-        path: 'contact',
-        element: <Contact />
+        path: "contact",
+        element: <Contact />,
       },
       {
-        path: 'faqs',
-        element: < Faqs />
+        path: "faqs",
+        element: <Faqs />,
       },
       {
-        path: 'privacy',
-        element: <Privacy />
-      },
-
-      {
-        path: 'terms-condition',
-        element: <Condititons />
+        path: "privacy",
+        element: <Privacy />,
       },
 
       {
-        path: 'testimonial',
-        element: <Testimonial />
+        path: "terms-condition",
+        element: <Condititons />,
       },
 
       {
-        path: 'about',
-        element: <About />
+        path: "testimonial",
+        element: <Testimonial />,
       },
 
       {
-        path: 'see-all',
-        element: <SellAll />
+        path: "about",
+        element: <About />,
       },
 
       {
-        path: 'career',
-        element: <Careers />
+        path: "see-all",
+        element: <SellAll />,
       },
 
       {
-        path: 'jobs-details',
-        element: <JobDetails />
+        path: "career",
+        element: <Careers />,
       },
 
       {
-        path: 'become-a-vendor',
-        element: <BecomeAvendor />
+        path: "jobs-details",
+        element: <JobDetails />,
       },
 
       {
-        path: 'advertise-with-us',
-        element: <AdvertiseOnKudu />
+        path: "become-a-vendor",
+        element: <BecomeAvendor />,
       },
 
       {
-        path: 'cookie-policy',
-        element: <Cookie />
+        path: "advertise-with-us",
+        element: <AdvertiseOnKudu />,
       },
 
       {
-        path: 'return-policy',
-        element: <Return />
+        path: "cookie-policy",
+        element: <Cookie />,
       },
-      
+
       {
-        path: 'download-app',
-        element: <DownloadApp />
+        path: "return-policy",
+        element: <Return />,
+      },
+      {
+        path: "services",
+        element: <PublicServices />,
+      },
+      {
+        path: "services/:id",
+        element: <PublicSingleService />,
+      },
+      {
+        path: "download-app",
+        element: <DownloadApp />,
       },
     ],
-  }
+  },
 ];
