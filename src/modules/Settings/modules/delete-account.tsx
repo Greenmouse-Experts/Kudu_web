@@ -12,12 +12,14 @@ export default function DeleteAccount() {
   const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   const nav = useNavigate();
+
   const { mutate, isPending } = useMutation({
     mutationFn: async () => {
-      let resp = await apiClient.delete("/delete/account");
+      let resp = await apiClient.delete("/user/delete/account");
       return resp.data;
     },
     onSuccess: () => {
+      toast.success("Account deleted successfully.");
       setSuccess(true);
       setError(null);
       dispatch(setKuduUser(null));
