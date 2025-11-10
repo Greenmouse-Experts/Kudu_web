@@ -1,35 +1,29 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-
 const SearchBar = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("FILTER");
 
   const filters = ["All", "Name", "Category", "Price"];
 
-    const {
-      register,
-      handleSubmit,
-      setValue,
-      getValues,
-      watch,
-      formState: { errors },
-    } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useForm();
 
-
-    const onSubmit = (data) => {
-      window.location.href = `/catalog?q=${encodeURIComponent(data.search)}`;
-    }
-  
+  const onSubmit = (data) => {
+    window.location.href = `/catalog?q=${encodeURIComponent(data.search)}`;
+  };
 
   return (
     <div className="flex items-center w-full max-w-full md:max-w-sm lg:max-w-md rounded-full overflow-hidden bg-[#FFF2EA] relative">
       {/* Search Input */}
-      <form
-        className="flex w-full"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="flex w-full" onSubmit={handleSubmit(onSubmit)}>
         <input
           type="text"
           {...register("search", {
@@ -39,7 +33,7 @@ const SearchBar = () => {
           className="flex-1 py-3 px-4 text-sm text-black bg-[#FFF2EA] outline-hidden min-w-0"
         />
 
-        {/* Filter Button & Dropdown 
+        {/* Filter Button & Dropdown
       <div className="relative z-50 shrink-0">
         <Menu>
           <MenuHandler>
@@ -79,7 +73,10 @@ const SearchBar = () => {
       </div>*/}
 
         {/* Search Button */}
-        <button type="submit" className="bg-kudu-orange text-white py-2 px-3 sm:py-3 sm:px-2 text-sm flex items-center justify-center shrink-0">
+        <button
+          type="submit"
+          className="bg-kudu-orange text-white py-2 px-3 sm:py-3 sm:px-2 text-sm flex items-center justify-center shrink-0"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -91,8 +88,6 @@ const SearchBar = () => {
         </button>
       </form>
     </div>
-
-
   );
 };
 
