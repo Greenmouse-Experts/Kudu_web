@@ -33,7 +33,22 @@ messaging.onBackgroundMessage((payload) => {
   const notificationOptions = {
     body: payload.notification?.body || "",
     icon: "/icon.png", // optional icon
+    data: payload.data, // Include custom data in the notification
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
+});
+
+// Handle notification clicks
+self.addEventListener("notificationclick", (event) => {
+  console.log("[firebase-messaging-sw.js] Notification clicked", event);
+  event.notification.close(); // Close the notification
+
+  const clickedNotificationData = event.notification.data;
+  if (clickedNotificationData && clickedNotificationData.url) {
+    event.waitUntil(clients.openWindow(clickedNotificationData.url));
+  } else {
+    // Fallback if no URL is provided, open a default page or the app's main page
+    event.waitUntil(clients.openWindow("/"));
+  }
 });

@@ -49,20 +49,22 @@ function App() {
     dispatch(setIPInfo(ipInfo));
   }, [ipInfo]);
 
+  // useEffect(() => {
+  //   // 👇 listen for foreground messages
+  //   const unsubscribe = onMessage(messaging, (payload) => {
+  //     handleIncomingMessage(payload);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
+  // // 👇 simple auth handling
   useEffect(() => {
-    // 👇 listen for foreground messages
-    const unsubscribe = onMessage(messaging, (payload) => {
-      handleIncomingMessage(payload);
-    });
-
-    return () => unsubscribe();
+    if (!tokenValid) {
+      localStorage.removeItem("kuduUserToken");
+      dispatch(setKuduUser(null));
+    }
   }, []);
-
-  // 👇 simple auth handling
-  if (!tokenValid) {
-    localStorage.removeItem("kuduUserToken");
-    dispatch(setKuduUser(null));
-  }
 
   return (
     <ModalProvider>
