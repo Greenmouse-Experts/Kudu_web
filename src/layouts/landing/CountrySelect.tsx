@@ -1,11 +1,14 @@
 import { useState } from "react";
 
 export default function CountrySelect() {
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(
+    "Nigeria",
+  );
 
   const countries = [
     { value: "UK", label: "UK" },
     { value: "USA", label: "USA" },
+    { value: "NGA", label: "NGA" },
   ];
 
   return (
