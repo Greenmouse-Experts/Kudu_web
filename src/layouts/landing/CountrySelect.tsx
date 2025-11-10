@@ -11,6 +11,10 @@ export default function CountrySelect() {
     { value: "NGA", label: "NGA" },
   ];
 
+  const availableCountries = countries.filter(
+    (country) => country.value !== selectedCountry,
+  );
+
   return (
     <div className="max-w-xs" data-theme="kudu">
       {selectedCountry && (
@@ -29,7 +33,7 @@ export default function CountrySelect() {
           tabIndex={0}
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
-          {countries.map((country) => (
+          {availableCountries.map((country) => (
             <li key={country.value}>
               <a onClick={() => setSelectedCountry(country.value)}>
                 {country.label}
