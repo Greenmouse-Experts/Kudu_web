@@ -205,31 +205,48 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#" className="text-gray-400 flex items-center gap-3">
+                <a
+                  href="tel:+2348133059324"
+                  className="text-gray-400 hover:text-gray-600 flex items-center gap-3"
+                >
                   <Phone size={15} style={{ color: "#ff6f22" }} />
                   08133059324
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 flex items-center gap-3">
+                <a
+                  href="https://wa.me/2348133059324"
+                  className="text-gray-400 hover:text-gray-600 flex items-center gap-3"
+                >
                   <WhatsApp fontSize="small" style={{ color: "#ff6f22" }} />
                   08133059324
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 flex items-center gap-3">
+                <a
+                  href="mailto:help@kudumart.com"
+                  className="text-gray-400 hover:text-gray-600 flex items-center gap-3"
+                >
                   <Mail size={15} style={{ color: "#ff6f22" }} />{" "}
                   help@kudumart.com{" "}
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 flex items-center gap-3">
+                <a
+                  href="mailto:support@kudumart.com"
+                  className="text-gray-400 hover:text-gray-600 flex items-center gap-3"
+                >
                   <Mail size={15} style={{ color: "#ff6f22" }} />{" "}
                   support@kudumart.com
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 flex items-center gap-3">
+                <a
+                  href="https://maps.google.com/?q=1648 McLean Avenue Saint Paul, Minnesota"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-gray-600 flex items-center gap-3"
+                >
                   <MapPin size={20} style={{ color: "#ff6f22" }} />
                   1648 McLean Avenue Saint Paul, Minnesota
                 </a>
