@@ -1,43 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCountrySelect } from "../../store/clientStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function CountrySelect() {
-  const [selectedCountry, setSelectedCountry] = useState<string | null>("NGA");
-
-  const countries = [
-    { value: "UK", label: "UK" },
-    { value: "USA", label: "USA" },
-    { value: "NGA", label: "NGA" },
-  ];
-
-  const availableCountries = countries.filter(
-    (country) => country.value !== selectedCountry,
-  );
+  // const [selectedCountry, setSelectedCountry] = useState<string | null>("NGA");
+  const queryCliet = useQueryClient();
+  const { countries, setCountry, country } = useCountrySelect();
 
   return (
-    <div className="max-w-xs" data-theme="kudu">
-      {selectedCountry && (
-        <label className="label mr-2">
+    <div className="w-fit flex  mx-2 " data-theme="kudu">
+      {country && (
+        <label className="label mr-2 hidden md:flex">
           <span className="label-text">Location:</span>
         </label>
       )}
       <div className="dropdown">
         <label
           tabIndex={0}
-          className="btn btn-bordered justify-start size-auto p-2"
+          className="btn  btn-bordered justify-start size-auto p-2"
         >
-          {selectedCountry ? selectedCountry : "Pick your location"}
+          {country ? country.label : "Pick your location"}
         </label>
         <ul
           tabIndex={0}
           className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
         >
-          {availableCountries.map((country) => (
-            <li key={country.value}>
-              <a onClick={() => setSelectedCountry(country.value)}>
-                {country.label}
-              </a>
-            </li>
-          ))}
+          {countries
+            .filter((item) => item.value !== country.value)
+            .map((country) => (
+              <li key={country.value}>
+                <a
+                  onClick={() => {
+                    setCountry(country);
+                    window.location.reload();
+                    // queryCliet.invalidateQueries({ queryKey: undefined });
+                  }}
+                >
+                  {country.label}
+                </a>
+              </li>
+            ))}
         </ul>
       </div>
     </div>

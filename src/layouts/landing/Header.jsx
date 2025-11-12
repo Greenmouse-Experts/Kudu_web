@@ -283,7 +283,7 @@ export default function Header({ openMenu }) {
           </div>
         </div>
         <div className="w-full flex items-center bg-white justify-between py-2 px-5">
-          <SearchBar />
+          <SearchBar /> <CountrySelect />
         </div>
       </div>
 
