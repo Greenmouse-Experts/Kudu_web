@@ -14,7 +14,7 @@ export default function CountrySelect() {
           <span className="label-text">Location:</span>
         </label>
       )}
-      <div className="dropdown">
+      <div className="dropdown dropdown-end">
         <label
           tabIndex={0}
           className="btn  btn-bordered justify-start size-auto p-2"
