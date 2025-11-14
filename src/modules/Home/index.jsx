@@ -52,7 +52,7 @@ export default function NewHome() {
     try {
       const productRequest = new Promise((resolve, reject) => {
         mutate({
-          url: `/products?symbol=${currency[0].symbol}&limit=100000000`,
+          url: `/products?symbol=${currency[0].symbol}&limit=100000000&country=${country.value}`,
           method: "GET",
           hideToast: true,
           onSuccess: (response) => resolve(response.data?.data || []),
