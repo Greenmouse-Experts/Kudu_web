@@ -5,7 +5,6 @@ import useAppState from "../../../hooks/appState";
 import { useGeoLocatorCurrency } from "../../../hooks/geoLocatorProduct";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
-import Table from "../../../components/Tables";
 import { useModal } from "../../../hooks/modal";
 import { useForm } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
@@ -20,9 +19,9 @@ export default function Wallet() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
+    // errors, // Not used
+    // reset, // Not used
+    // setValue, // Not used
   } = useForm();
 
   const navigate = useNavigate();
@@ -108,11 +107,11 @@ export default function Wallet() {
         closeModal();
       },
       onError: () => {
-        setDisabled(false);
+        // setDisabled(false); // setDisabled is not defined
       },
     });
   };
-  const bankInfo = bankQuery.data?.data || [];
+  // const bankInfo = bankQuery.data?.data || []; // Not used
   // return <div className="py-12">{JSON.stringify(bankQuery.data, null, 2)}</div>;
 
   const initiateWithdrawal = (bankId) => {
@@ -192,42 +191,55 @@ export default function Wallet() {
 
             <div className="mt-20 md:mt-10 w-full">
               {bankInformation.length > 0 ? (
-                <Table
-                  headers={[
-                    { key: "bankName", label: "Bank Name" },
-                    { key: "accountNumber", label: "Account Number" },
-                    {
-                      key: "accountName",
-                      label: "Account Name",
-                    },
-                    {
-                      key: "swiftCode",
-                      label: "Swift/BIC Code",
-                      render: (value) => (value ? value : "---"),
-                    },
-                    {
-                      key: "routingNumber",
-                      label: "Routing Number",
-                      render: (value) => (value ? value : "---"),
-                    },
-                    {
-                      key: "bankAddress",
-                      label: "Bank Address",
-                      render: (value) => (value ? value : "---"),
-                    },
-                  ]}
-                  data={bankInformation}
-                  actions={[
-                    {
-                      label: (row) => {
-                        return "Edit";
-                      },
-                      onClick: (row) => navigate(`edit-account/${row.id}`),
-                    },
-                  ]}
-                  currentPage={null}
-                  totalPages={null}
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {bankInformation.map((bank, index) => (
+                    <div
+                      data-theme="kudu"
+                      key={index}
+                      className="card bg-base-100 shadow-xl border border-gray-200"
+                    >
+                      <div className="card-body p-4">
+                        <div className="flex justify-between items-center mb-2">
+                          <h3 className="card-title text-md text-gray-800">
+                            {bank.bankName}
+                          </h3>
+                          <button
+                            className="btn btn-primary btn-soft btn-sm"
+                            onClick={() => navigate(`edit-account/${bank.id}`)}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          <span className="font-medium">Account Number:</span>{" "}
+                          {bank.accountNumber}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          <span className="font-medium">Account Name:</span>{" "}
+                          {bank.accountName}
+                        </p>
+                        {bank.swiftCode && (
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Swift/BIC Code:</span>{" "}
+                            {bank.swiftCode}
+                          </p>
+                        )}
+                        {bank.routingNumber && (
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Routing Number:</span>{" "}
+                            {bank.routingNumber}
+                          </p>
+                        )}
+                        {bank.bankAddress && (
+                          <p className="text-sm text-gray-600">
+                            <span className="font-medium">Bank Address:</span>{" "}
+                            {bank.bankAddress}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               ) : (
                 <div className="empty-store">
                   <div className="text-center">
