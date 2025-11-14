@@ -7,6 +7,7 @@ export function useProductById(id) {
   return useQuery({
     queryKey: ["product", id],
     queryFn: async () => {
+      console.log("value", value);
       const response = await apiClient.get(
         `/product?productId=${id}&country=${countryvalue.value}`,
       );

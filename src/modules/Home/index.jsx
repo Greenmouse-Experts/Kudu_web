@@ -15,6 +15,7 @@ import AuctionPage from "../Auction/layouts/AuctionPage";
 import { useGetJobClient } from "../../api/jobs";
 import TrendingJobs from "./components/TrendingJobs";
 import { useGeoLocatorCurrency } from "../../hooks/geoLocatorProduct";
+import { useCountrySelect } from "../../store/clientStore";
 
 export default function NewHome() {
   const { mutate } = useApiMutation();
@@ -25,6 +26,7 @@ export default function NewHome() {
   const [trendingProducts, setTrendingProducts] = useState([]);
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { countries, setCountry, country } = useCountrySelect();
 
   // const { data: jobs, isLoading } = useGetJobClient();
 
@@ -59,7 +61,7 @@ export default function NewHome() {
 
       const trendingProductRequest = new Promise((resolve, reject) => {
         mutate({
-          url: "/products?popular=true",
+          url: `/products?popular=true&country=${country.value}`,
           method: "GET",
           hideToast: true,
           onSuccess: (response) => resolve(response.data?.data || []),
@@ -69,8 +71,9 @@ export default function NewHome() {
 
       const auctionProductRequest = new Promise((resolve, reject) => {
         mutate({
-          url: "/auction/products?auctionStatus=upcoming",
+          url: `/auction/products?auctionStatus=upcoming&country=${country.value}`,
           method: "GET",
+
           hideToast: true,
           onSuccess: (response) => resolve(response.data?.data || []),
           onError: reject,
