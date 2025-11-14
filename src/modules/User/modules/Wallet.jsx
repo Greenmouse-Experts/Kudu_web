@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../../components/Loader";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import useAppState from "../../../hooks/appState";
@@ -12,17 +12,10 @@ import apiClient from "../../../api/apiFactory";
 
 export default function Wallet() {
   const { user } = useAppState();
-  const [userProfile, setProfile] = useState(user);
+  // const [userProfile, setProfile] = useState(user);
   const [bankInformation, setBankInformation] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const {
-    register,
-    handleSubmit,
-    // errors, // Not used
-    // reset, // Not used
-    // setValue, // Not used
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const navigate = useNavigate();
   const { openModal, closeModal } = useModal();
@@ -30,66 +23,23 @@ export default function Wallet() {
   const currency = useGeoLocatorCurrency();
   const { mutate } = useApiMutation();
 
-  const getUserProfile = useCallback(() => {
-    return new Promise((resolve) => {
-      mutate({
-        url: "/user/profile",
-        method: "GET",
-        headers: true,
-        hideToast: true,
-        onSuccess: (response) => resolve(response.data.data),
-        onError: () => resolve(null), // Prevent failure from affecting other calls
-      });
-    });
-  }, [mutate]);
-  const bankQuery = useQuery({
-    queryKey: ["bank-info", user.id],
+  const { data: profileData, isLoading: isProfileLoading } = useQuery({
+    queryKey: ["user-profile"],
     queryFn: async () => {
-      let resp = await apiClient.get(`/vendor/bank/informations/`);
-      return resp.data;
+      const response = await apiClient.get("/user/profile");
+      return response.data;
     },
   });
-  const getBankInfo = useCallback(() => {
-    return new Promise((resolve) => {
-      mutate({
-        url: "/vendor/bank/informations",
-        method: "GET",
-        headers: true,
-        hideToast: true,
-        onSuccess: (response) => resolve(response.data.data),
-        onError: () => resolve(null), // Prevent failure from affecting other calls
-      });
-    });
-  }, [mutate]);
 
-  const fetchData = useCallback(async () => {
-    const [profile, bankInfo] = await Promise.all([
-      getUserProfile(),
-      getBankInfo(),
-    ]);
-    if (bankInfo) {
-      const parsedBankInfo = parseQueryString(bankInfo[0].bankInfo);
-      parsedBankInfo.id = bankInfo[0].id;
-      setBankInformation([parsedBankInfo]);
-    }
+  const { data: bankData, isLoading: isBankLoading } = useQuery({
+    queryKey: ["bank-info", user.id],
+    queryFn: async () => {
+      const response = await apiClient.get("/vendor/bank/informations/");
+      return response.data;
+    },
+  });
 
-    if (profile) setProfile(profile);
-
-    setIsLoading(false);
-  }, [getUserProfile, getBankInfo]);
-
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const parseQueryString = (queryString) => {
-    const obj = {};
-    queryString.split("?").forEach((pair) => {
-      const [key, value] = pair.split("=");
-      obj[decodeURIComponent(key)] = decodeURIComponent(value || "");
-    });
-    return obj;
-  };
+  const isLoading = isProfileLoading || isBankLoading;
 
   const onInitiateWithdrawal = (data) => {
     const payload = {
@@ -103,18 +53,16 @@ export default function Wallet() {
       method: "POST",
       data: payload,
       headers: true,
-      onSuccess: (response) => {
+      onSuccess: () => {
         closeModal();
       },
       onError: () => {
-        // setDisabled(false); // setDisabled is not defined
+        // Handle error
       },
     });
   };
-  // const bankInfo = bankQuery.data?.data || []; // Not used
-  // return <div className="py-12">{JSON.stringify(bankQuery.data, null, 2)}</div>;
 
-  const initiateWithdrawal = (bankId) => {
+  const initiateWithdrawal = () => {
     openModal({
       size: "sm",
       content: (
@@ -122,7 +70,6 @@ export default function Wallet() {
           className="grid grid-cols-2 gap-1"
           onSubmit={handleSubmit(onInitiateWithdrawal)}
         >
-          {/* Country Selection */}
           <div className="col-span-2">
             <label className="block text-sm font-medium mt-4 mb-2">
               Amount to Withdraw
@@ -170,19 +117,20 @@ export default function Wallet() {
                 </p>
                 <p className="text-lg md:text-2xl font-bold">
                   {currency[0].symbol}
-                  {currency[0].name === "Naira"
+                  {Number(profileData?.data?.wallet).toLocaleString("en-US")}
+                  {/* {currency[0].name === "Naira"
                     ? userProfile.wallet
                       ? Number(userProfile.wallet).toLocaleString("en-US")
                       : "0"
                     : userProfile.dollarWallet
                       ? Number(userProfile.wallet).toLocaleString("en-US")
-                      : "0"}
+                      : "0"}*/}
                 </p>
               </div>
               <div className="">
                 <Button
                   className="bg-kudu-orange"
-                  onClick={() => initiateWithdrawal(bankInformation[0].id)}
+                  onClick={() => initiateWithdrawal()}
                 >
                   Withdraw
                 </Button>
@@ -190,9 +138,10 @@ export default function Wallet() {
             </div>
 
             <div className="mt-20 md:mt-10 w-full">
-              {bankInformation.length > 0 ? (
+              {/* {JSON.stringify(bankData.data)}*/}
+              {bankData?.data?.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {bankInformation.map((bank, index) => (
+                  {bankData?.data?.map((bank, index) => (
                     <div
                       data-theme="kudu"
                       key={index}
@@ -201,7 +150,8 @@ export default function Wallet() {
                       <div className="card-body p-4">
                         <div className="flex justify-between items-center mb-2">
                           <h3 className="card-title text-md text-gray-800">
-                            {bank.bankName}
+                            {/* {JSON.stringify(bank)}*/}
+                            {/* {bank.bankName}*/}
                           </h3>
                           <button
                             className="btn btn-primary btn-soft btn-sm"
@@ -210,15 +160,18 @@ export default function Wallet() {
                             Edit
                           </button>
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <div className="card-title wrap-anywhere">
+                          {decodeURIComponent(bank?.bankInfo)}
+                        </div>
+                        {/* <p className="text-sm text-gray-600">
                           <span className="font-medium">Account Number:</span>{" "}
                           {bank.accountNumber}
                         </p>
                         <p className="text-sm text-gray-600">
                           <span className="font-medium">Account Name:</span>{" "}
                           {bank.accountName}
-                        </p>
-                        {bank.swiftCode && (
+                        </p>*/}
+                        {/* {bank.swiftCode && (
                           <p className="text-sm text-gray-600">
                             <span className="font-medium">Swift/BIC Code:</span>{" "}
                             {bank.swiftCode}
@@ -235,7 +188,7 @@ export default function Wallet() {
                             <span className="font-medium">Bank Address:</span>{" "}
                             {bank.bankAddress}
                           </p>
-                        )}
+                        )}*/}
                       </div>
                     </div>
                   ))}

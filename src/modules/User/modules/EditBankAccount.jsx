@@ -1,70 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
-import useApiMutation from "../../../api/hooks/useApiMutation";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query"; // Import useQuery and useMutation
 import { useGeoLocatorCurrency } from "../../../hooks/geoLocatorProduct";
 import Loader from "../../../components/Loader";
+import apiClient from "../../../api/apiFactory";
 
 const EditBankAccount = () => {
   const currency = useGeoLocatorCurrency();
-
-  const { mutate } = useApiMutation();
   const navigate = useNavigate();
-
-  const [bankDetails, setBankDetails] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [disabled, setDisabled] = useState(false);
-
   const { id } = useParams();
 
   const {
     register,
     handleSubmit,
     setValue,
-    getValues,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const editAccount = (data) => {
-    setDisabled(true);
-    const payload = {
-      bankInfo: { ...data },
-    };
-
-    const query = formatPayloadAsQuery(payload.bankInfo);
-
-    mutate({
-      url: "/vendor/bank/informations",
-      method: "PUT",
-      data: { bankId: id, bankInfo: query },
-      headers: true,
-      onSuccess: (response) => {
-        navigate(-1);
-        setDisabled(false);
-      },
-      onError: () => {
-        setDisabled(false);
-      },
-    });
-  };
-
-  const getBankInfo = () => {
-    mutate({
-      url: `/vendor/bank/information?bankId=${id}`,
-      method: "GET",
-      headers: true,
-      hideToast: true,
-      onSuccess: (response) => {
-        const bankInfo = parseQueryString(response.data.data.bankInfo);
-        setBankDetails(bankInfo);
-      },
-      onError: () => {
-        setLoading(false);
-      },
-    });
-  };
-
+  // Function to format payload as query string (if needed by the API)
   const formatPayloadAsQuery = (data) => {
     return Object.entries(data)
       .map(
@@ -74,6 +28,7 @@ const EditBankAccount = () => {
       .join("?");
   };
 
+  // Function to parse query string into an object
   const parseQueryString = (queryString) => {
     const obj = {};
     queryString.split("?").forEach((pair) => {
@@ -83,27 +38,88 @@ const EditBankAccount = () => {
     return obj;
   };
 
-  useEffect(() => {
-    getBankInfo();
-  }, []);
+  // TanStack Query for fetching bank information
+  const {
+    data: bankDetails,
+    isLoading: isBankInfoLoading,
+    isError: isBankInfoError,
+  } = useQuery({
+    queryKey: ["bankInformation", id],
+    queryFn: async () => {
+      const response = await apiClient.get(
+        `/vendor/bank/information?bankId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token is stored in localStorage
+          },
+        },
+      );
+      return parseQueryString(response.data.data.bankInfo);
+    },
+    enabled: !!id, // Only run the query if id is available
+    staleTime: Infinity, // Data won't become stale
+    cacheTime: Infinity, // Keep data in cache indefinitely
+  });
+
+  // TanStack Query for editing bank account
+  const {
+    mutate: editAccountMutation,
+    isLoading: isEditing,
+    isSuccess: isEditSuccess,
+    isError: isEditError,
+  } = useMutation({
+    mutationFn: async (data) => {
+      const payload = {
+        bankInfo: { ...data },
+      };
+      const query = formatPayloadAsQuery(payload.bankInfo);
+      const response = await api.put(
+        "/vendor/bank/informations",
+        { bankId: id, bankInfo: query },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      navigate(-1);
+    },
+    onError: (error) => {
+      console.error("Error editing bank account:", error);
+      // You might want to show a toast notification here
+    },
+  });
 
   useEffect(() => {
-    if (!bankDetails || Object.keys(bankDetails || {}).length === 0) return;
-
-    setValue("bankName", bankDetails.bankName);
-    setValue("accountNumber", bankDetails.accountNumber);
-    setValue("accountName", bankDetails.accountName);
-    setValue("swiftCode", bankDetails.swiftCode);
-    setValue("routingNumber", bankDetails.routingNumber);
-    setValue("bankAddress", bankDetails.bankAddress);
-
-    setLoading(false);
+    if (bankDetails) {
+      setValue("bankName", bankDetails.bankName);
+      setValue("accountNumber", bankDetails.accountNumber);
+      setValue("accountName", bankDetails.accountName);
+      setValue("swiftCode", bankDetails.swiftCode);
+      setValue("routingNumber", bankDetails.routingNumber);
+      setValue("bankAddress", bankDetails.bankAddress);
+    }
   }, [bankDetails, setValue]);
 
-  if (loading) {
+  const onSubmit = (data) => {
+    editAccountMutation(data);
+  };
+
+  if (isBankInfoLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <Loader />
+      </div>
+    );
+  }
+
+  if (isBankInfoError) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center text-red-500">
+        Error loading bank details.
       </div>
     );
   }
@@ -119,19 +135,19 @@ const EditBankAccount = () => {
         <div className="shadow-xl py-2 px-5 md:w-3/4 w-full bg-white flex rounded-xl flex-col gap-10">
           <form
             className="w-full flex flex-col items-center justify-center p-4"
-            onSubmit={handleSubmit(editAccount)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="w-full p-6">
               <div className="mb-4">
                 <label
                   className="block text-md font-semibold mb-3"
-                  htmlFor="title"
+                  htmlFor="bankName"
                 >
                   Bank Name
                 </label>
                 <input
                   type="text"
-                  id="title"
+                  id="bankName"
                   {...register("bankName", {
                     required: "Bank Name is required",
                   })}
@@ -140,18 +156,23 @@ const EditBankAccount = () => {
                   style={{ outline: "none" }}
                   required
                 />
+                {errors.bankName && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.bankName.message}
+                  </p>
+                )}
               </div>
 
               <div className="mb-4">
                 <label
                   className="block text-md font-semibold mb-3"
-                  htmlFor="title"
+                  htmlFor="accountNumber"
                 >
                   Account Number
                 </label>
                 <input
                   type="text"
-                  id="title"
+                  id="accountNumber"
                   {...register("accountNumber", {
                     required: "Account Number is required",
                   })}
@@ -160,18 +181,23 @@ const EditBankAccount = () => {
                   style={{ outline: "none" }}
                   required
                 />
+                {errors.accountNumber && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.accountNumber.message}
+                  </p>
+                )}
               </div>
 
               <div className="mb-4">
                 <label
                   className="block text-md font-semibold mb-3"
-                  htmlFor="title"
+                  htmlFor="accountName"
                 >
                   Bank Account Name (Full Name)
                 </label>
                 <input
                   type="text"
-                  id="title"
+                  id="accountName"
                   {...register("accountName", {
                     required: "Account Name is required",
                   })}
@@ -180,20 +206,25 @@ const EditBankAccount = () => {
                   style={{ outline: "none" }}
                   required
                 />
+                {errors.accountName && (
+                  <p className="text-red-500 text-xs italic">
+                    {errors.accountName.message}
+                  </p>
+                )}
               </div>
 
-              {currency[0].name !== "Naira" && (
+              {currency[0]?.name !== "Naira" && (
                 <>
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="title"
+                      htmlFor="swiftCode"
                     >
                       SWIFT/BIC CODE
                     </label>
                     <input
                       type="text"
-                      id="title"
+                      id="swiftCode"
                       {...register("swiftCode")}
                       placeholder="Enter swift code"
                       className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
@@ -204,13 +235,13 @@ const EditBankAccount = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="title"
+                      htmlFor="routingNumber"
                     >
                       Routing Number
                     </label>
                     <input
                       type="text"
-                      id="title"
+                      id="routingNumber"
                       {...register("routingNumber")}
                       placeholder="Enter routing number"
                       className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
@@ -221,13 +252,13 @@ const EditBankAccount = () => {
                   <div className="mb-4">
                     <label
                       className="block text-md font-semibold mb-3"
-                      htmlFor="title"
+                      htmlFor="bankAddress"
                     >
                       Bank Address (Optional)
                     </label>
                     <input
                       type="text"
-                      id="title"
+                      id="bankAddress"
                       {...register("bankAddress")}
                       placeholder="Enter bank address"
                       className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
@@ -239,10 +270,10 @@ const EditBankAccount = () => {
               <div className="w-full md:w-2/5">
                 <button
                   type="submit"
-                  disabled={disabled}
+                  disabled={isEditing}
                   className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
                 >
-                  Edit Account
+                  {isEditing ? "Saving..." : "Edit Account"}
                 </button>
               </div>
             </div>
