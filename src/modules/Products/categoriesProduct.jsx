@@ -10,9 +10,12 @@ import NewProductListing from "../Home/components/new-comps/NewProductListings";
 import SubCategoryList from "../Home/components/new-comps/SubCategoryList";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../api/apiFactory";
+import { useNewFilters } from "../../hooks/new_hooks";
+import NewFilters from "../Home/components/new-comps/NewFilters";
 
 const CategoriesProduct = () => {
   const [products, setProducts] = useState([]);
+  const { filters } = useNewFilters();
   const [paginate, setPaginate] = useState({
     page: 1,
     limit: 20,
@@ -26,7 +29,7 @@ const CategoriesProduct = () => {
   const { id, name } = useParams();
   const { mutate } = useApiMutation();
   const { data: productList, isLoading: productLoading } = useQuery({
-    queryKey: ["products", subCat.get("subCategory"), id],
+    queryKey: ["products", subCat.get("subCategory"), id, filters],
     queryFn: async () => {
       const rawParams = {
         categoryId: id,
@@ -34,6 +37,8 @@ const CategoriesProduct = () => {
         limit: paginate.limit,
         symbol: currency[0]?.symbol,
         subCategoryName: subCat.get("subCategory"),
+        minPrice: filters.minPrice,
+        maxPrice: filters.maxPrice,
       };
 
       const params = Object.fromEntries(
@@ -113,6 +118,7 @@ const CategoriesProduct = () => {
             >
               <div className="flex-1 max-w-xs  bg-base-200">
                 <SubCategoryList data={categoriesArr} />
+                <NewFilters />
               </div>
               <div className="flex-1">
                 <NewProductListing data={productList?.data || []} />

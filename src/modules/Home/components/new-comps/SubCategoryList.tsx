@@ -12,6 +12,9 @@ export default function SubCategoryList({ data }: { data: any[] }) {
 
   return (
     <div className="flex-1 m-2">
+      <h2 className="my-2 px-3 pt-2 text-xl font-bold fieldset-label">
+        SubCategory
+      </h2>
       <ul className="menu  rounded-md  w-full">
         {data
           .sort((a, b) => a.name.localeCompare(b.name))
