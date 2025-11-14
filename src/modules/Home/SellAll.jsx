@@ -12,6 +12,7 @@ import { useNewFilters } from "../../hooks/new_hooks";
 import NewFilters from "./components/new-comps/NewFilters";
 import NewProductListing from "./components/new-comps/NewProductListings";
 import CategoryList from "./components/new-comps/CategoryList";
+import SimplePaginator from "./components/new-comps/SimplePaginator";
 
 const About = () => {
   const { filters } = useNewFilters();
@@ -107,13 +108,14 @@ const About = () => {
                 <Loader />
               </div>
             ) : (
-              <div className="flex w-full">
+              <div className="flex w-full flex-col md:flex-row">
                 <div className="flex flex-col gap-2">
                   <CategoryList data={categoriesArr} />
                   <NewFilters />
                 </div>
                 <div className="flex-1 ">
                   <NewProductListing data={products} />
+                  <SimplePaginator {...productsData.pagination} />
                 </div>
                 {/* <ProductListing
                   data={products}

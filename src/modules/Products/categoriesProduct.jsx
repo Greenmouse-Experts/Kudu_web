@@ -13,6 +13,7 @@ import apiClient from "../../api/apiFactory";
 import { useNewFilters } from "../../hooks/new_hooks";
 import NewFilters from "../Home/components/new-comps/NewFilters";
 import { useCountrySelect } from "../../store/clientStore";
+import SimplePaginator from "../Home/components/new-comps/SimplePaginator";
 
 const CategoriesProduct = () => {
   const [products, setProducts] = useState([]);
@@ -122,15 +123,16 @@ const CategoriesProduct = () => {
             </div>
           ) : (
             <div
-              className="w-full flex mt-20 md:mt-10 p-2 gap-2 "
+              className="w-full flex-col flex  md:flex-row mt-20 md:mt-10 p-2 gap-2 "
               data-theme="kudu"
             >
-              <div className="flex-1 max-w-xs  bg-base-200">
+              <div className="flex-1 md:max-w-xs max-w-auto  bg-base-200">
                 <SubCategoryList data={categoriesArr} />
                 <NewFilters />
               </div>
               <div className="flex-1">
                 <NewProductListing data={productList?.data || []} />
+                <SimplePaginator {...productList.pagination} />
               </div>
             </div>
           )}
