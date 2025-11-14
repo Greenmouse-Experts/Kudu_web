@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Range } from "react-range";
 import { Button } from "@material-tailwind/react";
 import { useGeoLocatorCurrency } from "../../../hooks/geoLocatorProduct";
 import Loader from "../../../components/Loader";
-import useFilteredProducts from "../../../hooks/filteredProducts";
 import { formatNumberWithCommas } from "../../../helpers/helperFactory";
+import { useNewFilters } from "../../../hooks/new_hooks";
+import { useForm, Controller } from "react-hook-form";
 
 const ProductListing = ({
   data,
@@ -14,6 +14,7 @@ const ProductListing = ({
   onPageChange,
   subCategoriesArr,
   selectedCategory,
+  isLoading,
 }) => {
   const [subCategories, setSubCategories] = useState(subCategoriesArr || []);
 
@@ -21,17 +22,7 @@ const ProductListing = ({
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const {
-    filteredProducts,
-    isLoading,
-    applyFilter,
-    clearFilter,
-    values,
-    setValues,
-    subCategoriesId,
-    setSubCategoriesId,
-  } = useFilteredProducts(data, id);
-
+  const filters = useNewFilters();
   const capitalizeEachWord = (str) => {
     return str
       .split(" ")
@@ -40,22 +31,23 @@ const ProductListing = ({
   };
 
   const handleSelectedSubId = (category) => {
-    setSubCategoriesId(category);
+    setSubCategories(category);
   };
 
   const handleNavigation = (id, name) => {
     navigate(`/products/categories/${id}/${name}`);
   };
 
-  const handleMin = (value) => {
-    values[0] = value;
-  };
+  const initial_val = useEffect(() => {
+    const defaults = JSON.parse(localStorage.getItem("filter_defaults"));
+  }, []);
 
-  const handleMax = (value) => {
-    values[1] = value;
-  };
-
-  // return <>{JSON.stringify(subCategories)}ss</>;
+  const filter_form = useForm({
+    defaultValues: {
+      minPrice: initial_val?.minPrice || 0,
+      maxPrice: initial_val?.maxPrice || 5000000,
+    },
+  });
 
   return (
     <div className="flex flex-col lg:flex-row w-full max-w-(--breakpoint-xl) mx-auto">
@@ -98,7 +90,7 @@ const ProductListing = ({
                       id={category.id}
                       name="subcategory"
                       onChange={() => handleSelectedSubId(category.name)}
-                      checked={subCategoriesId === category.name}
+                      checked={filters.setCategory === category.name}
                     />
                     <label htmlFor={category.id} className="ml-2">
                       {category.name}
@@ -109,82 +101,91 @@ const ProductListing = ({
           </div>
         )}
 
-        <div className="mt-8">
-          <h3 className="font-semibold mb-4">Price ({currency[0].symbol})</h3>
-          <Range
-            step={1}
-            min={0}
-            max={10000000}
-            values={values}
-            onChange={(values) => setValues(values)}
-            renderTrack={({ props, children }) => (
-              <div {...props} className="h-1.5 bg-gray-200 rounded-full">
-                {children}
-              </div>
-            )}
-            renderThumb={({ props }) => (
-              <div {...props} className="h-5 w-5 bg-kudu-orange rounded-full" />
-            )}
-          />
-          <div className="flex justify-between mt-2">
-            <span>{values[0]}</span>
-            <span>{values[1]}</span>
-          </div>
-          <div className="mt-4 flex justify-between gap-3 w-full">
-            <div className="flex">
-              <input
-                type="text"
-                id="title"
-                placeholder="Min"
-                onChange={(e) => handleMin(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-              />
+        <form
+          onSubmit={filter_form.handleSubmit((data) => {
+            console.log(data, filters.filters);
+            filters.setFilters({
+              minPrice: data.minPrice,
+              maxPrice: data.maxPrice || 5000000,
+            });
+          })}
+          className="mt-8"
+        >
+          <h3 className="font-semibold mb-4">Price ({currency[0].symbol}) </h3>
+
+          <div className="w-full " data-theme="kudu">
+            <input
+              value={filter_form.watch("minPrice") || 0}
+              onChange={(e) => filter_form.setValue("minPrice", e.target.value)}
+              type="range"
+              min={0}
+              max={"5000000"}
+              className="range w-full"
+            />
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>|</span>
+              <span>|</span>
             </div>
-            <div className="flex">
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>{filters.filters.min} </span>
+              <span>5,000,000</span>
+            </div>
+          </div>
+          <div className="mt-2 flex md:flex-col flex-col  justify-between gap-3 w-full">
+            <div className="space-y-2 flex-1">
+              <label htmlFor="" className="fieldset-label">
+                Min Price
+              </label>
+            </div>
+            <div className="space-y-2 flex-1">
+              <label htmlFor="" className="fieldset-label">
+                Max Price
+              </label>
               <input
-                type="text"
+                {...filter_form.register("maxPrice")}
+                type="number"
                 id="title"
-                onChange={(e) => handleMax(e.target.value)}
                 placeholder="Max"
                 className="w-full px-4 py-2 border border-gray-400 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
               />
             </div>
           </div>
-          <div className="mt-4 flex gap-3">
-            <Button
-              onClick={applyFilter}
-              className="bg-kudu-orange shadow-md w-full"
+          <div className="mt-4 flex gap-3" data-theme="kudu">
+            <button
+              className="btn btn-primary  flex-1"
+              type="submit"
+              onClick={() => {
+                // applyFilter;
+              }}
             >
               APPLY
-            </Button>
+            </button>
             <Button
-              onClick={clearFilter}
-              className="bg-white shadow-md border w-full text-black"
+              type="button"
+              onClick={() => {
+                // clearFilter
+              }}
+              className="bg-white shadow-md border flex-1 text-black"
             >
               Clear
             </Button>
           </div>
-        </div>
+        </form>
       </aside>
 
       <main className="lg:w-4/5 lg:pl-6 sm:pl-0">
         <div className="flex justify-between border items-center mb-6 bg-white p-5 rounded-md">
           <h1 className="text-xl font-bold">Products</h1>
-          {/* <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="border p-2 rounded-sm">
-                        <option value="popularity">Sort by Popularity</option>
-                        <option value="priceLow">Price: Low to High</option>
-                        <option value="priceHigh">Price: High to Low</option>
-                    </select> */}
         </div>
 
         {isLoading ? (
           <div className="w-full h-screen flex items-center justify-center">
             <Loader />
           </div>
-        ) : filteredProducts.length > 0 ? (
+        ) : data.length > 0 ? (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => {
+              {data.map((product) => {
                 const isSoldOut = product.quantity === 0;
                 const price = parseFloat(product?.price);
                 const discountPrice = parseFloat(product?.discount_price);
