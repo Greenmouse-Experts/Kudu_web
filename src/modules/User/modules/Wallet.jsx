@@ -140,7 +140,7 @@ export default function Wallet() {
             <div className="mt-20 md:mt-10 w-full">
               {/* {JSON.stringify(bankData.data)}*/}
               {bankData?.data?.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2  gap-4">
                   {bankData?.data?.map((bank, index) => (
                     <div
                       data-theme="kudu"
