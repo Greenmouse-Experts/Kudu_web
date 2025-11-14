@@ -48,6 +48,7 @@ export default function NewHome() {
 
   // Fetch products from API
   const fetchData = async () => {
+    setLoading(true); // Set loading to true at the start of fetch
     try {
       const productRequest = new Promise((resolve, reject) => {
         mutate({
@@ -91,10 +92,13 @@ export default function NewHome() {
         });
       });
 
-      const [productsData] = await Promise.all([productRequest]);
-      const [trending] = await Promise.all([trendingProductRequest]);
-      const [auction] = await Promise.all([auctionProductRequest]);
-      const [categoriesData] = await Promise.all([categoriesRequest]);
+      const [productsData, trending, auction, categoriesData] =
+        await Promise.all([
+          productRequest,
+          trendingProductRequest,
+          auctionProductRequest,
+          categoriesRequest,
+        ]);
 
       setTrendingProducts(trending);
       setAuctionProducts(auction);
@@ -139,11 +143,12 @@ export default function NewHome() {
     });
   };
 
-  // Fetch data on component mount
+  // Fetch data on component mount and when country changes
   useEffect(() => {
     fetchData();
     fetchAds();
-  }, []);
+  }, [country]); // Add country to the dependency array
+
   // return <div className="py-12 bg-white">{JSON.stringify(jobs)}</div>;
   return (
     <>

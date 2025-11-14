@@ -32,7 +32,7 @@ export default function CountrySelect() {
                 <a
                   onClick={() => {
                     setCountry(country);
-                    window.location.reload();
+                    // window.location.reload();
                     // queryCliet.invalidateQueries({ queryKey: undefined });
                   }}
                 >
