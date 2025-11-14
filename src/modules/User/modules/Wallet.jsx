@@ -102,6 +102,12 @@ export default function Wallet() {
       <div className="w-full p-6 bg-white shadow rounded-lg">
         <div className="flex w-full justify-between">
           <h2 className="text-lg font-bold mb-4">Wallet</h2>
+          <Button
+            className="bg-kudu-blue"
+            onClick={() => navigate("add-account")}
+          >
+            Add Wallet
+          </Button>
         </div>
 
         {isLoading ? (
