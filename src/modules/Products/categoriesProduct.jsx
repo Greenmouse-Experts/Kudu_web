@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import "../Home/components/style.css";
 import useApiMutation from "../../api/hooks/useApiMutation";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import ShoppingExperience from "../Home/components/ShoppingExperience";
 import ProductListing from "../Home/components/ProductListing";
 import Loader from "../../components/Loader";
 import { useGeoLocatorCurrency } from "../../hooks/geoLocatorProduct";
+import NewProductListing from "../Home/components/new-comps/NewProductListings";
+import SubCategoryList from "../Home/components/new-comps/SubCategoryList";
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "../../api/apiFactory";
 
 const CategoriesProduct = () => {
   const [products, setProducts] = useState([]);
@@ -18,25 +22,36 @@ const CategoriesProduct = () => {
   const [loading, setLoading] = useState(true);
 
   const currency = useGeoLocatorCurrency();
-
+  const [subCat] = useSearchParams();
   const { id, name } = useParams();
   const { mutate } = useApiMutation();
+  const { data: productList, isLoading: productLoading } = useQuery({
+    queryKey: ["products", subCat.get("subCategory"), id],
+    queryFn: async () => {
+      const rawParams = {
+        categoryId: id,
+        page: paginate.page,
+        limit: paginate.limit,
+        symbol: currency[0]?.symbol,
+        subCategoryName: subCat.get("subCategory"),
+      };
 
+      const params = Object.fromEntries(
+        Object.entries(rawParams).filter(
+          ([, value]) => value !== null && value !== "",
+        ),
+      );
+
+      let resp = await apiClient.get("/products", {
+        params,
+      });
+      return resp.data;
+    },
+  });
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-
-        // Fetch products
-        const productsData = await new Promise((resolve, reject) => {
-          mutate({
-            url: `/products?categoryId=${id}${paginate ? `&page=${paginate.page}&limit=${paginate.limit}&symbol=${currency[0].symbol}` : ""}`,
-            method: "GET",
-            hideToast: true,
-            onSuccess: (response) => resolve(response.data || []),
-            onError: reject,
-          });
-        });
 
         // Fetch categories
         const categoriesData = await new Promise((resolve, reject) => {
@@ -49,14 +64,7 @@ const CategoriesProduct = () => {
             onError: reject,
           });
         });
-
         // Update state
-        setProducts(productsData.data.length ? productsData.data : []);
-        setPaginate({
-          page: productsData.pagination.currentPage || 1,
-          limit: 20,
-          total: productsData.pagination.totalPages || 0,
-        });
         setCategoriesArr(categoriesData);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -94,19 +102,21 @@ const CategoriesProduct = () => {
       <div className="w-full flex flex-col bg-[#f1f1f2] items-center">
         {/* Hero Section */}
         <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-20 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 h-full">
-          {loading ? (
+          {loading || productLoading ? (
             <div className="w-full h-screen flex items-center justify-center">
               <Loader />
             </div>
           ) : (
-            <div className="w-full flex mt-20 md:mt-10">
-              <ProductListing
-                data={products}
-                pagination={paginate}
-                subCategoriesArr={categoriesArr}
-                onPageChange={handlePagination}
-                selectedCategory={name}
-              />
+            <div
+              className="w-full flex mt-20 md:mt-10 p-2 gap-2 "
+              data-theme="kudu"
+            >
+              <div className="flex-1 max-w-xs  bg-base-200">
+                <SubCategoryList data={categoriesArr} />
+              </div>
+              <div className="flex-1">
+                <NewProductListing data={productList?.data || []} />
+              </div>
             </div>
           )}
         </div>

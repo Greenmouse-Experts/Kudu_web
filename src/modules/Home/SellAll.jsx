@@ -112,7 +112,7 @@ const About = () => {
                   <CategoryList data={categoriesArr} />
                   <NewFilters />
                 </div>
-                <div className="flex-1 p-2">
+                <div className="flex-1 ">
                   <NewProductListing data={products} />
                 </div>
                 {/* <ProductListing
