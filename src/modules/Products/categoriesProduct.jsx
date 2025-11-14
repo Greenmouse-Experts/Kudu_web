@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../api/apiFactory";
 import { useNewFilters } from "../../hooks/new_hooks";
 import NewFilters from "../Home/components/new-comps/NewFilters";
+import { useCountrySelect } from "../../store/clientStore";
 
 const CategoriesProduct = () => {
   const [products, setProducts] = useState([]);
@@ -28,12 +29,20 @@ const CategoriesProduct = () => {
   const [subCat] = useSearchParams();
   const { id, name } = useParams();
   const { mutate } = useApiMutation();
+  const { country } = useCountrySelect();
   const { data: productList, isLoading: productLoading } = useQuery({
-    queryKey: ["products", subCat.get("subCategory"), id, filters],
+    queryKey: [
+      "products",
+      subCat.get("subCategory"),
+      id,
+      filters,
+      country.value,
+    ],
     queryFn: async () => {
       const rawParams = {
         categoryId: id,
         page: paginate.page,
+        country: country.value,
         limit: paginate.limit,
         symbol: currency[0]?.symbol,
         subCategoryName: subCat.get("subCategory"),
