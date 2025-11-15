@@ -66,7 +66,10 @@ const About = () => {
     },
     enabled: !!currency[0]?.symbol, // Only fetch when currency symbol is available
   });
-  const handlePagination = (page) => setPaginate({ ...page });
+  const handlePagination = (page) => {
+    setPaginate((prev) => ({ ...prev, page: page }));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const products = productsData?.data || [];
   const categoriesArr = categoriesData?.data || [];
@@ -115,7 +118,10 @@ const About = () => {
                 </div>
                 <div className="flex-1 ">
                   <NewProductListing data={products} />
-                  <SimplePaginator {...productsData.pagination} />
+                  <SimplePaginator
+                    {...productsData.pagination}
+                    handleNextPage={handlePagination}
+                  />
                 </div>
                 {/* <ProductListing
                   data={products}
