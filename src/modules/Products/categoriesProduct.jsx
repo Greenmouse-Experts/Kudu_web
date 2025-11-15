@@ -31,6 +31,7 @@ const CategoriesProduct = () => {
   const { id, name } = useParams();
   const { mutate } = useApiMutation();
   const { country } = useCountrySelect();
+
   const { data: productList, isLoading: productLoading } = useQuery({
     queryKey: [
       "products",
@@ -38,6 +39,7 @@ const CategoriesProduct = () => {
       id,
       filters,
       country.value,
+      paginate.page,
     ],
     queryFn: async () => {
       const rawParams = {
@@ -63,6 +65,10 @@ const CategoriesProduct = () => {
       return resp.data;
     },
   });
+  const handleNextPage = (page) => {
+    setPaginate((prev) => ({ ...prev, page: page }));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -132,7 +138,10 @@ const CategoriesProduct = () => {
               </div>
               <div className="flex-1">
                 <NewProductListing data={productList?.data || []} />
-                <SimplePaginator {...productList.pagination} />
+                <SimplePaginator
+                  {...productList.pagination}
+                  handleNextPage={handleNextPage}
+                />
               </div>
             </div>
           )}
