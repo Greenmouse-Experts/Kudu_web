@@ -14,6 +14,8 @@ import apiClient from "../../../api/apiFactory";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { StripeResponse } from "../layouts/DollarCartSummary";
 import { toast } from "react-toastify";
+import { useReModal } from "../../../hooks/new_hooks";
+import ReModal from "../../../components/ReModal";
 
 const CheckoutForm = ({
   closeModal,
@@ -46,7 +48,7 @@ const CheckoutForm = ({
           // Prevent page reload by omitting return_url
           // If you want to handle the result in JS, do not set return_url
         },
-        clientSecret: data.clientSecret, // Pass the client secret here
+        clientSecret: data?.clientSecret, // Pass the client secret here
         redirect: "if_required", // Prevents automatic redirect/reload
       });
       return pay_data;
@@ -146,14 +148,14 @@ const CheckoutForm = ({
           },
         }}
       />
-      <div className="mt-4 flex justify-center">
-        <Button
-          className="bg-kudu-orange w-1/2"
+      <div className="mt-4 flex justify-center w-full p-2">
+        <button
+          className="btn btn-primary btn-block"
           type="submit"
           disabled={!stripe || loading}
         >
           {loading ? "Processing..." : "Pay"}
-        </Button>
+        </button>
       </div>
       {errorMessage && (
         <div className="text-red-500 mt-2">
@@ -180,39 +182,71 @@ const TestDollarPaymentButton = ({
   data: StripeResponse;
 }) => {
   const stripePromise = loadStripe(stripeKey);
-  const { openModal, closeModal } = useModal();
-
+  // const { openModal, closeModal } = useModal();
+  const { modalRef: modalRef, openModal, closeModal } = useReModal();
+  const {
+    modalRef: editModalRef,
+    openModal: openEditModal,
+    closeModal: closeEditModal,
+  } = useReModal();
   const handlePayment = () => {
-    openModal({
-      size: "sm",
-      content: (
-        <Elements
-          stripe={stripePromise}
-          options={{ clientSecret: data.clientSecret }}
-        >
-          <CheckoutForm
-            closeModal={closeModal}
-            amount={amount}
-            successCall={() => {
-              // Handle success logic here, e.g., refetch cart
-              console.log("Payment successful!");
-            }}
-            data={data}
-          />
-        </Elements>
-      ),
-    });
+    openEditModal();
+    // openModal({
+    //   size: "md",
+    //   content: (
+    //     <div className="pt-24 z-20">
+    //       <Elements
+    //         stripe={stripePromise}
+    //         options={{ clientSecret: data.clientSecret }}
+    //       >
+    //         <CheckoutForm
+    //           closeModal={closeModal}
+    //           amount={amount}
+    //           successCall={() => {
+    //             // Handle success logic here, e.g., refetch cart
+    //             console.log("Payment successful!");
+    //           }}
+    //           data={data}
+    //         />
+    //       </Elements>
+    //     </div>
+    //   ),
+    // });
   };
 
   return (
-    <Button
-      className={`btn btn-primary bg-kudu-orange ${noWidth ? "" : "w-full"}`}
-      onClick={handlePayment}
-      disabled={!data?.clientSecret || amount === 0}
-      style={{ backgroundColor: bgColor }}
-    >
-      {children}
-    </Button>
+    <>
+      <button
+        className={`btn btn-primary bg-kudu-orange ${noWidth ? "" : "w-full"}`}
+        onClick={handlePayment}
+        disabled={!data?.clientSecret || amount === 0}
+        style={{ backgroundColor: bgColor }}
+      >
+        {children}
+      </button>
+      <ReModal ref={editModalRef}>
+        <div className=" z-20">
+          <div></div>
+          {data?.clientSecret && (
+            <Elements
+              stripe={stripePromise}
+              options={{ clientSecret: data.clientSecret }}
+            >
+              <CheckoutForm
+                closeModal={closeEditModal}
+                amount={amount}
+                successCall={() => {
+                  closeEditModal();
+                  // Handle success logic here, e.g., refetch cart
+                  console.log("Payment successful!");
+                }}
+                data={data}
+              />
+            </Elements>
+          )}
+        </div>
+      </ReModal>
+    </>
   );
 };
 
