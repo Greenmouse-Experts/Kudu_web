@@ -1,26 +1,30 @@
 import { Link } from "react-router-dom";
 import { formatNumberWithCommas } from "../helpers/helperFactory";
 
-const ProductListing = ({ productsArr = [], displayError = false, rowNo = 6 }) => {
+const ProductListing = ({
+  productsArr = [],
+  displayError = false,
+  rowNo = 6,
+}) => {
   const filteredProducts = productsArr;
 
   const capitalizeEachWord = (str) =>
     str
-      .split(" ")
+      ?.split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
 
-
   // Tailwind-safe dynamic column classes
-  const gridColsClass = {
-    2: "md:grid-cols-2",
-    3: "md:grid-cols-3",
-    4: "md:grid-cols-4",
-    5: "md:grid-cols-5",
-    6: "md:grid-cols-6",
-    7: "md:grid-cols-7",
-    8: "md:grid-cols-8",
-  }[Number(rowNo)] || "md:grid-cols-6";
+  const gridColsClass =
+    {
+      2: "md:grid-cols-2",
+      3: "md:grid-cols-3",
+      4: "md:grid-cols-4",
+      5: "md:grid-cols-5",
+      6: "md:grid-cols-6",
+      7: "md:grid-cols-7",
+      8: "md:grid-cols-8",
+    }[Number(rowNo)] || "md:grid-cols-6";
 
   if (filteredProducts.length === 0 && displayError) {
     return (
@@ -32,7 +36,8 @@ const ProductListing = ({ productsArr = [], displayError = false, rowNo = 6 }) =
         />
         <h1 className="text-lg font-bold mb-4">No Product Found</h1>
         <p className="text-black-100 mb-6 leading-loose text-sm">
-          Oops! It looks like we don’t have products available in your region at the moment. <br />
+          Oops! It looks like we don’t have products available in your region at
+          the moment. <br />
           Please check back later or try browsing other categories.
         </p>
       </div>
@@ -66,25 +71,33 @@ const ProductListing = ({ productsArr = [], displayError = false, rowNo = 6 }) =
 
                 {isSoldOut && (
                   <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center rounded-md">
-                    <span className="text-white font-semibold text-lg">Sold Out</span>
+                    <span className="text-white font-semibold text-lg">
+                      Sold Out
+                    </span>
                   </div>
                 )}
 
                 <div className="absolute w-full mt-3">
                   <button
                     className={`absolute top-0 right-0 px-2 py-1 text-xs rounded font-medium text-white ${
-                      item?.vendor?.isVerified || item.admin ? "bg-green-500" : "bg-red-500"
+                      item?.vendor?.isVerified || item.admin
+                        ? "bg-green-500"
+                        : "bg-red-500"
                     }`}
                   >
-                    {item?.vendor?.isVerified || item.admin ? "Verified" : "Not Verified"}
+                    {item?.vendor?.isVerified || item.admin
+                      ? "Verified"
+                      : "Not Verified"}
                   </button>
 
                   <span
                     className={`absolute top-0 left-0 px-2 py-1 text-xs rounded font-medium text-white ${
-                      item.condition === "brand_new" ? "bg-[#34A853]" : "bg-orange-500"
+                      item.condition === "brand_new"
+                        ? "bg-[#34A853]"
+                        : "bg-orange-500"
                     }`}
                   >
-                    {capitalizeEachWord(item.condition.replace(/_/g, " "))}
+                    {capitalizeEachWord(item?.condition?.replace(/_/g, " "))}
                   </span>
                 </div>
               </div>
@@ -112,7 +125,9 @@ const ProductListing = ({ productsArr = [], displayError = false, rowNo = 6 }) =
                   )}
 
                   <div className="flex gap-2 mt-2">
-                    <p className="text-sm text-kudu-roman-silver">Qty Available: {item.quantity}</p>
+                    <p className="text-sm text-kudu-roman-silver">
+                      Qty Available: {item.quantity}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -120,7 +135,9 @@ const ProductListing = ({ productsArr = [], displayError = false, rowNo = 6 }) =
           );
 
           return isSoldOut ? (
-            <div key={item.id} className="h-full">{card}</div>
+            <div key={item.id} className="h-full">
+              {card}
+            </div>
           ) : (
             <Link to={`/product/${item.id}`} key={item.id} className="h-full">
               {card}
