@@ -563,9 +563,7 @@ export default function Header({ openMenu }) {
                     className="bg-kudu-orange text-white py-2 px-4 cursor-pointer rounded-lg"
                     onClick={() => handleVendorModal()}
                   >
-                    {/* <span className="mr-1 text-sm font-medium">
-                      Sell on Kudu
-                    </span>*/}
+                    <span className="mr-1 text-sm font-medium">Sell</span>
                   </span>
                 )}
                 {/* New Menu Button */}
