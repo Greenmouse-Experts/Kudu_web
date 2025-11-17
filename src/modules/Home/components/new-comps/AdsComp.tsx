@@ -37,6 +37,13 @@ export default function AdsComp() {
       ),
     });
   };
+  if (isLoading) {
+    return (
+      <>
+        <Loader />
+      </>
+    );
+  }
   // return <>{JSON.stringify(ads)}</>;
   return (
     <div>

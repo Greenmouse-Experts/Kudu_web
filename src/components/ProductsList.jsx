@@ -46,7 +46,9 @@ const ProductListing = ({
 
   return (
     <div className="w-full">
-      <div className={`grid grid-cols-2 ${gridColsClass} gap-4`}>
+      <div
+        className={`grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4`}
+      >
         {filteredProducts.map((item) => {
           const isSoldOut = item.quantity === 0;
           const price = parseFloat(item?.price);
