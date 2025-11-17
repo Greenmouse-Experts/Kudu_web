@@ -18,6 +18,9 @@ import useAppState from "../../../hooks/appState";
 import ProductReview from "../../Products/productReviews";
 import { LuArrowLeft } from "react-icons/lu";
 import TrackOrder from "../../../components/TrackOrder";
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "../../../api/apiFactory";
+import NewProductReviews from "./_components/NewProductReviews";
 interface ProductStoreCurrency {
   name: string;
   symbol: string;
@@ -100,7 +103,6 @@ const VendorOrderDetails = () => {
   const { id } = useParams<{ id: string }>();
 
   const [rating, setRating] = useState(0);
-  const [orderDetails, setOrderDetails] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [reviews, setReviews] = useState<any[]>([]);
 
@@ -110,34 +112,18 @@ const VendorOrderDetails = () => {
     getOrderDetails();
   }, []);
 
-  const getOrderDetails = () => {
-    setIsLoading(true);
-    ///@ts-ignore
-    mutate({
-      url: `/user/order/items?orderId=${id}`,
-      method: "GET",
-      headers: true,
-      hideToast: true,
-      onSuccess: (response: { data: { data: any[] } }) => {
-        // Filter order items by vendorId
-        const filteredOrderDetails = response.data.data.filter(
-          (item) => item.vendorId === user?.id,
-        );
-        setOrderDetails(filteredOrderDetails);
-        if (filteredOrderDetails.length > 0) {
-          getProductReviews(filteredOrderDetails[0].product.id);
-        }
-        setIsLoading(false);
-      },
-      onError: () => {
-        setIsLoading(false);
-      },
-    });
-  };
+  const detail_query = useQuery({
+    queryKey: ["details", id],
+    queryFn: async () => {
+      const response = await apiClient(`/user/order/items?orderId=${id}`);
+      const data = await response.data;
+      return data.data;
+    },
+  });
+  const getOrderDetails = () => {};
 
   const getProductReviews = (productId: string) => {
     ///@ts-ignore
-
     mutate({
       url: `/user/get/review?productId=${productId}`,
       method: "GET",
@@ -198,25 +184,25 @@ const VendorOrderDetails = () => {
     getOrderDetails();
   };
 
-  if (isLoading) {
+  if (detail_query.isLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <Loader />
       </div>
     );
   }
-
-  if (orderDetails.length === 0) {
+  if (detail_query?.data.length === 0) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
         <p>No order details found.</p>
       </div>
     );
   }
+  const orderDetails = detail_query?.data;
   const vendor_id = user?.id;
   const productDetails = orderDetails[0].product;
   const isVendorType = user.id === orderDetails[0].vendorId;
-  // return <></>;
+
   return (
     <div className="w-full flex-col gap-5 flex">
       <div className=" w-full flex flex-col md:flex-row justify-between gap-6">
@@ -311,7 +297,10 @@ const VendorOrderDetails = () => {
           </div>
           {user.id !== orderDetails[0].vendorId &&
           orderDetails[0].status === "delivered" ? (
-            <ProductReview reviews={reviews} />
+            <>
+              <NewProductReviews id={id as string} />
+              {/*<ProductReview reviews={reviews} />*/}
+            </>
           ) : (
             <></>
           )}
@@ -352,7 +341,7 @@ const VendorOrderDetails = () => {
           </div>
         ) : (
           <div className="h-fit flex md:w-2/5">
-            <ProductReview reviews={reviews} />
+            <NewProductReviews id={id as string} />
           </div>
         )}
       </div>

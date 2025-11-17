@@ -9,14 +9,14 @@ import { useModal } from "../../../hooks/modal";
 import AddShippingAddress from "../../../components/AddShippingAddress";
 import { Country } from "country-state-city";
 import DollarPaymentButton from "../../../components/DollarPaymentButton";
-
+import TestDollarPayment from "../_components/TestDollarPayment";
 interface StripePaymentBreakdown {
   currency: string;
   chargeAmount: number;
   subtotal: number;
 }
 
-interface StripeResponse {
+export interface StripeResponse {
   id: string;
   clientSecret: string;
   totalAmount: number;
@@ -165,14 +165,15 @@ export default function DollarCartSummary({
         )}
         <div className="card-actions justify-center mt-4">
           {user.location ? (
-            <DollarPaymentButton
+            <TestDollarPayment
+              data={stripeData}
               amount={stripeData?.totalAmount || 0}
               disabled={cart.length === 0 || !stripeData?.clientSecret}
             >
               <span className="text-sm font-medium normal-case">
                 Checkout ${formatNumberWithCommas(stripeData?.totalAmount || 0)}
               </span>
-            </DollarPaymentButton>
+            </TestDollarPayment>
           ) : (
             <Button
               className="btn btn-primary bg-kudu-orange"
