@@ -16,6 +16,9 @@ import { useGetJobClient } from "../../api/jobs";
 import TrendingJobs from "./components/TrendingJobs";
 import { useGeoLocatorCurrency } from "../../hooks/geoLocatorProduct";
 import { useCountrySelect } from "../../store/clientStore";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import NewProductSection from "./components/new-comps/NewProductsSection";
 
 export default function NewHome() {
   const { mutate } = useApiMutation();
@@ -27,8 +30,20 @@ export default function NewHome() {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const { countries, setCountry, country } = useCountrySelect();
-
   // const { data: jobs, isLoading } = useGetJobClient();
+
+  const { data: new_products } = useQuery({
+    queryKey: ["products-home", country.value],
+    queryFn: async () => {
+      let resp = await apiClient.get("/products", {
+        params: {
+          country: country.value,
+        },
+      });
+      console.log(resp.data);
+      return resp.data;
+    },
+  });
 
   const currency = useGeoLocatorCurrency();
 
@@ -92,21 +107,16 @@ export default function NewHome() {
         });
       });
 
-      const [productsData, trending, auction, categoriesData] =
-        await Promise.all([
-          productRequest,
-          trendingProductRequest,
-          auctionProductRequest,
-          categoriesRequest,
-        ]);
+      const [trending, auction, categoriesData] = await Promise.all([
+        trendingProductRequest,
+        auctionProductRequest,
+        categoriesRequest,
+      ]);
 
       setTrendingProducts(trending);
       setAuctionProducts(auction);
-      setProducts(productsData);
 
-      const filterproducts = productsData.filter(
-        (product) => product.condition === "brand_new",
-      );
+      const filterproducts = [];
 
       setFilteredProducts(filterproducts);
 
@@ -169,14 +179,15 @@ export default function NewHome() {
               <CategoriesSection data={categoriesArr} />
             )}
           </div>
-          <div className="w-full lg:flex md:flex gap-3 md:mt-3">
-            {loading ? (
-              <div className="w-full h-screen flex items-center justify-center">
-                <Loader />
-              </div>
-            ) : (
-              <ProductsSection productsArr={products} ads={ads?.slice(0, 4)} />
-            )}
+          <div className="w-full lg:flex md:flex gap-3 md:mt-3 ">
+            <>
+              <NewProductSection />
+              {/* {JSON.stringify([new_])}*/}
+              {/* <ProductsSection
+                  productsArr={products}
+                  ads={ads?.slice(0, 4)}
+                />*/}
+            </>
           </div>
           <div className="w-full lg:flex md:flex gap-3 md:mt-3">
             {loading ? (
