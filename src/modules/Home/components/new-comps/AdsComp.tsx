@@ -3,6 +3,7 @@ import apiClient from "../../../../api/apiFactory";
 import { useCountrySelect } from "../../../../store/clientStore";
 import { useModal } from "../../../../hooks/modal";
 import Imgix from "react-imgix";
+import Loader from "../../../../components/Loader";
 
 export default function AdsComp() {
   const { country } = useCountrySelect();
