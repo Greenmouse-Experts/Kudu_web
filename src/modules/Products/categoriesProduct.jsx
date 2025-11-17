@@ -31,6 +31,9 @@ const CategoriesProduct = () => {
   const { id, name } = useParams();
   const { mutate } = useApiMutation();
   const { country } = useCountrySelect();
+  useEffect(() => {
+    handleNextPage(1);
+  }, [subCat.get("subCategory")]);
 
   const { data: productList, isLoading: productLoading } = useQuery({
     queryKey: [

@@ -192,7 +192,7 @@ interface CartItem {
 
 // Define the structure for the API response containing cart items.
 
-interface CartSummaryType {
+export interface CartSummaryType {
   cart: CartItem[];
   [key: string]: any;
 }
