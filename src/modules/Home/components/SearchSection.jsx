@@ -112,7 +112,7 @@ const MyComponent = ({ categories }) => {
         </div>
 
         {/* Mobile View - Swiper (Removed as per prompt) */}
-        {/* <div className="block md:hidden mt-2 mx-1">
+        <div className="block md:hidden mt-2 mx-1">
           <Swiper
             modules={[Autoplay]}
             autoplay={{ delay: 3000 }}
@@ -121,11 +121,11 @@ const MyComponent = ({ categories }) => {
           >
             {slides.map((slide, index) => (
               <SwiperSlide key={index}>
-                <div className="relative w-full h-48 sm:h-56 bg-linear-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                <div className="relative w-full h-48 sm:h-56 bg-red-200 flex items-center justify-cente r">
                   <img
                     src={slide.mobileImage}
                     alt={`Mobile Slide ${index + 1}`}
-                    className="max-w-full max-h-full object-contain rounded-lg"
+                    className="size-full object-cover rounded-lg"
                     loading="lazy"
                     style={{
                       filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))",
@@ -135,7 +135,7 @@ const MyComponent = ({ categories }) => {
               </SwiperSlide>
             ))}
           </Swiper>
-        </div> */}
+        </div>
       </div>
     </div>
   );
