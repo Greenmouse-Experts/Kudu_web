@@ -44,6 +44,7 @@ const AddNewProduct = () => {
     defaultValues: {
       description: "",
       specifications: "",
+      discount_price: 0,
     },
   });
 
