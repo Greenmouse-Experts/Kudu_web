@@ -5,6 +5,8 @@ import QueryCage from "../../../../components/query/QueryCage";
 import DropshipHeader from "./Header";
 import { Button } from "@material-tailwind/react";
 import StoreCard from "./StoreCard";
+import { useCountrySelect } from "../../../../store/clientStore";
+import { useParams } from "react-router-dom";
 
 interface Store {
   id: string;
@@ -29,11 +31,13 @@ interface Store {
 }
 
 export default function AddToStore(props: any) {
+  const currency = useCountrySelect();
   const query = useQuery({
-    queryKey: ["store-list"],
+    queryKey: ["store-list", currency.country],
     queryFn: async () => {
       let resp = await apiClient.get("/stores", {
         params: {
+          country: currency.country,
           limit: 30,
           offset: 0,
         },
@@ -41,10 +45,13 @@ export default function AddToStore(props: any) {
       return resp.data;
     },
   });
+  const { itemId } = useParams();
   return (
     <div className="" data-theme="kudu">
       <DropshipHeader />
-      <div className="p-4 text-xl font-bold">Import to Store</div>
+      <div className="p-4 text-xl font-bold">
+        Import Item To Store: #{itemId}
+      </div>
       <div className="p-4">
         <QueryCage query={query}>
           {(data: any) => {

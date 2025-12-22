@@ -71,14 +71,15 @@ export default function AliProductCard({ item }: { item: AliProduct }) {
           </div>
 
           <div className="card-actions justify-end mt-4">
-            <button
+            <Link
+              to={"/dropshipping/products/import/" + item.itemId}
               className="btn btn-primary btn-sm"
-              onClick={() => {
-                modal.showModal();
-              }}
+              // onClick={() => {
+              //   modal.showModal();
+              // }}
             >
               Add To Store
-            </button>
+            </Link>
             <Link to={item.itemUrl} className="btn btn-accent btn-sm">
               View Product
             </Link>
