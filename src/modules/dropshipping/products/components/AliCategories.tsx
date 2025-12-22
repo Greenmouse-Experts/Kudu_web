@@ -29,7 +29,19 @@ export default function AliCategories(props: {
   const { selectProps } = props;
   return (
     <section data-theme="kudu" className="w-2xs bg-base-200">
-      <QueryCage query={query}>
+      <h2 className="px-4 w-2xs border-b border-b-current/20  h-14 flex items-center text-xl font-bold">
+        Categories
+      </h2>
+      <QueryCage
+        customLoadingComponent={
+          <>
+            <div className="w-2xs flex-1 min-h-screen p-4">
+              <span className="loading loading-ball"></span>Loading
+            </div>
+          </>
+        }
+        query={query}
+      >
         {(data) => {
           const categories = data.data.category;
           const parentCategories = categories.filter(
@@ -38,12 +50,8 @@ export default function AliCategories(props: {
           // const subCategories = categories.filter(
           //   (cat) => cat.parent_category_id !== undefined,
           // );
-
           return (
             <div className="w-2xs">
-              <h2 className="px-4 border-b border-b-current/20  h-14 flex items-center text-xl font-bold">
-                Categories
-              </h2>
               <ul className="menu w-full bg-base-200 space-y-2 py-4">
                 {parentCategories.map((item) => {
                   const setSelected = () => {
