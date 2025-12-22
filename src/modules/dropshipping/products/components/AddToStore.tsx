@@ -53,7 +53,7 @@ export default function AddToStore(props: any) {
   const { itemId } = useParams();
   return (
     <div className="" data-theme="kudu">
-      <DropshipHeader showTitle />
+      <DropshipHeader showTitle={true} />
       <div className="p-4 text-xl font-bold">
         Import Item To Store: #{itemId}
       </div>

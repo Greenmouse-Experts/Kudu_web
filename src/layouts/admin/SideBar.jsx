@@ -450,7 +450,14 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
               {dropdownStates.aliexpress && (
                 <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
                   <Link
-                    to={"/admin/aliexpress-products"}
+                    to={"/admin/aliexpress"}
+                    onClick={() => handleChildren("")}
+                    className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    AliExpress Account
+                  </Link>
+                  <Link
+                    to={"/dropshipping/products"}
                     onClick={() => handleChildren("")}
                     className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
                   >

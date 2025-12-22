@@ -19,6 +19,7 @@ export default function DropshipHeader({
           />
         </h1>
       )}
+
       {showMenu && (
         <label
           htmlFor="my-drawer-3"
@@ -27,7 +28,6 @@ export default function DropshipHeader({
           <Menu />
         </label>
       )}
-
       <div className="ml-auto flex items-center">
         <CountrySelect />
         <Link to="/admin/dashboard" className="btn btn-primary">
