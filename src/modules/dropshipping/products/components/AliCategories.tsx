@@ -9,7 +9,6 @@ interface Category {
   category_id: number;
   parent_category_id?: number;
 }
-
 interface CategoriesResponse {
   data: {
     category: Category[];
