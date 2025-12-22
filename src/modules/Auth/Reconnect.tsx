@@ -2,6 +2,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import QueryCage from "../../components/query/QueryCage";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
+import apiClient from "../../api/apiFactory";
 
 export default function AliConnect() {
   const [searchParams] = useSearchParams();
@@ -11,18 +12,10 @@ export default function AliConnect() {
   const query = useQuery({
     queryKey: ["ali-oauth-exchange", code],
     queryFn: async () => {
-      if (!code) {
-        throw new Error("No authorization code found.");
-      }
-      // Simulate an API call to exchange the code for tokens
-      // In a real application, you would send the 'code' to your backend
-      // Your backend would then exchange it with the OAuth provider for access tokens
-      // For this example, we'll just return a success message after a delay
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({ success: true, message: "Authorization successful!" });
-        }, 1500);
+      let resp = await apiClient.post("aliexpress/auth-callback", {
+        params: { code },
       });
+      return resp.data;
     },
     enabled: !!code, // Only run the query if a code exists and no error
     retry: false, // Do not retry on failure for OAuth
@@ -36,7 +29,7 @@ export default function AliConnect() {
   }, [query.isSuccess, navigate]);
 
   const handleGoHome = () => {
-    navigate("/");
+    navigate("/admin/aliexpress");
   };
 
   return (

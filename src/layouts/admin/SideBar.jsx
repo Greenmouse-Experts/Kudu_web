@@ -30,6 +30,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
     pages: false,
     jobs: false,
     notifications: false, // Added for notifications dropdown
+    aliexpress: false, // Added for AliExpress dropdown
   });
   const { openModal } = useModal();
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
       jobs: type === "jobs" ? !prevState.jobs : false,
       notifications:
         type === "notifications" ? !prevState.notifications : false, // Handler for notifications dropdown
+      aliexpress: type === "aliexpress" ? !prevState.aliexpress : false, // Handler for AliExpress dropdown
     }));
   };
 
@@ -429,6 +431,34 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
               </i>
               <span className={`text-md font-semibold`}>Adverts</span>
             </Link>
+
+            {/* AliExpress Section */}
+            <div className="relative">
+              <button
+                onClick={() => handleChildren("aliexpress")}
+                className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full"
+              >
+                <i className="mr-5">
+                  <Package size={20} />{" "}
+                  {/* You can change this icon if there's a more suitable one for AliExpress */}
+                </i>
+                <span className="text-md font-semibold">AliExpress</span>
+                <i className="ml-5 right-0">
+                  <ChevronDown size={20} />
+                </i>
+              </button>
+              {dropdownStates.aliexpress && (
+                <div className="absolute left-0 mt-2 w-full bg-white rounded-md shadow-lg py-3 z-10">
+                  <Link
+                    to={"/admin/aliexpress-products"}
+                    onClick={() => handleChildren("")}
+                    className="block px-4 py-4 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    AliExpress Products
+                  </Link>
+                </div>
+              )}
+            </div>
 
             <Link
               to={"subscriptions"}
