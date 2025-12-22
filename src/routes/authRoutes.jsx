@@ -4,6 +4,7 @@ import Forget from "../modules/Auth/forget";
 import VerifyEmail from "../modules/Auth/verifyEmail";
 import AdminLogin from "../modules/SuperAdmin";
 import VerifyEmailNew from "../modules/Auth/VerifiyEmailNew";
+import Reconnect from "../modules/SuperAdmin/Dashboard/aliexpress/Reconnect";
 
 export const authRoutes = [
   {
@@ -29,5 +30,9 @@ export const authRoutes = [
   {
     path: "auth/admin/login",
     element: <AdminLogin />,
+  },
+  {
+    path: "auth/admin/reconnect",
+    element: <Reconnect />,
   },
 ];

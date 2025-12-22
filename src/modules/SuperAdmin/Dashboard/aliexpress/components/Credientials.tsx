@@ -53,6 +53,12 @@ export default function Credientials() {
     });
     return resp.data;
   };
+  const get_reconnect_link = async () => {
+    let resp = await apiClient.get("/aliexpress/auth");
+    const link = resp.data.authUrl;
+    window.location.href = link; // Redirect to the authentication URL
+    return resp.data;
+  };
   const mutation = useMutation({
     mutationFn: (fn: Function) => fn(),
     onSuccess: () => {
@@ -104,11 +110,14 @@ export default function Credientials() {
                     {isConnected && showReconnectButton && (
                       <button
                         onClick={() => {
-                          // toast.promise(mutation.mutateAsync(add_account), {
-                          //   loading: "Adding account...",
-                          //   success: "Account added successfully",
-                          //   error: extract_message,
-                          // });
+                          toast.promise(
+                            mutation.mutateAsync(get_reconnect_link),
+                            {
+                              loading: "Adding account...",
+                              success: "Account added successfully",
+                              error: extract_message,
+                            },
+                          );
                         }}
                         className="btn btn-warning btn-sm"
                       >

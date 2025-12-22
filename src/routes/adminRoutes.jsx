@@ -54,6 +54,7 @@ import AdminViewService from "../modules/SuperAdmin/Dashboard/view-service.js";
 import AdminNotifications from "../modules/SuperAdmin/Dashboard/admin-notifications.js";
 import ViewServiceCategories from "../modules/SuperAdmin/Dashboard/view-service-category.js";
 import AliExpressDropShip from "../modules/SuperAdmin/Dashboard/aliexpress/index.js";
+import Reconnect from "../modules/SuperAdmin/Dashboard/aliexpress/Reconnect.js";
 
 export const adminRoutes = [
   {
@@ -277,6 +278,10 @@ export const adminRoutes = [
         path: "aliexpress",
         element: <AliExpressDropShip />,
       },
+      // {
+      //   path: "aliexpress/reconnect",
+      //   element: <Reconnect />,
+      // },
       // {
       //   path: "notifications/:id",
       //   element: <AdminViewNotification />,
