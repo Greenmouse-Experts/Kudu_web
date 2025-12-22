@@ -12,7 +12,7 @@ import { SocketProvider } from "./store/SocketContext.jsx";
 import IPInfo from "ip-info-react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { requestNotificationPermission } from "./config/firebaseMessaging.js";
-
+import { Toaster } from "sonner";
 const queryClient = new QueryClient();
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("/firebase-messaging-sw.js");
@@ -20,6 +20,7 @@ if ("serviceWorker" in navigator) {
 requestNotificationPermission();
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
+    <Toaster position="top-right" />
     <QueryClientProvider client={queryClient}>
       <SocketProvider>
         <IPInfo>

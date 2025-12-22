@@ -43,17 +43,18 @@ export default function AliCategories(props: {
       >
         {(data) => {
           const categories = data.data.category;
-          const parentCategories = categories.filter(
-            (cat) => cat.parent_category_id === undefined,
-          );
+          // const parentCategories = categories.filter(
+          //   (cat) => cat.parent_category_id === undefined,
+          // );
           // const subCategories = categories.filter(
           //   (cat) => cat.parent_category_id !== undefined,
           // );
           return (
             <div className="w-2xs">
               <ul className="menu w-full bg-base-200 space-y-2 py-4">
-                {parentCategories.map((item) => {
+                {categories.map((item) => {
                   const setSelected = () => {
+                    console.log(item);
                     selectProps.selectItem(item.category_id);
                   };
                   if (selectProps.selectedItem == item.category_id) {

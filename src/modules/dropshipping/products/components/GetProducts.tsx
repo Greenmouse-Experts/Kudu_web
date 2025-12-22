@@ -64,6 +64,7 @@ export default function GetDropShipProducts({
   });
   return (
     <section className="min-h-screen" data-theme="kudu">
+      {/*{selectProps.selectedItem}*/}
       <QueryCage query={query}>
         {(data) => {
           return (
