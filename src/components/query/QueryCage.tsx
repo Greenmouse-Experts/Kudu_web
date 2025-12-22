@@ -10,21 +10,33 @@ import SimpleLoader from "./SimpleLoader";
 interface QueryPageLayoutProps<TData> {
   query: QueryObserverResult<TData>;
   children?: React.ReactNode | ((data: TData) => React.ReactNode);
+  customLoadingComponent?: React.ReactNode;
+  customErrorComponent?: (
+    error: string,
+    refetch: () => void,
+  ) => React.ReactNode;
 
   // title?: string | JSX.Element;
   // headerActions?: React.ReactNode | any;
 }
 
 export default function QueryCage<TData>(props: QueryPageLayoutProps<TData>) {
-  if (props.query.isLoading)
+  if (props.query.isLoading) {
+    if (props.customLoadingComponent) {
+      return <>{props.customLoadingComponent}</>;
+    }
     return (
       <>
         <SimpleLoader />
       </>
     );
+  }
 
   if (props.query.error) {
     const error = extract_message(props.query.error as AxiosError<any>);
+    if (props.customErrorComponent) {
+      return <>{props.customErrorComponent(error, props.query.refetch)}</>;
+    }
     return (
       <>
         <div className="p-4 min-h-[420px] grid place-items-center bg-base-300 rounded-md">

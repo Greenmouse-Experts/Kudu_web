@@ -4,6 +4,7 @@ import Forget from "../modules/Auth/forget";
 import VerifyEmail from "../modules/Auth/verifyEmail";
 import AdminLogin from "../modules/SuperAdmin";
 import VerifyEmailNew from "../modules/Auth/VerifiyEmailNew";
+import AliConnect from "../modules/Auth/Reconnect";
 
 export const authRoutes = [
   {
@@ -29,5 +30,10 @@ export const authRoutes = [
   {
     path: "auth/admin/login",
     element: <AdminLogin />,
+  },
+
+  {
+    path: "auth/admin/ali-connect",
+    element: <AliConnect />,
   },
 ];
