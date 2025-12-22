@@ -51,8 +51,8 @@ export default function AliConnect() {
         height: "100vh",
       }}
     >
-      <div data-theme="kudu">
-        <section className="p-8 ring bg-base-100 shadow-xl flex flex-col items-center space-y-4 rounded-lg">
+      <div data-theme="kudu" className="rounded-box shadow-xl p-4 ">
+        <section className="p-8 bg-base-100  flex flex-col items-center space-y-4 ">
           <QueryCage
             query={query}
             customLoadingComponent={
