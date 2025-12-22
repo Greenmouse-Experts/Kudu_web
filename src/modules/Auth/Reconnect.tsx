@@ -12,7 +12,7 @@ export default function AliConnect() {
   const query = useQuery({
     queryKey: ["ali-oauth-exchange", code],
     queryFn: async () => {
-      let resp = await apiClient.post("aliexpress/auth-callback", {
+      let resp = await apiClient.get("aliexpress/auth-callback", {
         params: { code },
       });
       return resp.data;
