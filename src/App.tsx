@@ -11,7 +11,7 @@ import { onMessage } from "firebase/messaging";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { messaging } from "./config/firebaseConfig";
-
+import { Toaster } from "sonner";
 // 👇 optional helper if you want to use it elsewhere too
 export function handleIncomingMessage(payload) {
   console.log("📨 Message received:", payload);
@@ -67,6 +67,7 @@ function App() {
   return (
     <ModalProvider>
       <ReusableModal />
+      <Toaster position="top-right" />
       <RouterProvider router={router} />
       {/* 👇 Needed to render all toasts */}
       <ToastContainer />
