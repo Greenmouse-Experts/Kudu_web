@@ -12,7 +12,7 @@ export default function GetDropShipProducts({
     queryKey: ["ali-products", selectProps.selectedItem],
     queryFn: async () => {
       let resp = await apiClient.get(
-        "admin/aliexpress/products?shippingCountry=UK&currency=USD",
+        "admin/aliexpress/products?shippingCountry=NGN&currency=NGN",
         {
           params: {
             categoryId: selectProps.selectedItem,
@@ -26,10 +26,12 @@ export default function GetDropShipProducts({
       selectProps.selectedItem !== null,
   });
   return (
-    <QueryCage query={query}>
-      {(data) => {
-        return <>{JSON.stringify(data, null, 2)}</>;
-      }}
-    </QueryCage>
+    <section className="min-h-screen">
+      <QueryCage query={query}>
+        {(data) => {
+          return <>{JSON.stringify(data, null, 2)}</>;
+        }}
+      </QueryCage>
+    </section>
   );
 }

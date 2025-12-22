@@ -3,7 +3,7 @@ import AliCategories from "./products/components/AliCategories";
 import GetDropShipProducts from "./products/components/GetProducts";
 
 export default function DropShippingProducts() {
-  const props = useSingleSelect<number>();
+  const props = useSingleSelect<number>(6);
   return (
     <>
       <div className="drawer lg:drawer-open" data-theme="kudu">

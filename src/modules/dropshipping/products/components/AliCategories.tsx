@@ -28,7 +28,7 @@ export default function AliCategories(props: {
   });
   const { selectProps } = props;
   return (
-    <section data-theme="kudu">
+    <section data-theme="kudu" className="w-2xs bg-base-200">
       <QueryCage query={query}>
         {(data) => {
           const categories = data.data.category;
@@ -40,11 +40,11 @@ export default function AliCategories(props: {
           // );
 
           return (
-            <div className="">
-              <h2 className="px-4 h-14 flex items-center text-xl font-bold">
+            <div className="w-2xs">
+              <h2 className="px-4 border-b border-b-current/20  h-14 flex items-center text-xl font-bold">
                 Categories
               </h2>
-              <ul className="menu w-full bg-base-200">
+              <ul className="menu w-full bg-base-200 space-y-2 py-4">
                 {parentCategories.map((item) => {
                   const setSelected = () => {
                     selectProps.selectItem(item.category_id);

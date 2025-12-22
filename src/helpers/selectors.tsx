@@ -27,8 +27,12 @@ export default function useSelectItem() {
   return { selected, setSelected, mapped, add_to, remove, clear };
 }
 
-export function useSingleSelect<T extends string | number>() {
-  const [selectedItem, setSelectedItem] = useState<T | null>(null);
+export function useSingleSelect<T extends string | number>(
+  initialValue: T | null,
+) {
+  const [selectedItem, setSelectedItem] = useState<T | null>(
+    initialValue || null,
+  );
 
   const selectItem = (item: T) => {
     setSelectedItem(item);
