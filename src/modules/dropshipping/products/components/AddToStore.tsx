@@ -1,14 +1,10 @@
 import { Query, useQuery } from "@tanstack/react-query";
-import { ModalHandle } from "../../../../components/dialogs-modals/SimpleModal";
 import apiClient from "../../../../api/apiFactory";
 import QueryCage from "../../../../components/query/QueryCage";
 import DropshipHeader from "./Header";
-import { Button } from "@material-tailwind/react";
 import StoreCard from "./StoreCard";
 import { useCountrySelect } from "../../../../store/clientStore";
 import { useParams } from "react-router-dom";
-import { SimplePagination } from "../../../../components/SimplePagination";
-import { usePagination } from "../../../../hooks/appState";
 import {
   NewPaginator,
   use_new_paginate,
@@ -57,7 +53,7 @@ export default function AddToStore(props: any) {
   const { itemId } = useParams();
   return (
     <div className="" data-theme="kudu">
-      <DropshipHeader />
+      <DropshipHeader showTitle />
       <div className="p-4 text-xl font-bold">
         Import Item To Store: #{itemId}
       </div>

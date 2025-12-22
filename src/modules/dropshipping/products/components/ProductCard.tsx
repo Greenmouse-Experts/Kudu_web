@@ -40,52 +40,46 @@ export default function AliProductCard({ item }: { item: AliProduct }) {
     });
     return resp.data;
   };
-  const modal = useModal();
   return (
-    <>
-      <Modal ref={modal.ref} title="Add To Store">
-        <AddToStore item={item} />
-      </Modal>
-      <div className="card bg-base-100 shadow-xl">
-        <figure>
-          <img
-            src={item.itemMainPic}
-            alt={item.title}
-            className="rounded-xl object-cover h-48 w-full"
-          />
-        </figure>
-        <div className="card-body p-4">
-          <h2 className="card-title line-clamp-1 text-lg font-semibold">
-            {item.title}
-          </h2>
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium">
-                Price: {item.salePrice} {item.salePriceCurrency}
-              </p>
-              <p className="text-xs line-through text-gray-500">
-                Original: {item.originalPrice} {item.originalPriceCurrency}
-              </p>
-            </div>
-            <div className="badge badge-secondary">{item.discount}</div>
+    <div className="card bg-base-100 shadow-xl">
+      <figure>
+        <img
+          src={item.itemMainPic}
+          alt={item.title}
+          className="rounded-xl object-cover h-48 w-full"
+        />
+      </figure>
+      <div className="card-body p-4">
+        <h2 className="card-title line-clamp-1 text-lg font-semibold">
+          {item.title}
+        </h2>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium">
+              Price: {item.salePrice} {item.salePriceCurrency}
+            </p>
+            <p className="text-xs line-through text-gray-500">
+              Original: {item.originalPrice} {item.originalPriceCurrency}
+            </p>
           </div>
+          <div className="badge badge-secondary">{item.discount}</div>
+        </div>
 
-          <div className="card-actions justify-end mt-4">
-            <Link
-              to={"/dropshipping/products/import/" + item.itemId}
-              className="btn btn-primary btn-sm"
-              // onClick={() => {
-              //   modal.showModal();
-              // }}
-            >
-              Add To Store
-            </Link>
-            <Link to={item.itemUrl} className="btn btn-accent btn-sm">
-              View Product
-            </Link>
-          </div>
+        <div className="card-actions justify-end mt-4">
+          <Link
+            to={"/dropshipping/products/import/" + item.itemId}
+            className="btn btn-primary btn-sm"
+            // onClick={() => {
+            //   modal.showModal();
+            // }}
+          >
+            Add To Store
+          </Link>
+          <Link to={item.itemUrl} className="btn btn-accent btn-sm">
+            View Product
+          </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
