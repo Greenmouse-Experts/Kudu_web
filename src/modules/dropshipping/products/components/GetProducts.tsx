@@ -1,3 +1,35 @@
-export default function index() {
-  return <div></div>;
+import { useQuery } from "@tanstack/react-query";
+import { useSingleSelect } from "../../../../helpers/selectors";
+import apiClient from "../../../../api/apiFactory";
+import QueryCage from "../../../../components/query/QueryCage";
+
+export default function GetDropShipProducts({
+  selectProps,
+}: {
+  selectProps: ReturnType<typeof useSingleSelect<number>>;
+}) {
+  const query = useQuery({
+    queryKey: ["ali-products", selectProps.selectedItem],
+    queryFn: async () => {
+      let resp = await apiClient.get(
+        "admin/aliexpress/products?shippingCountry=UK&currency=USD",
+        {
+          params: {
+            categoryId: selectProps.selectedItem,
+          },
+        },
+      );
+      return resp.data;
+    },
+    enabled:
+      selectProps.selectedItem !== undefined &&
+      selectProps.selectedItem !== null,
+  });
+  return (
+    <QueryCage query={query}>
+      {(data) => {
+        return <>{JSON.stringify(data, null, 2)}</>;
+      }}
+    </QueryCage>
+  );
 }
