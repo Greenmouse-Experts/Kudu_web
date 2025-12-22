@@ -10,7 +10,7 @@ export default function DropShippingProducts() {
       <div className="drawer lg:drawer-open" data-theme="kudu">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col">
-          <DropshipHeader />
+          <DropshipHeader showMenu />
           {/*<div className="h-14">
             <label
               htmlFor="my-drawer-3"

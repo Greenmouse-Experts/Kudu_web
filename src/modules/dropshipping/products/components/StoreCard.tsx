@@ -39,7 +39,7 @@ export default function StoreCard({ item }: { item: Store }) {
   const add_to_store = async () => {
     const resp = await apiClient.post("admin/aliexpress/products/import", {
       productId: itemId,
-      shippingCountry: "UK",
+      shippingCountry: "NG",
       currency: "USD",
       storeId: item.id,
       categoryId: selectProps.selectedItem,

@@ -11,7 +11,7 @@ export default function GetCategories(props: {
   const query = useQuery({
     queryKey: ["ali-get-store-cate"],
     queryFn: async () => {
-      let resp = await apiClient.get("categories", {
+      let resp = await apiClient.get("categories/with/sub-categories", {
         params: {
           limit: 100,
         },
@@ -27,25 +27,39 @@ export default function GetCategories(props: {
           return (
             <ul className="menu">
               {payload.map((item) => {
-                const selectItem = () => {
-                  selectProps.selectItem(item.id);
+                const selectItem = (id) => {
+                  selectProps.selectItem(id);
                 };
-                if (selectProps.selectedItem == item.id) {
-                  return (
-                    <li>
-                      <a className="menu-active">{item.name}</a>
-                    </li>
-                  );
-                }
+                // if (selectProps.selectedItem == item.id) {
+                //   return (
+                //     <li>
+                //       <a className="menu-active">{item.name}</a>
+                //     </li>
+                //   );
+                // }
                 return (
                   <li>
                     <a
                       onClick={() => {
-                        selectItem();
+                        // selectItem();
                       }}
                       className=""
                     >
-                      {item.name}
+                      <details>
+                        <summary>{item.name}</summary>
+                        <ul>
+                          {item.subCategories.map((subCategory) => (
+                            <li key={subCategory.id}>
+                              <a
+                                onClick={() => selectItem(subCategory.id)}
+                                className={`${selectProps.selectedItem == subCategory.id ? "menu-active" : ""}`}
+                              >
+                                {subCategory.name}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
                     </a>
                   </li>
                 );

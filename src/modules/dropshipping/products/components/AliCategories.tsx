@@ -43,37 +43,46 @@ export default function AliCategories(props: {
       >
         {(data) => {
           const categories = data.data.category;
-          // const parentCategories = categories.filter(
-          //   (cat) => cat.parent_category_id === undefined,
-          // );
-          // const subCategories = categories.filter(
-          //   (cat) => cat.parent_category_id !== undefined,
-          // );
+          const parentCategories = categories.filter(
+            (cat) => cat.parent_category_id === undefined,
+          );
+          const subCategories = categories.filter(
+            (cat) => cat.parent_category_id !== undefined,
+          );
           return (
             <div className="w-2xs">
               <ul className="menu w-full bg-base-200 space-y-2 py-4">
-                {categories.map((item) => {
-                  const setSelected = () => {
-                    console.log(item);
-                    selectProps.selectItem(item.category_id);
-                  };
-                  if (selectProps.selectedItem == item.category_id) {
-                    return (
-                      <>
-                        <li>
-                          <a className="menu-active">{item.category_name}</a>
-                        </li>
-                      </>
-                    );
-                  }
+                {parentCategories.map((item) => {
                   return (
-                    <>
-                      <li>
-                        <a onClick={() => setSelected()} className="">
-                          {item.category_name}
-                        </a>
-                      </li>
-                    </>
+                    <li key={item.category_id}>
+                      <details>
+                        <summary>{item.category_name}</summary>
+                        <ul>
+                          {subCategories
+                            .filter(
+                              (subCat) =>
+                                subCat.parent_category_id === item.category_id,
+                            )
+                            .map((subCat) => (
+                              <li key={subCat.category_id}>
+                                <a
+                                  onClick={() =>
+                                    selectProps.selectItem(subCat.category_id)
+                                  }
+                                  className={
+                                    selectProps.selectedItem ===
+                                    subCat.category_id
+                                      ? "menu-active"
+                                      : ""
+                                  }
+                                >
+                                  {subCat.category_name}
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </details>
+                    </li>
                   );
                 })}
               </ul>
