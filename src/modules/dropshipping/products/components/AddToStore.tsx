@@ -7,6 +7,12 @@ import { Button } from "@material-tailwind/react";
 import StoreCard from "./StoreCard";
 import { useCountrySelect } from "../../../../store/clientStore";
 import { useParams } from "react-router-dom";
+import { SimplePagination } from "../../../../components/SimplePagination";
+import { usePagination } from "../../../../hooks/appState";
+import {
+  NewPaginator,
+  use_new_paginate,
+} from "../../../../components/paginate/NewPaginator";
 
 interface Store {
   id: string;
@@ -32,14 +38,17 @@ interface Store {
 
 export default function AddToStore(props: any) {
   const currency = useCountrySelect();
+  const paginate = use_new_paginate();
+
   const query = useQuery({
-    queryKey: ["store-list", currency.country],
+    queryKey: ["store-list", currency.country, paginate.page],
     queryFn: async () => {
       let resp = await apiClient.get("/stores", {
         params: {
           country: currency.country,
           limit: 30,
           offset: 0,
+          page: paginate.page,
         },
       });
       return resp.data;
@@ -65,6 +74,10 @@ export default function AddToStore(props: any) {
             );
           }}
         </QueryCage>
+        {/*{JSON.stringify(query.data.pagination.total)}*/}
+        <div className="my-3">
+          <NewPaginator paginate={paginate} />
+        </div>
       </div>
     </div>
   );

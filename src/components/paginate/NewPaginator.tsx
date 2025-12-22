@@ -1,11 +1,10 @@
 import { Minus, Plus } from "lucide-react";
+import { useState } from "react";
 
-export const SimplePagination = ({
+export const NewPaginator = ({
   paginate,
-  total,
 }: {
-  paginate: any;
-  total: number;
+  paginate: ReturnType<typeof use_new_paginate>;
 }) => {
   return (
     <div
@@ -19,18 +18,33 @@ export const SimplePagination = ({
       >
         <Minus />
       </button>
-      <>{paginate.params.page}</>
+      <>{paginate.page}</>
       <button
         type="button"
-        onClick={() => {
-          console.log("ss");
-
-          paginate.nextPage(100);
-        }}
+        onClick={paginate.nextPage}
         className="btn btn-square btn-primary btn-sm"
       >
         <Plus />
       </button>
     </div>
   );
+};
+
+export const use_new_paginate = (ini?: number) => {
+  const [page, setPage] = useState(ini || 1);
+  const nextPage = () => {
+    if (page < 100) {
+      setPage(page + 1);
+    }
+  };
+  const prevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+  return {
+    page,
+    nextPage,
+    prevPage,
+  };
 };

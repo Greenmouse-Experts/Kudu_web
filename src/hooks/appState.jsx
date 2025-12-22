@@ -49,11 +49,10 @@ export const useSmallPagination = ({ initialLimit } = {}) => {
   };
 
   const nextPage = (total) => {
-    if (total == params.limit) {
-      handlePageChange(params.page + 1);
-
-      return console.log(total, params.limit);
-    }
+    setParams((prev) => ({ ...prev, page: prev.page + 1 }));
+    // if (total == params.limit) {
+    // handlePageChange(params.page + 1);
+    // return console.log(total, params.limit);
     // if (params.page = Math.ceil(total / params.limit)) {
     // }
   };
