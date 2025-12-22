@@ -53,6 +53,7 @@ import AdminServices from "../modules/SuperAdmin/Dashboard/services.js";
 import AdminViewService from "../modules/SuperAdmin/Dashboard/view-service.js";
 import AdminNotifications from "../modules/SuperAdmin/Dashboard/admin-notifications.js";
 import ViewServiceCategories from "../modules/SuperAdmin/Dashboard/view-service-category.js";
+import AliExpressDropShip from "../modules/SuperAdmin/Dashboard/aliexpress/index.js";
 
 export const adminRoutes = [
   {
@@ -280,6 +281,7 @@ export const adminRoutes = [
         path: "permissions",
         element: <Permissions />,
       },
+      { path: "aliexpress", element: <AliExpressDropShip /> },
     ],
   },
 ];
