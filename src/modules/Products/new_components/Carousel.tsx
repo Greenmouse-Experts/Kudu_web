@@ -1,5 +1,6 @@
 import { Carousel } from "@material-tailwind/react";
 import { Product } from "../../../types";
+import PricingVariants from "./PricingVariants";
 
 export default function ProductInfo({ product }: { product: Product }) {
   return (
@@ -53,6 +54,9 @@ export default function ProductInfo({ product }: { product: Product }) {
       </div>
       <section className="mt-4 bg-base-100 ring p-4 rounded-box ring-current/20 shadow-xl space-y-2">
         <h2 className="text-xl font-bold">{product.name}</h2>
+        <div className="md:hidden">
+          <PricingVariants product={product} />
+        </div>
         <div className="divider" />
         <div className="grid  gap-4">
           <div>

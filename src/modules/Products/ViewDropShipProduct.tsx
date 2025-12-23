@@ -35,7 +35,7 @@ export default function ViewDropShipProducts() {
         <ProductInfo product={query.data?.data} />
         {/*{JSON.stringify(query.data, null, 2)}*/}
       </section>
-      <div className="flex-1 max-w-md bg-base-200">
+      <div className="flex-1 max-w-md bg-base-200 hidden md:block">
         <PricingVariants product={query.data?.data} />
       </div>
     </div>
