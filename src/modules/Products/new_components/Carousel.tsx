@@ -53,7 +53,7 @@ export default function ProductInfo({ product }: { product: Product }) {
         </Carousel>
       </div>
       <section className="mt-4 bg-base-100 ring p-4 rounded-box ring-current/20 shadow-xl space-y-2">
-        <h2 className="text-xl font-bold">{product.name}</h2>
+        <h2 className="md:text-xl text-lg font-bold">{product.name}</h2>
         <div className="md:hidden">
           <PricingVariants product={product} />
         </div>

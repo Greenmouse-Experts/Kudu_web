@@ -28,6 +28,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
 
   return (
     <div className="p-4 ring ring-current/20 bg-base-100 rounded-box">
+      <div className="badge badge-info badge-soft ring mb-2">Coming Soon</div>
       <h3 className="text-lg font-semibold">PRICING</h3>
       <p className="text-2xl font-bold text-primary">
         {selectedVariant?.currency_code} {calculatedPrice.toFixed(2)}

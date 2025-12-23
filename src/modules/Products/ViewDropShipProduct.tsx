@@ -29,9 +29,9 @@ export default function ViewDropShipProducts() {
   return (
     <div
       data-theme="kudu"
-      className="flex min-h-screen pt-28 px-3 container mx-auto bg-base-200"
+      className="flex min-h-screen pt-28 md:px-3 container mx-auto md:bg-base-200"
     >
-      <section className="flex-1 p-4 ">
+      <section className="flex-1 md:p-4 ">
         <ProductInfo product={query.data?.data} />
         {/*{JSON.stringify(query.data, null, 2)}*/}
       </section>
