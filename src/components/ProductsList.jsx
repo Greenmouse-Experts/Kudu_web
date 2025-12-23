@@ -103,7 +103,6 @@ const ProductListing = ({
                   </span>
                 </div>
               </div>
-
               {/* Info Section */}
               <div className="p-3 flex flex-col justify-between grow">
                 <div>
@@ -141,7 +140,11 @@ const ProductListing = ({
               {card}
             </div>
           ) : (
-            <Link to={`/product/${item.id}`} key={item.id} className="h-full">
+            <Link
+              to={`/${item.variants ? "product-dropship" : "product"}/${item.id}`}
+              key={item.id}
+              className="h-full"
+            >
               {card}
             </Link>
           );

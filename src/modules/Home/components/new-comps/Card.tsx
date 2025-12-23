@@ -13,6 +13,7 @@ export default function NewCard({ item }: { item: any }) {
         isSoldOut ? "opacity-50 pointer-events-none" : ""
       }`}
     >
+      {/*{JSON.stringify(item.variants)}*/}
       {/* Image & Badges */}
       <div className="flex justify-center relative h-[200px]">
         <img

@@ -29,6 +29,7 @@ import PublicSingleService from "../modules/PublicServices/public-single-service
 import PublicServiceSubCateories from "../modules/PublicServices/public-services-sub";
 import PublicServicesSubcategories from "../modules/PublicServices/public-services-sub";
 import DeleteAccount from "../modules/Settings/modules/delete-account";
+import ViewDropShipProducts from "../modules/Products/ViewDropShipProduct";
 
 export const landingRooutes = [
   {
@@ -55,6 +56,10 @@ export const landingRooutes = [
       {
         path: "product/:id",
         element: <ViewProduct />,
+      },
+      {
+        path: "product-dropship/:id",
+        element: <ViewDropShipProducts />,
       },
       {
         path: "products/categories/:id/:name",
