@@ -514,14 +514,14 @@ export default function ViewProduct() {
                             </span>
                           )}
                           <span className="flex flex-col justify-center text-xs font-semibold">
-                            {getDateDifference(product.vendor.createdAt)} on
+                            {getDateDifference(product?.vendor?.createdAt)} on
                             Kudu
                           </span>
                         </div>
                       </div>
                     </div>
                     {user ? (
-                      product.vendor.isVerified ? (
+                      product?.vendor?.isVerified ? (
                         <button
                           data-theme="kudu"
                           className="btn btn-accent"
@@ -534,7 +534,9 @@ export default function ViewProduct() {
                           <span className="flex mt-[4px]">Start Chat</span>
                         </button>
                       ) : (
-                        data(<></>)
+                        <>
+                          // data(<></>)
+                        </>
                       )
                     ) : (
                       <></>

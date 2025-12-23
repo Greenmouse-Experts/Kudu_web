@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface ProductCard {
   additional_images: string[];
@@ -89,6 +90,7 @@ interface ProductCard {
 
 export default function NewProductListing({ data }: { data: ProductCard[] }) {
   const navigate = useNavigate();
+
   return (
     <div
       className="grid flex-1 grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-2"
@@ -113,7 +115,12 @@ export default function NewProductListing({ data }: { data: ProductCard[] }) {
 
           return (
             <div
-              onClick={() => navigate(`/product/${product.id}`)}
+              onClick={() => {
+                if (product.variants) {
+                  return navigate(`/product-dropship/${product.id}`);
+                }
+                navigate(`/product/${product.id}`);
+              }}
               className={`card w-full bg-base-100 shadow-md hover:shadow-lg transition-shadow duration-300 ${
                 isSoldOut ? "opacity-70" : ""
               }`}
