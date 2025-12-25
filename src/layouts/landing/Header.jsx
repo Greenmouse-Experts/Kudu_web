@@ -392,7 +392,7 @@ export default function Header({ openMenu }) {
                 {/* Get the Kudu App */}
                 <Link
                   to="/download-app"
-                  className="bg-white text-kudu-orange px-3 py-2 rounded-lg flex items-center space-x-4 hover:opacity-80 transition-opacity duration-200"
+                  className="bg-white text-primary px-3 py-2 rounded-lg flex items-center space-x-4 hover:opacity-80 transition-opacity duration-200"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
