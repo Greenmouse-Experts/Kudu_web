@@ -139,6 +139,7 @@ export default function Header({ openMenu }) {
     <>
       <div className="fixed w-full z-95 lg:py-0 md:py-0">
         {/* Main Header */}
+
         <div className="w-full flex items-center bg-white justify-between lg:px-28 md:gap-8 px-5">
           <div className="lg:hidden md:hidden flex my-2">
             <Link to="/">
@@ -315,9 +316,9 @@ export default function Header({ openMenu }) {
           </div>
 
           {/* Desktop Navigation */}
-          <header className="w-full">
+          <header className="w-full" data-theme="kudu">
             {/* Top Bar */}
-            <div className="w-full bg-kudu-orange text-white py-3 md:px-24">
+            <div className="w-full bg-primary text-white py-3 md:px-24">
               {/* Left Section */}
               <div className="flex justify-center items-center  xl:space-x-52 md:space-x-24">
                 {/* Swift Delivery Care */}
