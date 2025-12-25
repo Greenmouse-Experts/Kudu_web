@@ -22,7 +22,7 @@ export default function ViewDropShipProducts() {
       >
         <div>
           <span className="loading loading-ball"></span>
-          <span>Loading</span>
+          <span>...Loading</span>
         </div>
       </div>
     );
