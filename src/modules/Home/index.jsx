@@ -226,7 +226,9 @@ export default function NewHome() {
                 <Loader />
               </div>
             ) : (
-              <ProductConditions productsArr={products} />
+              <>
+                <ProductConditions productsArr={products} />
+              </>
             )}
           </div>
           <div className="w-full lg:flex md:flex gap-3">

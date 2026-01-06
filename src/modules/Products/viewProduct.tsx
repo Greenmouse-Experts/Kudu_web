@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 import { Button } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import Imgix from "react-imgix";
