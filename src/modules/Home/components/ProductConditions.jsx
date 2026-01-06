@@ -55,39 +55,44 @@ export default function ProductConditions() {
 
   return (
     <div className="flex w-full flex-col lg:gap-5 md:gap-5 mb-10">
-      <div className="grid w-full lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-3 grid-cols-3 my-3 md:mt-3 lg:mt-0 gap-4">
+      <div
+        data-theme="kudu"
+        className="grid w-full grid-cols-3 my-3 md:mt-3 lg:mt-0 gap-4"
+      >
         {conditionsArr.length > 0 ? (
           conditionsArr.map((item, index) => {
             const IconComponent = item.icon;
             const isActive = activeCondition === item.id;
 
             return (
-              <div
+              <button
                 key={index}
                 onClick={() => handleActiveCondition(item.id)}
-                className={`group flex flex-col gap-4 py-3 md:py-5 justify-center items-center cursor-pointer rounded-lg shadow-sm transition-all
-                                ${isActive ? "bg-kudu-orange text-white" : "bg-white text-black hover:bg-kudu-orange hover:text-white"}
-                            `}
+                className={`btn btn-primary btn-ghost h-auto flex flex-col py-3 md:py-5 ${
+                  isActive ? " btn-active" : ""
+                }`}
               >
                 <IconComponent
                   size={40}
-                  className="transition-all hidden md:block"
+                  className="hidden md:block"
                   style={{ color: isActive ? "white" : item.color }}
                 />
                 <IconComponent
                   size={20}
-                  className="transition-all block md:hidden"
+                  className="block md:hidden"
                   style={{ color: isActive ? "white" : item.color }}
                 />
-                <p className="lg:text-sm md:text-sm text-xs font-medium">
+                <span className="text-xs md:text-sm font-medium normal-case">
                   {item.name}
-                </p>
-              </div>
+                </span>
+              </button>
             );
           })
         ) : (
-          <div className="w-full flex justify-center">
-            <span className="text-2xl font-semibold">NO DATA IS AVAILABLE</span>
+          <div className="col-span-3 flex justify-center py-10">
+            <span className="text-2xl font-semibold opacity-50">
+              NO DATA IS AVAILABLE
+            </span>
           </div>
         )}
       </div>
