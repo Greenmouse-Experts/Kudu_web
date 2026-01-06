@@ -567,7 +567,10 @@ export default function ViewProduct() {
                 {product.vendor?.isVerified || product.admin ? (
                   <div className="w-full flex flex-col gap-3 py-5 md:px-8 px-4 rounded-md bg-white shadow shadow-md">
                     <>
-                      <div className="flex items-center gap-5">
+                      <div
+                        data-theme="kudu"
+                        className="flex items-center gap-5"
+                      >
                         <span className="flex flex-col justify-center h-full text-base font-semibold">
                           Quantity
                         </span>
@@ -575,7 +578,7 @@ export default function ViewProduct() {
                           <button
                             onClick={handleDecrease}
                             disabled={product.quantity === 0}
-                            className="bg-kudu-orange text-white px-3 py-1 rounded-sm hover:bg-orange-600"
+                            className="btn-primary btn"
                           >
                             -
                           </button>
@@ -588,7 +591,7 @@ export default function ViewProduct() {
                               product.quantity === 0 ||
                               quantity >= product.quantity
                             }
-                            className="bg-kudu-orange text-white px-3 py-1 rounded-sm hover:bg-orange-600"
+                            className="btn-primary btn"
                           >
                             +
                           </button>
