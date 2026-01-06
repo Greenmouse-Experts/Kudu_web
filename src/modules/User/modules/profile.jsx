@@ -4,6 +4,9 @@ import { useModal } from "../../../hooks/modal";
 import { Country } from "country-state-city";
 import { useGetSubcriptionsPlanQuery } from "../../../reducers/storeSlice";
 import AddShippingAddress from "../../../components/AddShippingAddress";
+import { useNewModal } from "../../../components/modals/modals";
+import Modal from "../../../components/modals/DialogModal";
+import { useQuery } from "@tanstack/react-query";
 
 const AccountProfile = () => {
   const { user } = useAppState();
@@ -26,18 +29,15 @@ const AccountProfile = () => {
 
   const countries = Country.getAllCountries();
 
-  const handleModal = () => {
-    openModal({
-      size: "sm",
-      content: (
-        <AddShippingAddress
-          isOpen={true}
-          countries={countries}
-          closeModal={closeModal}
-        />
-      ),
-    });
-  };
+  const modalRef = useNewModal();
+  // const handleModal = () => {
+  //   openModal({
+  //     size: "sm",
+  //     content: (
+
+  //     ),
+  //   });
+  // };
 
   const handleViewModal = (plan) => {
     openModal({
@@ -126,9 +126,19 @@ const AccountProfile = () => {
       ),
     });
   };
-
+  const location =
+    typeof user["location"] === "string"
+      ? JSON.parse(user["location"])
+      : user["location"];
   return (
     <div className="bg-white w-full rounded-lg">
+      <Modal ref={modalRef.ref} title="Update Shipping Address">
+        <AddShippingAddress
+          isOpen={true}
+          countries={countries}
+          closeModal={modalRef.closeModal()}
+        />
+      </Modal>
       <h2 className="text-lg font-bold p-6">Profile</h2>
       <div className="w-full h-px border" />
 
@@ -156,17 +166,15 @@ const AccountProfile = () => {
               Your default shipping address:
             </p>
             <p className="text-gray-500 font-medium">
-              {user?.location
-                ? typeof user.location === "string"
-                  ? `${JSON.parse(user.location).city} ${JSON.parse(user.location).state}, ${JSON.parse(user.location).country}`
-                  : `${user.location.city} ${user.location.state}, ${user.location.country}`
+              {location
+                ? `${location.city} ${location.state}, ${location.country}`
                 : "No default shipping address available."}
             </p>
           </div>
           <div className="p-4">
             <button
               className="text-sm text-kudu-orange font-semibold underline"
-              onClick={handleModal}
+              onClick={modalRef.showModal()}
             >
               {user?.location
                 ? "CHANGE DEFAULT ADDRESS"

@@ -30,7 +30,6 @@ export default function NewHome() {
   const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(true);
   const { countries, setCountry, country } = useCountrySelect();
-  // const { data: jobs, isLoading } = useGetJobClient();
 
   const { data: new_products } = useQuery({
     queryKey: ["products-home", country.value],

@@ -1,6 +1,10 @@
 import { toast } from "react-toastify";
 import { Product } from "../../../types";
 import { useState } from "react";
+import { useAddToCart } from "../../../api/cart";
+import { useMutation } from "@tanstack/react-query";
+import apiClient from "../../../api/apiFactory";
+import { ChartItem } from "chart.js";
 
 const PricingVariants = ({ product }: { product: Product }) => {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
@@ -12,6 +16,19 @@ const PricingVariants = ({ product }: { product: Product }) => {
       setSelectedVariant(variant);
     }
   };
+  interface CartItem {
+    product_id: string;
+    [key: string]: any;
+    quantity: number;
+    dropshipProductSkuAttr: string; // gotten from dropship type products variants array
+    dropshipProductSkuId: string; // gotten from dropship type products variants array
+  }
+  const mutation = useMutation({
+    mutationFn: async (data: CartItem) => {
+      let resp = await apiClient.post("user/cart/add", data);
+      return resp.data;
+    },
+  });
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
@@ -22,9 +39,30 @@ const PricingVariants = ({ product }: { product: Product }) => {
     }
   };
 
+  //@ts-ignore
   const calculatedPrice = selectedVariant
-    ? selectedVariant.sku_price * quantity
+    ? //@ts-ignore
+      selectedVariant.sku_price * quantity
     : 0;
+
+  const handleAddToCart = () => {
+    //@ts-ignore
+    //
+    toast.promise(
+      mutation.mutateAsync({
+        productId: product.id as string,
+        product_id: product.id as string,
+        quantity,
+        dropshipProductSkuAttr: selectedVariant?.sku_attr,
+        dropshipProductSkuId: selectedVariant?.sku_id,
+      }),
+      {
+        pending: "Adding to cart...",
+        success: "Added to cart!",
+        error: "Failed to add to cart",
+      },
+    );
+  };
 
   return (
     <div className="p-4 ring ring-current/20 bg-base-100 rounded-box">
@@ -72,6 +110,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
       </div>
       <button
         onClick={() => {
+          handleAddToCart();
           toast.info("Coming Soon");
         }}
         className="btn btn-primary btn-block mt-2"

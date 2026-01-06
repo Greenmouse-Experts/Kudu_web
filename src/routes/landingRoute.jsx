@@ -30,6 +30,7 @@ import PublicServiceSubCateories from "../modules/PublicServices/public-services
 import PublicServicesSubcategories from "../modules/PublicServices/public-services-sub";
 import DeleteAccount from "../modules/Settings/modules/delete-account";
 import ViewDropShipProducts from "../modules/Products/ViewDropShipProduct";
+import TestPage from "../modules/TestPage";
 
 export const landingRooutes = [
   {
@@ -199,6 +200,10 @@ export const landingRooutes = [
       {
         path: "return-policy",
         element: <Return />,
+      },
+      {
+        path: "test-page",
+        element: <TestPage />,
       },
       {
         path: "services",
