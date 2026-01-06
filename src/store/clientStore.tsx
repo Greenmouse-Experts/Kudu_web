@@ -2,7 +2,10 @@ import { getDefaultStore } from "jotai";
 import { useAtom } from "jotai/react";
 import { atomWithStorage } from "jotai/utils";
 
-const country_atom = atomWithStorage("country", { value: "UK", label: "UK" });
+const country_atom = atomWithStorage("country", {
+  value: "NG",
+  label: "Nigeria",
+});
 
 export const useCountrySelect = () => {
   const [country, setCountry] =
