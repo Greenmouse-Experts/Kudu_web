@@ -134,7 +134,7 @@ const AccountProfile = () => {
   return (
     <div className="bg-white w-full rounded-lg">
       <Modal ref={modalRef.ref} title="Update Shipping Address">
-        <UpdateShipAdd onConfirm={modalRef.closeModal} />
+        <UpdateShipAdd onclose={modalRef.closeModal} />
         {/* <AddShippingAddress
           isOpen={true}
           countries={countries}

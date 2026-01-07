@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import apiClient from "../api/apiFactory";
 import { toast } from "sonner";
 import useAppState from "../hooks/appState";
+import { useDispatch } from "react-redux";
+import { setKuduUser } from "../reducers/userSlice";
 
 interface ShippingAddress {
   hasChildren: boolean;
@@ -14,6 +16,8 @@ interface ShippingAddress {
 interface FormValues {
   province: string;
   city: string;
+  street: string;
+  zipCode: string;
   country: {
     name: string;
     id: string;
@@ -35,6 +39,7 @@ const country_list = [
 ];
 export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
   const { user } = useAppState();
+  const dispatch = useDispatch();
 
   const { register, watch, handleSubmit, setValue } = useForm<FormValues>({
     defaultValues: {
@@ -62,14 +67,16 @@ export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
-        dateOfBirth: Date.now(),
+        dateOfBirth: String(Date.now()),
         ...data,
       });
       return resp.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const user_data = data.data;
+      dispatch(setKuduUser(user_data));
       onclose();
-      toast.success("Shipping address updated successfully");
+      // toast.success("Shipping address updated successfully");
     },
   });
 
@@ -83,7 +90,11 @@ export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
-    const formatted_data = `${data.country.name}, ${data.province}, ${data.city}`;
+    const formatted_data = {
+      country: data.country.name,
+      city: `${data.street}, ${data.city} ,${data.zipCode}`,
+      state: data.province,
+    };
     console.log(formatted_data);
     toast.promise(() => mutation.mutateAsync({ location: formatted_data }), {
       loading: "Updating shipping address...",
@@ -154,6 +165,30 @@ export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Street Address</span>
+          </label>
+          <input
+            type="text"
+            {...register("street")}
+            placeholder="Enter street address"
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        <div className="form-control w-full">
+          <label className="label">
+            <span className="label-text">Zip Code</span>
+          </label>
+          <input
+            type="text"
+            {...register("zipCode")}
+            placeholder="Enter zip code"
+            className="input input-bordered w-full"
+          />
         </div>
 
         <button type="submit" className="btn btn-primary w-full">
