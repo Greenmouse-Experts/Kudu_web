@@ -12,20 +12,47 @@ interface ShippingAddress {
 interface FormValues {
   province: string;
   city: string;
+  country: {
+    name: string;
+    id: string;
+  };
 }
-
-export default function TestPage() {
-  const { register, watch, handleSubmit } = useForm<FormValues>();
-
+const country_list = [
+  {
+    name: "Nigeria",
+    id: "NG",
+  },
+  {
+    name: "United States",
+    id: "US",
+  },
+  {
+    name: "United Kingdom",
+    id: "UK",
+  },
+];
+export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
+  const { register, watch, handleSubmit, setValue } = useForm<FormValues>({
+    defaultValues: {
+      country: {
+        name: "Nigeria",
+        id: "NG",
+      },
+    },
+  });
+  const selectedCountry = watch("country");
   const { data: countryData, isLoading } = useQuery<{ data: ShippingAddress }>({
-    queryKey: ["test-query"],
+    queryKey: ["test-query", selectedCountry.name],
     queryFn: async () => {
-      const response = await apiClient(
-        "user/shipping/addresses?shipToCountryCode=NG",
-      );
+      const response = await apiClient("user/shipping/addresses", {
+        params: {
+          shipToCountryCode: selectedCountry.id,
+        },
+      });
       return response.data;
     },
   });
+  const mutation: any = null;
 
   const selectedProvinceName = watch("province");
 
@@ -37,11 +64,38 @@ export default function TestPage() {
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
+    const formatted_data = `${data.country.name}, ${data.province}, ${data.city}`;
+    console.log(formatted_data);
+    // mutation.mutate(formatted_data);
   };
 
   return (
-    <div data-theme="kudu" className="pt-26 min-h-screen p-8">
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-md space-y-4">
+    <div data-theme="kudu" className="w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className=" space-y-4">
+        <div className="form-control w-full ">
+          <label className="label">
+            <span className="label-text">Country</span>
+          </label>
+          <select
+            className="select select-bordered w-full"
+            value={selectedCountry.id}
+            onChange={(e) => {
+              const country = country_list.find((c) => c.id === e.target.value);
+              if (country) {
+                setValue("country", country);
+                setValue("province", "");
+                setValue("city", "");
+              }
+            }}
+          >
+            {country_list.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <div className="form-control w-full">
           <label className="label">
             <span className="label-text">State / Province</span>

@@ -7,6 +7,7 @@ import AddShippingAddress from "../../../components/AddShippingAddress";
 import { useNewModal } from "../../../components/modals/modals";
 import Modal from "../../../components/modals/DialogModal";
 import { useQuery } from "@tanstack/react-query";
+import UpdateShipAdd from "../../../components/UpdateShippingAddress";
 
 const AccountProfile = () => {
   const { user } = useAppState();
@@ -133,11 +134,12 @@ const AccountProfile = () => {
   return (
     <div className="bg-white w-full rounded-lg">
       <Modal ref={modalRef.ref} title="Update Shipping Address">
-        <AddShippingAddress
+        <UpdateShipAdd onConfirm={modalRef.closeModal} />
+        {/* <AddShippingAddress
           isOpen={true}
           countries={countries}
           closeModal={modalRef.closeModal()}
-        />
+        />*/}
       </Modal>
       <h2 className="text-lg font-bold p-6">Profile</h2>
       <div className="w-full h-px border" />
@@ -174,7 +176,7 @@ const AccountProfile = () => {
           <div className="p-4">
             <button
               className="text-sm text-kudu-orange font-semibold underline"
-              onClick={modalRef.showModal()}
+              onClick={() => modalRef.showModal()}
             >
               {user?.location
                 ? "CHANGE DEFAULT ADDRESS"
