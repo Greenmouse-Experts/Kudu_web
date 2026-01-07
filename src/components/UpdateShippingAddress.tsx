@@ -1,6 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import apiClient from "../api/apiFactory";
+import { toast } from "sonner";
+import useAppState from "../hooks/appState";
 
 interface ShippingAddress {
   hasChildren: boolean;
@@ -32,6 +34,8 @@ const country_list = [
   },
 ];
 export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
+  const { user } = useAppState();
+
   const { register, watch, handleSubmit, setValue } = useForm<FormValues>({
     defaultValues: {
       country: {
@@ -52,7 +56,22 @@ export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
       return response.data;
     },
   });
-  const mutation: any = null;
+  const mutation = useMutation({
+    mutationFn: async (data: any) => {
+      let resp = await apiClient.put("user/profile/update", {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        dateOfBirth: Date.now(),
+        ...data,
+      });
+      return resp.data;
+    },
+    onSuccess: () => {
+      onclose();
+      toast.success("Shipping address updated successfully");
+    },
+  });
 
   const selectedProvinceName = watch("province");
 
@@ -66,12 +85,17 @@ export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
     console.log(data);
     const formatted_data = `${data.country.name}, ${data.province}, ${data.city}`;
     console.log(formatted_data);
-    // mutation.mutate(formatted_data);
+    toast.promise(() => mutation.mutateAsync({ location: formatted_data }), {
+      loading: "Updating shipping address...",
+      success: "Shipping address updated successfully",
+      error: "Failed to update shipping address",
+    });
   };
 
   return (
     <div data-theme="kudu" className="w-full">
       <form onSubmit={handleSubmit(onSubmit)} className=" space-y-4">
+        {/*{JSON.stringify(user, null, 2)}*/}
         <div className="form-control w-full ">
           <label className="label">
             <span className="label-text">Country</span>
