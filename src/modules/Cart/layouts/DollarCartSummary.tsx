@@ -10,6 +10,7 @@ import AddShippingAddress from "../../../components/AddShippingAddress";
 import { Country } from "country-state-city";
 import DollarPaymentButton from "../../../components/DollarPaymentButton";
 import TestDollarPayment from "../_components/TestDollarPayment";
+import DropShipDollarPayment from "../_components/DropShipDollarPayment";
 interface StripePaymentBreakdown {
   currency: string;
   chargeAmount: number;
@@ -43,7 +44,6 @@ export default function DollarCartSummary({
               .filter(Boolean)
               .join(" ")
           : null;
-
       let resp = await apiClient.post("/user/checkout/dollar/prepare", {
         shippingAddress: shippingAddress,
       });
@@ -75,7 +75,7 @@ export default function DollarCartSummary({
     refetch?.();
   };
 
-  if (query.isFetching)
+  if (query.isLoading)
     return (
       <div className="w-full flex flex-col items-center justify-center p-4 rounded-lg bg-white py-6">
         <div className="animate-spin  text-xl font-bold opacity-80">...</div>
@@ -99,7 +99,11 @@ export default function DollarCartSummary({
   }
 
   const stripeData = query.data;
+  const hasDropShip = cart.some(
+    (item: any) => item["product"]["type"] == "dropship",
+  );
 
+  // return <div>{hasDropShip ? "DropShip" : "No DropShip"}</div>;
   return (
     <div className="card w-full bg-base-100 shadow-xl" data-theme="kudu">
       <div className="card-body p-4">
@@ -165,15 +169,35 @@ export default function DollarCartSummary({
         )}
         <div className="card-actions justify-center mt-4">
           {user.location ? (
-            <TestDollarPayment
-              data={stripeData}
-              amount={stripeData?.totalAmount || 0}
-              disabled={cart.length === 0 || !stripeData?.clientSecret}
-            >
-              <span className="text-sm font-medium normal-case">
-                Checkout ${formatNumberWithCommas(stripeData?.totalAmount || 0)}
-              </span>
-            </TestDollarPayment>
+            <>
+              {hasDropShip ? (
+                <>
+                  <DropShipDollarPayment
+                    stripeData={stripeData}
+                    amount={stripeData?.totalAmount || 0}
+                    disabled={cart.length === 0 || !stripeData?.clientSecret}
+                  >
+                    <span className="text-sm font-medium normal-case">
+                      Checkout $
+                      {formatNumberWithCommas(stripeData?.totalAmount || 0)}
+                    </span>
+                  </DropShipDollarPayment>
+                </>
+              ) : (
+                <>
+                  <TestDollarPayment
+                    data={stripeData}
+                    amount={stripeData?.totalAmount || 0}
+                    disabled={cart.length === 0 || !stripeData?.clientSecret}
+                  >
+                    <span className="text-sm font-medium normal-case">
+                      Checkout $
+                      {formatNumberWithCommas(stripeData?.totalAmount || 0)}
+                    </span>
+                  </TestDollarPayment>
+                </>
+              )}
+            </>
           ) : (
             <Button
               className="btn btn-primary bg-kudu-orange"

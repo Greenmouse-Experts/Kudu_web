@@ -1,22 +1,106 @@
-import React, { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  PaymentElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
-import { stripeKey, testKey } from "../../../config/paymentKeys";
-import { Button } from "@material-tailwind/react";
-import { useModal } from "../../../hooks/modal";
-import useAppState from "../../../hooks/appState";
+import { useMutation } from "@tanstack/react-query";
+import { PropsWithChildren } from "react";
 import apiClient from "../../../api/apiFactory";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import useAppState from "../../../hooks/appState";
+import { toast } from "sonner";
 import { StripeResponse } from "../layouts/DollarCartSummary";
-import { toast } from "react-toastify";
-import { useReModal } from "../../../hooks/new_hooks";
-import ReModal from "../../../components/ReModal";
-import { useCart } from "../../../api/cart";
+import { useStripe } from "@stripe/react-stripe-js";
+import { useState } from "react";
+import { PaymentElement } from "@stripe/react-stripe-js";
+import { useElements } from "@stripe/react-stripe-js";
+import { useNewModal } from "../../../components/modals/modals";
+import Modal from "../../../components/modals/DialogModal";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripeKey } from "../../../config/paymentKeys";
+import { loadStripe } from "@stripe/stripe-js";
+
+export const get_ali_location = (location: any) => {
+  const city = location["city"] as string;
+  const arr = city.split(",");
+
+  const zip = arr[3];
+  const shippingAddress: string = `${arr[0]}, ${arr[1]}, ${arr[2]}`;
+  const parsed_addres = shippingAddress.replaceAll(",", "");
+  return { zip, shippingAddress, parsed_addres };
+};
+export default function DropShipDollarPayment({
+  stripeData,
+  amount,
+  disabled,
+  children,
+}: PropsWithChildren<{
+  stripeData: any;
+  amount: number;
+  disabled: boolean;
+}>) {
+  const { user } = useAppState();
+  const stripePromise = loadStripe(stripeKey);
+
+  const ref = useNewModal();
+  const location = user.location;
+  const city = location["city"] as string;
+  const arr = city.split(",");
+
+  const zip = arr[3];
+  const shippingAddress: string = `${arr[0]}, ${arr[1]}, ${arr[2]}`;
+  const parsed_addres = shippingAddress.replaceAll(",", "");
+  console.log(stripeData);
+
+  const mutate = useMutation({
+    mutationFn: async () => {
+      let resp = await apiClient.post("/user/checkout/dollar", {
+        refId: stripeData.id,
+        shippingAddress: parsed_addres,
+        shippingAddressZipCode: zip,
+      });
+      return resp.data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+  return (
+    <>
+      <Modal title="Payment" ref={ref.ref}>
+        <>
+          {stripeData?.clientSecret && (
+            <Elements
+              stripe={stripePromise}
+              options={{ clientSecret: stripeData.clientSecret }}
+            >
+              <CheckoutForm
+                closeModal={ref.closeModal}
+                amount={amount}
+                successCall={() => {
+                  ref.closeModal();
+                  // Handle success logic here, e.g., refetch cart
+                  console.log("Payment successful!");
+                }}
+                data={stripeData}
+              />
+            </Elements>
+          )}
+        </>
+      </Modal>
+      <button
+        onClick={() =>
+          toast.promise(mutate.mutateAsync(), {
+            loading: "Processing payment...",
+            success: "Payment successful!",
+            error: "Payment failed",
+          })
+        }
+        data-theme="kudu"
+        className="btn btn-primary btn-block"
+      >
+        {" "}
+        {zip}
+        {/*{JSON.stringify(location.city)}*/}
+        {children}
+      </button>
+    </>
+  );
+}
 
 const CheckoutForm = ({
   closeModal,
@@ -31,7 +115,6 @@ const CheckoutForm = ({
 }) => {
   const { user } = useAppState();
   const stripe = useStripe();
-  const { data: cart, isLoading, refetch } = useCart();
 
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -94,7 +177,7 @@ const CheckoutForm = ({
         throw new Error("Submission failed");
       }
       toast.promise(submit_mutation.mutateAsync(), {
-        pending: "Submitting...",
+        loading: "Submitting...",
         success: "Submitted!",
         error: "Submission failed!",
       });
@@ -129,89 +212,3 @@ const CheckoutForm = ({
     </form>
   );
 };
-
-const TestDollarPaymentButton = ({
-  amount,
-  children,
-  noWidth,
-  bgColor,
-  // onSuccess,
-  data,
-}: {
-  amount: number;
-  children: React.ReactNode;
-  noWidth?: boolean;
-  bgColor?: string;
-  // onSuccess?: (data: any) => void;
-  data: StripeResponse;
-}) => {
-  const stripePromise = loadStripe(stripeKey);
-  // const { openModal, closeModal } = useModal();
-  const { modalRef: modalRef, openModal, closeModal } = useReModal();
-  const {
-    modalRef: editModalRef,
-    openModal: openEditModal,
-    closeModal: closeEditModal,
-  } = useReModal();
-  const handlePayment = () => {
-    openEditModal();
-    // openModal({
-    //   size: "md",
-    //   content: (
-    //     <div className="pt-24 z-20">
-    //       <Elements
-    //         stripe={stripePromise}
-    //         options={{ clientSecret: data.clientSecret }}
-    //       >
-    //         <CheckoutForm
-    //           closeModal={closeModal}
-    //           amount={amount}
-    //           successCall={() => {
-    //             // Handle success logic here, e.g., refetch cart
-    //             console.log("Payment successful!");
-    //           }}
-    //           data={data}
-    //         />
-    //       </Elements>
-    //     </div>
-    //   ),
-    // });
-  };
-
-  return (
-    <>
-      <button
-        className={`btn btn-primary bg-kudu-orange ${noWidth ? "" : "w-full"}`}
-        onClick={handlePayment}
-        disabled={!data?.clientSecret || amount === 0}
-        style={{ backgroundColor: bgColor }}
-      >
-        {children}
-      </button>
-      <ReModal ref={editModalRef}>
-        <div className=" z-20">
-          <div></div>
-          {data?.clientSecret && (
-            <Elements
-              stripe={stripePromise}
-              options={{ clientSecret: data.clientSecret }}
-            >
-              <CheckoutForm
-                closeModal={closeEditModal}
-                amount={amount}
-                successCall={() => {
-                  closeEditModal();
-                  // Handle success logic here, e.g., refetch cart
-                  console.log("Payment successful!");
-                }}
-                data={data}
-              />
-            </Elements>
-          )}
-        </div>
-      </ReModal>
-    </>
-  );
-};
-
-export default TestDollarPaymentButton;
