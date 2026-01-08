@@ -48,7 +48,7 @@ export default function DropShipDollarPayment({
 
   const mutate = useMutation({
     mutationFn: async () => {
-      let resp = await apiClient.post("/user/checkout/dollar", {
+      let resp = await apiClient.post("/user/checkout/", {
         refId: stripeData.id,
         shippingAddress: parsed_addres,
         shippingAddressZipCode: zip,
