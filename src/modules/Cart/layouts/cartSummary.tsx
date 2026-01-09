@@ -13,6 +13,7 @@ import DollarPaymentButton from "../../../components/DollarPaymentButton";
 import { formatNumberWithCommas } from "../../../helpers/helperFactory";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
+import { DropShipNairaPayment } from "../_components/DropShipNairaPyment";
 // Define the structure of a product charge.
 interface ProductCharge {
   id: number;
@@ -475,18 +476,24 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
       <div className="flex justify-center mt-3 w-full">
         {user.location ? (
           ipInfo.currency_name === "Naira" ? (
-            <PaymentButton
-              disabled={cart.length === 0}
-              config={config}
-              user={user}
-              onSuccess={onSuccess}
-              onClose={onClose}
-            >
-              <span className="text-sm font-medium normal-case">
-                Checkout ₦{formatNumberWithCommas(total_price)}
-              </span>
-            </PaymentButton>
+            <>
+              <DropShipNairaPayment
+                total_price={total_price}
+                paymentKey={paymentKey}
+              ></DropShipNairaPayment>
+            </>
           ) : (
+            // <PaymentButton
+            //   disabled={cart.length === 0}
+            //   config={config}
+            //   user={user}
+            //   onSuccess={onSuccess}
+            //   onClose={onClose}
+            // >
+            //   <span className="text-sm font-medium normal-case">
+            //     Checkout ₦{formatNumberWithCommas(total_price)}
+            //   </span>
+            // </PaymentButton>
             <DollarPaymentButton amount={total_price}>
               <span className="text-sm font-medium normal-case">
                 Checkout ${formatNumberWithCommas(totalPrice)}

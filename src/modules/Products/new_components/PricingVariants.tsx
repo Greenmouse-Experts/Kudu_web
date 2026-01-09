@@ -110,8 +110,8 @@ const PricingVariants = ({ product }: { product: Product }) => {
       </div>
       <button
         onClick={() => {
-          // handleAddToCart();
-          toast.info("Coming Soon");
+          handleAddToCart();
+          // toast.info("Coming Soon");
         }}
         className="btn btn-primary btn-block mt-2"
       >

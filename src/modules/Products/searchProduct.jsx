@@ -4,12 +4,13 @@ import ProductListing from "../../components/ProductsList";
 import { useSearchParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import ShoppingExperience from "../Home/components/ShoppingExperience";
+import { useCountrySelect } from "../../store/clientStore";
 
 const SearchProduct = () => {
   const [products, setProducts] = useState([]);
   const [categoriesArr, setCategoriesArr] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const { country } = useCountrySelect();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Get single parameter
@@ -22,7 +23,7 @@ const SearchProduct = () => {
     try {
       const productRequest = new Promise((resolve, reject) => {
         mutate({
-          url: `/products?name=${searchQuery}`,
+          url: `/products?name=${searchQuery}&country=${country.value}`,
           method: "GET",
           hideToast: true,
           onSuccess: (response) => resolve(response.data?.data || []),

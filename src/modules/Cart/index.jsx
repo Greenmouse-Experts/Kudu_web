@@ -40,10 +40,19 @@ export default function Cart() {
             />
           </div>
           <div className="md:w-[32%] w-full flex">
-            {country.value != "Nigeria" ? (
-              <DollarCartSummary cart={cart} refetch={refetch} />
+            {/* {country.value}*/}
+            {country.label != "NGA" ? (
+              <>
+                {/* {country.value}*/}
+                dollz
+                <DollarCartSummary cart={cart} refetch={refetch} />
+              </>
             ) : (
-              <CartSummary cart={cart} refetch={refetch} />
+              <>
+                naira
+                {/* {country.value}*/}
+                <CartSummary cart={cart} refetch={refetch} />
+              </>
             )}
           </div>
         </div>
