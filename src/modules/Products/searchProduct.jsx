@@ -18,6 +18,9 @@ const SearchProduct = () => {
 
   const { mutate } = useApiMutation();
 
+  useEffect(() => {
+    fetchData();
+  }, [country.value]);
   // Fetch products from API
   const fetchData = async () => {
     try {
