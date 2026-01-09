@@ -5,10 +5,20 @@ import { useAddToCart } from "../../../api/cart";
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
 import { ChartItem } from "chart.js";
+import { useCountrySelect } from "../../../store/clientStore";
+import useAppState from "../../../hooks/appState";
 
 const PricingVariants = ({ product }: { product: Product }) => {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
+  const { user } = useAppState();
+  const user_location = user.location as {
+    city: string;
+    state: string;
+    country: string;
+  };
+
+  const isNigerian = user_location.country === "Nigeria";
 
   const handleVariantChange = (variantId: string) => {
     const variant = product.variants.find((v) => v.id === variantId);
@@ -46,6 +56,11 @@ const PricingVariants = ({ product }: { product: Product }) => {
     : 0;
 
   const handleAddToCart = () => {
+    if (isNigerian) {
+      toast.error("Adding to cart is not available in Nigeria at this time.");
+      return;
+    }
+
     //@ts-ignore
     //
     toast.promise(
@@ -65,7 +80,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
   };
 
   return (
-    <div className="p-4 ring ring-current/20 bg-base-100 rounded-box">
+    <div className="p-4 ring ring-current/20 bg-base-100 rounded-box ">
       <div className="badge badge-info badge-soft ring mb-2">Coming Soon</div>
       <h3 className="text-lg font-semibold">PRICING</h3>
       <p className="text-2xl font-bold text-primary">
@@ -108,6 +123,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
           className="input input-bordered w-20 text-center"
         />
       </div>
+      {/*{user_location.country}*/}
       <button
         onClick={() => {
           handleAddToCart();

@@ -47,7 +47,7 @@ export default function ViewDropShipProducts() {
     return (
       <div
         data-theme="kudu"
-        className="flex min-h-screen pt-28 px-3 container mx-auto justify-center items-center flex-col"
+        className="flex min-h-screen pt-28 px-3  container mx-auto justify-center items-center flex-col"
       >
         <div className="text-warning text-lg mb-4">
           Product not found or data is empty.
@@ -59,10 +59,7 @@ export default function ViewDropShipProducts() {
     );
   }
   return (
-    <div
-      data-theme="kudu"
-      className="flex min-h-screen pt-28 md:px-3 container mx-auto md:bg-base-200"
-    >
+    <div data-theme="kudu" className="  flex px-4 max-w-7xl mx-auto">
       <section className="flex-1 md:p-4 ">
         <ProductInfo product={query.data.data} />
         {/*{JSON.stringify(query.data, null, 2)}*/}
