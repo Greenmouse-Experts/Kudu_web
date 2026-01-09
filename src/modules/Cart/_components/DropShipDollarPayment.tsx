@@ -11,7 +11,7 @@ import { useElements } from "@stripe/react-stripe-js";
 import { useNewModal } from "../../../components/modals/modals";
 import Modal from "../../../components/modals/DialogModal";
 import { Elements } from "@stripe/react-stripe-js";
-import { stripeKey } from "../../../config/paymentKeys";
+import { stripeKey, testKey } from "../../../config/paymentKeys";
 import { loadStripe } from "@stripe/stripe-js";
 
 export const get_ali_location = (location: any) => {
@@ -34,7 +34,7 @@ export default function DropShipDollarPayment({
   disabled: boolean;
 }>) {
   const { user } = useAppState();
-  const stripePromise = loadStripe(stripeKey);
+  const stripePromise = loadStripe(testKey);
 
   const ref = useNewModal();
   const location = user.location;
@@ -48,7 +48,7 @@ export default function DropShipDollarPayment({
 
   const mutate = useMutation({
     mutationFn: async () => {
-      let resp = await apiClient.post("/user/checkout/", {
+      let resp = await apiClient.post("/user/checkout/dollar", {
         refId: stripeData.id,
         shippingAddress: parsed_addres,
         shippingAddressZipCode: zip,

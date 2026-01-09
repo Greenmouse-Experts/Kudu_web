@@ -15,7 +15,9 @@ function AdminLogin() {
   // Check if user is already logged in
   useEffect(() => {
     if (isTokenValid()) {
-      console.log("🔄 [AdminLogin] User already logged in, redirecting to dashboard");
+      console.log(
+        "🔄 [AdminLogin] User already logged in, redirecting to dashboard",
+      );
       navigate("/admin/dashboard", { replace: true });
     }
   }, [navigate]);
@@ -38,8 +40,10 @@ function AdminLogin() {
 
   const onSubmit = (data) => {
     setIsLoading(true);
-    console.log("🔄 [AdminLogin] Attempting login with:", { email: data.email });
-    
+    console.log("🔄 [AdminLogin] Attempting login with:", {
+      email: data.email,
+    });
+
     mutate({
       url: "/auth/admin/login",
       method: "POST",
@@ -47,18 +51,23 @@ function AdminLogin() {
       onSuccess: (response) => {
         console.log("✅ [AdminLogin] Login successful:", response.data);
         console.log("🏪 [AdminLogin] Storing token and user data...");
-        
+
         // Store token and user data
         localStorage.setItem("kuduUserToken", response.data.token);
         dispatch(setKuduUser(response.data.data));
-        
-        console.log("📦 [AdminLogin] Token stored:", response.data.token?.substring(0, 20) + "...");
+
+        console.log(
+          "📦 [AdminLogin] Token stored:",
+          response.data.token?.substring(0, 20) + "...",
+        );
         console.log("👤 [AdminLogin] User data stored:", response.data.data);
-        
+
         setIsLoading(false);
-        
+
         // Force immediate redirect
-        console.log("🔄 [AdminLogin] Attempting redirect to /admin/dashboard...");
+        console.log(
+          "🔄 [AdminLogin] Attempting redirect to /admin/dashboard...",
+        );
         window.location.href = "/admin/dashboard";
       },
       onError: (error) => {
@@ -79,16 +88,15 @@ function AdminLogin() {
         backgroundSize: "cover",
         backgroundPosition: "center",
         width: "100%",
-        height: "100vh"
+        height: "100vh",
       }}
     >
-
       {/* Form Card */}
       <div className="w-full max-w-lg px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
         <div className="w-full max-w-lg px-8 py-4 bg-white rounded-lg ">
           {/* Logo Section */}
           <div className="flex justify-center mb-6">
-            <Link to={'/'}>
+            <Link to={"/"}>
               <img
                 src="https://res.cloudinary.com/greenmouse-tech/image/upload/v1737211689/kuduMart/kudum_1_urk9wm.png"
                 alt="Kudu Logo"
@@ -98,7 +106,9 @@ function AdminLogin() {
               />
             </Link>
           </div>
-          <h2 className="text-2xl font-bold mb-6 text-black-800">Admin Login</h2>
+          <h2 className="text-2xl font-bold mb-6 text-black-800">
+            Admin Login
+          </h2>
           <form
             className="flex flex-col gap-4"
             onSubmit={handleSubmit(onSubmit)}
@@ -177,17 +187,16 @@ function AdminLogin() {
               </div>
             </div>
 
-
             {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 bg-kudu-orange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+              data-theme="kudu"
+              className="btn btn-primary"
             >
               Sign In →
             </button>
           </form>
-
         </div>
       </div>
     </div>

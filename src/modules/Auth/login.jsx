@@ -258,7 +258,8 @@ function Login() {
             <button
               type="submit"
               disabled={login_mutation.isPending}
-              className="w-full py-3 bg-kudu-orange disabled:bg-orange-300 text-white font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+              data-theme="kudu"
+              className="btn btn-primary"
             >
               Sign In →
             </button>
