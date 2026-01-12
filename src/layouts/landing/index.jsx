@@ -41,7 +41,7 @@ const LandingLayout = () => {
         <Header openMenu={toggleMenu} />
         <div className={`${hideFooter ? "pt-[2%]" : "pt-[4%]"}`}>
           <Outlet />
-          <Chat />
+          {/* <Chat />*/}
           {!hideFooter && <Footer />}
         </div>
       </div>
