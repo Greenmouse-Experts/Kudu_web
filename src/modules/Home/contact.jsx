@@ -88,8 +88,8 @@ export default function Contact() {
                   </div>
                   <h3 className="mt-3 text-lg font-semibold">Email Support</h3>
                   <p className="mt-2 text-md leading-loose text-center">
-                    support@kudu.com <br></br>
-                    info@kudu.com
+                    support@kudumart.com <br></br>
+                    info@kudumart.com
                   </p>
                   <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
                     <Link to="/sign-up">Email Now</Link>
