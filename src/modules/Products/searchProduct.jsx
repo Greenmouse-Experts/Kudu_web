@@ -127,7 +127,7 @@ const SearchProduct = () => {
             <SearchServices query={searchQuery} />
           )}
         </div>
-
+        {/* <SearchServices query={searchQuery}></SearchServices>*/}
         <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
           <div className="w-full flex mt-3">
             <ShoppingExperience />
