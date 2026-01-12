@@ -111,9 +111,9 @@ export default function Contact() {
                   <p className="mt-2 text-md leading-loose text-center">
                     08133059324
                   </p>
-                  <button className="mt-6 border text-black py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
+                  {/* <button className="mt-6 border text-black py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
                     <Link to="/sign-up">Call Now</Link>
-                  </button>
+                  </button>*/}
                 </div>
               </div>
             </div>
