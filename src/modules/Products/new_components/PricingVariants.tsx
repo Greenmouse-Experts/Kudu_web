@@ -56,10 +56,10 @@ const PricingVariants = ({ product }: { product: Product }) => {
     : 0;
 
   const handleAddToCart = () => {
-    if (isNigerian) {
-      toast.error("Adding to cart is not available in Nigeria at this time.");
-      return;
-    }
+    // if (isNigerian) {
+    //   toast.error("Adding to cart is not available in Nigeria at this time.");
+    //   return;
+    // }
 
     //@ts-ignore
     //
