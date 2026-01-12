@@ -3,7 +3,7 @@ import { useAtom } from "jotai/react";
 import { atomWithStorage } from "jotai/utils";
 
 const country_atom = atomWithStorage("country", {
-  value: "NG",
+  value: "NGA",
   label: "Nigeria",
 });
 
