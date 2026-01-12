@@ -109,7 +109,8 @@ export default function Contact() {
                     Call & WhatsApp Line
                   </h3>
                   <p className="mt-2 text-md leading-loose text-center">
-                    0923 4551 774
+                    {/* 0923 4551 774*/}
+                    08133059324
                   </p>
                   <button className="mt-6 border text-black py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
                     <Link to="/sign-up">Call Now</Link>
