@@ -43,6 +43,7 @@ export default function AddToStore(props: any) {
         params: {
           country: currency.country,
           limit: 30,
+          name: "dandy",
           search: "Gbless",
           offset: 0,
           page: paginate.page,

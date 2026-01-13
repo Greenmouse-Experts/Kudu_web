@@ -92,8 +92,10 @@ export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
     console.log(data);
     const formatted_data = {
       country: data.country.name,
-      city: `${data.street}, ${data.city} ,${data.zipCode}`,
+      city: `${data.city}`,
       state: data.province,
+      street: data.street,
+      zipCode: data.zipCode,
     };
     console.log(formatted_data);
     toast.promise(() => mutation.mutateAsync({ location: formatted_data }), {

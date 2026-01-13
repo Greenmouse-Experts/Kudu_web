@@ -42,7 +42,7 @@ export default function StoreCard({ item }: { item: Store }) {
     const resp = await apiClient.post("admin/aliexpress/products/import", {
       productId: itemId,
       shippingCountry: "NG",
-      currency: "USD",
+      currency: "NGN",
       storeId: item.id,
       categoryId: selectProps.selectedItem,
       priceIncrementPercent: "30",

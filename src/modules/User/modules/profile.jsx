@@ -12,6 +12,7 @@ import UpdateShipAdd from "../../../components/UpdateShippingAddress";
 const AccountProfile = () => {
   const { user } = useAppState();
   const { openModal, closeModal } = useModal();
+  console.log(user.location);
 
   const [subscriptionPlan, setSubscriptionPlan] = useState([]);
 

@@ -56,10 +56,11 @@ export default function AliProductCard({ item }: { item: AliProduct }) {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium">
-              Price: {item.salePrice} {item.salePriceCurrency}
+              Price: {item.targetSalePrice} {item.targetOriginalPriceCurrency}
             </p>
             <p className="text-xs line-through text-gray-500">
-              Original: {item.originalPrice} {item.originalPriceCurrency}
+              Original: {item.targetOriginalPrice}{" "}
+              {item.targetOriginalPriceCurrency}
             </p>
           </div>
           <div className="badge badge-secondary">{item.discount}</div>
