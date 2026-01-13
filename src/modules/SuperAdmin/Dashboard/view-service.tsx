@@ -81,12 +81,13 @@ interface ServiceData {
 interface ServicesQueryResponse {
   data: ServiceData;
 }
+
 export default function AdminViewService() {
   const { id } = useParams();
   const services = useQuery<ServicesQueryResponse>({
     queryKey: ["services", id],
     queryFn: async () => {
-      const response = await apiClient.get(`/service/${id}`);
+      const response = await apiClient.get(`admin/services/${id}`);
       return response.data;
     },
   });
@@ -98,7 +99,7 @@ export default function AdminViewService() {
     },
     onSuccess: () => {
       toast.success("Service suspended successfully");
-      services.refetch(); // Refetch services to update status
+      services.refetch();
     },
   });
 
@@ -109,42 +110,42 @@ export default function AdminViewService() {
     },
     onSuccess: () => {
       toast.success("Service activated successfully");
-      services.refetch(); // Refetch services to update status
+      services.refetch();
     },
   });
 
   if (services.isLoading) {
     return (
-      <div className="container mx-auto p-4" data-theme="kudu" id="root">
-        <div className="flex justify-center items-center h-screen">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
+      <div
+        className="min-h-screen flex justify-center items-center bg-base-100"
+        data-theme="kudu"
+      >
+        <span className="loading loading-spinner loading-lg text-primary"></span>
       </div>
     );
   }
 
   if (services.isError) {
     return (
-      <div className="container mx-auto p-4" data-theme="kudu" id="root">
-        <div className="flex justify-center items-center h-screen">
-          <div className="alert alert-error shadow-lg">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="stroke-current flex-shrink-0 w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0-2l-2 2m1-2h.01M12 17.5h.01"
-                ></path>
-              </svg>
-              <span>Error loading service. Please try again later.</span>
-            </div>
-          </div>
+      <div
+        className="min-h-screen flex justify-center items-center p-4 bg-base-100"
+        data-theme="kudu"
+      >
+        <div className="alert alert-error shadow-lg max-w-md rounded-2xl">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="stroke-current shrink-0 w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M10 14l2-2m0-2l-2 2m1-2h.01M12 17.5h.01"
+            />
+          </svg>
+          <span>Error loading service. Please try again later.</span>
         </div>
       </div>
     );
@@ -153,193 +154,237 @@ export default function AdminViewService() {
   const service = services.data?.data;
 
   return (
-    <div className="container mx-auto p-4" data-theme="kudu" id="root">
-      <h1 className="text-3xl font-bold mb-6">{service?.title}</h1>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Service Details Column */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Image and Video */}
+    <div className="min-h-screen bg-base-200/50 pb-12" data-theme="kudu">
+      {/* Header / Top Bar */}
+      <div className="bg-base-100 border-b border-base-300 sticky top-0 z-10">
+        <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <img
-              src={service?.image_url}
-              alt={service?.title}
-              className="w-full rounded-lg shadow-md"
-              style={{ aspectRatio: "16/9" }}
-            />
-            {service?.video_url && (
-              <div className="mt-4">
-                <h3 className="text-xl font-semibold mb-2">Video</h3>
-                <video controls className="w-full rounded-lg shadow-md">
-                  <source src={service.video_url} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
+            <div className="flex items-center gap-2 mb-1">
+              <span
+                className={`badge badge-sm font-medium uppercase tracking-wider ${getStatusBadgeClass(service?.status)}`}
+              >
+                {service?.status}
+              </span>
+              <span className="text-xs text-base-content/50 font-mono">
+                ID: {service?.id}
+              </span>
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-base-content tracking-tight">
+              {service?.title}
+            </h1>
+          </div>
+          <div className="flex items-center gap-3">
+            {service?.status === "active" ? (
+              <button
+                onClick={() => suspendServiceMutation.mutate()}
+                disabled={suspendServiceMutation.isPending}
+                className="btn btn-error btn-md rounded-full shadow-sm normal-case"
+              >
+                {suspendServiceMutation.isPending ? (
+                  <span className="loading loading-spinner loading-xs"></span>
+                ) : null}
+                Suspend Service
+              </button>
+            ) : (
+              <button
+                onClick={() => activateServiceMutation.mutate()}
+                disabled={activateServiceMutation.isPending}
+                className="btn btn-success btn-md rounded-full shadow-sm normal-case"
+              >
+                {activateServiceMutation.isPending ? (
+                  <span className="loading loading-spinner loading-xs"></span>
+                ) : null}
+                Activate Service
+              </button>
             )}
           </div>
+        </div>
+      </div>
 
-          {/* Description */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Description</h3>
-            <p className="text-gray-700 leading-relaxed">
-              {service?.description}
-            </p>
-          </div>
-
-          {/* Additional Images */}
-          {service?.additional_images &&
-            service.additional_images.length > 0 && (
-              <div>
-                <h3 className="text-xl font-semibold mb-2">
-                  Additional Images
+      <div className="container mx-auto p-4 mt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-8 space-y-6">
+            {/* Media Card */}
+            <div className="card bg-base-100 shadow-sm border border-base-300 overflow-hidden rounded-3xl">
+              <figure>
+                <img
+                  src={service?.image_url}
+                  alt={service?.title}
+                  className="w-full object-cover"
+                  style={{ aspectRatio: "16/9" }}
+                />
+              </figure>
+              <div className="card-body p-6">
+                <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-primary rounded-full"></span>
+                  Description
                 </h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {service.additional_images.map((img, index) => (
-                    <img
-                      key={index}
-                      src={img}
-                      alt={`Additional service image ${index + 1}`}
-                      className="w-full rounded-lg shadow-md"
-                      style={{ aspectRatio: "1/1" }}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-
-          {/* Attributes */}
-          {service?.attributes && service.attributes.length > 0 && (
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Attributes</h3>
-              <div className="space-y-2">
-                {service.attributes.map((attr, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center p-2 border-b border-gray-200"
-                  >
-                    <span className="font-medium text-gray-600">
-                      {attr.name}:
-                    </span>
-                    {attr.values ? (
-                      <span>{attr.values.join(", ")}</span>
-                    ) : (
-                      <span>{String(attr.value)}</span>
-                    )}
-                  </div>
-                ))}
+                <p className="text-base-content/80 leading-relaxed whitespace-pre-line">
+                  {service?.description}
+                </p>
               </div>
             </div>
-          )}
-        </div>
 
-        {/* Provider and Pricing Column */}
-        <div className="space-y-6">
-          {/* Provider Info */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Provider Information</h3>
-            <div className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md">
-              <div className="avatar">
-                <div className="w-16 rounded-full">
-                  <img src={service?.provider.photo} alt="Provider Photo" />
+            {/* Video Section */}
+            {service?.video_url && (
+              <div className="card bg-base-100 shadow-sm border border-base-300 rounded-3xl overflow-hidden">
+                <div className="card-body p-6">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <span className="w-1 h-6 bg-secondary rounded-full"></span>
+                    Service Video
+                  </h3>
+                  <div className="rounded-2xl overflow-hidden bg-black aspect-video">
+                    <video controls className="w-full h-full">
+                      <source src={service.video_url} type="video/mp4" />
+                    </video>
+                  </div>
                 </div>
               </div>
-              <div>
-                <p className="font-semibold text-lg">
-                  {service?.provider.firstName} {service?.provider.lastName}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {service?.provider.location.city},{" "}
-                  {service?.provider.location.state}
-                </p>
-                <div className="flex items-center mt-1">
-                  {service?.provider.isVerified && (
-                    <span className="badge badge-success badge-sm">
-                      Verified
+            )}
+
+            {/* Gallery */}
+            {service?.additional_images &&
+              service.additional_images.length > 0 && (
+                <div className="card bg-base-100 shadow-sm border border-base-300 rounded-3xl">
+                  <div className="card-body p-6">
+                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
+                      <span className="w-1 h-6 bg-accent rounded-full"></span>
+                      Gallery
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                      {service.additional_images.map((img, index) => (
+                        <div
+                          key={index}
+                          className="group relative rounded-2xl overflow-hidden aspect-square border border-base-200"
+                        >
+                          <img
+                            src={img}
+                            alt={`Gallery ${index + 1}`}
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-4 space-y-6">
+            {/* Pricing Card */}
+            <div className="card bg-primary text-primary-content shadow-lg rounded-3xl">
+              <div className="card-body p-6">
+                <span className="text-xs uppercase font-bold opacity-70 tracking-widest">
+                  Service Price
+                </span>
+                <div className="flex items-baseline gap-2 mt-1">
+                  <h2 className="text-4xl font-black">{service?.price}</h2>
+                  {service?.discount_price && (
+                    <span className="text-lg line-through opacity-60">
+                      {service.discount_price}
                     </span>
                   )}
-                  <span className="ml-2 text-xs text-gray-400">
-                    ID: {service?.provider.id}
-                  </span>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Pricing */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Pricing</h3>
-            <div className="p-4 bg-white rounded-lg shadow-md">
-              <p className="text-3xl font-bold text-primary">
-                {service?.price}
-                {service?.discount_price && (
-                  <span className="line-through text-gray-400 text-lg ml-2">
-                    {service.discount_price}
-                  </span>
+                {service?.is_negotiable && (
+                  <div className="badge badge-ghost mt-2 border-primary-content/20 bg-primary-content/10">
+                    Negotiable
+                  </div>
                 )}
-              </p>
-              {service?.is_negotiable && (
-                <div className="badge badge-outline badge-primary mt-2">
-                  Negotiable
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Category & Subcategory */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Category</h3>
-            <div className="p-4 bg-white rounded-lg shadow-md space-y-2">
-              <p className="font-medium">
-                Category:{" "}
-                <span className="text-gray-600">{service?.category.name}</span>
-              </p>
-              <p className="font-medium">
-                Subcategory:{" "}
-                <span className="text-gray-600">
-                  {service?.subCategory.name}
-                </span>
-              </p>
-            </div>
-          </div>
-
-          {/* Location */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Location</h3>
-            <div className="p-4 bg-white rounded-lg shadow-md">
-              <p className="font-medium">
-                {service?.location_city}, {service?.location_state},{" "}
-                {service?.location_country}
-              </p>
-            </div>
-          </div>
-
-          {/* Status */}
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Status</h3>
-            <div className="p-4 bg-white rounded-lg shadow-md flex flex-col items-start gap-4">
-              <div className={`badge ${getStatusBadgeClass(service?.status)}`}>
-                {service?.status}
               </div>
-              {service?.status === "active" ? (
-                <button
-                  onClick={() => suspendServiceMutation.mutate()}
-                  disabled={suspendServiceMutation.isPending}
-                  className="btn btn-error btn-sm"
-                >
-                  {suspendServiceMutation.isPending
-                    ? "Suspending..."
-                    : "Suspend Service"}
-                </button>
-              ) : (
-                <button
-                  onClick={() => activateServiceMutation.mutate()}
-                  disabled={activateServiceMutation.isPending}
-                  className="btn btn-success btn-sm"
-                >
-                  {activateServiceMutation.isPending
-                    ? "Activating..."
-                    : "Activate Service"}
-                </button>
-              )}
+            </div>
+
+            {/* Provider Card */}
+            <div className="card bg-base-100 shadow-sm border border-base-300 rounded-3xl">
+              <div className="card-body p-6">
+                <h3 className="text-sm font-bold text-base-content/50 uppercase tracking-wider mb-4">
+                  Provider
+                </h3>
+                <div className="flex items-center gap-4">
+                  <div className="avatar">
+                    <div className="w-16 h-16 rounded-2xl ring ring-primary ring-offset-base-100 ring-offset-2">
+                      <img src={service?.provider.photo} alt="Provider" />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-1">
+                      <p className="font-bold text-lg leading-tight">
+                        {service?.provider.firstName}{" "}
+                        {service?.provider.lastName}
+                      </p>
+                      {service?.provider.isVerified && (
+                        <svg
+                          className="w-5 h-5 text-info"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.64.304 1.24.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      )}
+                    </div>
+                    <p className="text-sm text-base-content/60">
+                      {service?.provider.location.city},{" "}
+                      {service?.provider.location.state}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Details List */}
+            <div className="card bg-base-100 shadow-sm border border-base-300 rounded-3xl">
+              <div className="card-body p-6 space-y-4">
+                <div>
+                  <h4 className="text-xs font-bold text-base-content/40 uppercase tracking-widest mb-1">
+                    Category
+                  </h4>
+                  <p className="font-medium">
+                    {service?.category.name} / {service?.subCategory.name}
+                  </p>
+                </div>
+                <div className="divider my-0 opacity-50"></div>
+                <div>
+                  <h4 className="text-xs font-bold text-base-content/40 uppercase tracking-widest mb-1">
+                    Location
+                  </h4>
+                  <p className="font-medium">
+                    {service?.location_city}, {service?.location_state}
+                  </p>
+                </div>
+
+                {service?.attributes && service.attributes.length > 0 && (
+                  <>
+                    <div className="divider my-0 opacity-50"></div>
+                    <div>
+                      <h4 className="text-xs font-bold text-base-content/40 uppercase tracking-widest mb-3">
+                        Attributes
+                      </h4>
+                      <div className="space-y-3">
+                        {service.attributes.map((attr, index) => (
+                          <div
+                            key={index}
+                            className="flex justify-between text-sm"
+                          >
+                            <span className="text-base-content/60">
+                              {attr.name}
+                            </span>
+                            <span className="font-semibold text-right">
+                              {attr.values
+                                ? attr.values.join(", ")
+                                : String(attr.value)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -351,14 +396,14 @@ export default function AdminViewService() {
 function getStatusBadgeClass(status: string | undefined): string {
   switch (status) {
     case "active":
-      return "badge-success";
+      return "badge-success text-success-content";
     case "inactive":
-      return "badge-warning";
+      return "badge-warning text-warning-content";
     case "pending":
-      return "badge-info";
+      return "badge-info text-info-content";
     case "rejected":
-      return "badge-error";
+      return "badge-error text-error-content";
     default:
-      return "badge-neutral";
+      return "badge-ghost";
   }
 }

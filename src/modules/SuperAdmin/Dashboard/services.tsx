@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
-import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePagination } from "../../../hooks/appState";
-import { SimplePagination } from "../../../components/SimplePagination";
+import {
+  NewPaginator,
+  use_new_paginate,
+} from "../../../components/paginate/NewPaginator";
 
 interface Attribute {
   name: string;
@@ -12,14 +13,14 @@ interface Attribute {
 }
 
 interface ProviderLocation {
-  city: string;
-  state: string;
-  country: string;
+  city?: string;
+  state?: string;
+  country?: string;
   street?: string;
 }
 
 interface Provider {
-  location: ProviderLocation;
+  location: ProviderLocation | ProviderLocation[];
   isVerified: boolean;
   id: string;
   trackingId: string;
@@ -31,8 +32,8 @@ interface Provider {
   phoneNumber: string;
   dateOfBirth: string | null;
   photo: string | null;
-  fcmToken: string;
-  wallet: string;
+  fcmToken: string | null;
+  wallet: string | null;
   dollarWallet: string;
   facebookId: null;
   googleId: null;
@@ -91,15 +92,16 @@ interface SuperAdmin {
   data: Service[];
   pagination: Pagination;
 }
+
 export default function AdminServices() {
-  const page_params = usePagination();
+  const paginate = use_new_paginate();
   const services = useQuery<SuperAdmin>({
-    queryKey: ["services", page_params.params],
+    queryKey: ["services", paginate.page],
     queryFn: async () => {
       const response = await apiClient("admin/services", {
         params: {
-          limit: page_params.limit,
-          page: page_params.page,
+          limit: 30,
+          page: paginate.page,
           // status: "suspended",
         },
       });
@@ -147,8 +149,8 @@ export default function AdminServices() {
           ))}
         </div>
       )}
-      <div className="bg-white mt-12">
-        <SimplePagination total={data?.length || 0} paginate={page_params} />
+      <div className="my-3">
+        <NewPaginator paginate={paginate} />
       </div>
     </div>
   );
@@ -159,43 +161,84 @@ const ServiceCard = ({ service }: { service: Service }) => {
   const navigateToService = () => {
     navigate(`/admin/services/${service.id}`);
   };
+
   return (
     <div
       key={service.id}
-      className="card w-full bg-base-100 shadow-xl transition-transform duration-300 "
+      className="card w-full bg-base-100 border border-base-200 hover:border-primary/20 transition-all duration-300 hover:shadow-lg group"
     >
-      <figure>
+      <figure className="relative overflow-hidden">
         <img
           src={service.image_url}
           alt={service.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-52 object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
         />
+        <div className="absolute top-3 right-3">
+          <span
+            className={`badge badge-sm font-medium py-3 px-3 border-none shadow-sm ${
+              service.status === "active"
+                ? "bg-success/10 text-success"
+                : "bg-base-300/50 text-base-content"
+            }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full mr-1.5 ${service.status === "active" ? "bg-success" : "bg-base-content"}`}
+            ></span>
+            {service.status}
+          </span>
+        </div>
       </figure>
-      <div className="card-body">
-        <h2 className="card-title text-xl font-bold truncate">
-          {service.title}
-        </h2>
-        <p className="text-gray-600 line-clamp-3">{service.description}</p>
-        <div className="flex flex-wrap gap-2 mt-4">
-          <div className="badge badge-primary badge-outline">
+      <div className="card-body p-5 gap-3">
+        <div>
+          <div className="flex justify-between items-start gap-2">
+            <h2 className="card-title text-lg font-semibold leading-tight text-base-content group-hover:text-primary transition-colors">
+              {service.title}
+            </h2>
+          </div>
+          <p className="text-base-content/70 line-clamp-2 text-sm mt-1">
+            {service.description}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-1.5">
+          <div className="badge badge-ghost bg-base-200 text-base-content/80 text-[10px] uppercase tracking-wider font-bold border-none">
             {service.category.name}
           </div>
-          <div className="badge badge-secondary badge-outline">
-            {service.subCategory.name}
-          </div>
+          {service.subCategory?.name && (
+            <div className="badge badge-ghost bg-base-200 text-base-content/80 text-[10px] uppercase tracking-wider font-bold border-none">
+              {service.subCategory.name}
+            </div>
+          )}
         </div>
-        <div className="mt-4 flex justify-between items-center">
-          <span className="font-semibold text-lg">
-            {service.price !== "0.00"
-              ? `$${parseFloat(service.price).toFixed(2)}`
-              : "Price Negotiable"}
-          </span>
+
+        <div className="mt-2 pt-3 border-t border-base-200 flex flex-col gap-0.5">
+          <div className="flex justify-between items-baseline">
+            <span className="text-[10px] uppercase font-bold text-base-content/50 tracking-widest">
+              Price
+            </span>
+            <span className="font-black text-xl text-primary">
+              {service.price !== "0.00"
+                ? `₦${parseFloat(service.price).toLocaleString()}`
+                : "Negotiable"}
+            </span>
+          </div>
+          {service.discount_price && service.discount_price !== "0.00" && (
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] uppercase font-bold text-base-content/50 tracking-widest">
+                Original
+              </span>
+              <span className="text-sm line-through text-base-content/40 decoration-1">
+                ₦{parseFloat(service.discount_price).toLocaleString()}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className="card-actions mt-2">
           <button
-            className="btn btn-sm btn-primary"
-            onClick={() => {
-              navigateToService();
-            }}
+            className="btn btn-primary btn-md w-full shadow-md hover:shadow-lg normal-case font-bold"
+            onClick={navigateToService}
           >
             View Details
           </button>

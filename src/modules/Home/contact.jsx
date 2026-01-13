@@ -72,9 +72,14 @@ export default function Contact() {
                   <p className="mt-2 text-md leading-loose text-center">
                     Visit our FAQ to see answers to our most asked questions
                   </p>
-                  <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                    <Link to="/faqs"> See FAQs</Link>
-                  </button>
+                  <Link
+                    className="btn my-2  btn-block btn-primary"
+                    data-theme="kudu"
+                    to="/faqs"
+                  >
+                    {" "}
+                    See FAQs
+                  </Link>
                 </div>
 
                 {/* Sell Anything Card */}
@@ -88,12 +93,12 @@ export default function Contact() {
                   </div>
                   <h3 className="mt-3 text-lg font-semibold">Email Support</h3>
                   <p className="mt-2 text-md leading-loose text-center">
-                    support@kudu.com <br></br>
-                    info@kudu.com
+                    support@kudumart.com <br></br>
+                    info@kudumart.com
                   </p>
-                  <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
+                  {/* <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
                     <Link to="/sign-up">Email Now</Link>
-                  </button>
+                  </button>*/}
                 </div>
 
                 {/* Bid Your Price Card */}
@@ -112,9 +117,9 @@ export default function Contact() {
                     {/* 0923 4551 774*/}
                     08133059324
                   </p>
-                  <button className="mt-6 border text-black py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
+                  {/* <button className="mt-6 border text-black py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
                     <Link to="/sign-up">Call Now</Link>
-                  </button>
+                  </button>*/}
                 </div>
               </div>
             </div>
