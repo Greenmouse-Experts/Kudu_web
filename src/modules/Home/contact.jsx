@@ -91,9 +91,9 @@ export default function Contact() {
                     support@kudumart.com <br></br>
                     info@kudumart.com
                   </p>
-                  <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
+                  {/* <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
                     <Link to="/sign-up">Email Now</Link>
-                  </button>
+                  </button>*/}
                 </div>
 
                 {/* Bid Your Price Card */}
