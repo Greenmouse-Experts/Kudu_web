@@ -72,9 +72,14 @@ export default function Contact() {
                   <p className="mt-2 text-md leading-loose text-center">
                     Visit our FAQ to see answers to our most asked questions
                   </p>
-                  <button className="mt-6 border text-black  py-3 px-24 rounded-lg hover:bg-orange-600 transition duration-300">
-                    <Link to="/faqs"> See FAQs</Link>
-                  </button>
+                  <Link
+                    className="btn my-2  btn-block btn-primary"
+                    data-theme="kudu"
+                    to="/faqs"
+                  >
+                    {" "}
+                    See FAQs
+                  </Link>
                 </div>
 
                 {/* Sell Anything Card */}
