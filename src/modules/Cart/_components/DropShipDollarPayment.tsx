@@ -72,7 +72,16 @@ export default function DropShipDollarPayment({
                 closeModal={ref.closeModal}
                 amount={amount}
                 successCall={() => {
-                  ref.closeModal();
+                  try {
+                    toast.promise(mutate.mutateAsync(), {
+                      loading: "Processing payment...",
+                      success: "Payment successful!",
+                      error: "Payment failed",
+                    });
+                    ref.closeModal();
+                  } catch (error) {
+                    throw error;
+                  }
                   // Handle success logic here, e.g., refetch cart
                   console.log("Payment successful!");
                 }}
@@ -83,13 +92,9 @@ export default function DropShipDollarPayment({
         </>
       </Modal>
       <button
-        onClick={() =>
-          toast.promise(mutate.mutateAsync(), {
-            loading: "Processing payment...",
-            success: "Payment successful!",
-            error: "Payment failed",
-          })
-        }
+        onClick={() => {
+          ref.showModal();
+        }}
         data-theme="kudu"
         className="btn btn-primary btn-block"
       >
@@ -125,6 +130,20 @@ const CheckoutForm = ({
       return res.data;
     },
   });
+  const { parsed_addres, zip } = get_ali_location(user.location);
+  const mutate = useMutation({
+    mutationFn: async (id: string) => {
+      let resp = await apiClient.post("/user/checkout/dollar", {
+        refId: id,
+        shippingAddress: parsed_addres,
+        shippingAddressZipCode: zip,
+      });
+      return resp.data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
   const submit_mutation = useMutation({
     mutationFn: async () => {
       if (!stripe || !elements) throw new Error("Stripe is not initialized");
@@ -141,18 +160,23 @@ const CheckoutForm = ({
     },
     onSuccess: async (data) => {
       console.log(data.paymentIntent, "data");
-      let resp = await apiClient
-        .post("/user/checkout/dollar", {
-          refId: data.paymentIntent?.id,
-          shippingAddress: `${user.location.city} ${user.location.state}, ${user.location.country}`,
-        })
-        .then((res) => {
-          toast.success("Payment successful");
-          (closeModal(), close());
-          window.location.href = "/profile/orders";
-          return res;
-        });
-      console.log(resp.data);
+      toast.promise(mutate.mutateAsync(data.paymentIntent.id as string), {
+        loading: "Processing payment...",
+        success: "Payment successful",
+        error: "Payment failed",
+      });
+      // let resp = await apiClient
+      // .post("/user/checkout/dollar", {
+      //   refId: data.paymentIntent?.id,
+      //   shippingAddress: `${user.location.city} ${user.location.state}, ${user.location.country}`,
+      // })
+      // .then((res) => {
+      //   toast.success("Payment successful");
+      //   (closeModal(), close());
+      //   window.location.href = "/profile/orders";
+      //   return res;
+      // });
+      // console.log(resp.data);
       // Optionally handle payment result here, e.g. show success/failure message
     },
     onError: (error) => {

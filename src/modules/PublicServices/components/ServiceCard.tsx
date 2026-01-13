@@ -104,13 +104,13 @@ export default function ServiceCard(props: Service) {
             <span className="text-xl font-bold text-primary">
               {discount_price ? (
                 <>
-                  <span>${discount_price}</span>
+                  <span>₦{discount_price}</span>
                   <span className="text-base-content/50 line-through ml-2">
-                    ${price}
+                    ₦{price}
                   </span>
                 </>
               ) : (
-                <>${price}</>
+                <>₦{price}</>
               )}
             </span>
           </div>

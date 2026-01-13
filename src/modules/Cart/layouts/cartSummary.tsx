@@ -13,6 +13,8 @@ import DollarPaymentButton from "../../../components/DollarPaymentButton";
 import { formatNumberWithCommas } from "../../../helpers/helperFactory";
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
+import { DropShipNairaPayment } from "../_components/DropShipNairaPyment";
+import { calculate_dropship_price } from "../_components/helper";
 // Define the structure of a product charge.
 interface ProductCharge {
   id: number;
@@ -243,12 +245,17 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
   const charges = query.data?.data;
   const item_amounts = cart.map((cart_items) => {
     const quantity = cart_items.quantity;
+
     const discount = parseFloat(cart_items.product.discount_price);
-    const basePrice =
+    let basePrice =
       discount != 0 ? discount : parseFloat(cart_items.product.price);
     console.log(basePrice, "price");
-    const initial_price = basePrice * quantity; // Calculate total for this item without charges
-
+    let initial_price = basePrice * quantity; // Calculate total for this item without charges
+    if ((cart_items as any).productType === "dropship") {
+      initial_price = calculate_dropship_price(cart_items as any);
+      // For dropship, the basePrice per unit is the calculated price divided by quantity
+      basePrice = initial_price / quantity;
+    }
     // Early return if charges are not available
     if (!charges || charges?.length < 1) {
       return {
@@ -291,12 +298,12 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
 
     if (charge.calculation_type === "fixed") {
       // Fixed charge: add the charge amount to base price, then multiply by quantity
-      chargeAmount = parseFloat(charge.charge_amount) * quantity;
-      price = (basePrice + parseFloat(charge.charge_amount)) * quantity;
+      chargeAmount = parseFloat(charge.charge_amount!) * quantity;
+      price = (basePrice + parseFloat(charge.charge_amount!)) * quantity;
     } else if (charge.calculation_type === "percentage") {
       // Percentage charge: calculate percentage of base price per unit, then multiply by quantity
       const percentagePerUnit =
-        (basePrice * parseFloat(charge.charge_percentage)) / 100;
+        (basePrice * parseFloat(charge.charge_percentage!)) / 100;
       chargeAmount = percentagePerUnit * quantity;
       price = (basePrice + percentagePerUnit) * quantity;
     } else {
@@ -317,10 +324,9 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
   const total_price = item_amounts.reduce((total, item) => {
     return total + (item.full_price || 0);
   }, 0);
-  const total_price_without_charges = cart.reduce((total, cart_item) => {
-    const basePrice = parseFloat(cart_item.product.discount_price);
-    const quantity = cart_item.quantity;
-    return total + basePrice * quantity;
+
+  const total_price_without_charges = item_amounts.reduce((total, item) => {
+    return total + (item.base_price || 0);
   }, 0);
 
   const config = useMemo(
@@ -334,7 +340,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
     [paymentKey, total_price, user?.email],
   );
 
-  const onSuccess = (reference) => {
+  const onSuccess = (reference: any) => {
     const location =
       typeof user.location !== "string"
         ? [user.location.city, user.location.state, user.location.country]
@@ -355,11 +361,11 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
       method: "POST",
       data: payload,
       headers: true,
-      onSuccess: (response) => {
+      onSuccess: (response: any) => {
         navigate("/profile/orders");
       },
-      onError: (error) => {},
-    });
+      onError: (error: any) => {},
+    } as any);
   };
 
   const onClose = () => {
@@ -380,7 +386,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
         <div>
           <div className="">Error Loading Checkout Info</div>
           <button
-            onClick={() => query.refetch}
+            onClick={() => query.refetch()}
             className="bg-kudu-orange text-white font-bold py-2 px-4 rounded-sm hover:bg-kuduDarkOrange focus:outline-hidden focus:ring-2 focus:ring-kuduDarkOrange"
           >
             Retry
@@ -393,17 +399,20 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
 
   // return <></>;
   return (
-    <div className="w-full flex flex-col gap-2 py-4 rounded-lg bg-white">
-      <div className="flex flex-col px-4 gap-4">
-        <h1 className="text-lg font-semibold mb-6 mt-4 uppercase">
+    <div
+      className="card w-full bg-base-100 shadow-sm rounded-lg"
+      data-theme="kudu"
+    >
+      <div className="card-body p-4 gap-2">
+        <h2 className="card-title text-lg font-semibold uppercase mb-2">
           CART Summary
-        </h1>
-      </div>
-      <div className="w-full h-px -mt-4 border-[1.5px]" />
-      <div className="w-full flex flex-col px-4 gap-4">
-        <div className="w-full flex justify-between items-center">
-          <div className="w-full flex">
-            <span className="text-sm text-[rgba(178,178,178,1)]">
+        </h2>
+
+        <div className="divider my-0"></div>
+
+        <div className="flex flex-col gap-4 py-2">
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-base-content/60">
               Item's Total (
               {
                 item_amounts.filter(
@@ -411,40 +420,26 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
                 ).length
               }
               )
-              {/*{items_amout.filter((item) => item.product.quantity > 0).length})*/}
             </span>
-          </div>
-          <div className="w-full flex justify-end">
-            <span className="text-sm text-[rgba(178,178,178,1)]">
+            <span className="text-sm text-base-content/60">
               {currency[0].symbol}
-              {total_price.toLocaleString("en-US")}
+              {total_price_without_charges.toLocaleString("en-US")}
             </span>
           </div>
-        </div>
 
-        {ipInfo.currency_name === "Naira" && total_price > 0 && (
-          <div className="w-full flex justify-between items-center">
-            <div className="w-full flex">
-              <span className="text-sm text-[rgba(178,178,178,1)]">
-                Charges
-              </span>
-            </div>
-            <div className="w-full flex justify-end">
-              {/*{paystackCharges.toLocaleString("en-US")}*/}
-              <span className="text-sm text-[rgba(178,178,178,1)]">
+          {ipInfo.currency_name === "Naira" && total_price > 0 && (
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-base-content/60">Charges</span>
+              <span className="text-sm text-base-content/60">
                 ₦{charges_total.toLocaleString("en-US")}
               </span>
             </div>
-          </div>
-        )}
+          )}
 
-        {total_price > 0 && (
-          <div className="w-full flex justify-between items-center border-t pt-2">
-            <div className="w-full flex">
-              <span className="text-base font-semibold text-black">Total</span>
-            </div>
-            <div className="w-full flex justify-end">
-              <span className="text-base font-semibold text-black">
+          {total_price > 0 && (
+            <div className="flex justify-between items-center border-t border-base-200 pt-3">
+              <span className="text-base font-bold">Total</span>
+              <span className="text-base font-bold">
                 {currency[0].symbol}
                 {(ipInfo.currency_name === "Naira"
                   ? total_price
@@ -452,52 +447,59 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
                 ).toLocaleString("en-US")}
               </span>
             </div>
+          )}
+        </div>
+
+        <div className="divider my-0"></div>
+
+        {user.location && (
+          <div className="py-2">
+            <div className="flex justify-between items-center mb-1">
+              <p className="text-sm font-semibold">Delivery Address</p>
+              <button
+                onClick={handleModal}
+                className="btn btn-link btn-xs text-kudu-orange no-underline hover:underline p-0 min-h-0 h-auto"
+              >
+                Change Location
+              </button>
+            </div>
+            <p className="text-sm text-base-content/60">
+              {user.location.city} {user.location.state},{" "}
+              {user.location.country}
+            </p>
           </div>
         )}
-      </div>
-      <div className="w-full h-px mt-1 border-[1.5px]" />
-      {user.location && (
-        <>
-          <span className="flex justify-between">
-            <p className="text-sm px-4 mt-2 font-semibold">Delivery Address</p>
-            <span
-              onClick={handleModal}
-              className="text-kudu-orange cursor-pointer mt-2 px-4 font-medium underline"
-            >
-              Change Location
-            </span>
-          </span>
-          <p className="text-base px-4 text-[rgba(178,178,178,1)]">
-            {user.location.city} {user.location.state}, {user.location.country}
-          </p>
-        </>
-      )}
-      <div className="flex justify-center mt-3 w-full">
-        {user.location ? (
-          ipInfo.currency_name === "Naira" ? (
-            <PaymentButton
-              disabled={cart.length === 0}
-              config={config}
-              user={user}
-              onSuccess={onSuccess}
-              onClose={onClose}
-            >
-              <span className="text-sm font-medium normal-case">
-                Checkout ₦{formatNumberWithCommas(total_price)}
-              </span>
-            </PaymentButton>
+
+        <div className="card-actions justify-center mt-4">
+          {user.location ? (
+            ipInfo.currency_name === "Naira" ? (
+              <div data-theme="kudu" className="w-full">
+                <DropShipNairaPayment
+                  total_price={total_price}
+                  paymentKey={paymentKey}
+                ></DropShipNairaPayment>
+              </div>
+            ) : (
+              <DollarPaymentButton
+                amount={total_price}
+                noWidth={false}
+                bgColor="bg-kudu-orange"
+                onSuccess={onSuccess}
+              >
+                <span className="text-sm font-medium normal-case">
+                  Checkout ${formatNumberWithCommas(total_price)}
+                </span>
+              </DollarPaymentButton>
+            )
           ) : (
-            <DollarPaymentButton amount={total_price}>
-              <span className="text-sm font-medium normal-case">
-                Checkout ${formatNumberWithCommas(totalPrice)}
-              </span>
-            </DollarPaymentButton>
-          )
-        ) : (
-          <Button className="bg-kudu-orange" onClick={handleModal}>
-            Set Delivery Location
-          </Button>
-        )}
+            <button
+              className="btn bg-kudu-orange hover:bg-kudu-orange/90 border-none text-white w-full"
+              onClick={handleModal}
+            >
+              Set Delivery Location
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

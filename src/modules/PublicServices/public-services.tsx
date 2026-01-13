@@ -150,6 +150,7 @@ export default function PublicServices() {
           {data?.pagination && (
             <div className="py-4 grid place-items-center">
               {/*{data.pagination.totalPages}*/}
+              {/*{data.pagination.totalPages}*/}
               <SimplePaginator limit={data.pagination.totalPages} />
             </div>
           )}

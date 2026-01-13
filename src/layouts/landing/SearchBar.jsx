@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useCountrySelect } from "../../store/clientStore";
 
 const SearchBar = () => {
   const [filterOpen, setFilterOpen] = useState(false);
@@ -15,6 +16,7 @@ const SearchBar = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const country = useCountrySelect();
 
   const onSubmit = (data) => {
     window.location.href = `/catalog?q=${encodeURIComponent(data.search)}`;
