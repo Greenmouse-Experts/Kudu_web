@@ -5,11 +5,14 @@ import Loader from "../../components/Loader";
 import CartSummary from "./layouts/cartSummary";
 import { useCountrySelect } from "../../store/clientStore";
 import DollarCartSummary from "./layouts/DollarCartSummary";
+import useAppState from "../../hooks/appState";
 
 export default function Cart() {
   const { data: cart, isLoading, refetch } = useCart();
   const { mutate: removeFromCart } = useRemoveFromCart();
   const { country } = useCountrySelect();
+  const { user } = useAppState();
+  const user_country = user?.location["country"];
 
   const removeItem = async (data) => {
     try {
@@ -41,7 +44,7 @@ export default function Cart() {
           </div>
           <div className="md:w-[32%] w-full flex">
             {/* {country.value}*/}
-            {country.label != "NGA" || !country.label ? (
+            {user_country != "Nigeria" || !country.label ? (
               <>
                 {/* {country.value}*/}
                 <DollarCartSummary cart={cart} refetch={refetch} />
