@@ -68,6 +68,21 @@
     --noise: 0;
 }
 
+@theme {
+    --color-kudu-orange: 255 111 34;
+    --color-kudu-orange-fade: 255 133 86;
+    --color-kudu-gray: 141 141 141;
+    --color-kudu-light-blue: 241 241 242;
+    --color-kudu-dark-blue: 25 45 76;
+    --color-kudu-green: 52 168 83;
+    --color-kudu-red: 255 15 0;
+    --color-kudu-dark-grey: 57 57 57;
+    --color-kudu-light-gray: 246 247 251;
+    --color-kudu-pink: 255 184 211;
+    --color-kudu-purple: 233 198 255;
+    --color-kudu-blue: 18 84 255;
+}
+
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
