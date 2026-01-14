@@ -59,7 +59,7 @@ export default function ViewDropShipProducts() {
     );
   }
   return (
-    <div data-theme="kudu" className="  flex px-4 max-w-7xl mx-auto">
+    <div data-theme="kudu" className="  flex px-4 max-w-7xl mx-auto pt-32">
       <section className="flex-1 md:p-4 ">
         <ProductInfo product={query.data.data} />
         {/*{JSON.stringify(query.data, null, 2)}*/}

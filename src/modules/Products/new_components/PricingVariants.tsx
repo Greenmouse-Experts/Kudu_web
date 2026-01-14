@@ -45,10 +45,10 @@ const PricingVariants = ({ product }: { product: Product }) => {
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
-    if (!isNaN(value) && value > 0) {
+    if (!isNaN(value) && value >= 0) {
       setQuantity(value);
-    } else if (value <= 0) {
-      setQuantity(1); // Ensure quantity is at least 1
+    } else {
+      setQuantity(0);
     }
   };
 
@@ -60,6 +60,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
 
   const handleAddToCart = () => {
     if (!user) return tst.error("login in to continue");
+    if (quantity <= 0) return tst.error("Please select a valid quantity");
     // if (isNigerian) {
     //   toast.error("Adding to cart is not available in Nigeria at this time.");
     //   return;
@@ -87,8 +88,11 @@ const PricingVariants = ({ product }: { product: Product }) => {
   };
 
   return (
-    <div className="p-4 ring ring-current/20 bg-base-100 rounded-box ">
-      <div className="badge badge-info badge-soft ring mb-2">Coming Soon</div>
+    <div className="p-4 ring ring-current/20 bg-base-100 rounded-box pt-22">
+      <div className="flex gap-2 mb-2">
+        <div className="badge badge-info badge-soft ring">Coming Soon</div>
+        <div className="badge badge-error badge-soft ring">Not Available</div>
+      </div>
       <h3 className="text-lg font-semibold">PRICING</h3>
       <p className="text-2xl font-bold text-primary">
         {selectedVariant?.currency_code} {calculatedPrice.toFixed(2)}
@@ -124,7 +128,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
         <input
           type="number"
           id="quantity"
-          min="1"
+          min="0"
           value={quantity}
           onChange={handleQuantityChange}
           className="input input-bordered w-20 text-center"
@@ -136,6 +140,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
           handleAddToCart();
           // toast.info("Coming Soon");
         }}
+        disabled={quantity <= 0}
         className="btn btn-primary btn-block mt-2"
       >
         Add to Cart
