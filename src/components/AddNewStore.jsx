@@ -511,7 +511,8 @@ const AddNewStore = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
+                className="btn btn-primary btn-block"
+                data-theme="kudu"
               >
                 Create New Store
               </button>

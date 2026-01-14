@@ -271,7 +271,8 @@ const EditBankAccount = () => {
                 <button
                   type="submit"
                   disabled={isEditing}
-                  className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
+                  className="btn btn-primary btn-block"
+                  data-theme="kudu"
                 >
                   {isEditing ? "Saving..." : "Edit Account"}
                 </button>

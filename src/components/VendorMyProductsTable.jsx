@@ -115,14 +115,15 @@ const VendorMyProductsTable = ({
             </div>
             <div className="text-center">
               <button
-                className="bg-kudu-orange text-white px-6 py-3 rounded-md hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                data-theme="kudu"
+                className="btn btn-primary"
                 onClick={onCreateProduct}
                 disabled={!hasStores}
                 title={!hasStores ? "No stores found for this vendor" : ""}
               >
                 {!hasStores ? "Create Store First" : "Add Your First Product"}
               </button>
-            </div>
+            </ddiv>
           </div>
         )}
       </div>

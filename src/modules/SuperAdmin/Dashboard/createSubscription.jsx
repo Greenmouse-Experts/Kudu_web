@@ -468,7 +468,8 @@ const CreateSubscription = () => {
                   <button
                     type="submit"
                     disabled={disabled}
-                    className="w-full bg-kudu-orange text-white py-2 px-4 rounded-md font-bold"
+                    className="btn btn-primary btn-block"
+                    data-theme="kudu"
                   >
                     Create New Subscription Plan
                   </button>
