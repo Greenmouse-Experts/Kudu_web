@@ -1,10 +1,12 @@
-import { Query, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../../api/apiFactory";
 import QueryCage from "../../../../components/query/QueryCage";
 import DropshipHeader from "./Header";
 import StoreCard from "./StoreCard";
 import { useCountrySelect } from "../../../../store/clientStore";
 import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useState } from "react";
 import {
   NewPaginator,
   use_new_paginate,
@@ -32,26 +34,38 @@ interface Store {
   };
 }
 
-export default function AddToStore(props: any) {
+interface SearchForm {
+  search: string;
+}
+
+export default function AddToStore() {
   const currency = useCountrySelect();
   const paginate = use_new_paginate();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { register, handleSubmit } = useForm<SearchForm>();
 
   const query = useQuery({
-    queryKey: ["store-list", currency.country, paginate.page],
+    queryKey: ["store-list", currency.country, paginate.page, searchTerm],
     queryFn: async () => {
       let resp = await apiClient.get("/stores", {
         params: {
           country: currency.country,
           limit: 30,
-          name: "dandy",
-          search: "Gbless",
-          offset: 0,
+          search: searchTerm,
+          name: searchTerm,
           page: paginate.page,
         },
       });
       return resp.data;
     },
   });
+
+  const onSearch = (data: SearchForm) => {
+    setSearchTerm(data.search);
+    paginate.set_page(1);
+  };
+
   const { itemId } = useParams();
   return (
     <div className="" data-theme="kudu">
@@ -59,6 +73,21 @@ export default function AddToStore(props: any) {
       <div className="p-4 text-xl font-bold">
         Import Item To Store: #{itemId}
       </div>
+
+      <div className="px-4 pb-2">
+        <form onSubmit={handleSubmit(onSearch)} className="flex gap-2">
+          <input
+            {...register("search")}
+            type="text"
+            placeholder="Search stores..."
+            className="input input-bordered w-full max-w-xs"
+          />
+          <button type="submit" className="btn btn-primary">
+            Search
+          </button>
+        </form>
+      </div>
+
       <div className="p-4">
         <QueryCage query={query}>
           {(data: any) => {
@@ -72,7 +101,6 @@ export default function AddToStore(props: any) {
             );
           }}
         </QueryCage>
-        {/*{JSON.stringify(query.data.pagination.total)}*/}
         <div className="my-3">
           <NewPaginator paginate={paginate} />
         </div>
@@ -80,11 +108,3 @@ export default function AddToStore(props: any) {
     </div>
   );
 }
-
-const StoreDetails = () => {
-  return (
-    <>
-      <div>Store Details</div>
-    </>
-  );
-};
