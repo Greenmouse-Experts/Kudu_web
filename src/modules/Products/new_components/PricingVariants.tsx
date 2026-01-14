@@ -7,6 +7,7 @@ import apiClient from "../../../api/apiFactory";
 import { ChartItem } from "chart.js";
 import { useCountrySelect } from "../../../store/clientStore";
 import useAppState from "../../../hooks/appState";
+import { toast as tst } from "sonner";
 
 const PricingVariants = ({ product }: { product: Product }) => {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
@@ -63,7 +64,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
 
     //@ts-ignore
     //
-    toast.promise(
+    tst.promise(
       mutation.mutateAsync({
         productId: product.id as string,
         product_id: product.id as string,
@@ -72,9 +73,12 @@ const PricingVariants = ({ product }: { product: Product }) => {
         dropshipProductSkuId: selectedVariant?.sku_id,
       }),
       {
-        pending: "Adding to cart...",
+        loading: "Adding to cart...",
         success: "Added to cart!",
-        error: "Failed to add to cart",
+        error: (err) => {
+          console.log(err, "err");
+          return err["response"]["data"]["message"] || "failed to add to cart";
+        },
       },
     );
   };
