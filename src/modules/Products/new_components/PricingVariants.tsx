@@ -88,9 +88,9 @@ const PricingVariants = ({ product }: { product: Product }) => {
   };
 
   return (
-    <div className="p-4 ring ring-current/20 bg-base-100 rounded-box pt-22">
+    <div className="p-4 ring ring-current/20 bg-base-100 rounded-box ">
       <div className="flex gap-2 mb-2">
-        <div className="badge badge-info badge-soft ring">Coming Soon</div>
+        {/*<div className="badge badge-info badge-soft ring">Coming Soon</div>*/}
         <div className="badge badge-error badge-soft ring">Not Available</div>
       </div>
       <h3 className="text-lg font-semibold">PRICING</h3>
