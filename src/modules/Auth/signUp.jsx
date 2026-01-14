@@ -306,7 +306,7 @@ function SignUp() {
                 type="submit"
                 disabled={isLoading}
                 data-theme="kudu"
-                className="btn btn-primary"
+                className="btn btn-primary btn-block"
               >
                 Sign Up →
               </button>
