@@ -123,7 +123,7 @@ const VendorMyProductsTable = ({
               >
                 {!hasStores ? "Create Store First" : "Add Your First Product"}
               </button>
-            </ddiv>
+            </div>
           </div>
         )}
       </div>
