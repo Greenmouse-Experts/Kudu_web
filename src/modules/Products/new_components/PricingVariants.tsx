@@ -13,13 +13,15 @@ const PricingVariants = ({ product }: { product: Product }) => {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const { user } = useAppState();
-  const user_location = user.location as {
-    city: string;
-    state: string;
-    country: string;
-  };
+  const user_location = user?.["location"] as
+    | {
+        city: string;
+        state: string;
+        country: string;
+      }
+    | undefined;
 
-  const isNigerian = user_location.country === "Nigeria";
+  const isNigerian = user_location?.country === "Nigeria";
 
   const handleVariantChange = (variantId: string) => {
     const variant = product.variants.find((v) => v.id === variantId);
@@ -57,6 +59,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
     : 0;
 
   const handleAddToCart = () => {
+    if (!user) return tst.error("login in to continue");
     // if (isNigerian) {
     //   toast.error("Adding to cart is not available in Nigeria at this time.");
     //   return;

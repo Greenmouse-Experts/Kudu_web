@@ -11,8 +11,9 @@ const tab_list = ["product", "service"];
 const SearchProduct = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("product");
   const { country } = useCountrySelect();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
   // Get single parameter
   const searchQuery = searchParams.get("q") || "";
@@ -123,10 +124,10 @@ const SearchProduct = () => {
               </div>
             )
           ) : (
-            <SearchService searchTerm={searchQuery} />
+            <SearchServices query={searchQuery} />
           )}
         </div>
-        {/* <SearchServices query={searchQuery}></SearchServices>*/}
+
         <div className="w-full flex flex-col xl:px-40 lg:pl-20 lg:pr-36 md:px-20 px-5 py-3 lg:gap-10 md:gap-8 gap-5 bg-white h-full">
           <div className="w-full flex mt-3">
             <ShoppingExperience />
