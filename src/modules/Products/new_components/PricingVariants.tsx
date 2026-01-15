@@ -1,13 +1,10 @@
-import { toast } from "react-toastify";
 import { Product } from "../../../types";
 import { useState } from "react";
-import { useAddToCart } from "../../../api/cart";
 import { useMutation } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
-import { ChartItem } from "chart.js";
-import { useCountrySelect } from "../../../store/clientStore";
 import useAppState from "../../../hooks/appState";
 import { toast as tst } from "sonner";
+import { Link } from "react-router-dom";
 
 const PricingVariants = ({ product }: { product: Product }) => {
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
@@ -18,10 +15,13 @@ const PricingVariants = ({ product }: { product: Product }) => {
         city: string;
         state: string;
         country: string;
+        street: string | null;
+        zipCode: string | null;
       }
     | undefined;
 
-  const isNigerian = user_location?.country === "Nigeria";
+  const isLocationIncomplete =
+    user && (!user_location?.street || !user_location?.zipCode);
 
   const handleVariantChange = (variantId: string) => {
     const variant = product.variants.find((v) => v.id === variantId);
@@ -64,11 +64,11 @@ const PricingVariants = ({ product }: { product: Product }) => {
 
   const handleAddToCart = () => {
     if (!user) return tst.error("login in to continue");
+    if (isLocationIncomplete)
+      return tst.error(
+        "Please update your street and zip code in your profile to continue.",
+      );
     if (quantity <= 0) return tst.error("Please select a valid quantity");
-    // if (isNigerian) {
-    //   toast.error("Adding to cart is not available in Nigeria at this time.");
-    //   return;
-    // }
 
     //@ts-ignore
     //
@@ -95,7 +95,11 @@ const PricingVariants = ({ product }: { product: Product }) => {
     <div className="p-4 ring ring-current/20 bg-base-100 rounded-box ">
       <div className="flex gap-2 mb-2">
         {/*<div className="badge badge-info badge-soft ring">Coming Soon</div>*/}
-        <div className="badge badge-error badge-soft ring">Not Available</div>
+        {product.quantity > 0 ? (
+          <div className="badge badge-success badge-soft ring">Available</div>
+        ) : (
+          <div className="badge badge-error badge-soft ring">Not Available</div>
+        )}
       </div>
       <h3 className="text-lg font-semibold">PRICING</h3>
       <p className="text-2xl font-bold text-primary">
@@ -154,13 +158,27 @@ const PricingVariants = ({ product }: { product: Product }) => {
           </button>
         </div>
       </div>
-      {/*{user_location.country}*/}
+
+      {isLocationIncomplete && (
+        <div className="alert alert-info mt-4 text-sm">
+          <span>
+            Please update your account with a <strong>street address</strong>{" "}
+            and <strong>zip code</strong> to enable purchasing.
+          </span>
+          <Link
+            to="/settings/profile"
+            className="btn btn-xs btn-ghost underline"
+          >
+            Update Profile
+          </Link>
+        </div>
+      )}
+
       <button
         onClick={() => {
           handleAddToCart();
-          // toast.info("Coming Soon");
         }}
-        disabled={product.quantity <= 0}
+        disabled={product.quantity <= 0 || isLocationIncomplete}
         className="btn btn-primary btn-block mt-2"
       >
         Add to Cart
