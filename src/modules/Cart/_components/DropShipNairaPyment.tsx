@@ -6,6 +6,7 @@ export const DropShipNairaPayment = ({
   paymentKey: string;
 }) => {
   const { user } = useAppState();
+  const { data: cart, isLoading, refetch } = useCart();
   const test_key = "pk_test_77297b93cbc01f078d572fed5e2d58f4f7b518d7";
   const { data: deliveryFeeData } = useQuery({
     queryKey: ["deliveryFee"],
@@ -46,8 +47,10 @@ export const DropShipNairaPayment = ({
     },
     onSuccess: (data) => {
       console.log(data);
+      refetch();
     },
   });
+  let lent = cart?.length || 0;
 
   const onSuccess = async (id: string) => {
     toast.promise(mutate.mutateAsync(id), {
@@ -91,7 +94,7 @@ export const DropShipNairaPayment = ({
       <DropShipPaymentButton
         config={config}
         onSuccess={onSuccess}
-        disabled={!hasValidAddress}
+        disabled={!hasValidAddress || lent === 0}
       >
         <span className="flex items-center justify-center gap-2">
           Pay Now ₦{finalTotal.toLocaleString()}
@@ -115,6 +118,7 @@ import { testKey } from "../../../config/paymentKeys";
 import apiClient from "../../../api/apiFactory";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { get_ali_location } from "./DropShipDollarPayment";
+import { useCart } from "../../../api/cart";
 
 const DropShipPaymentButton = ({
   config,
