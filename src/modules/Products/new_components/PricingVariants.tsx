@@ -52,6 +52,10 @@ const PricingVariants = ({ product }: { product: Product }) => {
     }
   };
 
+  const incrementQuantity = () => setQuantity((prev) => prev + 1);
+  const decrementQuantity = () =>
+    setQuantity((prev) => (prev > 0 ? prev - 1 : 0));
+
   //@ts-ignore
   const calculatedPrice = selectedVariant
     ? //@ts-ignore
@@ -125,14 +129,30 @@ const PricingVariants = ({ product }: { product: Product }) => {
         <label htmlFor="quantity" className="font-semibold">
           Quantity:
         </label>
-        <input
-          type="number"
-          id="quantity"
-          min="0"
-          value={quantity}
-          onChange={handleQuantityChange}
-          className="input input-bordered w-20 text-center"
-        />
+        <div className="flex items-center">
+          <button
+            type="button"
+            onClick={decrementQuantity}
+            className="btn btn-square btn-outline btn-sm"
+          >
+            -
+          </button>
+          <input
+            type="number"
+            id="quantity"
+            min="0"
+            value={quantity}
+            onChange={handleQuantityChange}
+            className="input input-bordered w-20 text-center mx-2"
+          />
+          <button
+            type="button"
+            onClick={incrementQuantity}
+            className="btn btn-square btn-outline btn-sm"
+          >
+            +
+          </button>
+        </div>
       </div>
       {/*{user_location.country}*/}
       <button
@@ -140,7 +160,7 @@ const PricingVariants = ({ product }: { product: Product }) => {
           handleAddToCart();
           // toast.info("Coming Soon");
         }}
-        disabled={quantity <= 0}
+        disabled={product.quantity <= 0}
         className="btn btn-primary btn-block mt-2"
       >
         Add to Cart

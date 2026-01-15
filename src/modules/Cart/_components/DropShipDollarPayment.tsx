@@ -43,15 +43,13 @@ export default function DropShipDollarPayment({
 
   const zip = arr[3];
   const shippingAddress: string = `${arr[0]}, ${arr[1]}, ${arr[2]}`;
-  const parsed_addres = shippingAddress.replaceAll(",", "");
-  console.log(stripeData);
 
   const mutate = useMutation({
     mutationFn: async () => {
       let resp = await apiClient.post("/user/checkout/dollar", {
         refId: stripeData.id,
-        shippingAddress: parsed_addres,
-        shippingAddressZipCode: zip,
+        shippingAddress: user["location"]["street"],
+        shippingAddressZipCode: user["location"]["zipCode"],
       });
       return resp.data;
     },
@@ -158,9 +156,9 @@ const CheckoutForm = ({
       });
       return pay_data;
     },
-    onSuccess: async (data) => {
+    onSuccess: async (data: any) => {
       console.log(data.paymentIntent, "data");
-      toast.promise(mutate.mutateAsync(data.paymentIntent.id as string), {
+      toast.promise(mutate.mutateAsync(data?.paymentIntent.id as string), {
         loading: "Processing payment...",
         success: "Payment successful",
         error: "Payment failed",
