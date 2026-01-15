@@ -1,137 +1,101 @@
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import { City, Country, State } from "country-state-city";
 import { useNavigate } from "react-router-dom";
 import NaijaStates from "naija-state-local-government";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 
 const AddNewStore = () => {
-  const [countries, setCountries] = useState(Country.getAllCountries());
+  const [countries] = useState(Country.getAllCountries());
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
   const [selectedCity, setSelectedCity] = useState(null);
   const [currencies, setCurrencies] = useState([]);
-  const [deliveryOptions, setDeliveryOptions] = useState([]);
-  const [disabled, setDisabled] = useState(false);
 
-  const { mutate } = useApiMutation();
+  const { mutate, isLoading } = useApiMutation();
   const navigate = useNavigate();
-
-  const handleCountryChange = (country) => {
-    const parsedCountry = JSON.parse(country);
-    setSelectedCountry(parsedCountry);
-    setSelectedState(null);
-    setCities([]);
-    setStates(State.getStatesOfCountry(parsedCountry.isoCode));
-  };
-
-  const handleStateChange = (state) => {
-    const parsedState = JSON.parse(state);
-    setSelectedState(parsedState);
-
-    if (selectedCountry.name === "Nigeria") {
-      const fetchedCities = NaijaStates.lgas(parsedState.name).lgas.map(
-        (city) => ({ name: city }),
-      );
-      setCities(fetchedCities);
-      return;
-    }
-
-    setCities(
-      City.getCitiesOfState(selectedCountry.isoCode, parsedState.isoCode),
-    );
-  };
-
-  const handleCityChange = (state) => {
-    const parsedCity = JSON.parse(state);
-    setSelectedCity(parsedCity);
-  };
 
   const {
     register,
     handleSubmit,
-    setValue,
-    getValues,
-    watch,
+    control,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      deliveryOptions: [{ city: "", price: "", arrival_day: "" }],
+    },
+  });
 
-  const transformPayload = (input) => {
-    return {
-      currencyId: input.currencyId,
-      name: input.name,
-      location: {
-        address: input.location.address,
-        city: input.location.city,
-        state: input.location.state,
-        country: input.location.country,
-      },
-      businessHours: {
-        monday_friday: input.business_hours.monday_friday,
-        saturday: input.business_hours.saturday,
-        sunday: input.business_hours.sunday,
-      },
-      deliveryOptions: Object.keys(input)
-        .filter((key) => key.startsWith("city"))
-        .map((key) => {
-          const index = key.match(/\d+/)[0]; // Extract the number from the key
-          return {
-            city: input[`city${index}`],
-            price: Number(input[`price${index}`]),
-            arrival_day: input[`arrival_day${index}`],
-          };
-        }),
-      tipsOnFinding: input.tipsOnFinding,
-      logo: "",
-    };
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "deliveryOptions",
+  });
+
+  const handleCountryChange = (e) => {
+    const country = JSON.parse(e.target.value);
+    setSelectedCountry(country);
+    setSelectedState(null);
+    setCities([]);
+    setStates(State.getStatesOfCountry(country.isoCode));
+  };
+
+  const handleStateChange = (e) => {
+    const state = JSON.parse(e.target.value);
+    setSelectedState(state);
+
+    if (selectedCountry?.name === "Nigeria") {
+      const stateName = state.name.includes("Abuja") ? "Abuja" : state.name;
+      const fetchedCities = NaijaStates.lgas(stateName).lgas.map((city) => ({
+        name: city,
+      }));
+      setCities(fetchedCities);
+    } else {
+      setCities(City.getCitiesOfState(selectedCountry.isoCode, state.isoCode));
+    }
+  };
+
+  const handleCityChange = (e) => {
+    setSelectedCity(JSON.parse(e.target.value));
   };
 
   const onSubmit = (data) => {
-    const {
-      address,
-      monday_friday,
-      city,
-      country,
-      state,
-      saturday,
-      sunday,
-      ...rest
-    } = data;
-
     const payload = {
-      ...rest,
+      name: data.name,
+      currencyId: data.currencyId,
+      tipsOnFinding: data.tipsOnFinding,
+      logo: "",
       location: {
-        address,
+        address: data.address,
         country: selectedCountry?.name,
         state: selectedState?.name,
         city: selectedCity?.name,
       },
-      business_hours: {
-        monday_friday,
-        saturday,
-        sunday,
+      businessHours: {
+        monday_friday: data.monday_friday,
+        saturday: data.saturday,
+        sunday: data.sunday,
       },
+      deliveryOptions: data.deliveryOptions.map((opt) => ({
+        city: opt.city,
+        price: Number(opt.price),
+        arrival_day: opt.arrival_day,
+      })),
     };
-
-    const reformedPayload = transformPayload(payload);
 
     mutate({
       url: "/vendor/store",
       method: "POST",
-      data: reformedPayload,
+      data: payload,
       headers: true,
-      onSuccess: (response) => {
+      onSuccess: () => {
         navigate(-1);
-      },
-      onError: () => {
-        closeModal();
       },
     });
   };
 
-  const getCurrency = () => {
+  useEffect(() => {
     mutate({
       url: `/vendor/currencies`,
       method: "GET",
@@ -140,24 +104,8 @@ const AddNewStore = () => {
       onSuccess: (response) => {
         setCurrencies(response.data.data);
       },
-      onError: () => {},
     });
-  };
-
-  useEffect(() => {
-    getCurrency();
-  }, []);
-
-  const populateDeliveryOption = () => {
-    setDeliveryOptions((prevOptions) => [
-      ...prevOptions,
-      {
-        city: null,
-        price: null,
-        arrival_day: null,
-      },
-    ]);
-  };
+  }, [mutate]);
 
   return (
     <div className="w-full">
@@ -173,22 +121,15 @@ const AddNewStore = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="w-full p-6">
-              {/* Plan Name */}
               <div className="mb-4">
-                <label
-                  className="block text-md font-semibold mb-3"
-                  htmlFor="email"
-                >
+                <label className="block text-md font-semibold mb-3">
                   Store Name
                 </label>
                 <input
                   type="text"
-                  id="name"
                   {...register("name", { required: "Store name is required" })}
                   placeholder="Enter store's name"
-                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                  style={{ outline: "none" }}
-                  required
+                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm">{errors.name.message}</p>
@@ -196,22 +137,16 @@ const AddNewStore = () => {
               </div>
 
               <div className="mb-4">
-                <label
-                  className="block text-md font-semibold mb-3"
-                  htmlFor="email"
-                >
+                <label className="block text-md font-semibold mb-3">
                   Store Address
                 </label>
                 <input
                   type="text"
-                  id="address"
                   {...register("address", {
                     required: "Store address is required",
                   })}
                   placeholder="Enter store address"
-                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                  style={{ outline: "none" }}
-                  required
+                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                 />
                 {errors.address && (
                   <p className="text-red-500 text-sm">
@@ -222,26 +157,19 @@ const AddNewStore = () => {
 
               <div className="mb-4">
                 <div className="grid grid-cols-12 gap-3">
-                  <div className="col-span-6 gap-1">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="email"
-                    >
+                  <div className="col-span-6 md:col-span-4">
+                    <label className="block text-md font-semibold mb-3">
                       Country
                     </label>
                     <select
-                      id="country"
                       {...register("country", {
                         required: "Country is required",
                       })}
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                      onChange={(event) =>
-                        handleCountryChange(event.target.value)
-                      }
-                      required
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
+                      onChange={handleCountryChange}
+                      defaultValue=""
                     >
-                      <option value="" disabled selected hidden>
+                      <option value="" disabled>
                         Select a country
                       </option>
                       {countries.map((country) => (
@@ -255,24 +183,17 @@ const AddNewStore = () => {
                     </select>
                   </div>
 
-                  <div className="col-span-6 gap-1">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="email"
-                    >
+                  <div className="col-span-6 md:col-span-4">
+                    <label className="block text-md font-semibold mb-3">
                       State
                     </label>
                     <select
-                      id="state"
                       {...register("state", { required: "State is required" })}
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                      onChange={(event) =>
-                        handleStateChange(event.target.value)
-                      }
-                      required
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
+                      onChange={handleStateChange}
+                      defaultValue=""
                     >
-                      <option value="" disabled selected hidden>
+                      <option value="" disabled>
                         Select state
                       </option>
                       {states.map((state) => (
@@ -286,26 +207,21 @@ const AddNewStore = () => {
                     </select>
                   </div>
 
-                  <div className="col-span-6 gap-1">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="email"
-                    >
+                  <div className="col-span-12 md:col-span-4">
+                    <label className="block text-md font-semibold mb-3">
                       City
                     </label>
                     <select
-                      id="city"
                       {...register("city", { required: "City is required" })}
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                      onChange={(event) => handleCityChange(event.target.value)}
-                      required
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
+                      onChange={handleCityChange}
+                      defaultValue=""
                     >
-                      <option value="" disabled selected hidden>
+                      <option value="" disabled>
                         Select city
                       </option>
-                      {cities.map((city) => (
-                        <option value={JSON.stringify(city)} key={city.isoCode}>
+                      {cities.map((city, idx) => (
+                        <option value={JSON.stringify(city)} key={idx}>
                           {city.name}
                         </option>
                       ))}
@@ -315,22 +231,16 @@ const AddNewStore = () => {
               </div>
 
               <div className="mb-4">
-                <label
-                  className="block text-md font-semibold mb-3"
-                  htmlFor="email"
-                >
+                <label className="block text-md font-semibold mb-3">
                   Tips for finding store
                 </label>
                 <input
                   type="text"
-                  id="findStore"
                   {...register("tipsOnFinding", {
                     required: "Tips on finding store is required",
                   })}
                   placeholder="Tips on finding store"
-                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                  style={{ outline: "none" }}
-                  required
+                  className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none placeholder-gray-400 text-sm mb-3"
                 />
                 {errors.tipsOnFinding && (
                   <p className="text-red-500 text-sm">
@@ -341,22 +251,20 @@ const AddNewStore = () => {
 
               <div className="mb-4">
                 <div className="grid grid-cols-12 gap-3">
-                  <div className="col-span-6 gap-1">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="email"
-                    >
+                  <div className="col-span-6">
+                    <label className="block text-md font-semibold mb-3">
                       Store Currency
                     </label>
                     <select
-                      id="currencyId"
                       {...register("currencyId", {
                         required: "Currency is required",
                       })}
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                      required
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
+                      defaultValue=""
                     >
+                      <option value="" disabled>
+                        Select Currency
+                      </option>
                       {currencies.map((currency) => (
                         <option value={currency.id} key={currency.id}>
                           {currency.name} ({currency.symbol})
@@ -372,63 +280,39 @@ const AddNewStore = () => {
                   Business Hours
                 </p>
                 <div className="grid grid-cols-12 gap-3">
-                  <div className="col-span-6 gap-1">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="email"
-                    >
+                  <div className="col-span-12 md:col-span-4">
+                    <label className="block text-md font-semibold mb-3">
                       Monday - Friday
                     </label>
                     <input
                       type="text"
-                      id="monday_friday"
                       {...register("monday_friday", {
-                        required: "Business Hours are required",
+                        required: "Required",
                       })}
                       placeholder="9am - 5pm"
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                      required
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
                     />
                   </div>
-
-                  <div className="col-span-6 gap-1">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="email"
-                    >
+                  <div className="col-span-12 md:col-span-4">
+                    <label className="block text-md font-semibold mb-3">
                       Saturday
                     </label>
                     <input
                       type="text"
-                      id="saturday"
-                      {...register("saturday", {
-                        required: "Business Hours are required",
-                      })}
+                      {...register("saturday", { required: "Required" })}
                       placeholder="9am - 5pm"
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                      required
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
                     />
                   </div>
-
-                  <div className="col-span-6 gap-1">
-                    <label
-                      className="block text-md font-semibold mb-3"
-                      htmlFor="email"
-                    >
+                  <div className="col-span-12 md:col-span-4">
+                    <label className="block text-md font-semibold mb-3">
                       Sunday
                     </label>
                     <input
                       type="text"
-                      id="sunday"
-                      {...register("sunday", {
-                        required: "Business Hours are required",
-                      })}
+                      {...register("sunday", { required: "Required" })}
                       placeholder="9am - 5pm"
-                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                      style={{ outline: "none" }}
-                      required
+                      className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-none text-sm mb-3"
                     />
                   </div>
                 </div>
@@ -438,85 +322,81 @@ const AddNewStore = () => {
                 <p className="text-sm font-semibold mb-4 uppercase">
                   Delivery Options
                 </p>
-                {deliveryOptions.map((deliveryOption, index) => (
-                  <div className="grid grid-cols-12 gap-3" key={index}>
-                    <div className="col-span-6 gap-1">
-                      <label
-                        className="block text-md font-semibold mb-3"
-                        htmlFor="email"
-                      >
+                {fields.map((field, index) => (
+                  <div
+                    className="grid grid-cols-12 gap-3 mb-4 items-end"
+                    key={field.id}
+                  >
+                    <div className="col-span-4">
+                      <label className="block text-xs font-semibold mb-1">
                         City
                       </label>
                       <input
                         type="text"
-                        id="city"
-                        {...register(`city${index}`, {
-                          required: "Delivery City is required",
+                        {...register(`deliveryOptions.${index}.city`, {
+                          required: true,
                         })}
-                        placeholder="Enter delivery city"
-                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                        style={{ outline: "none" }}
-                        required
+                        placeholder="City"
+                        className="w-full px-4 py-3 bg-gray-100 border border-gray-100 rounded-lg text-sm"
                       />
                     </div>
-
-                    <div className="col-span-6 gap-1">
-                      <label
-                        className="block text-md font-semibold mb-3"
-                        htmlFor="email"
-                      >
+                    <div className="col-span-3">
+                      <label className="block text-xs font-semibold mb-1">
                         Price
                       </label>
                       <input
-                        type="text"
-                        id="price"
-                        {...register(`price${index}`, {
-                          required: "Price is required",
+                        type="number"
+                        {...register(`deliveryOptions.${index}.price`, {
+                          required: true,
                         })}
-                        placeholder="Enter price"
-                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                        style={{ outline: "none" }}
-                        required
+                        placeholder="Price"
+                        className="w-full px-4 py-3 bg-gray-100 border border-gray-100 rounded-lg text-sm"
                       />
                     </div>
-
-                    <div className="col-span-6 gap-1">
-                      <label
-                        className="block text-md font-semibold mb-3"
-                        htmlFor="email"
-                      >
-                        Delivery Timeline
+                    <div className="col-span-4">
+                      <label className="block text-xs font-semibold mb-1">
+                        Timeline
                       </label>
                       <input
                         type="text"
-                        id="arrival_day"
-                        {...register(`arrival_day${index}`, {
-                          required: "Delivery Timeline is required",
+                        {...register(`deliveryOptions.${index}.arrival_day`, {
+                          required: true,
                         })}
-                        placeholder="Enter Delivery Timeline"
-                        className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
-                        style={{ outline: "none" }}
-                        required
+                        placeholder="e.g 2-3 days"
+                        className="w-full px-4 py-3 bg-gray-100 border border-gray-100 rounded-lg text-sm"
                       />
+                    </div>
+                    <div className="col-span-1">
+                      {fields.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => remove(index)}
+                          className="text-red-500 p-2"
+                        >
+                          ✕
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
-                <span
-                  className="bg-kudu-orange mt-2 hover:bg-blue-700 cursor-pointer text-white text-sm  py-2 px-4 rounded-sm"
-                  onClick={() => populateDeliveryOption()}
+                <button
+                  type="button"
+                  className="bg-kudu-orange mt-2 hover:bg-orange-600 cursor-pointer text-white text-sm py-2 px-4 rounded-sm"
+                  onClick={() =>
+                    append({ city: "", price: "", arrival_day: "" })
+                  }
                 >
                   + Add Delivery Option
-                </span>
+                </button>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
-                disabled={disabled}
-                className="btn btn-primary btn-block"
+                disabled={isLoading}
+                className={`btn btn-primary btn-block ${isLoading ? "loading" : ""}`}
                 data-theme="kudu"
               >
-                Create New Store
+                {isLoading ? "Creating..." : "Create New Store"}
               </button>
             </div>
           </form>

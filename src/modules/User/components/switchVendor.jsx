@@ -31,7 +31,11 @@ const SwitchVendorModal = ({ children, redirect }) => {
         </div>
         {children}
         <div className="flex justify-center mt-5 gap-4">
-          <button onClick={() => switchVendor()} className="btn btn-primary">
+          <button
+            data-theme="kudu"
+            onClick={() => switchVendor()}
+            className="btn btn-primary"
+          >
             Yes, Switch to Vendor
           </button>
           <button
