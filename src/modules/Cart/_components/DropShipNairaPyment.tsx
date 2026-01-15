@@ -30,13 +30,17 @@ export const DropShipNairaPayment = ({
     }),
     [paymentKey, finalTotal, user?.email],
   );
-  const { parsed_addres, zip } = get_ali_location(user.location);
+
+  const hasValidAddress = useMemo(() => {
+    return !!(user?.location?.street && user?.location?.zipCode);
+  }, [user?.location]);
+
   const mutate = useMutation({
     mutationFn: async (id: string) => {
       let resp = await apiClient.post("/user/checkout/", {
         refId: id,
-        shippingAddress: user["location"]["street"],
-        shippingAddressZipCode: user["location"]["zipCode"],
+        shippingAddress: user?.location?.street,
+        shippingAddressZipCode: user?.location?.zipCode,
       });
       return resp.data;
     },
@@ -44,6 +48,7 @@ export const DropShipNairaPayment = ({
       console.log(data);
     },
   });
+
   const onSuccess = async (id: string) => {
     toast.promise(mutate.mutateAsync(id), {
       pending: "Processing payment...",
@@ -51,18 +56,13 @@ export const DropShipNairaPayment = ({
       error: "Payment failed",
     });
   };
+
   return (
     <div
       className="w-full max-w-md mx-auto p-4 bg-white border border-gray-100 rounded-2xl shadow-sm"
       data-theme="kudu"
     >
       <div className="space-y-3 mb-6">
-        {/*<div className="flex justify-between items-center text-sm">
-          <span className="text-gray-500">Subtotal</span>
-          <span className="font-medium text-gray-900">
-            NGN {total_price.toLocaleString()}
-          </span>
-        </div>*/}
         <div className="flex justify-between items-center text-sm">
           <span className="text-gray-500">Dropship Fee</span>
           <span className="font-medium text-gray-900">
@@ -79,7 +79,20 @@ export const DropShipNairaPayment = ({
         </div>
       </div>
 
-      <DropShipPaymentButton config={config} onSuccess={onSuccess}>
+      {!hasValidAddress && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-lg">
+          <p className="text-xs text-red-600 text-center">
+            Please update your profile with a valid street address and zip code
+            to proceed.
+          </p>
+        </div>
+      )}
+
+      <DropShipPaymentButton
+        config={config}
+        onSuccess={onSuccess}
+        disabled={!hasValidAddress}
+      >
         <span className="flex items-center justify-center gap-2">
           Pay Now ₦{finalTotal.toLocaleString()}
         </span>
@@ -117,8 +130,10 @@ const DropShipPaymentButton = ({
   const initializePayment = usePaystackPayment(config);
 
   const handleClick = () => {
+    if (disabled) return;
+
     if (user) {
-      if (user.location) {
+      if (user.location && user.location.street && user.location.zipCode) {
         if (!config.publicKey) {
           console.error("Payment key not loaded");
           return;
@@ -131,7 +146,7 @@ const DropShipPaymentButton = ({
         });
       } else {
         toast.error(
-          "Default Shipping Address not set, visit your profile to set up one",
+          "Shipping Address or Zip Code not set, visit your profile to set up your details",
         );
       }
     } else {
@@ -143,7 +158,7 @@ const DropShipPaymentButton = ({
     <button
       onClick={handleClick}
       disabled={disabled}
-      className={`btn btn-primary btn-block`}
+      className={`btn btn-primary btn-block ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
     >
       {children}
     </button>
