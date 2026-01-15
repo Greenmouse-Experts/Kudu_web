@@ -24,6 +24,7 @@ export default function Header({ openMenu }) {
   const { data: notifications, isLoading, error } = useNotification();
   const { data: messages } = useConversation();
   const { data: cart } = useCart();
+  const cart_lent = cart?.length || 0;
 
   const getUnreadNotifications = (notifications) => {
     if (!notifications) return 0;
@@ -164,7 +165,10 @@ export default function Header({ openMenu }) {
                   >
                     {options.svg}
                     {options.info > 0 && (
-                      <div className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-kudu-orange text-white">
+                      <div
+                        data-theme="kudu"
+                        className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-primary text-white"
+                      >
                         <p className="text-[9px]">{options.info}</p>
                       </div>
                     )}
@@ -451,7 +455,10 @@ export default function Header({ openMenu }) {
                       >
                         {options.svg}
                         {options.info > 0 && (
-                          <div className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-kudu-orange text-white">
+                          <div
+                            data-theme="kudu"
+                            className=" w-4 h-4 rounded-full absolute -top-2 left-4 flex justify-center items-center bg-primary text-white"
+                          >
                             <p className="text-[9px]">{options.info}</p>
                           </div>
                         )}
@@ -551,6 +558,17 @@ export default function Header({ openMenu }) {
                     </Menu>
                   </div>
                 )}
+
+                <Link to="/cart" className="btn btn-ghost btn-circle relative">
+                  <div className="indicator">
+                    <ShoppingCart size={20} color="#5f5959" />
+                    {cart_lent > 0 && (
+                      <span className="absolute -top-2 rounded-full -right-2 size-4 bg-primary  p-1 text-xs border-none text-white text-[9px]">
+                        {/* {cart_lent}*/}
+                      </span>
+                    )}
+                  </div>
+                </Link>
 
                 <Link
                   to={"/auction"}
