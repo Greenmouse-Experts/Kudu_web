@@ -449,7 +449,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
                 onClick={() => modalRef.showModal()}
                 className="btn btn-link btn-xs text-kudu-orange no-underline hover:underline p-0 min-h-0 h-auto"
               >
-                Change Location
+                Change default address
               </button>
             </div>
             <p className="text-sm text-base-content/60">

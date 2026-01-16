@@ -139,7 +139,7 @@ export default function DollarCartSummary({
                 onClick={handleModal}
                 className="btn btn-link btn-xs text-kudu-orange no-underline"
               >
-                Change Location
+                Change default address
               </button>
             </div>
             <p className="text-base text-gray-500">
