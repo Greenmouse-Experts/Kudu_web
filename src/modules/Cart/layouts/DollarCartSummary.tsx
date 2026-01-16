@@ -4,13 +4,11 @@ import apiClient from "../../../api/apiFactory";
 import useAppState from "../../../hooks/appState";
 import { formatNumberWithCommas } from "../../../helpers/helperFactory";
 import { Button } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
 import { useModal } from "../../../hooks/modal";
-import AddShippingAddress from "../../../components/AddShippingAddress";
-import { Country } from "country-state-city";
-import DollarPaymentButton from "../../../components/DollarPaymentButton";
 import TestDollarPayment from "../_components/TestDollarPayment";
 import DropShipDollarPayment from "../_components/DropShipDollarPayment";
+import UpdateShipAdd from "../../../components/UpdateShippingAddress";
+
 interface StripePaymentBreakdown {
   currency: string;
   chargeAmount: number;
@@ -23,6 +21,7 @@ export interface StripeResponse {
   totalAmount: number;
   paymentBreakdown: StripePaymentBreakdown;
 }
+
 export default function DollarCartSummary({
   cart,
   refetch,
@@ -31,9 +30,7 @@ export default function DollarCartSummary({
   refetch?: () => void;
 }) {
   const { user } = useAppState();
-  const navigate = useNavigate();
   const { openModal, closeModal } = useModal();
-  const countries = Country.getAllCountries();
 
   const query = useQuery<StripeResponse>({
     queryKey: ["cart_summary_dollar", cart],
@@ -51,22 +48,11 @@ export default function DollarCartSummary({
     },
     enabled: !!user.location && cart.length > 0, // Only run query if user has a location and cart is not empty
   });
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: { refId: string; shipping: string }) => {
-      let resp = await apiClient.post("/user/checkout/dollar");
-      return resp.data;
-    },
-  });
+
   const handleModal = () => {
     openModal({
       size: "sm",
-      content: (
-        <AddShippingAddress
-          isOpen={true}
-          countries={countries}
-          closeModal={handleCloseModal}
-        />
-      ),
+      content: <UpdateShipAdd onclose={handleCloseModal} />,
     });
   };
 
@@ -103,7 +89,6 @@ export default function DollarCartSummary({
     (item: any) => item["product"]["type"] == "dropship",
   );
 
-  // return <div>{hasDropShip ? "DropShip" : "No DropShip"}</div>;
   return (
     <div className="card w-full bg-base-100 shadow-xl" data-theme="kudu">
       <div className="card-body p-4">
@@ -186,7 +171,7 @@ export default function DollarCartSummary({
               ) : (
                 <>
                   <TestDollarPayment
-                    data={stripeData}
+                    data={stripeData as StripeResponse}
                     amount={stripeData?.totalAmount || 0}
                     disabled={cart.length === 0 || !stripeData?.clientSecret}
                   >
@@ -200,6 +185,9 @@ export default function DollarCartSummary({
             </>
           ) : (
             <Button
+              placeholder=""
+              onPointerEnterCapture={() => {}}
+              onPointerLeaveCapture={() => {}}
               className="btn btn-primary bg-kudu-orange"
               onClick={handleModal}
             >

@@ -107,7 +107,7 @@ export default function UpdateShipAdd({ onclose }: { onclose: () => void }) {
 
   return (
     <div data-theme="kudu" className="w-ful">
-      <form onSubmit={handleSubmit(onSubmit)} className=" space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className=" space-y-4 bg-white">
         {/*{JSON.stringify(user, null, 2)}*/}
         <div className="form-control w-full ">
           <label className="label">

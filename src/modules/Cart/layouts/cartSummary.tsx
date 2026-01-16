@@ -1,13 +1,10 @@
 import { useEffect, useMemo } from "react";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import useAppState from "../../../hooks/appState";
-import PaymentButton from "../../../components/PaymentButton";
 import { useGeoLocatorCurrency } from "../../../hooks/geoLocatorProduct";
-import { Button } from "@material-tailwind/react";
-import AddShippingAddress from "../../../components/AddShippingAddress";
 import { useModal } from "../../../hooks/modal";
 import { Country } from "country-state-city";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { paystackKey } from "../../../config/paymentKeys";
 import DollarPaymentButton from "../../../components/DollarPaymentButton";
 import { formatNumberWithCommas } from "../../../helpers/helperFactory";
@@ -15,6 +12,10 @@ import { useQuery } from "@tanstack/react-query";
 import apiClient from "../../../api/apiFactory";
 import { DropShipNairaPayment } from "../_components/DropShipNairaPyment";
 import { calculate_dropship_price } from "../_components/helper";
+import { useNewModal } from "../../../components/modals/modals";
+import Modal from "../../../components/modals/DialogModal";
+import UpdateShipAdd from "../../../components/UpdateShippingAddress";
+
 // Define the structure of a product charge.
 interface ProductCharge {
   id: number;
@@ -215,7 +216,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
     console.log(cart);
   }, []);
   const { mutate } = useApiMutation();
-  const { openModal, closeModal } = useModal();
+  const modalRef = useNewModal();
 
   const { ipInfo } = useAppState();
 
@@ -223,23 +224,8 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
 
   const paymentKey = paystackKey;
 
-  const countries = Country.getAllCountries();
-
-  const handleModal = () => {
-    openModal({
-      size: "sm",
-      content: (
-        <AddShippingAddress
-          isOpen={true}
-          countries={countries}
-          closeModal={handleCloseModal}
-        />
-      ),
-    });
-  };
-
   const handleCloseModal = () => {
-    closeModal();
+    modalRef.closeModal();
     refetch();
   };
   const charges = query.data?.data;
@@ -403,6 +389,9 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
       className="card w-full bg-base-100 shadow-sm rounded-lg"
       data-theme="kudu"
     >
+      <Modal ref={modalRef.ref} title="Update Shipping Address">
+        <UpdateShipAdd onclose={handleCloseModal} />
+      </Modal>
       <div className="card-body p-4 gap-2">
         <h2 className="card-title text-lg font-semibold uppercase mb-2">
           CART Summary
@@ -457,7 +446,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
             <div className="flex justify-between items-center mb-1">
               <p className="text-sm font-semibold">Delivery Address</p>
               <button
-                onClick={handleModal}
+                onClick={() => modalRef.showModal()}
                 className="btn btn-link btn-xs text-kudu-orange no-underline hover:underline p-0 min-h-0 h-auto"
               >
                 Change Location
@@ -494,7 +483,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
           ) : (
             <button
               className="btn bg-kudu-orange hover:bg-kudu-orange/90 border-none text-white w-full"
-              onClick={handleModal}
+              onClick={() => modalRef.showModal()}
             >
               Set Delivery Location
             </button>
