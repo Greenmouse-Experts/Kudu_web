@@ -206,7 +206,10 @@ const MyProducts = () => {
       )}
 
       {delModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-100">
+        <div
+          data-theme="kudu"
+          className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-neutral/50 backdrop-blur-md  z-100"
+        >
           <div className="bg-white p-8 rounded-lg w-5/12 max-w-(--breakpoint-md) mx-auto">
             <h1 className="text-center font-large">
               Are you sure you want to delete this product
