@@ -559,17 +559,6 @@ export default function Header({ openMenu }) {
                   </div>
                 )}
 
-                <Link to="/cart" className="btn btn-ghost btn-circle relative">
-                  <div className="indicator">
-                    <ShoppingCart size={20} color="#5f5959" />
-                    {cart_lent > 0 && (
-                      <span className="absolute -top-2 rounded-full -right-2 size-4 bg-primary  p-1 text-xs border-none text-white text-[9px]">
-                        {/* {cart_lent}*/}
-                      </span>
-                    )}
-                  </div>
-                </Link>
-
                 <Link
                   to={"/auction"}
                   className="bg-kudu-dark-grey text-white py-2 px-4 rounded-md"
