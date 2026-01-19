@@ -344,7 +344,7 @@ export default function AdminViewService() {
                     Category
                   </h4>
                   <p className="font-medium">
-                    {service?.category.name} / {service?.subCategory.name}
+                    {service?.category?.name} / {service?.subCategory?.name}
                   </p>
                 </div>
                 <div className="divider my-0 opacity-50"></div>
