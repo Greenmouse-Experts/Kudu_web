@@ -87,6 +87,14 @@ const CartItem = ({ item, removeFromCart, refetch }) => {
                   <span className="py-1 px-2 gap-1 rounded-full flex bg-[rgba(52,168,83,1)] text-white">
                     <span className="text-xs">Verified</span>
                   </span>
+                  {item.productType === "dropship" && (
+                    <div
+                      data-theme="kudu"
+                      className="badge badge-info  badge-sm badge-soft ring"
+                    >
+                      Dropshipped
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center gap-2 text-sm">

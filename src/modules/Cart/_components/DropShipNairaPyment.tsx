@@ -1,14 +1,21 @@
 export const DropShipNairaPayment = ({
   total_price,
   paymentKey,
+  hasDropShip,
 }: {
   total_price: number;
   paymentKey: string;
+  hasDropShip: boolean;
 }) => {
   const { user } = useAppState();
   const { data: cart, isLoading, refetch } = useCart();
   const test_key = "pk_test_77297b93cbc01f078d572fed5e2d58f4f7b518d7";
-  const { data: deliveryFeeData } = useQuery({
+  const {
+    data: deliveryFeeData,
+    error: deliveryFeeError,
+    refetch: refetchDeliveryFee,
+    isFetching,
+  } = useQuery({
     queryKey: ["deliveryFee"],
     queryFn: async () => {
       const response = await apiClient.get(
@@ -60,6 +67,14 @@ export const DropShipNairaPayment = ({
     });
   };
 
+  const isPaymentDisabled =
+    !hasValidAddress ||
+    lent === 0 ||
+    (hasDropShip && deliveryFee === 0 && !deliveryFeeError);
+
+  const isServerError =
+    deliveryFeeError && (deliveryFeeError as any).response?.status === 500;
+
   return (
     <div
       className="w-full max-w-md mx-auto p-4 bg-white border border-gray-100 rounded-2xl shadow-sm"
@@ -91,10 +106,37 @@ export const DropShipNairaPayment = ({
         </div>
       )}
 
+      {hasDropShip && isFetching && !deliveryFeeError && (
+        <div className="mb-4 p-3 bg-amber-50 border border-amber-100 rounded-lg">
+          <p className="text-xs text-amber-700 text-center">
+            Calculating dropship fees. Please wait or ensure your address is
+            correct.
+          </p>
+        </div>
+      )}
+
+      {deliveryFeeError && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-lg flex flex-col items-center">
+          <p className="text-xs text-red-600 text-center mb-2">
+            {isServerError
+              ? "Dropship items not available at this moment."
+              : "There was an error calculating dropship fees."}
+          </p>
+          {!isServerError && (
+            <button
+              onClick={() => refetchDeliveryFee()}
+              className="btn btn-sm btn-outline-primary"
+            >
+              Retry
+            </button>
+          )}
+        </div>
+      )}
+
       <DropShipPaymentButton
         config={config}
         onSuccess={onSuccess}
-        disabled={!hasValidAddress || lent === 0}
+        disabled={isPaymentDisabled || !!deliveryFeeError}
       >
         <span className="flex items-center justify-center gap-2">
           Pay Now ₦{finalTotal.toLocaleString()}

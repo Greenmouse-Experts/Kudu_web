@@ -382,7 +382,9 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
     );
   }
   const charges_total = total_price - total_price_without_charges;
-
+  const hasDropShip = cart.some(
+    (item: any) => item["product"]["type"] == "dropship",
+  );
   // return <></>;
   return (
     <div
@@ -464,6 +466,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
             ipInfo.currency_name === "Naira" ? (
               <div data-theme="kudu" className="w-full">
                 <DropShipNairaPayment
+                  hasDropShip={hasDropShip}
                   total_price={total_price}
                   paymentKey={paymentKey}
                 ></DropShipNairaPayment>
