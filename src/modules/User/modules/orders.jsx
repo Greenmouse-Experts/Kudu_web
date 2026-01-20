@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import VendorMyOrdersTable from "../../../components/VendorMyOrdersTable";
 import VendorCustomerOrdersTable from "../../../components/VendorCustomerOrdersTable";
 
-
 export default function ProfileOrders() {
   const [activeTab, setActiveTab] = useState("my orders");
   const [loader, setLoader] = useState(true);
@@ -18,11 +17,6 @@ export default function ProfileOrders() {
   const { mutate } = useApiMutation();
 
   const navigate = useNavigate();
-
-
-
-
-
 
   const getOrders = () => {
     setLoader(true);
@@ -42,8 +36,6 @@ export default function ProfileOrders() {
     });
   };
 
-
-
   const vendorOrders = () => {
     setLoader(true);
     mutate({
@@ -53,7 +45,7 @@ export default function ProfileOrders() {
       hideToast: true,
       onSuccess: (response) => {
         setVendorOrders(response.data.data);
-        setLoader(false)
+        setLoader(false);
       },
       onError: (error) => {
         setLoader(false);
@@ -62,15 +54,9 @@ export default function ProfileOrders() {
     });
   };
 
-
   useEffect(() => {
     getOrders();
   }, []);
-
-
-
-
-
 
   return (
     <>
@@ -80,38 +66,39 @@ export default function ProfileOrders() {
         <div className="mt-5">
           <div className="flex border-b w-full justify-between px-4 text-xs sm:text-sm">
             <button
-              className={`p-2 sm:p-3 font-semibold ${activeTab === "my orders" ?
-                "text-[#FE6A3A] border-b-2 border-[#FE6A3A]" : "text-black"}`}
+              className={`p-2 sm:p-3 font-semibold ${
+                activeTab === "my orders"
+                  ? "text-[#FE6A3A] border-b-2 border-[#FE6A3A]"
+                  : "text-black"
+              }`}
               onClick={() => [setActiveTab("my orders"), getOrders()]}
             >
               MY ORDERS
             </button>
-            {user.accountType === 'Vendor' && (<button
-              className={`p-2 sm:p-3 font-semibold ml-2 sm:ml-4 ${activeTab === "customer orders" ?
-                "text-[#FE6A3A] border-b-2 border-[#FE6A3A]" : "text-black"}`}
-              onClick={() => [setActiveTab("customer orders"), vendorOrders()]}
-            >
-              CUSTOMER'S ORDERS
-            </button>)
-            }
+            {user.accountType === "Vendor" && (
+              <button
+                className={`p-2 sm:p-3 font-semibold ml-2 sm:ml-4 ${
+                  activeTab === "customer orders"
+                    ? "text-[#FE6A3A] border-b-2 border-[#FE6A3A]"
+                    : "text-black"
+                }`}
+                onClick={() => [
+                  setActiveTab("customer orders"),
+                  vendorOrders(),
+                ]}
+              >
+                CUSTOMER'S ORDERS
+              </button>
+            )}
           </div>
 
+          {loader && (
+            <div className="w-full h-screen flex items-center justify-center">
+              <Loader />
+            </div>
+          )}
 
-
-
-
-          {loader &&
-            (
-              <div className="w-full h-screen flex items-center justify-center">
-                <Loader />
-              </div>
-            )}
-
-
-
-
-
-          {activeTab === 'my orders' ? (
+          {activeTab === "my orders" ? (
             <VendorMyOrdersTable
               data={orders}
               loading={loader}
@@ -119,11 +106,7 @@ export default function ProfileOrders() {
             />
           ) : null}
 
-
-
-
-
-          {activeTab === 'customer orders' ? (
+          {activeTab === "customer orders" ? (
             <VendorCustomerOrdersTable
               data={vendorOrder}
               loading={loader}

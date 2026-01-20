@@ -373,7 +373,7 @@ const CartSummary = ({ cart, refetch }: CartSummaryType) => {
           <div className="">Error Loading Checkout Info</div>
           <button
             onClick={() => query.refetch()}
-            className="bg-kudu-orange text-white font-bold py-2 px-4 rounded-sm hover:bg-kuduDarkOrange focus:outline-hidden focus:ring-2 focus:ring-kuduDarkOrange"
+            className="btn btn-block btn-primary"
           >
             Retry
           </button>
