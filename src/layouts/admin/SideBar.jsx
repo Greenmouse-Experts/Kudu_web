@@ -30,7 +30,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
     pages: false,
     jobs: false,
     notifications: false, // Added for notifications dropdown
-    aliexpress: false, // Added for AliExpress dropdown
+    // aliexpress: false, // Removed for AliExpress dropdown
   });
   const { openModal } = useModal();
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
       jobs: type === "jobs" ? !prevState.jobs : false,
       notifications:
         type === "notifications" ? !prevState.notifications : false, // Handler for notifications dropdown
-      aliexpress: type === "aliexpress" ? !prevState.aliexpress : false, // Handler for AliExpress dropdown
+      // aliexpress: type === "aliexpress" ? !prevState.aliexpress : false, // Handler for AliExpress dropdown
     }));
   };
 
@@ -432,15 +432,15 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
               <span className={`text-md font-semibold`}>Adverts</span>
             </Link>
 
-            {/* AliExpress Section */}
+            {/* AliExpress Section - Disabled/Hidden */}
+            {/*
             <div className="relative">
               <button
                 onClick={() => handleChildren("aliexpress")}
                 className="flex items-center px-4 h-[57px] rounded-lg transition text-[#7F7F7F] hover:bg-gray-100 w-full"
               >
                 <i className="mr-5">
-                  <Package size={20} />{" "}
-                  {/* You can change this icon if there's a more suitable one for AliExpress */}
+                  <Package size={20} />
                 </i>
                 <span className="text-md font-semibold">AliExpress</span>
                 <i className="ml-5 right-0">
@@ -466,6 +466,7 @@ const Sidebar = ({ onMobile = false, onSelected = () => {} }) => {
                 </div>
               )}
             </div>
+            */}
 
             <Link
               to={"subscriptions"}

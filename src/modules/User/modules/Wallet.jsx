@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loader from "../../../components/Loader";
 import useApiMutation from "../../../api/hooks/useApiMutation";
 import useAppState from "../../../hooks/appState";
@@ -13,7 +13,6 @@ import apiClient from "../../../api/apiFactory";
 export default function Wallet() {
   const { user } = useAppState();
   // const [userProfile, setProfile] = useState(user);
-  const [bankInformation, setBankInformation] = useState([]);
 
   const { register, handleSubmit } = useForm();
 
@@ -44,7 +43,7 @@ export default function Wallet() {
   const onInitiateWithdrawal = (data) => {
     const payload = {
       ...data,
-      bankInformationId: bankInformation[0].id,
+      bankInformationId: bankData?.data?.[0]?.id,
       currency: currency[0].name === "Naira" ? "NGN" : "USD",
     };
 
@@ -76,7 +75,7 @@ export default function Wallet() {
             </label>
             <input
               type="number"
-              id="title"
+              id="amount"
               {...register("amount", { required: "Amount is required" })}
               placeholder="Enter amount"
               className="w-full px-4 py-4 bg-gray-100 border border-gray-100 rounded-lg focus:outline-hidden placeholder-gray-400 text-sm mb-3"
