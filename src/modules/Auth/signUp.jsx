@@ -46,6 +46,8 @@ function SignUp() {
         localStorage.setItem("kuduEmail", JSON.stringify(data.email));
         toast.success("Verification Sent to Email");
         setIsLoading(false);
+        navigate("/profile");
+        setIsLoading(false);
       },
       onError: () => {
         setIsLoading(false);
@@ -84,21 +86,13 @@ function SignUp() {
   };
 
   return (
-    <div
-      className="w-full h-full flex flex-col justify-center items-center okayb"
-      style={{
-        backgroundImage: `
-  url(https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736942330/Sign_Up_1_og6gq5.jpg
-`,
-        backgroundBlendMode: "overlay",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        width: "100%",
-        height: "100vh",
-      }}
-    >
+    <div className="relative pt-12">
+      <img
+        src="https://res.cloudinary.com/ddj0k8gdw/image/upload/v1736942330/Sign_Up_1_og6gq5.jpg"
+        className="fixed inset-0"
+      />
       {/* Form Card */}
-      <div className="w-full max-w-(--breakpoint-md) mx-auto px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
+      <div className="w-full max-w-xl  mx-auto px-6 py-6 bg-white/20 backdrop-blur-lg rounded-lg">
         <div className="w-full px-4 py-4 bg-white rounded-lg">
           {/* Logo Section */}
           <div className="mb-6 flex justify-center">
@@ -113,10 +107,7 @@ function SignUp() {
             </Link>
           </div>
           <h2 className="text-2xl font-bold mb-6 text-black-800">Sign Up</h2>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
             {/* First Name Field */}
             <div>
               <label
@@ -356,6 +347,7 @@ function SignUp() {
       </div>
     </div>
   );
+  c;
 }
 
 export default SignUp;
