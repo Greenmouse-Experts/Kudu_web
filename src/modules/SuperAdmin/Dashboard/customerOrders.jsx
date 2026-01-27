@@ -37,7 +37,7 @@ const CustomerOrders = () => {
       <div className="All">
         <div className="rounded-md pb-2 w-full gap-5">
           <h2 className="text-lg font-semibold text-black-700 mt-4">
-            Customer's Orders{" "}
+            Customer's Orders
           </h2>
         </div>
         {loading ? (
@@ -49,6 +49,7 @@ const CustomerOrders = () => {
             <Table
               columns={[
                 { key: "productName", label: "Product Name" },
+                { key: "storeName", label: "Store Name" },
                 { key: "sku", label: "Product ID" },
                 {
                   key: "productImage",
@@ -83,6 +84,7 @@ const CustomerOrders = () => {
                 sku: item.product.sku,
                 price: `${item.product.store.currency.symbol} ${item.price}`,
                 productName: `${item.product.name}`,
+                storeName: `${item.product.store.name}`,
                 productImage: `${item.product.image_url}`,
               }))}
               data={orders.map((item) => ({
@@ -90,6 +92,7 @@ const CustomerOrders = () => {
                 sku: item.product.sku,
                 price: `${item.product.store.currency.symbol} ${item.price}`,
                 productName: `${item.product.name}`,
+                storeName: `${item.product.store.name}`,
                 productImage: `${item.product.image_url}`,
               }))}
               exportData
