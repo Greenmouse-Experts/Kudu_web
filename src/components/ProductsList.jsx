@@ -47,7 +47,7 @@ const ProductListing = ({
   return (
     <div className="w-full">
       <div
-        className={`grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4`}
+        className={`grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-4`}
       >
         {filteredProducts.map((item) => {
           const isSoldOut = item.quantity === 0;
