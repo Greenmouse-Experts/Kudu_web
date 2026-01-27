@@ -104,8 +104,9 @@ export default function Wallet() {
           <Button
             className="bg-kudu-blue"
             onClick={() => navigate("add-account")}
+            disabled={bankData?.data?.length > 0}
           >
-            Add Wallet
+            Add BANK ACCOUNT
           </Button>
         </div>
 

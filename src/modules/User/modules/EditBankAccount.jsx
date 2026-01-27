@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query"; // Import useQuery and useMutation
 import { useGeoLocatorCurrency } from "../../../hooks/geoLocatorProduct";
 import Loader from "../../../components/Loader";
@@ -25,15 +25,16 @@ const EditBankAccount = () => {
         ([key, value]) =>
           `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
       )
-      .join("?");
+      .join("&"); // Changed from "?" to "&" for valid query string construction
   };
 
   // Function to parse query string into an object
   const parseQueryString = (queryString) => {
+    if (!queryString) return {};
     const obj = {};
-    queryString.split("?").forEach((pair) => {
+    queryString.split("&").forEach((pair) => {
       const [key, value] = pair.split("=");
-      obj[decodeURIComponent(key)] = decodeURIComponent(value || "");
+      if (key) obj[decodeURIComponent(key)] = decodeURIComponent(value || "");
     });
     return obj;
   };
@@ -58,22 +59,13 @@ const EditBankAccount = () => {
     },
     enabled: !!id, // Only run the query if id is available
     staleTime: Infinity, // Data won't become stale
-    cacheTime: Infinity, // Keep data in cache indefinitely
   });
 
   // TanStack Query for editing bank account
-  const {
-    mutate: editAccountMutation,
-    isLoading: isEditing,
-    isSuccess: isEditSuccess,
-    isError: isEditError,
-  } = useMutation({
+  const { mutate: editAccountMutation, isLoading: isEditing } = useMutation({
     mutationFn: async (data) => {
-      const payload = {
-        bankInfo: { ...data },
-      };
-      const query = formatPayloadAsQuery(payload.bankInfo);
-      const response = await api.put(
+      const query = formatPayloadAsQuery(data);
+      const response = await apiClient.put(
         "/vendor/bank/informations",
         { bankId: id, bankInfo: query },
         {
