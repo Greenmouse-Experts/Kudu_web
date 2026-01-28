@@ -46,7 +46,7 @@ function SignUp() {
         localStorage.setItem("kuduEmail", JSON.stringify(data.email));
         toast.success("Verification Sent to Email");
         setIsLoading(false);
-        navigate("/profile");
+        navigate("/login");
         setIsLoading(false);
       },
       onError: () => {
